@@ -10455,6 +10455,7 @@ fieldset:disabled .btn {
     overflow: visible;
     transform: none !important;
     position: relative !important;
+    max-height: 1px;
   }
   h3 {
     font-size: 30px !important;
