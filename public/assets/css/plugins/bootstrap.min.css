@@ -10449,10 +10449,16 @@ fieldset:disabled .btn {
 }
 
 /* Mobile-specific styles */
-@media (max-width: 768px) {
+@media (max-width: 991px) {
   #smooth-wrapper,
   #smooth-content {
     overflow: visible;
     transform: none !important;
   }
+  h3 {
+    font-size: 30px !important;
 }
+
+}
+
+

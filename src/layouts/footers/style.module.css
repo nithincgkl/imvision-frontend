@@ -74,10 +74,13 @@
 .inputField {
   width: 100%;
   padding: 0.75rem 1rem;
-  border: 1px solid #dee2e6;
+  border: none;
   border-radius: 0.25rem;
-  background-color: #000;
+  background-color: #141414;
   transition: all 0.2s ease-in-out;
+  border-radius: 0;
+  border-bottom: solid 2px #747474;
+  color: #fff;
 }
 
 .inputField:focus {
@@ -126,6 +129,7 @@
   transition: all 0.2s ease-in-out;
   justify-content: center;
   width: 100%;
+  border-radius: 0;
 }
 
 .submitButton:hover {
