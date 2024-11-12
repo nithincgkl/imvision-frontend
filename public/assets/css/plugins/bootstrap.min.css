@@ -10454,11 +10454,14 @@ fieldset:disabled .btn {
   #smooth-content {
     overflow: visible;
     transform: none !important;
+    position: absolute !important;
   }
   h3 {
     font-size: 30px !important;
 }
-
+h2 {
+  font-size: 35px !important;
+}
 }
 
 
