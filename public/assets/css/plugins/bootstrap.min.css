@@ -10438,3 +10438,21 @@ fieldset:disabled .btn {
   float: left;
   width: 100%;
  }
+
+ #smooth-wrapper {
+  overflow: hidden;
+  position: relative;
+}
+
+#smooth-content {
+  min-height: 100vh;
+}
+
+/* Mobile-specific styles */
+@media (max-width: 768px) {
+  #smooth-wrapper,
+  #smooth-content {
+    overflow: visible;
+    transform: none !important;
+  }
+}
