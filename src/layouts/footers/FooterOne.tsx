@@ -99,7 +99,7 @@ const FooterOne: React.FC = () => {
                       className={`form-control ${style.inputField}`}
                       defaultValue=""
                     >
-                      <option value="" disabled>What can we help you with?</option>
+                      <option value="" disabled></option>
                       {PHONE_OPTIONS.map((option: PhoneOption) => (
                         <option key={option.value} value={option.value}>
                           {option.label}
