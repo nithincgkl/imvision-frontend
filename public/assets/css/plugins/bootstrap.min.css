@@ -10454,7 +10454,7 @@ fieldset:disabled .btn {
   #smooth-content {
     overflow: visible;
     transform: none !important;
-    position: absolute !important;
+    position: relative !important;
   }
   h3 {
     font-size: 30px !important;
