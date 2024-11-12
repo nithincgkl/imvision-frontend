@@ -47,7 +47,7 @@ const HomeExperience: React.FC = () => {
               <h3 className="text-3xl font-bold">Experience</h3>
             </div>
             <div> 
-              <img src={logo} alt="Company Logo" />
+              <Image src={logo} alt="Company Logo" />
             </div>
           </div>
 
