@@ -714,6 +714,18 @@
   .home-experience {
     margin-top: 15px;
 }
+
+.screen-number h3{ font-size: 20px; margin-bottom: 0;}
+.lets-talk h3 {
+  font-size: 35px;
+  padding: 0;
+  margin: 0;
+}
+.lets-talk h2{ 
+  font-size: 30px;
+  margin-bottom: 0;
+}
+
     }
 
     .home-carousel{

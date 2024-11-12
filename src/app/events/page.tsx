@@ -74,7 +74,7 @@ const Page: React.FC = () => {
             <section className={style["event-banner"]}>
               <div className="container mx-auto">
                 <div className="grid grid-cols-1 lg:grid-cols-1">
-                  <img src="/images/events.jpg" className="w-100" alt="Events banner" />
+                  <img src="/assets/images/events.jpg" className="w-100" alt="Events banner" />
                 </div>
                 <div className={style["event-banner-text"]}>
                   <h1>Automotive</h1>

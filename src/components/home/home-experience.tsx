@@ -2,6 +2,7 @@ import React from "react";
 import Image from "next/image";
 import styles from "./style.module.css";
 import Link from "next/link";
+import logo from "@/assets/img/logo.svg";
 
 const HomeExperience: React.FC = () => {
   const experienceData = [
@@ -46,7 +47,7 @@ const HomeExperience: React.FC = () => {
               <h3 className="text-3xl font-bold">Experience</h3>
             </div>
             <div> 
-              <img src="/assets/images/logo.png" alt="Company Logo" />
+              <img src={logo} alt="Company Logo" />
             </div>
           </div>
 
