@@ -47,7 +47,7 @@ interface HomeCarouselProps {
 const HomeCarousel: React.FC<HomeCarouselProps> = ({ style_2, style_3 }) => {
   return (
     <>
-      <section className={styles['home-carousel']}>
+      <section className={`${styles['home-carousel']} ${styles['bg-light-black2']}`}>
         <div className="container-fluid">
           {style_3 ? (
             <div className="cs_section_heading cs_style_1 cs_type_1">

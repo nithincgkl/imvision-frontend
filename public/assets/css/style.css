@@ -53,30 +53,30 @@
 
 @font-face {
     font-family: 'Satoshi';
-    src: url('/fonts/Satoshi-Regular.woff2') format('woff2'),
-         url('/fonts/Satoshi-Regular.woff') format('woff');
+    src: url('/assets/fonts/Satoshi-Regular.woff2') format('woff2'),
+         url('/assets/fonts/Satoshi-Regular.woff') format('woff');
     font-weight: 400;
     font-style: normal;
   }
   
   @font-face {
     font-family: 'Satoshi';
-    src: url('/fonts/Satoshi-Bold.woff2') format('woff2'),
-         url('/fonts/Satoshi-Bold.woff') format('woff');
+    src: url('/assets/fonts/Satoshi-Bold.woff2') format('woff2'),
+         url('/assets/fonts/Satoshi-Bold.woff') format('woff');
     font-weight: 700;
     font-style: normal;
   }
   @font-face {
     font-family: 'Satoshi';
-    src: url('/fonts/Satoshi-Light.woff2') format('woff2'),
-         url('/fonts/Satoshi-Light.woff') format('woff');
+    src: url('/assets/fonts/Satoshi-Light.woff2') format('woff2'),
+         url('/assets/fonts/Satoshi-Light.woff') format('woff');
     font-weight: 100;
     font-style: normal;
   }
   @font-face {
     font-family: 'Satoshi';
-    src: url('/fonts/Satoshi-Medium.woff2') format('woff2'),
-         url('/fonts/Satoshi-Medium.woff') format('woff');
+    src: url('/assets/fonts/Satoshi-Medium.woff2') format('woff2'),
+         url('/assets/fonts/Satoshi-Medium.woff') format('woff');
     font-weight: 300;
     font-style: normal;
   }
@@ -2884,6 +2884,7 @@ label {
 .cs_slider_3 {
     overflow: hidden;
     width: 84vw;
+   
 }
 
 .cs_slider_3 .swiper-slide {

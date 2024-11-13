@@ -5,8 +5,12 @@ import style from "./style.module.css";
 import Wrapper from "@/layouts/wrapper";
 import FooterOne from "@/layouts/footers/FooterOne";
 import HeaderOne from "@/layouts/headers/HeaderOne";
-import HomeCarousel from "@/components/home/home-carousel";
+
+import EventsCarousel from "@/components/events/events-carousel";
 import EventsCarouselTwo from "@/components/events/events-carousel-two";
+import EventsCarouselThree from "@/components/events/events-carousel-three";
+import EventsCarouselFour from "@/components/events/events-carousel-four";
+import LetsTalk from "@/components/home/lets-talk";
 
 
 interface RecentEvent {
@@ -94,14 +98,19 @@ const Page: React.FC = () => {
               </div>
             </section>
 
-            <HomeCarousel /> 
+            <EventsCarousel /> 
 
             
 
-            <section className={style["event-corporate"]}>
+            
+            <section className={`${style['event-corporate']} bg-light-black`}>
+
+            
               <div className={style["event-corporate-container"]}>
-                <div className="container mx-auto">
-                  <div className="grid grid-cols-1 lg:grid-cols-1">
+              <div className="container-fluid">
+                  <div className="row">
+
+                  <div className="col-md-12">
                     <img src="/assets/images/events2.jpg" alt="Corporate events" className="w-100" />
                     <div className={style["event-corporate-text"]}>
                       <h3 className="text-center">Corporate</h3>
@@ -116,6 +125,7 @@ const Page: React.FC = () => {
                       Take your car shows, launches, and exhibitions to the next
                       level.
                     </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -123,28 +133,18 @@ const Page: React.FC = () => {
 
             <EventsCarouselTwo /> 
 
-            <section className={style["event-banner"]}>
-              <div className="container mx-auto">
-                <div className="grid grid-cols-2 lg:grid-cols-2">
-                  <div>
-                    <h3>Recent Events</h3>
-                  </div>
-                  <div className="text-right"></div>
-                </div>
-                <div className="grid grid-cols-1 lg:grid-cols-1">
-                  <p>Carousel</p>
-                </div>
-              </div>
-            </section>
+          
 
             <section className={style["event-corporate"]}>
               <div className={style["event-corporate-container"]}>
-                <div className="container mx-auto">
-                  <div className="grid grid-cols-1 lg:grid-cols-1">
+              <div className="container-fluid">
+                  <div className="row">
+
+                  <div className="col-md-12">
                     <img src="/assets/images/government.jpg" alt="Government events" className="w-100" />
-                    <div>
+                    <div className={style["event-corporate-text"]} >
                       <h3 className="text-center">Government</h3>
-                      <button onClick={handleTalkToExpert}>Talk to Expert</button>
+                      <button onClick={handleTalkToExpert} className="btn-one">Talk to Expert</button>
                     </div>
                     <div className="text-center">
                       Rev up your automotive events with vibrant LED screens.
@@ -155,33 +155,26 @@ const Page: React.FC = () => {
                       Take your car shows, launches, and exhibitions to the next
                       level.
                     </div>
+                    </div>
                   </div>
                 </div>
               </div>
             </section>
 
-            <section className={style["event-banner"]}>
-              <div className="container mx-auto">
-                <div className="grid grid-cols-2 lg:grid-cols-2">
-                  <div>
-                    <h3>Recent Events</h3>
-                  </div>
-                  <div className="text-right"></div>
-                </div>
-                <div className="grid grid-cols-1 lg:grid-cols-1">
-                  <p>Carousel</p>
-                </div>
-              </div>
-            </section>
+            <EventsCarouselThree /> 
 
-            <section className={style["event-corporate"]}>
+           
+
+            <section className={`${style['event-corporate']} bg-light-black`}>
               <div className={style["event-corporate-container"]}>
-                <div className="container mx-auto">
-                  <div className="grid grid-cols-1 lg:grid-cols-1">
+                <div className="container-fluid">
+                  <div className="row">
+
+                  <div className="col-md-12">
                     <img src="/assets/images/retail.jpg" alt="Retail events" className="w-100" />
-                    <div>
+                    <div className={style["event-corporate-text"]}>
                       <h3 className="text-center">Retail</h3>
-                      <button onClick={handleTalkToExpert}>Talk to Expert</button>
+                      <button onClick={handleTalkToExpert} className="btn-one">Talk to Expert</button>
                     </div>
                     <div className="text-center">
                       Rev up your automotive events with vibrant LED screens.
@@ -193,23 +186,22 @@ const Page: React.FC = () => {
                       level.
                     </div>
                   </div>
+
+                  </div>
+
                 </div>
               </div>
             </section>
 
-            <section className={style["event-banner"]}>
-              <div className="container mx-auto">
-                <div className="grid grid-cols-2 lg:grid-cols-2">
-                  <div>
-                    <h3>Recent Events</h3>
-                  </div>
-                  <div className="text-right"></div>
-                </div>
-                <div className="grid grid-cols-1 lg:grid-cols-1">
-                  <p>Carousel</p>
-                </div>
-              </div>
-            </section>
+            <EventsCarouselFour /> 
+
+            <LetsTalk />
+           
+
+
+            
+
+
           </main>
           <FooterOne />
         </div>

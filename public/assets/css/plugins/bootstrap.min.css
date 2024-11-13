@@ -10465,6 +10465,9 @@ fieldset:disabled .btn {
 h2 {
   font-size: 35px !important;
 }
+h2 a{
+  font-size: 20px !important;
+}
 }
 
 
@@ -10475,11 +10478,37 @@ h2 {
   font-size: 14px;
   text-transform: uppercase;
   padding: 12px 20px;
-  font-weight: 500;
+  font-weight: 600;
   color: #000;
   max-width: 200px;
   margin: 0 auto;
   margin-bottom: 25px;
   border: none;
   letter-spacing: .3px;
+}
+
+
+
+@media (max-width: 1250px) {
+
+.btn-one {
+  bottom: 30px;
+  left: 15px;
+  margin-left: 0;
+  padding: 5px 5px;
+}
+
+
+
+
+
+
+
+}
+
+.bg-light-black { 
+  background: #141414;
+}
+.bg-black{
+  background-color: #000;
 }

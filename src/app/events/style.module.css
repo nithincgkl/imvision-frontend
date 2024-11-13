@@ -38,8 +38,8 @@
 .event-corporate{
     float: left;
     width: 100%;
-    background:#141414;
-    padding: 80px 0;
+    /* background:#ff0000; */
+    padding: 4rem 0;
     border-radius: 15px;
   }
 .event-corporate h3{
@@ -55,7 +55,9 @@
     float: left;
     width: 100%;
 }
-
+.event-corporate-text button {
+  margin-bottom: 60px;
+}
 
 
 /* home-experience */
@@ -155,3 +157,41 @@
       margin-top: -390px;
       padding-bottom: 100px;
   }
+.margin-top-section{
+  text-align: center;
+}
+.margin-top-section h3{
+  margin-top: -100px;
+}
+
+
+
+
+@media (max-width: 1250px) {
+
+  .event-banner-text h1 {
+    font-size: 35px !important;
+  }
+  .event-banner-text {
+    margin-top: -100px;
+}
+
+  
+  }
+
+
+
+  
+@media (max-width: 991px) {
+
+  .event-banner{
+    padding: 80px 0 0 0;
+  }
+  .event-corporate-text {
+    margin-top: 15px;
+}
+.event-corporate-text button {
+  margin-bottom: 15px;
+}
+  }
+  

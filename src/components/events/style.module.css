@@ -39,7 +39,7 @@
     float: left;
     width: 100%;
     background:#141414;
-    padding: 80px 0;
+    padding: 4rem 0;
     border-radius: 15px;
   }
 .event-corporate h3{
@@ -192,7 +192,12 @@
 
 }
 
-.our-screen-box img{width: 100%;    clip-path: polygon(15% 0, 100% 0, 100% 100%, 50% 100%, 0 100%, 0 24%);  }
+/* .our-screen-box img{width: 100%; 
+     clip-path: polygon(15% 0, 100% 0, 100% 100%, 50% 100%, 0 100%, 0 24%); 
+     } */
+     .our-screen-box img{width: 100%; 
+      }
+
 .our-screen-box h3{ color: #fff; font-size: 16px;margin: 15px 0 0 0;}
 .our-screen-box h4{color: #9FDEBE; font-size: 21px; margin: 0 0 15px 0;}
 
@@ -326,7 +331,7 @@ row-gap: 3rem;
   float: left;
   width: 100%;
   background:#141414;
-  padding: 80px 0;
+  padding: 4rem 0;
   border-radius:0 0 15px 15px;
 }
 .products-screen-size-container {
@@ -415,7 +420,7 @@ row-gap: 3rem;
 .home-displays{
   float: left;
   width: 100%;
-  padding: 80px 0;
+  padding: 4rem 0;
 }
 .home-displays-text {
   border-top: solid 1px #3B3B3B;
@@ -893,6 +898,7 @@ padding: 40px 15px;
 }
 .home-experience {
   margin-top: 15px;
+  padding: 2rem 0;
 }
 
 .screen-number h3{ font-size: 20px; margin-bottom: 0;}
@@ -909,10 +915,10 @@ margin-bottom: 0;
   }
 
   .home-carousel{
-    padding: 0 0 4rem 0;
+    padding: 4rem 0;
   }
   .home-wow{
-    padding: 0 0 4rem 0;
+    padding:4rem 0;
   }
   .home-wow-p {
     font-size: 30px;
@@ -953,4 +959,28 @@ margin: 0 auto;
 .lets-talk-text {
 margin-top: 0;
 }
+.home-wow{
+  padding:2rem 0;
+}
+.home-wow button{
+  padding: 5px 5px;
+}
+.center-btn{
+  padding: 5px 5px; 
+}
+.event-banner{
+  padding: 0px 0;
+}
+}
+
+
+
+.home-carousel p {
+  color: #ffffff;
+  font-size: 18px;
+  line-height: 24px;
+  text-align: justify;
+  margin-top: 12px;
+  margin-bottom: 12px;
+  min-height: 120px;
 }

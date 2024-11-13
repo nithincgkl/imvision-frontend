@@ -152,7 +152,7 @@
     float: left;
     width: 100%;
     background:#141414;
-    padding: 80px 0;
+    padding: 4rem 0;
     border-radius:0 0 15px 15px;
   }
   .products-screen-size-container {
@@ -241,7 +241,7 @@
 .home-displays{
     float: left;
     width: 100%;
-    padding: 80px 0;
+    padding: 4rem 0;
   }
   .home-displays-text {
     border-top: solid 1px #3B3B3B;
@@ -570,14 +570,14 @@
     margin-top: 5px;
 }
 .products-screen-size  {
-    padding: 40px 15px;
+    padding: 2rem 15px;
     margin: 0px 0;
 }
 .products-screen-size-container {
     padding: 0 0px;
   }
   .home-displays {
-    padding: 40px 15px;
+    padding: 2rem 0;
 }
 .home-displays h2 {
     font-size: 25px;
@@ -719,6 +719,7 @@
   }
   .home-experience {
     margin-top: 15px;
+    padding: 2rem 0;
 }
 
 .screen-number h3{ font-size: 20px; margin-bottom: 0;}
@@ -735,10 +736,12 @@
     }
 
     .home-carousel{
-      padding: 0 0 4rem 0;
+      padding: 4rem 0;
+     
     }
     .home-wow{
-      padding: 0 0 4rem 0;
+      padding: 4rem 0;
+      background: #141414;
     }
     .home-wow-p {
       font-size: 30px;
@@ -772,6 +775,7 @@
   color: #000;
   padding: 15px 50px;
   margin: 0 auto;
+  text-transform: uppercase;
 }
 
 
@@ -779,4 +783,20 @@
 .lets-talk-text {
   margin-top: 0;
 }
+.home-carousel{
+  padding: 2rem 0;
+}
+.home-wow{
+  padding:2rem 0;
+}
+.home-wow button{
+  padding: 5px 10px;
+}
+.center-btn{
+  padding: 5px 10px; 
+}
+}
+
+.bg-light-black { 
+  background: #141414;
 }

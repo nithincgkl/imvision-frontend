@@ -6,36 +6,44 @@ import styles from "./style.module.css";
  
 // Import Swiper modules
 import { Autoplay } from 'swiper/modules';
-import blog_img_1 from "../../../public/assets/images/post/01.jpg";
-import blog_img_2 from "../../../public/assets/images/post/02.jpg";
-import blog_img_3 from "../../../public/assets/images/post/03.jpg";
-import blog_img_4 from "../../../public/assets/images/post/04.jpg";
+import event_one_1 from "../../../public/assets/images/recent-events/01.jpg";
+import event_one_2 from "../../../public/assets/images/recent-events/02.jpg";
+import event_one_3 from "../../../public/assets/images/recent-events/03.jpg";
+import event_one_4 from "../../../public/assets/images/recent-events/02.jpg";
 import Image from 'next/image';
 
-const blog_data = [
+const event_one_data = [
   {
     id: 1,
-    img: blog_img_1,
-    title: `496×496 P1.9 Corner`,
-    des: `1274`,
+    img: event_one_1,
+    title: `Transform Your Dealership`,
+    des: `Showcase vehicle design and performance in stunning visual clarity and scale that compels customers to get behind the wheel today.`,
   },
   {
     id: 2,
-    img: blog_img_2,
-    title: `ABSENnicon C Slim Series 110″`,
-    des: `15000`,
+    img: event_one_2,
+    title: `Rev Up Your Events`,
+    des: `Elevate your car dealership's visibility with our stunning LED screens.
+Rent cutting-edge displays that capture attention and drive sales.
+Transform your showroom into a modern retail experience.
+
+`,
   },
   {
     id: 3,
-    img: blog_img_3,
-    title: `ABSENnicon C Slim Series 138″`,
-    des: `3000`,
+    img: event_one_3,
+    title: `Automotive`,
+    des: `Rev up your automotive events with vibrant LED screens.
+Our rentals deliver crystal-clear visuals, engaging audiences and amplifying your brand.
+`,
   },
   {
     id: 4,
-    img: blog_img_4,
-    title: `ABSENnicon C Slim Series 154`,
-    des: `6222`,
+    img: event_one_4,
+    title: `Transform Your Dealership`,
+    des: `Rev up your automotive events with vibrant LED screens.
+Our rentals deliver crystal-clear visuals, engaging audiences and amplifying your brand.
+`,
   },
 ];
 
@@ -46,8 +54,8 @@ interface HomeCarouselProps {
 
 const EventsCarousel: React.FC<HomeCarouselProps> = ({ style_2, style_3 }) => {
   return (
-    <>
-      <section className={styles['home-carousel']}>
+    <> 
+      <section className={`${styles['home-carousel']} ${styles['bg-light-black']}`}>
         <div className="container-fluid">
           {style_3 ? (
             <div className="cs_section_heading cs_style_1 cs_type_1">
@@ -80,8 +88,8 @@ const EventsCarousel: React.FC<HomeCarouselProps> = ({ style_2, style_3 }) => {
           ) : (
             <div className="cs_section_heading cs_style_1 cs_type_1">
               <div className="cs_section_heading_text">
-                <h4>Displays</h4> 
-                <h3>Next-generation displays</h3>
+            
+                <h3>Recent Events</h3>
               </div>
               <div className="cs_section_heading_right cs_btn_anim">
                 <Link href="/blog" className="cs_btn cs_style_1">
@@ -119,7 +127,7 @@ const EventsCarousel: React.FC<HomeCarouselProps> = ({ style_2, style_3 }) => {
             }}
             className={`cs_slider pt-5 cs_slider_3 anim_blog ${style_2 ? '' : 'style_slider'}`}
           >
-            {blog_data.map((item, i) => (
+            {event_one_data.map((item, i) => (
               <SwiperSlide key={i} className="swiper-slide">
               <div  className={styles['our-screen-box']}>
                 <div className="cs_post cs_style_1">
