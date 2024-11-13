@@ -13,20 +13,7 @@
     text-align: center;
 
 }
-.event-banner-text button{
-    background: #fff;
-    font-size: 14px;
-    text-transform: uppercase;
-    padding: 12px 20px;
-    font-weight: 700;
-    color: #000;
-    max-width: 200px;
-    margin: 0 auto;
-    margin-top: 25px;
-    display: block;
-    margin-bottom: 50px;
 
-}
 .event-banner-text{
     margin-top: -160px;
     text-align: center;
@@ -56,32 +43,17 @@
     border-radius: 15px;
   }
 .event-corporate h3{
-    margin-top: -150px;
+    /* margin-top: -150px; */
+}
+.event-corporate-text {
+  margin-top: -150px;
+  float: left;
+  width: 100%;
+  text-align: center;
 }
 .event-corporate img{
     float: left;
     width: 100%;
-}
-  .event-corporate-container {
-    float: left;
-    width: 100%;
-    padding: 0 15px;
-  }
-  .event-corporate button {
-    background: #fff;
-    font-size: 14px;
-    text-transform: uppercase;
-    padding: 12px 20px;
-    font-weight: 700;
-    color: #000;
-    max-width: 200px;
-    margin: 0 auto;
-    margin-top: 25px;
-    display: block;
-    margin-bottom: 25px;
-}
-.event-corporate button {
-    text-align: center;
 }
 
 

@@ -46,9 +46,39 @@
 /*--------------------------------------------------------------
 1. Basic Color Variable
 ----------------------------------------------------------------*/
+
+@font-face {
+  font-family: 'Satoshi';
+  src: url('/fonts/Satoshi-Regular.woff2') format('woff2'),
+       url('/fonts/Satoshi-Regular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Satoshi';
+  src: url('/fonts/Satoshi-Bold.woff2') format('woff2'),
+       url('/fonts/Satoshi-Bold.woff') format('woff');
+  font-weight: 700;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Satoshi';
+  src: url('/fonts/Satoshi-Light.woff2') format('woff2'),
+       url('/fonts/Satoshi-Light.woff') format('woff');
+  font-weight: 100;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Satoshi';
+  src: url('/fonts/Satoshi-Medium.woff2') format('woff2'),
+       url('/fonts/Satoshi-Medium.woff') format('woff');
+  font-weight: 300;
+  font-style: normal;
+}
 @import url("https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;900&family=Kanit:wght@400;500;600;700&display=swap");
 :root {
-  --body-font-family: "Kanit", sans-serif;
+  --body-font-family: "Satoshi", sans-serif;
   --heading-font-family: 'Satoshi';
   --accent-color: #9addbb;
   --body-color: #454545;
@@ -86,6 +116,7 @@ body {
   overflow-x: hidden;
   scroll-behavior: smooth;
   background-color:#000;
+  font-family: 'Satoshi';
 }
 
 h1,
@@ -6102,7 +6133,7 @@ label {
 }
 
 .cs_our_agency_Par_color {
-  font-family: "Kanit";
+  font-family: "Satoshi";
   font-style: normal;
   font-weight: 400;
   font-size: 18px;

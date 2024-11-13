@@ -3,7 +3,7 @@ import Link from 'next/link';
 import React from 'react';
 import { Swiper, SwiperSlide } from "swiper/react";
 import styles from "./style.module.css";
-
+ 
 // Import Swiper modules
 import { Autoplay } from 'swiper/modules';
 import blog_img_1 from "../../../public/assets/images/post/01.jpg";
@@ -44,7 +44,7 @@ interface HomeCarouselProps {
   style_3?: boolean;
 }
 
-const HomeCarousel: React.FC<HomeCarouselProps> = ({ style_2, style_3 }) => {
+const EventsCarousel: React.FC<HomeCarouselProps> = ({ style_2, style_3 }) => {
   return (
     <>
       <section className={styles['home-carousel']}>
@@ -150,4 +150,4 @@ const HomeCarousel: React.FC<HomeCarouselProps> = ({ style_2, style_3 }) => {
   );
 };
 
-export default HomeCarousel;
+export default EventsCarousel;

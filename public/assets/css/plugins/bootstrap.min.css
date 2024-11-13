@@ -101,6 +101,7 @@ body {
   background-color: var(--bs-body-bg);
   -webkit-text-size-adjust: 100%;
   -webkit-tap-highlight-color: transparent;
+  font-family: 'Satoshi';
 }
 .container-fluid{
   max-width: 1753px;
@@ -10446,6 +10447,7 @@ fieldset:disabled .btn {
 
 #smooth-content {
   min-height: 100vh;
+  float: left;
 }
 
 /* Mobile-specific styles */
@@ -10466,3 +10468,18 @@ h2 {
 }
 
 
+
+
+.btn-one {
+  background: #fff;
+  font-size: 14px;
+  text-transform: uppercase;
+  padding: 12px 20px;
+  font-weight: 500;
+  color: #000;
+  max-width: 200px;
+  margin: 0 auto;
+  margin-bottom: 25px;
+  border: none;
+  letter-spacing: .3px;
+}

@@ -41,14 +41,15 @@
     padding: 15px 30px;
     text-transform: uppercase;
     border: none;
-    font-weight: 100;
+    font-weight: 400;
+    letter-spacing: .3px;
 }
 .our-screen-box .button-section button:first-child:hover {
-  background-color: #9addbb;
+  background-color: #9addbb; 
   color: #000;
 }
 .our-screen-box .button-section button:last-child:hover { color: #9addbb;}
-.our-screen-box .button-section button:last-child { font-size: 16px; background-color: #1E1E1E;border: none;}
+.our-screen-box .button-section button:last-child { font-size: 16px; background-color: #1E1E1E;border: none; font-weight: 400; letter-spacing: .3px;}
 .perfect-box{
     background-color: #141414;
     float: left;

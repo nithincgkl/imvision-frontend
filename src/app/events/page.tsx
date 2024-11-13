@@ -5,6 +5,9 @@ import style from "./style.module.css";
 import Wrapper from "@/layouts/wrapper";
 import FooterOne from "@/layouts/footers/FooterOne";
 import HeaderOne from "@/layouts/headers/HeaderOne";
+import HomeCarousel from "@/components/home/home-carousel";
+import EventsCarouselTwo from "@/components/events/events-carousel-two";
+
 
 interface RecentEvent {
   id: number;
@@ -78,7 +81,7 @@ const Page: React.FC = () => {
                 </div>
                 <div className={style["event-banner-text"]}>
                   <h1>Automotive</h1>
-                  <button onClick={handleTalkToExpert}>Talk to Expert</button>
+                  <button onClick={handleTalkToExpert} className="btn-one">Talk to Expert</button>
                   <p className="text-center">
                     Rev up your automotive events with vibrant LED screens.
                     <br />
@@ -91,28 +94,18 @@ const Page: React.FC = () => {
               </div>
             </section>
 
-            <section className={style["event-banner"]}>
-              <div className="container mx-auto">
-                <div className="grid grid-cols-2 lg:grid-cols-2">
-                  <div>
-                    <h3>Recent Events</h3>
-                  </div>
-                  <div className="text-right"></div>
-                </div>
-                <div className="grid grid-cols-1 lg:grid-cols-1">
-                  <p>Carousel</p>
-                </div>
-              </div>
-            </section>
+            <HomeCarousel /> 
+
+            
 
             <section className={style["event-corporate"]}>
               <div className={style["event-corporate-container"]}>
                 <div className="container mx-auto">
                   <div className="grid grid-cols-1 lg:grid-cols-1">
-                    <img src="/images/events2.jpg" alt="Corporate events" className="w-100" />
-                    <div>
+                    <img src="/assets/images/events2.jpg" alt="Corporate events" className="w-100" />
+                    <div className={style["event-corporate-text"]}>
                       <h3 className="text-center">Corporate</h3>
-                      <button onClick={handleTalkToExpert}>Talk to Expert</button>
+                      <button onClick={handleTalkToExpert} className="btn-one">Talk to Expert</button>
                     </div>
                     <div className="text-center">
                       Rev up your automotive events with vibrant LED screens.
@@ -128,6 +121,8 @@ const Page: React.FC = () => {
               </div>
             </section>
 
+            <EventsCarouselTwo /> 
+
             <section className={style["event-banner"]}>
               <div className="container mx-auto">
                 <div className="grid grid-cols-2 lg:grid-cols-2">
@@ -146,7 +141,7 @@ const Page: React.FC = () => {
               <div className={style["event-corporate-container"]}>
                 <div className="container mx-auto">
                   <div className="grid grid-cols-1 lg:grid-cols-1">
-                    <img src="/images/government.jpg" alt="Government events" className="w-100" />
+                    <img src="/assets/images/government.jpg" alt="Government events" className="w-100" />
                     <div>
                       <h3 className="text-center">Government</h3>
                       <button onClick={handleTalkToExpert}>Talk to Expert</button>
@@ -183,7 +178,7 @@ const Page: React.FC = () => {
               <div className={style["event-corporate-container"]}>
                 <div className="container mx-auto">
                   <div className="grid grid-cols-1 lg:grid-cols-1">
-                    <img src="/images/retail.jpg" alt="Retail events" className="w-100" />
+                    <img src="/assets/images/retail.jpg" alt="Retail events" className="w-100" />
                     <div>
                       <h3 className="text-center">Retail</h3>
                       <button onClick={handleTalkToExpert}>Talk to Expert</button>
