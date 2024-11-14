@@ -10468,6 +10468,15 @@ h2 {
 h2 a{
   font-size: 20px !important;
 }
+.m-same-line{
+  align-items: center !important;
+  justify-content: center !important;
+  flex-direction: row !important;
+}
+.cs_btn_anim{
+  margin-top: 0 !important;
+}
+
 }
 
 
@@ -10512,3 +10521,5 @@ h2 a{
 .bg-black{
   background-color: #000;
 }
+
+

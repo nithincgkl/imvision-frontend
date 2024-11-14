@@ -2644,7 +2644,7 @@ label {
         max-width: 100%;
     }
     .cs_section_heading.cs_style_1.cs_type_1 .cs_section_heading_right {
-        margin-top: 40px;
+        /* margin-top: 40px; */
     }
     .cs_section_heading.cs_style_1.cs_type_2 {
         flex-direction: column;
@@ -7488,6 +7488,7 @@ label {
     .cs_icon {
         margin-top: 0px;
     }
+    
 
     
     

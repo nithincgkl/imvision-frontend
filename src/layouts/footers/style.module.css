@@ -181,5 +181,13 @@
 @media screen and (max-width: 991px) {
 .logo {
   max-width: 120px;
+  margin: 0 auto;
+  display: block;
+}
+.footer-container h2{
+  text-align: center;
+}
+.submitButton {
+  margin-top: 15px;
 }
 }

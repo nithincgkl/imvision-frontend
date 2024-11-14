@@ -782,6 +782,7 @@
 @media (max-width: 991px) {
 .lets-talk-text {
   margin-top: 0;
+  padding-bottom: 2rem;
 }
 .home-carousel{
   padding: 2rem 0;
@@ -795,6 +796,11 @@
 .center-btn{
   padding: 5px 10px; 
 }
+.full-video{
+  margin-top: 0px;
+}
+
+
 }
 
 .bg-light-black { 

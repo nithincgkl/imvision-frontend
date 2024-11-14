@@ -193,5 +193,8 @@
 .event-corporate-text button {
   margin-bottom: 15px;
 }
+.event-corporate{
+  padding-bottom: 0;
+}
   }
   
