@@ -3418,6 +3418,8 @@ label {
     height: inherit;
     align-items: center;
     text-transform: uppercase;
+    font-weight: 400;
+    letter-spacing: 0.3px;
   }
   .cs_nav .cs_nav_list > li > ul {
     left: 0;
