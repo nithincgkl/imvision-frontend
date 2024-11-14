@@ -173,7 +173,10 @@
     font-size: 35px !important;
   }
   .event-banner-text {
-    margin-top: -100px;
+    margin-top: -50px;
+}
+.event-banner img {
+  margin-top: 30px;
 }
 
   
