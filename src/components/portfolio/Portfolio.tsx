@@ -27,7 +27,7 @@ const portfolio_data: DataType[] = [
 		id: 1,
 		category: 'UI Design',
 		img: portfolio_img_6,
-		title: "Project Task Management",
+		title: "5555Project Task Management",
 		des: "Digital Services / App Design",
 	},
 	{

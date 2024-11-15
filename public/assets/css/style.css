@@ -6178,6 +6178,7 @@ label {
     grid-template-columns: repeat(1, 1fr);
     grid-template-rows: repeat(2, 1fr);
     grid-auto-flow: dense;
+    
 }
 
 .project_successfull .cs_portfolio .cs_portfolio_img img {

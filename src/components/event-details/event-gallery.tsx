@@ -1,10 +1,11 @@
 'use client'
- 
+  
 import Image from 'next/image';
 import Link from 'next/link';
 import React, { useState } from 'react';
 import ImagePopup from '../modals/ImagePopup';
-import portfolio_data from '@/data/portfolio_data';
+import event_data from '@/data/event_data';
+
 
 const portfolio_content = {
   sub_title: "Portfolio",
@@ -12,7 +13,7 @@ const portfolio_content = {
 }
 const { sub_title, title } = portfolio_content
 
-const PortfolioHomeThree = () => {
+const EventGallery = () => {
 
 
   // photoIndex
@@ -25,27 +26,17 @@ const PortfolioHomeThree = () => {
     setIsOpen(true);
   };
   //  images
-  const image = portfolio_data.slice(0, 5).map((item) => item.img.src);
+  const image = event_data.slice(0, 5).map((item) => item.img.src);
 
 
   return (
     <>
       <section className="cs_primary_bg">
-        <div className="cs_height_100 cs_height_lg_60"></div>
         <div className="container">
-          <div className="cs_section_heading cs_style_1 cs_color_1 cs_type_2">
-            <div className="cs_section_heading_text">
-              <div className="cs_section_subtitle anim_div_ShowZoom">
-                {sub_title}
-              </div>
-              <h2 className="cs_section_title cs_white_color anim_heading_title">
-                {title}
-              </h2>
-            </div>
-          </div>
+         
           <div className="cs_height_100 cs_height_lg_60"></div>
           <div className="project_successfull" id="animated-thumbnails-gallery">
-            {portfolio_data.slice(0, 5).map((item, i) => (
+            {event_data.slice(0, 5).map((item, i) => (
               <a key={i}
                 style={{ cursor: "pointer" }}
                 onClick={() => handleImagePopup(i)}
@@ -96,4 +87,4 @@ const PortfolioHomeThree = () => {
   );
 };
 
-export default PortfolioHomeThree;
+export default EventGallery;
