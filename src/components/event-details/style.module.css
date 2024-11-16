@@ -1,25 +1,45 @@
-.masonry {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    gap: 16px;
-    margin: 0 auto;
-  }
-  
-  .item {
+.galleryCard {
+    position: relative;
     overflow: hidden;
-    break-inside: avoid; /* Keeps items from breaking in masonry layout */
+    border-radius: 0.5rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: box-shadow 0.3s ease;
+    border: none;
+    margin-bottom: 30px;
   }
   
-  .item img {
+  .galleryCard:hover {
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  }
+  
+  .imageContainer {
+    position: relative;
     width: 100%;
     height: auto;
-    display: block;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    aspect-ratio: 1 / 1; /* Optional: maintains square aspect ratio */
+  }
+  
+  .galleryImage {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
     transition: transform 0.3s ease;
   }
   
-  .item img:hover {
+  .galleryCard:hover .galleryImage {
     transform: scale(1.05);
   }
   
+  .overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(transparent, rgba(0,0,0,0.7));
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  
+  .galleryCard:hover .overlay {
+    opacity: 1;
+  }

@@ -1,90 +1,50 @@
-'use client'
-  
-import Image from 'next/image';
-import Link from 'next/link';
-import React, { useState } from 'react';
-import ImagePopup from '../modals/ImagePopup';
-import event_data from '@/data/event_data';
+import type { NextPage } from 'next'
+import style from "./style.module.css";
 
-
-const portfolio_content = {
-  sub_title: "Portfolio",
-  title: "Some Recent Project We Successfully Done",
+interface Image {
+  id: number
+  url: string
+  title: string
 }
-const { sub_title, title } = portfolio_content
 
-const EventGallery = () => {
-
-
-  // photoIndex
-  const [photoIndex, setPhotoIndex] = useState(null);
-  // image open state
-  const [isOpen, setIsOpen] = useState(false);
-  // handleImagePopup
-  const handleImagePopup = (i: any) => {
-    setPhotoIndex(i);
-    setIsOpen(true);
-  };
-  //  images
-  const image = event_data.slice(0, 5).map((item) => item.img.src);
-
+const EventGallery: NextPage = () => {
+  // Reduced to just 3 images for a single row
+  const images: Image[] = [
+    { id: 1, url: "assets/images/post/01.jpg", title: "Title 1" },
+    { id: 2, url: "assets/images/post/02.jpg", title: "Title 2" },
+    { id: 3, url: "assets/images/post/03.jpg", title: "Title 3" },
+    { id: 4, url: "assets/images/post/04.jpg", title: "Title 4" },
+    { id: 5, url: "assets/images/post/05.jpg", title: "Title 5" },
+    { id: 6, url: "assets/images/post/01.jpg", title: "Title 6" },
+    { id: 7, url: "assets/images/post/02.jpg", title: "Title 7" },
+    { id: 8, url: "assets/images/post/03.jpg", title: "Title 8" },
+    { id: 8, url: "assets/images/post/04.jpg", title: "Title 8" },
+  ]
 
   return (
-    <>
-      <section className="cs_primary_bg">
-        <div className="container">
-         
-          <div className="cs_height_100 cs_height_lg_60"></div>
-          <div className="project_successfull" id="animated-thumbnails-gallery">
-            {event_data.slice(0, 5).map((item, i) => (
-              <a key={i}
-                style={{ cursor: "pointer" }}
-                onClick={() => handleImagePopup(i)}
-                className={`cs_portfolio project_successfull_${i + 1} cs_style_1`}>
-                <div className="cs_portfolio_img">
-                  <Image src={item.img} alt="Thumb" />
+    <div className="container py-4">
+   
+      
+      <div className="row">
+        {images.map((image) => (
+          <div key={image.id} className="col-4">
+            <div className={`card ${style.galleryCard}`}>
+              <div className={style.imageContainer}>
+                <img
+                  src={image.url}
+                  alt={image.title}
+                  className={style.galleryImage}
+                />
+                <div className={style.overlay}>
+                  <h className="text-white p-3">{image.title}</h>
                 </div>
-                <div className="cs_portfolio_overlay"></div>
-                <div className="cs_portfolio_info">
-                  <h2 className="cs_portfolio_title">{item.title}</h2>
-                  <div className="cs_portfolio_subtitle cs_color_1">
-                    {item.des}
-                  </div>
-                </div>
-              </a>
-            ))}
-
+              </div>
+            </div>
           </div>
-          <div className="cs_height_70 cs_height_lg_60"></div>
-          <div className="text-center cs_center">
-            <Link href="/portfolio" className="cs_btn cs_style_1 cs_color_1">
-              <span>View All Project</span>
-              <svg width="19" height="13" viewBox="0 0 19 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path
-                  d="M18.5303 7.03033C18.8232 6.73744 18.8232 6.26256 18.5303 5.96967L13.7574 1.1967C13.4645 0.903806 12.9896 0.903806 12.6967 1.1967C12.4038 1.48959 12.4038 1.96447 12.6967 2.25736L16.9393 6.5L12.6967 10.7426C12.4038 11.0355 12.4038 11.5104 12.6967 11.8033C12.9896 12.0962 13.4645 12.0962 13.7574 11.8033L18.5303 7.03033ZM0 7.25H18V5.75H0V7.25Z"
-                  fill="currentColor"></path>
-              </svg>
-            </Link>
-          </div>
-        </div>
-        <div className="cs_height_100 cs_height_lg_60"></div>
-      </section>
-      <div className="cs_height_150 cs_height_lg_60"></div>
+        ))}
+      </div>
+    </div>
+  )
+}
 
-
-      {/* image light box start */}
-      {isOpen && (
-        <ImagePopup
-          images={image}
-          setIsOpen={setIsOpen}
-          photoIndex={photoIndex}
-          setPhotoIndex={setPhotoIndex}
-        />
-      )}
-      {/* image light box end */}
-
-    </>
-  );
-};
-
-export default EventGallery;
+export default EventGallery
