@@ -12,7 +12,7 @@ import EventsCarouselThree from "@/components/events/events-carousel-three";
 import EventsCarouselFour from "@/components/events/events-carousel-four";
 import LetsTalk from "@/components/home/lets-talk";
 
-
+ 
 interface RecentEvent {
   id: number;
   image: string;
