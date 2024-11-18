@@ -1,0 +1,72 @@
+.without-banner{
+    padding-top: 70px;
+    background: red;
+    margin-top: 65px;  
+}
+.sale_container{
+    float: left;
+    width: 100%;
+}
+
+.sale_filter_container{
+    float: left;
+    width: 100%;   
+}
+.sale_filter_right{
+    float: left;
+    width: 100%;   
+}
+.sale_filter_right button{
+    float: right;   
+}
+.sale_filter_right p{
+    float: right;   
+    margin-left: 15;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.filter_container_text {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    background-color: #f9f9f9;
+    border-bottom: 1px solid #ccc;
+    padding: 16px;
+    z-index: 1000; /* Ensure it appears above other elements */
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.filter_container_header {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 8px;
+}
+
+.close_button {
+    background: none;
+    border: none;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    color: #333;
+}
+
+.close_button:hover {
+    color: red;
+}

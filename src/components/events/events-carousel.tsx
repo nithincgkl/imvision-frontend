@@ -103,12 +103,12 @@ const EventsCarousel: React.FC<HomeCarouselProps> = ({ style_2, style_3 }) => {
               <SwiperSlide key={i} className="swiper-slide">
               <div  className={styles['our-screen-box']}>
                 <div className="cs_post cs_style_1">
-                  <Link href="/blog-details" className="cs_post_thumb">
+                  <Link href="/event-details" className="cs_post_thumb">
                     <Image src={item.img} alt="image-here" />
                   </Link>
                   <div className="cs_post_info">
                     <h2 className="cs_post_title">
-                      <Link href="/blog-details">{item.title}</Link>
+                      <Link href="/event-details">{item.title}</Link>
                     </h2>
                     <p className="cs_m0">SEK {item.des}</p>
 

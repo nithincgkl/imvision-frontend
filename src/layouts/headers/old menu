@@ -55,7 +55,7 @@ const menu_data: MenuItem[] = [
     has_dropdown: true,
     sub_menu: [
       { id: 1, title: "Blog", link: "/blog" },
-      { id: 2, title: "Blog Details", link: "/blog-details" },
+      { id: 2, title: "Blog Details", link: "/event-details" },
     ]
   },
 

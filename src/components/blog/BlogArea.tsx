@@ -106,7 +106,7 @@ const BlogArea = () => {
             {blog_data.map((item, i) => (
               <div key={i} className={`col-md-4 ${item.id === 2 ? 'mt-0 mt-md-5' : ''} ${item.id === 5 ? 'mt-0 mt-md-5' : ''} ${item.id === 8 ? 'mt-0 mt-md-5' : ''}`}>
                 <div className="anim_div_ShowDowns">
-                  <Link href="/blog-details" className="cs_blog cs_style_1">
+                  <Link href="/event-details" className="cs_blog cs_style_1">
                     <div>
                       <Image src={item.img} alt="post_1" />
                     </div>

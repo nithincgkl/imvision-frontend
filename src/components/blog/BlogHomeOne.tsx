@@ -108,12 +108,12 @@ const BlogHomeOne = ({ style_2, style_3 }: any) => {
             {blog_data.map((item, i) => (
               <SwiperSlide key={i} className="swiper-slide">
                 <div className="cs_post cs_style_1">
-                  <Link href="/blog-details" className="cs_post_thumb">
+                  <Link href="/event-details" className="cs_post_thumb">
                     <Image src={item.img} alt="image-here" />
                   </Link>
                   <div className="cs_post_info">
                     <h2 className="cs_post_title">
-                      <Link href="/blog-details">{item.title}</Link>
+                      <Link href="/event-details">{item.title}</Link>
                     </h2>
                     <p className="cs_m0">
                       {item.des}

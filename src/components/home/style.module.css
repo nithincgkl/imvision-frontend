@@ -18,7 +18,7 @@
 
 }
 
-.our-screen-box img{width: 100%;    clip-path: polygon(15% 0, 100% 0, 100% 100%, 50% 100%, 0 100%, 0 24%);  }
+.our-screen-box img{width: 100%;    clip-path: polygon(15% 0, 100% 0, 100% 100%, 50% 100%, 0 100%, 0 19%);  }
 .our-screen-box h3{ color: #fff; font-size: 16px;margin: 15px 0 0 0;}
 .our-screen-box h4{color: #9FDEBE; font-size: 21px; margin: 0 0 15px 0;}
 
@@ -816,10 +816,10 @@
 
 .box {
   --bgc: #393939;
-  --bdw: 4px;
+  --bdw: 3px;
   --c: #1E1E1E;
   --cut: 20px;
-  --inn: 18px;
+  --inn: 66px;
   --p: 0.5rem 2rem 1rem 2rem;
   background-color: var(--bgc);
   box-sizing: border-box;
@@ -829,7 +829,7 @@
   box-shadow: 14px 14px 4px darkblue;
   width: 100%;
   float: left;
-  min-height: 500px;
+  min-height: 520px;
 }
 
 .box__wrapper {
@@ -856,7 +856,15 @@
 
 
 .box--top-bot {
+  padding:15px;
   -webkit-clip-path: polygon(0% var(--cut), var(--cut) 0%, calc(100% - 0px) 0%, 100% 0px, 100% calc(100% - var(--cut)), calc(100% - 0px) 100%, 0px 100%, 0% calc(100% - 0px));
   clip-path: polygon(0% var(--cut), var(--cut) 0%, calc(100% - 0px) 0%, 100% 0px, 100% calc(100% - var(--cut)), calc(100% - 0px) 100%, 0px 100%, 0% calc(100% - 0px));
 }
 
+.main_div .cs_post_thumb{
+  padding-bottom: 0;
+}
+.pb-15{
+  padding-bottom: 15px;
+  float: left;
+}
