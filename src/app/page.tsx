@@ -14,7 +14,7 @@ import FooterOne from '@/layouts/footers/FooterOne'
 const Index: React.FC = () => {
   return (
     <Wrapper> 
-      <HeaderOne />
+      <HeaderOne /> 
       <div id="smooth-wrapper">
         <div id="smooth-content" className='smooth-content'>
           <main>

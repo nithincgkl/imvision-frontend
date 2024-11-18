@@ -1,6 +1,6 @@
 .event-banner{
     float: left;
-    width: 100%;
+    width: 100%; 
     padding: 80px 0;
 }
 .event-banner img{
@@ -30,4 +30,16 @@
    }
 .event-banner-text p{
     font-size: 16px;
+   }
+
+
+
+   @media screen and (max-width: 991px) {
+
+    .event-banner-text h1 {
+        font-size: 35px !important;
+    }
+    .event-banner-text {
+        margin-top: -35px;
+    }
    }

@@ -316,10 +316,7 @@
   content: ".";
 } */
 .our-screen-box{ 
-  color: #fff;
-  background-color: #1E1E1E;
-  border: solid 1px #393939;
-  padding: 15px;
+  color: #fff;  
 }
 .triangle {
   background-color: #393939;
@@ -806,3 +803,60 @@
 .bg-light-black { 
   background: #141414;
 }
+
+
+
+
+
+.main_div {
+  display: flex;
+  flex-wrap: wrap;
+  font-family: sans-serif;
+}
+
+.box {
+  --bgc: #393939;
+  --bdw: 4px;
+  --c: #1E1E1E;
+  --cut: 20px;
+  --inn: 18px;
+  --p: 0.5rem 2rem 1rem 2rem;
+  background-color: var(--bgc);
+  box-sizing: border-box;
+  color: var(--c);
+  padding: var(--p);
+  position: relative;
+  box-shadow: 14px 14px 4px darkblue;
+  width: 100%;
+  float: left;
+  min-height: 500px;
+}
+
+.box__wrapper {
+  filter: drop-shadow(4px 4px 20px green);
+}
+
+.box__inner {
+  background-color: var(--c);
+  box-sizing: border-box;
+  color: var(--bgc);
+  height: calc(100% - (var(--bdw) * 2));
+  padding: var(--p);
+  position: absolute;
+  top: var(--bdw);
+  left: var(--bdw);
+  width: calc(100% - (var(--bdw) * 2));
+}
+
+.box--top-bot {
+  --cut: var(--inn);
+}
+
+/* Modifiers */
+
+
+.box--top-bot {
+  -webkit-clip-path: polygon(0% var(--cut), var(--cut) 0%, calc(100% - 0px) 0%, 100% 0px, 100% calc(100% - var(--cut)), calc(100% - 0px) 100%, 0px 100%, 0% calc(100% - 0px));
+  clip-path: polygon(0% var(--cut), var(--cut) 0%, calc(100% - 0px) 0%, 100% 0px, 100% calc(100% - var(--cut)), calc(100% - 0px) 100%, 0px 100%, 0% calc(100% - 0px));
+}
+
