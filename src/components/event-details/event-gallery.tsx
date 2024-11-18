@@ -1,7 +1,7 @@
-import type { NextPage } from 'next';
-import { useState, useEffect, useCallback } from 'react';
+import type { NextPage } from "next";
+import { useState, useCallback } from "react";
 import style from "./style.module.css";
-import ImagePopup from '../modals/ImagePopup';
+import ImagePopup from "../modals/ImagePopup";
 
 interface Image {
   id: number;
@@ -26,19 +26,17 @@ const EventGallery: NextPage = () => {
   ]);
 
   const handleImageLoad = useCallback((id: number, height: number) => {
-    setImages(prevImages => 
-      prevImages.map(img => 
-        img.id === id ? { ...img, height } : img
-      )
+    setImages((prevImages) =>
+      prevImages.map((img) => (img.id === id ? { ...img, height } : img))
     );
   }, []);
 
-  const handleImagePopup = (index: number) => {
+  const handleImagePopup = useCallback((index: number) => {
     setPhotoIndex(index);
     setIsOpen(true);
-  };
+  }, []);
 
-  const imageUrls = images.map(image => image.url);
+  const imageUrls = images.map((image) => image.url);
 
   return (
     <div className={style.pageWrapper}>
@@ -46,10 +44,11 @@ const EventGallery: NextPage = () => {
         <div className={style.masonryContainer}>
           <div className={style.masonryGrid}>
             {images.map((image, index) => (
-              <div
+              <button
                 key={image.id}
                 className={style.masonryItem}
                 onClick={() => handleImagePopup(index)}
+                aria-label={`Open image ${image.title}`}
               >
                 <div className={style.masonryContent}>
                   <img
@@ -61,12 +60,16 @@ const EventGallery: NextPage = () => {
                       const img = e.target as HTMLImageElement;
                       handleImageLoad(image.id, img.naturalHeight);
                     }}
+                    onError={(e) =>
+                      ((e.target as HTMLImageElement).src =
+                        "assets/images/fallback.jpg")
+                    }
                   />
                   <div className={style.overlay}>
                     <h4>{image.title}</h4>
                   </div>
                 </div>
-              </div>
+              </button>
             ))}
           </div>
         </div>
