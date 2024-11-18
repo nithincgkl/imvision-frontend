@@ -33,22 +33,26 @@
   margin-bottom: 1.5rem;
   cursor: pointer;
   position: relative;
-  border-radius: 8px;
+  border-radius: 0px;
   overflow: hidden;
   transform: translateZ(0);
   transition: transform 0.3s ease;
   display: inline-block;
   width: 100%;
+  padding: 0 0 0 0;
+  background: #000;
+  border: none;
 }
 
 .masonryContent {
   position: relative;
   width: 100%;
-  background: #fff;
+  background: #000;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
+  border-radius: 0px;
   overflow: hidden;
   background-color: #000;
+  border: none;
 }
 
 .masonryImage {
