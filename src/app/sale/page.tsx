@@ -7,9 +7,9 @@ import FooterOne from "@/layouts/footers/FooterOne";
 import HeaderOne from "@/layouts/headers/HeaderOne";
 
 const Page: React.FC = () => {
-  const [showFilter, setShowFilter] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState(null);
-  const [selectedSubCategory, setSelectedSubCategory] = useState(null);
+  const [showFilter, setShowFilter] = useState<boolean>(false);
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [selectedSubCategory, setSelectedSubCategory] = useState<string | null>(null);
 
   const categories = [
     {
@@ -84,7 +84,11 @@ const Page: React.FC = () => {
                             <input
                               type="checkbox"
                               checked={selectedCategory === category.name}
-                              onChange={() => setSelectedCategory(category.name)}
+                              onChange={() =>
+                                setSelectedCategory(
+                                  selectedCategory === category.name ? null : category.name
+                                )
+                              }
                             />
                             <label>{category.name}</label>
                           </div>
@@ -97,12 +101,16 @@ const Page: React.FC = () => {
                           <h3>Sub Categories</h3>
                           {categories
                             .find((cat) => cat.name === selectedCategory)
-                            .subCategories.map((subCat, index) => (
+                            ?.subCategories.map((subCat, index) => (
                               <div key={index}>
                                 <input
                                   type="checkbox"
                                   checked={selectedSubCategory === subCat.name}
-                                  onChange={() => setSelectedSubCategory(subCat.name)}
+                                  onChange={() =>
+                                    setSelectedSubCategory(
+                                      selectedSubCategory === subCat.name ? null : subCat.name
+                                    )
+                                  }
                                 />
                                 <label>{subCat.name}</label>
                               </div>
@@ -116,8 +124,8 @@ const Page: React.FC = () => {
                           <h3>Sub Sub Categories</h3>
                           {categories
                             .find((cat) => cat.name === selectedCategory)
-                            .subCategories.find((subCat) => subCat.name === selectedSubCategory)
-                            .subSubCategories.map((subSubCat, index) => (
+                            ?.subCategories.find((subCat) => subCat.name === selectedSubCategory)
+                            ?.subSubCategories.map((subSubCat, index) => (
                               <div key={index}>
                                 <input type="checkbox" />
                                 <label>{subSubCat}</label>
