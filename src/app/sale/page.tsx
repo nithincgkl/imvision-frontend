@@ -1,41 +1,73 @@
 'use client';
-
-import React, { useState } from "react";
+import React from 'react';
 import style from "./style.module.css";
 import Wrapper from "@/layouts/wrapper";
 import FooterOne from "@/layouts/footers/FooterOne";
 import HeaderOne from "@/layouts/headers/HeaderOne";
+import Filter from "@/components/sale/filter";
+import ProductItem from "@/components/product-item/product-item";
+
+import blog_img_1 from "../../../public/assets/images/post/01.jpg";
+import blog_img_2 from "../../../public/assets/images/post/02.jpg";
+import blog_img_3 from "../../../public/assets/images/post/03.jpg";
+import blog_img_4 from "../../../public/assets/images/post/04.jpg";
+import blog_img_5 from "../../../public/assets/images/post/01.jpg";
+import blog_img_6 from "../../../public/assets/images/post/02.jpg";
+import blog_img_7 from "../../../public/assets/images/post/03.jpg";
+import blog_img_8 from "../../../public/assets/images/post/04.jpg";
+
+const blog_data = [
+  {
+    id: 1,
+    img: blog_img_1,
+    title: `496×496 P1.9 Corner`,
+    des: `1274`,
+  },
+  {
+    id: 2,
+    img: blog_img_2,
+    title: `ABSENnicon C Slim Series 110″`,
+    des: `15000`,
+  },
+  {
+    id: 3,
+    img: blog_img_3,
+    title: `ABSENnicon C Slim Series 138″`,
+    des: `3000`,
+  },
+  {
+    id: 4,
+    img: blog_img_4,
+    title: `ABSENnicon C Slim Series 154`,
+    des: `6222`,
+  },
+  {
+    id: 5,
+    img: blog_img_5,
+    title: `496×496 P1.9 Corner`,
+    des: `1274`,
+  },
+  {
+    id: 6,
+    img: blog_img_6,
+    title: `ABSENnicon C Slim Series 110″`,
+    des: `15000`,
+  },
+  {
+    id: 7,
+    img: blog_img_7,
+    title: `ABSENnicon C Slim Series 138″`,
+    des: `3000`,
+  },
+  {
+    id: 8,
+    img: blog_img_8,
+    title: `ABSENnicon C Slim Series 154`,
+    des: `6222`,
+  },
+];
 
 const Page: React.FC = () => {
-  const [showFilter, setShowFilter] = useState<boolean>(false);
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-  const [selectedSubCategory, setSelectedSubCategory] = useState<string | null>(null);
-
-  const categories = [
-    {
-      name: "Category 1",
-      subCategories: [
-        {
-          name: "Sub Category 1-1",
-          subSubCategories: ["Sub Sub Category 1-1-1", "Sub Sub Category 1-1-2"],
-        },
-        {
-          name: "Sub Category 1-2",
-          subSubCategories: ["Sub Sub Category 1-2-1", "Sub Sub Category 1-2-2"],
-        },
-      ],
-    },
-    {
-      name: "Category 2",
-      subCategories: [
-        {
-          name: "Sub Category 2-1",
-          subSubCategories: ["Sub Sub Category 2-1-1", "Sub Sub Category 2-1-2"],
-        },
-      ],
-    },
-  ];
-
   return (
     <Wrapper>
       <HeaderOne />
@@ -55,91 +87,18 @@ const Page: React.FC = () => {
                 </div>
               </div>
 
-              {/* Event Gallery Section */}
-              <section className={style.sale_filter_container}>
+              <Filter />
+
+              <section className={style["product_section"]}>
                 <div className="container-fluid">
                   <div className="row">
-                    <div className="col-6">
-                      <button onClick={() => setShowFilter(!showFilter)}>
-                        Filter Category button
-                      </button>
-                    </div>
-                    <div className="col-6">
-                      <p>Showing 1-12 of 92 results</p>
-                      <button>Sort Button</button>
-                    </div>
+                    {blog_data.map((item) => (
+                      <div className="col-3" key={item.id}>
+                        <ProductItem item={item} />
+                      </div>
+                    ))}
                   </div>
                 </div>
-              </section>
-
-              {showFilter && (
-                <section className={style.filterContent}>
-                  <div className="container-fluid">
-                    <div className="row">
-                      {/* Category Section */}
-                      <div className="col-4">
-                        <h3>Categories</h3>
-                        {categories.map((category, index) => (
-                          <div key={index}>
-                            <input
-                              type="checkbox"
-                              checked={selectedCategory === category.name}
-                              onChange={() =>
-                                setSelectedCategory(
-                                  selectedCategory === category.name ? null : category.name
-                                )
-                              }
-                            />
-                            <label>{category.name}</label>
-                          </div>
-                        ))}
-                      </div>
-
-                      {/* Sub Category Section */}
-                      {selectedCategory && (
-                        <div className="col-4">
-                          <h3>Sub Categories</h3>
-                          {categories
-                            .find((cat) => cat.name === selectedCategory)
-                            ?.subCategories.map((subCat, index) => (
-                              <div key={index}>
-                                <input
-                                  type="checkbox"
-                                  checked={selectedSubCategory === subCat.name}
-                                  onChange={() =>
-                                    setSelectedSubCategory(
-                                      selectedSubCategory === subCat.name ? null : subCat.name
-                                    )
-                                  }
-                                />
-                                <label>{subCat.name}</label>
-                              </div>
-                            ))}
-                        </div>
-                      )}
-
-                      {/* Sub Sub Category Section */}
-                      {selectedSubCategory && (
-                        <div className="col-4">
-                          <h3>Sub Sub Categories</h3>
-                          {categories
-                            .find((cat) => cat.name === selectedCategory)
-                            ?.subCategories.find((subCat) => subCat.name === selectedSubCategory)
-                            ?.subSubCategories.map((subSubCat, index) => (
-                              <div key={index}>
-                                <input type="checkbox" />
-                                <label>{subSubCat}</label>
-                              </div>
-                            ))}
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                </section>
-              )}
-
-              <section className={style.sale_container}>
-                <div className="container-fluid">Content goes here</div>
               </section>
             </div>
           </main>

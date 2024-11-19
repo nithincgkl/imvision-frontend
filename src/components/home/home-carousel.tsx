@@ -11,6 +11,7 @@ import blog_img_2 from "../../../public/assets/images/post/02.jpg";
 import blog_img_3 from "../../../public/assets/images/post/03.jpg";
 import blog_img_4 from "../../../public/assets/images/post/04.jpg";
 import Image from 'next/image';
+import ProductItem from '../product-item/product-item';
 
 const blog_data = [
   {
@@ -48,12 +49,6 @@ const HomeCarousel: React.FC<HomeCarouselProps> = ({ style_2, style_3 }) => {
   return (
     <>
       <section className={`${styles['home-carousel']} ${styles['bg-light-black2']}`}>
-
-      
-
-
-
-
 
         <div className="container-fluid">
        
@@ -103,63 +98,10 @@ const HomeCarousel: React.FC<HomeCarouselProps> = ({ style_2, style_3 }) => {
              
 
 
-              <SwiperSlide key={i} className="swiper-slide">
+<SwiperSlide key={i} className="swiper-slide">
+<ProductItem item={item} />
+</SwiperSlide>
 
-
-                
-
-
-
-
-
-
-              <div  className={styles['our-screen-box']}>
-
-
-             
-        
-        <div className={styles["main_div"]}>  
-        <div className={`${styles['box']} ${styles['box--top-bot']}`}>
-          <div className={`${styles['box__inner']} ${styles['box--top-bot']}`}>
-
-
-          <div className="cs_post cs_style_1">
-
-          <Link href="/event-details" className={styles["pb-15"]}>
-                    <Image src={item.img} alt="image-here" />
-                  </Link>
-
-                  <div className="cs_post_info" >
-                    <h2 className="cs_post_title">
-                      <Link href="/event-details">{item.title}</Link>
-                    </h2>
-                    <p className="cs_m0">SEK {item.des}</p>
-
-                    <div className={styles['button-section']}>
-                        <button>Add to Cart</button>
-                        <button>Quick Enquiry</button>
-                    </div>
-
-                  </div>
-                  </div>
-
-          
-            </div>
-            </div>
-
-        </div>
-        
-
-
-
-
-
-               
-                  
-                  
-               
-                </div>
-              </SwiperSlide>
 
 
             ))}
