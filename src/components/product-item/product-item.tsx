@@ -1,11 +1,12 @@
+'use client';
 import React from 'react';
 import Link from 'next/link';
+import Image, { StaticImageData } from 'next/image'; // Import StaticImageData
 import styles from "./style.module.css";
-import Image from 'next/image';
 
 interface ProductItemProps {
   item: {
-    img: StaticImageData; // Use `StaticImageData` for Next.js images
+    img: StaticImageData; // Use StaticImageData for Next.js images
     title: string;
     des: string;
   };
