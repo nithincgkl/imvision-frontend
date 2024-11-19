@@ -1,87 +1,145 @@
 'use client';
+
+import React, { useState } from "react";
 import style from "./style.module.css";
-import React, { useState } from 'react';
-import HeaderOne from '@/layouts/headers/HeaderOne';
-import Wrapper from '@/layouts/wrapper';
-import LetsTalk from '@/components/home/lets-talk';
-import FooterOne from '@/layouts/footers/FooterOne';
+import Wrapper from "@/layouts/wrapper";
+import FooterOne from "@/layouts/footers/FooterOne";
+import HeaderOne from "@/layouts/headers/HeaderOne";
 
 const Page: React.FC = () => {
-    // State to manage the visibility of the section
-    const [showFilterSection, setShowFilterSection] = useState(false);
+  const [showFilter, setShowFilter] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [selectedSubCategory, setSelectedSubCategory] = useState(null);
 
-    // Toggle the visibility of the section
-    const toggleFilterSection = () => {
-        setShowFilterSection((prev) => !prev);
-    };
+  const categories = [
+    {
+      name: "Category 1",
+      subCategories: [
+        {
+          name: "Sub Category 1-1",
+          subSubCategories: ["Sub Sub Category 1-1-1", "Sub Sub Category 1-1-2"],
+        },
+        {
+          name: "Sub Category 1-2",
+          subSubCategories: ["Sub Sub Category 1-2-1", "Sub Sub Category 1-2-2"],
+        },
+      ],
+    },
+    {
+      name: "Category 2",
+      subCategories: [
+        {
+          name: "Sub Category 2-1",
+          subSubCategories: ["Sub Sub Category 2-1-1", "Sub Sub Category 2-1-2"],
+        },
+      ],
+    },
+  ];
 
-    // Close the filter section
-    const closeFilterSection = () => {
-        setShowFilterSection(false);
-    };
+  return (
+    <Wrapper>
+      <HeaderOne />
 
-    return (
-        <Wrapper>
-            <HeaderOne />
-            <div id="smooth-wrapper">
-                <div id="smooth-content" className="smooth-content">
-                    <main>
-                        <section className={style["without-banner"]}>
-                            <div className={style["sale_container"]}>
-                                <div className="container">
-                                    <div className="row">
-                                        <div className="col-12">
-                                            <h1 className={style.pageTitle}>Event Gallery</h1>
-                                            {/* Add breadcrumb or other top content if needed */}
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div className={style["sale_filter_container"]}>
-                                    <div className="container-fluid">
-                                        <div className="row">
-                                            <div className="col-6">
-                                                <button
-                                                    className={style.filter_button}
-                                                    onClick={toggleFilterSection}
-                                                >
-                                                    Filter Product List
-                                                </button>
-                                            </div>
-                                            <div className="col-6">
-                                                <div className={style.sale_filter_right}>
-                                                    <button>Default Sorting</button>
-                                                    <p>Showing 1-12 of 92 results</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                {/* Conditionally render the section */}
-                                {showFilterSection && (
-                                    <section className={style["sale_filter_inner_container"]}>
-                                        {/* Close button inside the filter section */}
-                                        <button
-                                            className={style.close_button}
-                                            onClick={closeFilterSection}
-                                        >
-                                            &times;
-                                        </button>
-                                        {/* Filter content goes here */}
-                                        <p>Filter section content goes here.</p>
-                                    </section>
-                                )}
-                            </div>
-                        </section>
-
-                        <LetsTalk />
-                        <FooterOne />
-                    </main>
+      <div id="smooth-wrapper">
+        <div id="smooth-content">
+          <main>
+            <div className={style["without-banner"]}>
+              {/* Common Top Section */}
+              <div className={style.topSection}>
+                <div className="container-fluid">
+                  <div className="row">
+                    <div className="col-12">
+                      <h1 className={style.pageTitle}>Event Gallery</h1>
+                    </div>
+                  </div>
                 </div>
+              </div>
+
+              {/* Event Gallery Section */}
+              <section className={style.sale_filter_container}>
+                <div className="container-fluid">
+                  <div className="row">
+                    <div className="col-6">
+                      <button onClick={() => setShowFilter(!showFilter)}>
+                        Filter Category button
+                      </button>
+                    </div>
+                    <div className="col-6">
+                      <p>Showing 1-12 of 92 results</p>
+                      <button>Sort Button</button>
+                    </div>
+                  </div>
+                </div>
+              </section>
+
+              {showFilter && (
+                <section className={style.filterContent}>
+                  <div className="container-fluid">
+                    <div className="row">
+                      {/* Category Section */}
+                      <div className="col-4">
+                        <h3>Categories</h3>
+                        {categories.map((category, index) => (
+                          <div key={index}>
+                            <input
+                              type="checkbox"
+                              checked={selectedCategory === category.name}
+                              onChange={() => setSelectedCategory(category.name)}
+                            />
+                            <label>{category.name}</label>
+                          </div>
+                        ))}
+                      </div>
+
+                      {/* Sub Category Section */}
+                      {selectedCategory && (
+                        <div className="col-4">
+                          <h3>Sub Categories</h3>
+                          {categories
+                            .find((cat) => cat.name === selectedCategory)
+                            .subCategories.map((subCat, index) => (
+                              <div key={index}>
+                                <input
+                                  type="checkbox"
+                                  checked={selectedSubCategory === subCat.name}
+                                  onChange={() => setSelectedSubCategory(subCat.name)}
+                                />
+                                <label>{subCat.name}</label>
+                              </div>
+                            ))}
+                        </div>
+                      )}
+
+                      {/* Sub Sub Category Section */}
+                      {selectedSubCategory && (
+                        <div className="col-4">
+                          <h3>Sub Sub Categories</h3>
+                          {categories
+                            .find((cat) => cat.name === selectedCategory)
+                            .subCategories.find((subCat) => subCat.name === selectedSubCategory)
+                            .subSubCategories.map((subSubCat, index) => (
+                              <div key={index}>
+                                <input type="checkbox" />
+                                <label>{subSubCat}</label>
+                              </div>
+                            ))}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </section>
+              )}
+
+              <section className={style.sale_container}>
+                <div className="container-fluid">Content goes here</div>
+              </section>
             </div>
-        </Wrapper>
-    );
+          </main>
+          <FooterOne />
+        </div>
+      </div>
+    </Wrapper>
+  );
 };
 
 export default Page;
