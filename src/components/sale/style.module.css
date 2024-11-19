@@ -11,6 +11,7 @@
 .sale_filter_container{
     float: left;
     width: 100%;   
+    padding: 50px 0;
 }
 .sale_filter_right{
     float: left;
@@ -72,4 +73,46 @@
     background-color: #222222;
     border: none;
     margin-left: 12px;
+}
+
+
+.filter_btn {
+  display: inline-flex;
+  position: relative;
+  height: inherit;
+  align-items: center;
+  text-transform: uppercase;
+  font-weight: 300;
+  letter-spacing: 0.3px;
+  padding: 10px 35px;
+  background-color: #9FDEBE;
+  border: none;
+  color: #000;
+}
+
+.sort_btn {
+  display: inline-flex;
+  position: relative;
+  height: inherit;
+  align-items: center;
+  text-transform: uppercase;
+  font-weight: 300;
+  letter-spacing: 0.3px;
+  padding: 10px 35px;
+  background-color: #222222;
+  border: none;
+  color: #fff;
+  margin-left: 10px;
+}
+.sale_filter_container_right{
+  float: left;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: end;
+}
+.sale_filter_container_right p{
+margin-bottom: 0;
+color: #5D5D5D;
+
 }

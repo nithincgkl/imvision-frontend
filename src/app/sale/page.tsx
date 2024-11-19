@@ -15,6 +15,11 @@ import blog_img_5 from "../../../public/assets/images/post/01.jpg";
 import blog_img_6 from "../../../public/assets/images/post/02.jpg";
 import blog_img_7 from "../../../public/assets/images/post/03.jpg";
 import blog_img_8 from "../../../public/assets/images/post/04.jpg";
+import blog_img_9 from "../../../public/assets/images/post/01.jpg";
+import blog_img_10 from "../../../public/assets/images/post/02.jpg";
+import blog_img_11 from "../../../public/assets/images/post/03.jpg";
+import blog_img_12 from "../../../public/assets/images/post/04.jpg";
+import LetsTalk from '@/components/home/lets-talk';
 
 const blog_data = [
   {
@@ -65,6 +70,30 @@ const blog_data = [
     title: `ABSENnicon C Slim Series 154`,
     des: `6222`,
   },
+  {
+    id: 9,
+    img: blog_img_9,
+    title: `496×496 P1.9 Corner`,
+    des: `1274`,
+  },
+  {
+    id: 10,
+    img: blog_img_10,
+    title: `ABSENnicon C Slim Series 110″`,
+    des: `15000`,
+  },
+  {
+    id: 11,
+    img: blog_img_11,
+    title: `ABSENnicon C Slim Series 138″`,
+    des: `3000`,
+  },
+  {
+    id: 12,
+    img: blog_img_12,
+    title: `ABSENnicon C Slim Series 154`,
+    des: `6222`,
+  },
 ];
 
 const Page: React.FC = () => {
@@ -81,7 +110,7 @@ const Page: React.FC = () => {
                 <div className="container-fluid">
                   <div className="row">
                     <div className="col-12">
-                      <h1 className={style.pageTitle}>Event Gallery</h1>
+                      <h1 className={style.pageTitle}>All Products</h1>
                     </div>
                   </div>
                 </div>
@@ -100,6 +129,8 @@ const Page: React.FC = () => {
                   </div>
                 </div>
               </section>
+
+              <LetsTalk />
             </div>
           </main>
           <FooterOne />

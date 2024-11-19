@@ -1,6 +1,6 @@
 .without-banner{
     padding-top: 70px;
-    background: red;
+    /* background: red; */
     margin-top: 65px;  
 }
 .sale_container{
@@ -10,7 +10,8 @@
 
 .sale_filter_container{
     float: left;
-    width: 100%;   
+    width: 100%;
+    
 }
 .sale_filter_right{
     float: left;
