@@ -122,7 +122,7 @@ const Page: React.FC = () => {
                 <div className="container-fluid">
                   <div className="row">
                     {blog_data.map((item) => (
-                      <div className="col-3" key={item.id}>
+                      <div className="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12" key={item.id}>
                         <ProductItem item={item} />
                       </div>
                     ))}
