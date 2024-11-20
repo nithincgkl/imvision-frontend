@@ -84,10 +84,11 @@
   text-transform: uppercase;
   font-weight: 300;
   letter-spacing: 0.3px;
-  padding: 10px 35px;
+  padding:5px 10px;
   background-color: #9FDEBE;
   border: none;
   color: #000;
+  font-size: 15px;
 }
 
 .sort_btn {
@@ -98,11 +99,12 @@
   text-transform: uppercase;
   font-weight: 300;
   letter-spacing: 0.3px;
-  padding: 10px 35px;
+  padding:5px 10px;
   background-color: #222222;
   border: none;
   color: #fff;
-  margin-left: 10px;
+  margin-left: 15px;
+  font-size: 15px;
 }
 .sale_filter_container_right{
   float: left;
