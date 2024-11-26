@@ -1,11 +1,11 @@
 'use client';
-
 import React, { useState } from 'react';
 import style from "./style.module.css";
 import Wrapper from "@/layouts/wrapper";
 import { FaEye } from "react-icons/fa";
 import { IoIosArrowRoundBack } from "react-icons/io";
 import Link from 'next/link';
+import { FaEyeSlash } from "react-icons/fa6";
 
 const Page: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -13,6 +13,8 @@ const Page: React.FC = () => {
   const togglePasswordVisibility = () => {
     setShowPassword((prevState) => !prevState);
   };
+
+  
 
   return (
     <Wrapper>
@@ -31,7 +33,7 @@ const Page: React.FC = () => {
                 playsInline
                 className={style["banner-video"]} 
               >
-                <source src="/assets/videos/login.mp4" type="video/mp4" />
+                <source src="/assets/videos/sign-up.mp4" type="video/mp4" />
                 Your browser does not support the video tag.
               </video>
                   </div>
@@ -44,7 +46,7 @@ const Page: React.FC = () => {
                     <div className="col-md-12 mb-3">
                      
                         <h2 className='mb-0'>Create account</h2>
-                        <p>Sign up now and start your journey with us!</p>
+                        <p  className='mb-4 pb-2'>Sign up now and start your journey with us!</p>
                     </div>
 
 
@@ -83,7 +85,7 @@ const Page: React.FC = () => {
                             {showPassword ? (
                               <FaEye />
                             ) : (
-                              <FaEye />
+                              <FaEyeSlash />
                             )}
                           </button>
                   </div>
@@ -100,7 +102,7 @@ const Page: React.FC = () => {
                             {showPassword ? (
                               <FaEye />
                             ) : (
-                              <FaEye />
+                              <FaEyeSlash />
                             )}
                           </button>
                   </div>
