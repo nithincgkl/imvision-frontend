@@ -6,6 +6,7 @@ import Wrapper from "@/layouts/wrapper";
 import { FaEye, FaCheckCircle } from "react-icons/fa";
 import { IoIosArrowRoundBack, IoMdClose } from "react-icons/io";
 import Link from 'next/link';
+import { FaEyeSlash } from "react-icons/fa6";
 
 const SuccessPopup: React.FC<{ 
   message: string, 
