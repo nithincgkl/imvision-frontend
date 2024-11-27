@@ -16,13 +16,7 @@ const Page: React.FC = () => {
     confirmPassword: "",
   });
 
-  const [errors, setErrors] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    password: "",
-    confirmPassword: "",
-  });
+  const [errors, setErrors] = useState<Partial<typeof formData>>({});
 
   const [showPassword, setShowPassword] = useState(false);
 
@@ -36,7 +30,7 @@ const Page: React.FC = () => {
   };
 
   const validate = () => {
-    const newErrors: Record<string, string> = {};
+    const newErrors: Partial<typeof formData> = {};
     if (!formData.name.trim()) newErrors.name = "Name is required.";
     if (!formData.email.trim()) newErrors.email = "Email is required.";
     else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email))
@@ -106,7 +100,6 @@ const Page: React.FC = () => {
                             value={formData.name}
                             onChange={handleInputChange}
                           />
-                          
                           {errors.name && (
                             <p className={style.errorText}>{errors.name}</p>
                           )}
@@ -124,9 +117,6 @@ const Page: React.FC = () => {
                             value={formData.email}
                             onChange={handleInputChange}
                           />
-                          {/* <label htmlFor="email" className={style.inputLabel}>
-                            Email*
-                          </label> */}
                           {errors.email && (
                             <p className={style.errorText}>{errors.email}</p>
                           )}
@@ -144,9 +134,6 @@ const Page: React.FC = () => {
                             value={formData.phone}
                             onChange={handleInputChange}
                           />
-                          {/* <label htmlFor="phone" className={style.inputLabel}>
-                            Phone*
-                          </label> */}
                           {errors.phone && (
                             <p className={style.errorText}>{errors.phone}</p>
                           )}
@@ -164,9 +151,6 @@ const Page: React.FC = () => {
                             value={formData.password}
                             onChange={handleInputChange}
                           />
-                          {/* <label htmlFor="password" className={style.inputLabel}>
-                            Password*
-                          </label> */}
                           <button
                             type="button"
                             className={style.eye_button}
@@ -191,12 +175,6 @@ const Page: React.FC = () => {
                             value={formData.confirmPassword}
                             onChange={handleInputChange}
                           />
-                          {/* <label
-                            htmlFor="confirmPassword"
-                            className={style.inputLabel}
-                          >
-                            Confirm Password*
-                          </label> */}
                           <button
                             type="button"
                             className={style.eye_button}
