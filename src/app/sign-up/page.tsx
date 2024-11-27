@@ -7,7 +7,7 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { IoIosArrowRoundBack } from "react-icons/io";
 import Link from "next/link";
 import { useSnackbar } from 'notistack';  // Import the hook for notistack
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 
 const Page: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -50,11 +50,12 @@ const Page: React.FC = () => {
 
   const { enqueueSnackbar } = useSnackbar();  // Initialize notistack hook
 
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (validate()) {
-      setLoading(true);  // Set loading state to true before sending the request
+      setLoading(true); // Set loading state to true before sending the request
 
       try {
         // Register User
@@ -73,7 +74,6 @@ const Page: React.FC = () => {
         );
 
         if (registerResponse.status === 200) {
-          // Registration successful, get the JWT token
           const token = registerResponse.data.jwt;
           localStorage.setItem("token", token);
 
@@ -91,32 +91,36 @@ const Page: React.FC = () => {
             }
           );
 
-          if (updateResponse.status === 200) {
-            enqueueSnackbar('Account registered successfully!', { variant: 'success' });  // Success notification
-            window.location.href = '/';
-          } else {
-            enqueueSnackbar('Profile update failed.', { variant: 'error' });  // Error notification
-          }
+          handleResponse(updateResponse, 'Profile update failed.'); // Handle profile update response
         } else {
           enqueueSnackbar(registerResponse.data.message || 'Registration failed.', { variant: 'error' });  // Error notification
         }
       } catch (error) {
-        // Handle API error response
-        if (error.response) {
-          // If error has response, get error details
-          const errorMessage = error.response.data?.error?.message || 'Something went wrong. Please try again.';
-          enqueueSnackbar(errorMessage, { variant: 'error' });
-        } else {
-          // If no response from API, general error handling
-          enqueueSnackbar('Something went wrong. Please try again.', { variant: 'error' });
-        }
-        console.error(error);
+        // Catch any unexpected error
+        handleError(error);
       } finally {
-        setLoading(false);  // Set loading state to false after the request is done
+        setLoading(false); // Set loading state to false after the request is done
       }
     }
   };
 
+  const handleResponse = (response: any, errorMessage: string) => {
+    if (response.status === 200) {
+      enqueueSnackbar('Account registered successfully!', { variant: 'success' });  // Success notification
+      window.location.href = '/';  // Redirect to homepage or dashboard
+    } else {
+      enqueueSnackbar(errorMessage, { variant: 'error' });  // Error notification
+    }
+  };
+
+  const handleError = (error: unknown) => {
+    if (error instanceof AxiosError && error.response) {
+      const errorMessage = error.response.data?.error?.message || 'Something went wrong. Please try again.';
+      enqueueSnackbar(errorMessage, { variant: 'error' });
+    } else {
+      enqueueSnackbar('Something went wrong. Please try again.1', { variant: 'error' });
+    }
+  };
 
   return (
     <Wrapper>
