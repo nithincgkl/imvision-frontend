@@ -1,4 +1,7 @@
+'use client';
+
 import "@/styles/index.scss";
+import { SnackbarProvider } from "notistack";
 
 export default function RootLayout({
   children,
@@ -16,7 +19,18 @@ export default function RootLayout({
         <title>IM VISION</title>
       </head>
 
-      <body className="dark">{children}</body>
+      <body className="dark">
+        <SnackbarProvider
+          maxSnack={3} // Maximum number of snackbars to show at once
+          autoHideDuration={3000} // Auto-hide after 3 seconds
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'right', // Position of the snackbar
+          }}
+        >
+          {children}
+        </SnackbarProvider>
+      </body>
     </html>
   );
 }
