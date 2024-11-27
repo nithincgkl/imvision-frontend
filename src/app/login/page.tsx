@@ -112,7 +112,7 @@ const Page: React.FC = () => {
                       <div className="col-md-12 mb-3">
                         <div className={style.formControl}>
                           <input
-                            type="email"
+                            type="text"
                             id="Email"
                             className={`form-control ${style.inputField}`}
                             placeholder="Email*"
