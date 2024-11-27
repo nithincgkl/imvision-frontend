@@ -6,6 +6,8 @@ import Wrapper from "@/layouts/wrapper";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { IoIosArrowRoundBack } from "react-icons/io";
 import Link from "next/link";
+import { useSnackbar } from 'notistack';  // Import the hook for notistack
+import axios from 'axios';
 
 const Page: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -17,8 +19,8 @@ const Page: React.FC = () => {
   });
 
   const [errors, setErrors] = useState<Partial<typeof formData>>({});
-
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);  // State for loading
 
   const togglePasswordVisibility = () => {
     setShowPassword((prevState) => !prevState);
@@ -46,13 +48,75 @@ const Page: React.FC = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const { enqueueSnackbar } = useSnackbar();  // Initialize notistack hook
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
     if (validate()) {
-      // Proceed with form submission (e.g., API call)
-      alert("Form submitted successfully!");
+      setLoading(true);  // Set loading state to true before sending the request
+
+      try {
+        // Register User
+        const registerResponse = await axios.post(
+          `${process.env.NEXT_PUBLIC_API_URL}auth/local/register`,
+          {
+            username: formData.name,
+            email: formData.email,
+            password: formData.password,
+          },
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        if (registerResponse.status === 200) {
+          // Registration successful, get the JWT token
+          const token = registerResponse.data.jwt;
+          localStorage.setItem("token", token);
+
+          // Now update the profile with the phone number
+          const updateResponse = await axios.put(
+            `${process.env.NEXT_PUBLIC_API_URL}profile`,
+            {
+              phone: formData.phone,
+            },
+            {
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+
+          if (updateResponse.status === 200) {
+            enqueueSnackbar('Account registered successfully!', { variant: 'success' });  // Success notification
+            window.location.href = '/';
+          } else {
+            enqueueSnackbar('Profile update failed.', { variant: 'error' });  // Error notification
+          }
+        } else {
+          enqueueSnackbar(registerResponse.data.message || 'Registration failed.', { variant: 'error' });  // Error notification
+        }
+      } catch (error) {
+        // Handle API error response
+        if (error.response) {
+          // If error has response, get error details
+          const errorMessage = error.response.data?.error?.message || 'Something went wrong. Please try again.';
+          enqueueSnackbar(errorMessage, { variant: 'error' });
+        } else {
+          // If no response from API, general error handling
+          enqueueSnackbar('Something went wrong. Please try again.', { variant: 'error' });
+        }
+        console.error(error);
+      } finally {
+        setLoading(false);  // Set loading state to false after the request is done
+      }
     }
   };
+
 
   return (
     <Wrapper>
@@ -193,9 +257,11 @@ const Page: React.FC = () => {
                       <button
                         type="submit"
                         className={`mt-2 ${style.form_button}`}
+                        disabled={loading}  // Disable button when loading
                       >
-                        Create Account
+                        {loading ? "Creating Account..." : "Create Account"}
                       </button>
+
                       <p className="pt-3">
                         Already have an account?{" "}
                         <Link href="/login">Login</Link>

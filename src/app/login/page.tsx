@@ -1,17 +1,20 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import style from "./style.module.css";
 import Wrapper from "@/layouts/wrapper";
 import { FaEye } from "react-icons/fa";
 import { IoIosArrowRoundBack } from "react-icons/io";
 import Link from 'next/link';
+import { useSnackbar } from 'notistack';
 
 const Page: React.FC = () => {
+  const { enqueueSnackbar } = useSnackbar();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState<{ email?: string; password?: string }>({});
+  const [loading, setLoading] = useState(false);
 
   const togglePasswordVisibility = () => {
     setShowPassword((prevState) => !prevState);
@@ -32,17 +35,49 @@ const Page: React.FC = () => {
     return newErrors;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const formErrors = validate();
     if (Object.keys(formErrors).length === 0) {
-      // No errors, proceed with login logic
-      console.log({ email, password });
-      alert("Login successful");
+      setErrors({});
+      setLoading(true);
+      try {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}auth/local`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            identifier: email,
+            password: password,
+          }),
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+          // Success - display success message
+          enqueueSnackbar('Login successful!', { variant: 'success' });
+
+          // Save token and user info to localStorage
+          localStorage.setItem('token', data.jwt);
+          localStorage.setItem('user', JSON.stringify(data.user));
+          window.location.href = '/';
+        } else {
+          // API error response
+          enqueueSnackbar(data.message || 'Invalid email or password', { variant: 'error' });
+        }
+      } catch (error) {
+        console.error('Error during login:', error);
+        enqueueSnackbar('An error occurred. Please try again.', { variant: 'error' });
+      } finally {
+        setLoading(false);
+      }
     } else {
       setErrors(formErrors);
     }
   };
+
 
   return (
     <Wrapper>
@@ -60,7 +95,7 @@ const Page: React.FC = () => {
                       playsInline
                       className={style["banner-video"]}
                     >
-                      <source src="/assets/videos/sign-up.mp4" type="video/mp4" />
+                      <source src="/assets/videos/login.mp4" type="video/mp4" />
                       Your browser does not support the video tag.
                     </video>
                   </div>
@@ -70,7 +105,7 @@ const Page: React.FC = () => {
                         <IoIosArrowRoundBack className={style["form_back_icon"]} />
                       </div>
                       <div className="col-md-12 mb-3">
-                        <h2 className='mb-0'>Hello,<br />Welcome Back</h2>
+                        <h2 className="mb-0">Hello,<br />Welcome Back</h2>
                         <p>We’re excited to see you again!</p>
                       </div>
 
@@ -115,10 +150,14 @@ const Page: React.FC = () => {
                         </div>
                       </div>
 
-                      <button type="submit" className={`mt-2 ${style.form_button}`} >
-                        Login
+                      <button
+                        type="submit"
+                        className={`mt-2 ${style.form_button}`}
+                        disabled={loading}
+                      >
+                        {loading ? 'Logging in...' : 'Login'}
                       </button>
-                      <p className='pt-3'>Don’t have an account? <Link href="/sign-up">Sign up</Link></p>
+                      <p className="pt-3">Don’t have an account? <Link href="/sign-up">Sign up</Link></p>
                     </form>
                   </div>
                 </div>
