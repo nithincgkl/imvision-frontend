@@ -5,8 +5,11 @@ import Wrapper from '@/layouts/wrapper';
 import FooterOne from '@/layouts/footers/FooterOne';
 import HeaderOne from '@/layouts/headers/HeaderOne';
 import style from "./style.module.css";
+import { useSnackbar } from 'notistack';
+import axios from 'axios';
 
 // New ContactInfoBoxes Component
+
 const ContactInfoBoxes = () => {
   const boxData = [
     {
@@ -68,7 +71,7 @@ const ContactPage = () => {
     comment?: string;
   }>({});
   const [isLoading, setIsLoading] = useState(false);
-
+  const { enqueueSnackbar } = useSnackbar();
   const validateForm = () => {
     const newErrors: {
       Name?: string;
@@ -105,35 +108,56 @@ const ContactPage = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    // Validate form
+
     if (!validateForm()) {
       return;
     }
 
-    // Set loading state
     setIsLoading(true);
 
     try {
-      // TODO: Implement actual form submission logic
-      console.log('Form submitted with:', { 
-        Name, 
-        email, 
-        Phone, 
-        comment, 
-        service, 
-        industryType 
-      });
-      
-      // Handle successful submission
-      // Optionally reset form or show success message
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}contact-uses`,
+        {
+          data: {
+            name: Name,
+            email: email,
+            phone: Phone,
+            service: service,
+            industry_type: industryType,
+            comments: comment,
+          },
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
+          },
+        }
+      );
+
+      enqueueSnackbar('Message sent successfully!', { variant: 'success' });
+
+      // Reset form fields
+      setName('');
+      setEmail('');
+      setPhone('');
+      setService('');
+      setIndustryType('');
+      setComment('');
     } catch (error) {
-      // Handle submission error
-      console.error('Form submission failed:', error);
-      setErrors(prevErrors => ({
-        ...prevErrors,
-        comment: 'Form submission failed. Please try again.'
-      }));
+      console.error('Error submitting the form:', error);
+
+      if (axios.isAxiosError(error)) {
+        const errorMessage =
+          error.response?.data?.message ||
+          'Failed to send the message. Please try again.';
+        enqueueSnackbar(errorMessage, { variant: 'error' });
+      } else {
+        enqueueSnackbar('An unexpected error occurred. Please try again.', {
+          variant: 'error',
+        });
+      }
     } finally {
       setIsLoading(false);
     }
@@ -195,8 +219,8 @@ const ContactPage = () => {
                                 aria-describedby="Name-error"
                               />
                               {errors.Name && (
-                                <p 
-                                  id="Name-error" 
+                                <p
+                                  id="Name-error"
                                   className={style.error}
                                 >
                                   {errors.Name}
@@ -218,8 +242,8 @@ const ContactPage = () => {
                                 aria-describedby="email-error"
                               />
                               {errors.email && (
-                                <p 
-                                  id="email-error" 
+                                <p
+                                  id="email-error"
                                   className={style.error}
                                 >
                                   {errors.email}
@@ -243,8 +267,8 @@ const ContactPage = () => {
                                 aria-describedby="Phone-error"
                               />
                               {errors.Phone && (
-                                <p 
-                                  id="Phone-error" 
+                                <p
+                                  id="Phone-error"
                                   className={style.error}
                                 >
                                   {errors.Phone}
@@ -255,16 +279,16 @@ const ContactPage = () => {
 
                           <div className="col-md-6 mb-3">
                             <div className={style.formControl}>
-                              <select 
+                              <select
                                 className={`form-control ${style.inputField}`}
                                 value={service}
                                 onChange={(e) => setService(e.target.value)}
                               >
-                                <option value="">Select Service</option>
-                                <option value="service1">Sale</option>
-                                <option value="service2">Rent</option>
-                                <option value="service3">Career</option>
-                                <option value="service4">Other</option>
+                                <option value="">Select Service *</option>
+                                <option value="Sale">Sale</option>
+                                <option value="Rent">Rent</option>
+                                <option value="Career">Career</option>
+                                <option value="Other">Other</option>
                               </select>
                             </div>
                           </div>
@@ -273,16 +297,16 @@ const ContactPage = () => {
                         <div className="row">
                           <div className="col-md-6 mb-3">
                             <div className={style.formControl}>
-                              <select 
+                              <select
                                 className={`form-control ${style.inputField}`}
                                 value={industryType}
                                 onChange={(e) => setIndustryType(e.target.value)}
                               >
-                                <option value="">Industry Type</option>
-                                <option value="type1">Automotive</option>
-                                <option value="type2">Retail</option>
-                                <option value="type3">Government</option>
-                                <option value="type3">Cooperate</option>
+                                <option value="">Industry Type *</option>
+                                <option value="Automotive">Automotive</option>
+                                <option value="Retail">Retail</option>
+                                <option value="Government">Government</option>
+                                <option value="Cooperate">Cooperate</option>
                               </select>
                             </div>
                           </div>
@@ -300,8 +324,8 @@ const ContactPage = () => {
                                 aria-describedby="comment-error"
                               />
                               {errors.comment && (
-                                <p 
-                                  id="comment-error" 
+                                <p
+                                  id="comment-error"
                                   className={style.error}
                                 >
                                   {errors.comment}
@@ -311,8 +335,8 @@ const ContactPage = () => {
                           </div>
                         </div>
 
-                        <button 
-                          type="submit" 
+                        <button
+                          type="submit"
                           className={`mt-2 ${style.form_button}`}
                           disabled={isLoading}
                         >
