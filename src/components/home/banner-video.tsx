@@ -1,6 +1,7 @@
 import React from "react";
 import styles from "./style.module.css";
 import Link from "next/link";
+import { FaWhatsapp } from "react-icons/fa";
 
 const BannerVideo: React.FC = () => {
   return (
@@ -28,9 +29,53 @@ const BannerVideo: React.FC = () => {
             <button className={styles["talk-btn"]}>Talk to Expert</button>
           </div>
         </div>
+
+        {/* WhatsApp Floating Icon */}
+        <a 
+              href="https://wa.me/8714240400" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="whatsapp-float"
+              aria-label="Chat with us on WhatsApp"
+            >
+              <FaWhatsapp />
+            </a>
+
+            <style jsx>{`
+        .whatsapp-float {
+          position: absolute;
+          bottom: 20px;
+          right: 20px;
+          z-index: 1000;
+          width: 50px;
+          height: 50px;
+          border-radius: 50%;
+          box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+          background-color: #25d366;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+              font-size: 37px;
+        }
+
+        .whatsapp-float img {
+          width: 80%;
+          height: 80%;
+        }
+
+        .whatsapp-float:hover {
+          transform: scale(1.1);
+          transition: transform 0.2s;
+        }
+      `}</style>
+
+
+
       </section>
     </>
   );
 };
+
+
 
 export default BannerVideo;
