@@ -268,6 +268,7 @@ const Filter: React.FC = () => {
 
 }
 
+
 {/* <div>
 
                       {selectedCategories.length > 0 ? "" :
