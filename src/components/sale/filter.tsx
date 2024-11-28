@@ -234,12 +234,34 @@ const Filter: React.FC = () => {
                       </div>
                     </div>
 
+<<<<<<< HEAD
                     {selectedCategories.length > 0 && (
                       <div className={style.filter_btn_containe}>
                         <button className={style.reset_btn}>Reset Filter</button>
                         <button className={style.apply_btn}>Apply Filter</button>
                       </div>
                     )}
+=======
+
+                    {selectedCategories.length > 0 ? <div className={style.filter_btn_containe}>
+  <button className={style.reset_btn}>Reset Filter</button>
+  <button className={style.apply_btn}>Apply Filter</button>
+</div> : ""
+
+
+}
+
+
+{/* <div>
+
+                      {selectedCategories.length > 0 ? "" :
+
+                        <div>
+                          <p>Select Any Category</p>
+                        </div>
+                      }
+                      </div> */}
+>>>>>>> 2bf320d648f23f27a986222212b8fc64694c0716
                   </div>
                 </div>
               </div>

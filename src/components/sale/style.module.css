@@ -28,11 +28,6 @@
 
 
 
-
-
-
-
-
 .filterContent {
     padding: 15px  0 20px 0;
   }
@@ -51,9 +46,7 @@
     margin-left: 5px;
   }
   
-  .filterContent div {
-    /* margin-bottom: 10px; */
-  }
+
   
 .label_input_div{
     background-color: #363636;
@@ -132,9 +125,7 @@ color: #5D5D5D;
  width: 100%;
  display: flex; 
 }
-.filterCategoryBox{
-  /* margin-bottom: 30px; */
-}
+
 .filterCheckbox{
   background-color: #363636;
   display: flex;
@@ -161,14 +152,6 @@ margin-bottom: 0;
     padding: 25px;
     margin: 0 0 10px 25px;
 }
-
-
-
-
-
-
-
-
 
 
 

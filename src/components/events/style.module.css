@@ -472,7 +472,7 @@ max-width: 200px;
 margin: 0 auto;
 margin-top: 25px;
 border: none;
-font-weight: 100;
+font-weight: 600;
 
 }
 .home-Screens-Carousel{
@@ -924,7 +924,7 @@ margin-bottom: 0;
     font-size: 30px;
     line-height: 42px;
     color: #9A9A9A;
-    margin-top: 50px;
+    margin-top: 10px;
 }
 .home-wow-p span{
   color: #ffffff;

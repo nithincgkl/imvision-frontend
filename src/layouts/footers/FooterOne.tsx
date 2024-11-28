@@ -1,6 +1,6 @@
 import React, { FormEvent } from 'react';
 import style from "./style.module.css";
-
+import Link from 'next/link';
 interface NavItem {
   label: string;
   href: string;
@@ -19,6 +19,7 @@ const NAV_ITEMS: NavItem[] = [
   { label: 'Error reporting', href: '/error-reporting' },
   { label: 'Rental conditions', href: '/rental-conditions' },
   { label: '​Work with us', href: '/​work-with-us' },
+  { label: 'Sign In', href: '/login' },
 ];
 
 const LEGAL_LINKS: NavItem[] = [
@@ -184,17 +185,27 @@ const FooterOne: React.FC = () => {
                   </li>
                 ))}
               </ul>
+
+              {/* <ul className="list-inline mb-0">
+               
+                  <li className="list-inline-item mx-3">
+                  <Link href="/login">Sign In</Link>
+                  </li>
+             
+              </ul> */}
+
+
             </nav>
           </div>
 
           {/* Bottom Logo */}
-          <div className="col-12 text-center mb-4">
+          {/* <div className="col-12 text-center mb-4">
             <img
               src="/assets/images/logo-footer.png"
               alt="Footer Logo"
               className={style.footerLogo}
             />
-          </div>
+          </div> */}
 
           {/* Legal Links */}
           <div className="col-12">

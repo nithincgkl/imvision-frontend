@@ -129,6 +129,7 @@
       background-color: #000;
       float: left;
       width: 100%;
+      position: relative;
     }
   
     .talk-btn {
@@ -143,6 +144,7 @@
       border: none;
       left: 50px;
       letter-spacing: 1px;
+      font-weight: 600;
   }
 
 /* Product */
@@ -293,7 +295,7 @@
   margin: 0 auto;
   margin-top: 25px;
   border: none;
-  font-weight: 100;
+  font-weight: 600;
 
 }
 .home-Screens-Carousel{
@@ -744,20 +746,21 @@
       font-size: 30px;
       line-height: 42px;
       color: #9A9A9A;
-      margin-top: 50px;
+      margin-top: 10px;
   }
   .home-wow-p span{
     color: #ffffff;
     
 }
 .wow-box{
-  float: left;
+  /* float: left; */
   width: 100%;
   padding: 15px;
   background-color: #141414;
   padding: 30px;
   margin-bottom: 75px;
     max-width: 670px;
+    margin: 0 auto;
 }
 
 .wow-box h4{
@@ -773,6 +776,7 @@
   padding: 15px 50px;
   margin: 0 auto;
   text-transform: uppercase;
+  font-weight: 600;
 }
 
 

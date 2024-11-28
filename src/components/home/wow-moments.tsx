@@ -9,7 +9,7 @@ const WowMoments: React.FC = () => {
           <div className='row'>
             <div className='col-md-12'>
               <h4>Perfect For</h4>
-              <h3>Create a WOW Moment</h3>
+              <h3 className='mb-0'>Create a WOW Moment</h3>
               <p className={styles['home-wow-p']}><span> The result? A face cushion that fits you perfectly. </span><br />
                 Enhanced immersion with no more light leakage, and comfortable to wear for hours.
               </p>
