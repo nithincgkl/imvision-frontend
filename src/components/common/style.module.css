@@ -1,0 +1,175 @@
+/* banner */
+
+.banner {
+    position: relative;
+    width: calc(100% - 128px);
+    overflow: hidden;
+    margin: 64px 64px 64px 64px;
+    /* background: red; */
+    height: calc(100vh - 128px);
+}
+
+.banner-video {
+    position: relative;
+    /* top: 50%; */
+    /* left: 50%; */
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    /* transform: translate(-50%, -50%); */
+    -o-object-fit: cover;
+    object-fit: cover;
+    width: 100%;
+
+}
+
+.banner-content {
+    position: absolute;
+    top: 50px;
+    left: 60px;
+    /* transform: translate(-50%, -50%); */
+    text-align: left;
+    color: white;
+    z-index: 40;
+    /* position: relative; */
+}
+
+.banner-content h1 {
+    font-size: 73px;
+    margin-bottom: 0;
+}
+
+.banner-content h2 {
+    font-size: 73px;
+    color: #9A9A9A;
+}
+
+.nav-banner-container {
+    background-color: #000;
+    float: left;
+    width: 100%;
+}
+
+
+
+@media (max-width: 768px) {
+    .banner-content h1 {
+        font-size: 2rem;
+    }
+
+    .banner-content p {
+        font-size: 1rem;
+    }
+
+    .banner-content {
+        left: 15px;
+    }
+
+    .banner {
+        width: 100%;
+        margin: 0 0 0 0;
+        height: auto;
+    }
+
+    .banner-content {
+        left: 15px !important;
+    }
+
+
+}
+
+
+@media (max-width: 1250px) {
+    .banner-content {
+        left: 70px;
+        top: 25px;
+    }
+
+    .banner-content h1 {
+        font-size: 25px;
+        margin-bottom: 15px;
+    }
+
+    .banner-content h2 {
+        font-size: 25px;
+        margin-top: -16px;
+    }
+
+}
+
+@media screen and (max-width: 1199px) {
+
+    .banner {
+        position: relative;
+        width: 100%;
+        height: auto;
+        margin: 74px 0 0 0;
+    }
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+.instructions_form {
+    padding: 0px 0 4rem 0;
+}
+.instructions_form h2{
+    margin-bottom: 50px;
+}
+
+.installation-form {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.form-input {
+    width: 100%;
+    background-color: #222222;
+    color: #ffffff;
+    border: none;
+    height: 60px;
+    padding: 0 15px;
+    margin-bottom: 20px;
+    font-size: 16px;
+    border-radius: 0px;
+}
+
+.form-input::placeholder {
+    color: #bbbbbb;
+    font-size: 14px;
+}
+
+.form-input:focus {
+    outline: none;
+    border: 1px solid #555555;
+}
+
+.submit-button {
+    width: 100%;
+    background-color: #555555;
+    color: #ffffff;
+    border: none;
+    height: 60px;
+    font-size: 18px;
+    text-transform: uppercase;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 15px;
+}
+
+.submit-button:hover {
+    background-color: #777777;
+}
