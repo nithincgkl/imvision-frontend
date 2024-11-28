@@ -750,20 +750,21 @@
       font-size: 30px;
       line-height: 42px;
       color: #9A9A9A;
-      margin-top: 50px;
+      margin-top: 10px;
   }
   .style_home-wow-p__6ITCH span{
     color: #ffffff;
     
 }
 .style_wow-box__Efngn{
-  float: left;
+  /* float: left; */
   width: 100%;
   padding: 15px;
   background-color: #141414;
   padding: 30px;
   margin-bottom: 75px;
     max-width: 670px;
+    margin: 0 auto;
 }
 
 .style_wow-box__Efngn h4{
