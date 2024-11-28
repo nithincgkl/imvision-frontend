@@ -129,6 +129,7 @@
       background-color: #000;
       float: left;
       width: 100%;
+      position: relative;
     }
   
     .talk-btn {
