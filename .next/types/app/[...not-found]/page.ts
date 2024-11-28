@@ -1,4 +1,4 @@
-// File: /Users/granshowvj/Documents/works/imvision-frontend/src/app/[...not-found]/page.tsx
+// File: C:\WORK\imvision.se\src\app\[...not-found]\page.tsx
 import * as entry from '../../../../src/app/[...not-found]/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 

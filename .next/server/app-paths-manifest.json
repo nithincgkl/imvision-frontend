@@ -1,13 +1,4 @@
 {
-  "/_not-found": "app/_not-found.js",
-  "/forgot-password/page": "app/forgot-password/page.js",
   "/page": "app/page.js",
-  "/events/page": "app/events/page.js",
-  "/favicon.ico/route": "app/favicon.ico/route.js",
-  "/sign-up/page": "app/sign-up/page.js",
-  "/event-details/page": "app/event-details/page.js",
-  "/contact/page": "app/contact/page.js",
-  "/[...not-found]/page": "app/[...not-found]/page.js",
-  "/login/page": "app/login/page.js",
-  "/sale/page": "app/sale/page.js"
+  "/contact/page": "app/contact/page.js"
 }

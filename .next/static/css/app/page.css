@@ -145,6 +145,7 @@
       border: none;
       left: 50px;
       letter-spacing: 1px;
+      font-weight: 600;
   }
 
 /* Product */
@@ -780,6 +781,7 @@
   padding: 15px 50px;
   margin: 0 auto;
   text-transform: uppercase;
+  font-weight: 600;
 }
 
 
@@ -1196,6 +1198,7 @@
   justify-content: center;
   width: 100%;
   border-radius: 0;
+  font-weight: 600;
 }
 
 .style_submitButton__DfD0e:hover {

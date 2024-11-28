@@ -71,6 +71,34 @@
     border-color: red !important;
 }
 
+.card_contact{
+    background-color: #1B1B1B;
+    min-height: 300px;
+    display: flex;
+    align-items: center;
+
+}
+.card_contact h3{ font-size: 30px; margin-bottom: 10px;}
+.card_contact h4{ font-size: 22px;font-style: italic; margin-bottom: 10px;}
+.card_contact p{ color: #9A9A9A;}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 @media screen and (max-width: 991px) {
     .form_container_half {
         align-items: center;

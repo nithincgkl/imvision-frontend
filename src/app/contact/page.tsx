@@ -7,46 +7,54 @@ import HeaderOne from '@/layouts/headers/HeaderOne';
 import style from "./style.module.css";
 import { useSnackbar } from 'notistack';
 import axios from 'axios';
+import ContactArea from '@/components/contact/ContactArea';
 
 // New ContactInfoBoxes Component
 
 const ContactInfoBoxes = () => {
   const boxData = [
     {
-      title: "Sales Inquiries",
-      description: "Get personalized solutions for your LED technology needs. Our sales team is ready to assist you."
+      title: "CEO",
+      subtitle: "Ivan Martic",
+      description: "ivan@imvision.se <br /> +46 73 913 01 29 <br />+46 10 330 46 36"
     },
     {
-      title: "Technical Support",
-      description: "Comprehensive support for all your LED display and rental equipment. We're here to help."
+      title: "Sales",
+      subtitle: "Ivan Martic",
+      description: "ivan@imvision.se <br /> 076 -307 22 25"
     },
     {
-      title: "Rental Services",
-      description: "Flexible LED display rentals for events, conferences, and corporate gatherings. Tailored to your needs."
+      title: "Rental",
+      subtitle: "Jonas Möller - Salesperson",
+      description: "jonas@imvision.se <br /> 073 -97 77 614"
     },
     {
-      title: "Custom Solutions",
-      description: "Innovative LED technologies designed specifically for your industry and unique requirements."
+      title: "Warehouse",
+      subtitle: "Jönköping Dragan Martic - Logistik",
+      description: "dragan@imvision.se <br /> 010-330 46 36"
     },
     {
-      title: "Training & Workshops",
-      description: "Learn from experts about LED technology, installation, and best practices for maximum impact."
+      title: "Support",
+      subtitle: "Simon Ljunggren - Service manager",
+      description: "simon@imvision.se <br /> 010-330 46 36"
     },
     {
-      title: "After-Sales Service",
-      description: "Ongoing maintenance, warranty support, and expert advice to ensure your LED solutions perform perfectly."
-    }
+      title: "Finance",
+      subtitle: "Ivan Martic",
+      description: "info@imvision.se"
+    },
   ];
 
-  return (
+  return ( 
     <div className="container-fluid py-5">
       <div className="row g-4">
         {boxData.map((box, index) => (
           <div key={index} className="col-md-4 col-sm-6">
-            <div className="card h-100 shadow-sm border-0 transform transition duration-300 hover:scale-105">
-              <div className="card-body p-4 text-center">
-                <h3 className="card-title mb-3 font-semibold text-xl">{box.title}</h3>
-                <p className="card-text text-gray-600">{box.description}</p>
+            <div className={style["card_contact"]}>
+              <div className="card-body p-4">
+                <h3>{box.title}</h3>
+                <h4>{box.subtitle}</h4>
+                <p dangerouslySetInnerHTML={{ __html: box.description }} />
               </div>
             </div>
           </div>
@@ -356,6 +364,32 @@ const ContactPage = () => {
                   </div>
                 </div>
               </div>
+
+
+
+
+              <div className="container-fluid py-5">
+              <div className="row">
+                <div className="col-6">
+                  <div className="cs_google_map cs_bg" data-src="assets/img/map_img.png">
+                    <iframe
+                      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2034.7486218071434!2d14.155522576560296!3d57.78195697282992!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x465a0441ba937bc7%3A0x8c3d50363d781860!2sHerkulesv%C3%A4gen%2056%2C%20553%2002%20J%C3%B6nk%C3%B6ping!5e0!3m2!1sen!2sse!4v1701193248347!5m2!1sen!2sse"
+                      allowFullScreen={true}></iframe>
+                  </div>
+                </div>
+                <div className="col-6">
+                  <div className="cs_google_map cs_bg" data-src="assets/img/map_img.png">
+                    <iframe
+                      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2036.2497134455126!2d18.07935507656016!3d59.33554217283708!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x465f9d7aadf71dcf%3A0xbd49b70c41faf7f3!2sSkeppargatan%2011%2C%20114%2052%20Stockholm!5e0!3m2!1sen!2sse!4v1701193348944!5m2!1sen!2sse"
+                      allowFullScreen={true}></iframe>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+
+             
 
             </section>
           </main>
