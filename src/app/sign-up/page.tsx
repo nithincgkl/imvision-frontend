@@ -154,7 +154,7 @@ const Page: React.FC = () => {
                       onSubmit={handleSubmit}
                     >
                       <div className="col-md-12 mb-3">
-                        <IoIosArrowRoundBack className={style["form_back_icon"]} />
+                      <Link href="/"><IoIosArrowRoundBack className={style["form_back_icon"]} /> Back to Home</Link>
                       </div>
                       <div className="col-md-12 mb-3">
                         <h2 className="mb-0">Create account</h2>
