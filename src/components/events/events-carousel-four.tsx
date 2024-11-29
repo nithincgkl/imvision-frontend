@@ -114,10 +114,10 @@ const EventsCarouselFour: React.FC<HomeCarouselProps> = ({ style_2, style_3 }) =
                     </h2>
                     <p className="cs_m0">SEK {item.des}</p>
 
-                    <div className={styles['button-section']}>
+                    {/* <div className={styles['button-section']}>
                         <button>Add to Cart</button>
                         <button>Quick Enquiry</button>
-                    </div>
+                    </div> */}
 
                   </div>
                 </div>

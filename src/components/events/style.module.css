@@ -217,7 +217,7 @@ flex: 1;
 .our-screen-box .button-section button:first-child {
   font-size: 13px;
   background-color: #393939;
-  padding: 15px 30px;
+  padding: 15px 15px;
   text-transform: uppercase;
   border: none;
   font-weight: 700;
