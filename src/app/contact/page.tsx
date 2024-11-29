@@ -86,7 +86,7 @@ const ContactPage = () => {
   const validateForm = () => {
     const newErrors: {
       Name?: string;
-      email?: string;
+      email?: string; 
       Phone?: string;
       comment?: string;
       service?: string;

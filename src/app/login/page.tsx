@@ -101,9 +101,9 @@ const Page: React.FC = () => {
                   </div>
                   <div className={`col-md-6 ${style.form_container_half}`}>
                     <form onSubmit={handleSubmit} className="w-full max-w-md space-y-6 px-8">
-                      <div className="col-md-12 mb-3">
+                      {/* <div className="col-md-12 mb-3">
                         <IoIosArrowRoundBack className={style["form_back_icon"]} />
-                      </div>
+                      </div> */}
                       <div className="col-md-12 mb-3">
                         <h2 className="mb-0">Hello,<br />Welcome Back</h2>
                         <p>We’re excited to see you again!</p>

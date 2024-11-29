@@ -47,9 +47,9 @@ const FooterOne: React.FC = () => {
         <div className="row">
           {/* Logo Section */}
           <div className="col-md-4 mb-4">
-            <img 
+            <img
               src="/assets/images/footer-logo.png"
-              alt="Company Logo" 
+              alt="Company Logo"
               className={style.logo}
             />
           </div>
@@ -60,19 +60,24 @@ const FooterOne: React.FC = () => {
             <form onSubmit={handleSubmit} className="mb-4">
               <div className="row">
                 <div className="col-md-6 mb-3">
+
+
+
+
+
                   <div className={style.formControl}>
                     <input
                       type="text"
                       id="name"
                       className={`form-control ${style.inputField}`}
-                      placeholder=" "
+                      placeholder="Name*"
                     />
-                    <label
+                    {/* <label
                       htmlFor="name"
                       className={style.inputLabel}
                     >
                       Name
-                    </label>
+                    </label> */}
                   </div>
                 </div>
 
@@ -82,37 +87,29 @@ const FooterOne: React.FC = () => {
                       type="email"
                       id="email"
                       className={`form-control ${style.inputField}`}
-                      placeholder=" "
+                      placeholder="Email Address*"
                     />
-                    <label
+                    {/* <label
                       htmlFor="email"
                       className={style.inputLabel}
                     >
                       Email Address*
-                    </label>
+                    </label> */}
                   </div>
                 </div>
 
                 <div className="col-md-6 mb-3">
                   <div className={style.formControl}>
-                    <select
-                      id="phone"
-                      className={`form-control ${style.inputField}`}
-                      defaultValue=""
-                    >
-                      <option value="" disabled></option>
-                      {PHONE_OPTIONS.map((option: PhoneOption) => (
-                        <option key={option.value} value={option.value}>
-                          {option.label}
-                        </option>
-                      ))}
+
+
+                    <select className={`form-control ${style.inputField}`} >
+                      <option value="" className={style.firstFieldColor}>What can we help you with?</option>
+                      <option value="Sale">Sale</option>
+                      <option value="Rent">Rent</option>
+                      <option value="Career">Career</option>
+                      <option value="Other">Other</option>
                     </select>
-                    <label
-                      htmlFor="phone"
-                      className={style.inputLabel}
-                    >
-                      What can we help you with?
-                    </label>
+
                   </div>
                 </div>
 
@@ -122,32 +119,26 @@ const FooterOne: React.FC = () => {
                       type="text"
                       id="Company Name"
                       className={`form-control ${style.inputField}`}
-                      placeholder=" "
+                      placeholder="Company Name"
                     />
-                    <label
+                    {/* <label
                       htmlFor="Company Name"
                       className={style.inputLabel}
                     >
                       Company Name
-                    </label>
+                    </label> */}
                   </div>
                 </div>
               </div>
 
-              <div className={style.formControl}>
+              {/* <div className={style.formControl}>
                 <textarea
                   id="message"
                   rows={4}
                   className={`form-control ${style.inputField} ${style.textareaField}`}
-                  placeholder=" "
-                ></textarea>
-                <label
-                  htmlFor="message"
-                  className={`${style.inputLabel} ${style.textareaLabel}`}
-                >
-                  Message
-                </label>
-              </div>
+                  placeholder="Message"
+                ></textarea>              
+              </div> */}
 
               <button
                 type="submit"
@@ -176,7 +167,7 @@ const FooterOne: React.FC = () => {
               <ul className="list-inline mb-0">
                 {NAV_ITEMS.map((item: NavItem) => (
                   <li key={item.label} className="list-inline-item mx-3">
-                    <a 
+                    <a
                       href={item.href}
                       className={style.navLink}
                     >
@@ -186,26 +177,14 @@ const FooterOne: React.FC = () => {
                 ))}
               </ul>
 
-              {/* <ul className="list-inline mb-0">
-               
-                  <li className="list-inline-item mx-3">
-                  <Link href="/login">Sign In</Link>
-                  </li>
-             
-              </ul> */}
+
 
 
             </nav>
           </div>
 
           {/* Bottom Logo */}
-          {/* <div className="col-12 text-center mb-4">
-            <img
-              src="/assets/images/logo-footer.png"
-              alt="Footer Logo"
-              className={style.footerLogo}
-            />
-          </div> */}
+
 
           {/* Legal Links */}
           <div className="col-12">
@@ -213,7 +192,7 @@ const FooterOne: React.FC = () => {
               <ul className="list-inline mb-0">
                 {LEGAL_LINKS.map((item: NavItem) => (
                   <li key={item.label} className="list-inline-item mx-3">
-                    <a 
+                    <a
                       href={item.href}
                       className={style.legalLink}
                     >

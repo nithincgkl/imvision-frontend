@@ -6,7 +6,7 @@ import Wrapper from "@/layouts/wrapper";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { IoIosArrowRoundBack } from "react-icons/io";
 import Link from "next/link";
-import { useSnackbar } from 'notistack';  // Import the hook for notistack
+import { useSnackbar } from 'notistack';
 import axios, { AxiosError } from 'axios';
 
 const Page: React.FC = () => {
@@ -20,10 +20,15 @@ const Page: React.FC = () => {
 
   const [errors, setErrors] = useState<Partial<typeof formData>>({});
   const [showPassword, setShowPassword] = useState(false);
-  const [loading, setLoading] = useState(false);  // State for loading
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const togglePasswordVisibility = () => {
     setShowPassword((prevState) => !prevState);
+  };
+
+  const toggleConfirmPasswordVisibility = () => {
+    setShowConfirmPassword((prevState) => !prevState);
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -39,23 +44,25 @@ const Page: React.FC = () => {
       newErrors.email = "Invalid email format.";
     if (!formData.phone.trim()) newErrors.phone = "Phone number is required.";
     if (!formData.password.trim()) newErrors.password = "Password is required.";
-    else if (formData.password.length < 6)
-      newErrors.password = "Password must be at least 6 characters.";
-    if (formData.confirmPassword !== formData.password)
+    else if (formData.password.length < 8) // Changed from 6 to 8
+      newErrors.password = "Password must be at least 8 characters.";
+  
+    if (!formData.confirmPassword.trim())
+      newErrors.confirmPassword = "Confirm Password is required.";
+    else if (formData.confirmPassword !== formData.password)
       newErrors.confirmPassword = "Passwords do not match.";
-
+  
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
-  const { enqueueSnackbar } = useSnackbar();  // Initialize notistack hook
-
+  const { enqueueSnackbar } = useSnackbar();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (validate()) {
-      setLoading(true); // Set loading state to true before sending the request
+      setLoading(true);
 
       try {
         // Register User
@@ -91,25 +98,24 @@ const Page: React.FC = () => {
             }
           );
 
-          handleResponse(updateResponse, 'Profile update failed.'); // Handle profile update response
+          handleResponse(updateResponse, 'Profile update failed.');
         } else {
-          enqueueSnackbar(registerResponse.data.message || 'Registration failed.', { variant: 'error' });  // Error notification
+          enqueueSnackbar(registerResponse.data.message || 'Registration failed.', { variant: 'error' });
         }
       } catch (error) {
-        // Catch any unexpected error
         handleError(error);
       } finally {
-        setLoading(false); // Set loading state to false after the request is done
+        setLoading(false);
       }
     }
   };
 
   const handleResponse = (response: any, errorMessage: string) => {
     if (response.status === 200) {
-      enqueueSnackbar('Account registered successfully!', { variant: 'success' });  // Success notification
-      window.location.href = '/';  // Redirect to homepage or dashboard
+      enqueueSnackbar('Account registered successfully!', { variant: 'success' });
+      window.location.href = '/';
     } else {
-      enqueueSnackbar(errorMessage, { variant: 'error' });  // Error notification
+      enqueueSnackbar(errorMessage, { variant: 'error' });
     }
   };
 
@@ -118,7 +124,7 @@ const Page: React.FC = () => {
       const errorMessage = error.response.data?.error?.message || 'Something went wrong. Please try again.';
       enqueueSnackbar(errorMessage, { variant: 'error' });
     } else {
-      enqueueSnackbar('Something went wrong. Please try again.1', { variant: 'error' });
+      enqueueSnackbar('Something went wrong. Please try again.', { variant: 'error' });
     }
   };
 
@@ -236,7 +242,7 @@ const Page: React.FC = () => {
                       <div className="col-md-12 mb-3">
                         <div className={style.formControl}>
                           <input
-                            type={showPassword ? "text" : "password"}
+                            type={showConfirmPassword ? "text" : "password"}
                             id="confirmPassword"
                             className={`form-control ${style.inputField}`}
                             placeholder="Confirm Password*"
@@ -246,9 +252,9 @@ const Page: React.FC = () => {
                           <button
                             type="button"
                             className={style.eye_button}
-                            onClick={togglePasswordVisibility}
+                            onClick={toggleConfirmPasswordVisibility}
                           >
-                            {showPassword ? <FaEye /> : <FaEyeSlash />}
+                            {showConfirmPassword ? <FaEye /> : <FaEyeSlash />}
                           </button>
                           {errors.confirmPassword && (
                             <p className={style.errorText}>
@@ -261,7 +267,7 @@ const Page: React.FC = () => {
                       <button
                         type="submit"
                         className={`mt-2 ${style.form_button}`}
-                        disabled={loading}  // Disable button when loading
+                        disabled={loading}
                       >
                         {loading ? "Creating Account..." : "Create Account"}
                       </button>
@@ -272,7 +278,7 @@ const Page: React.FC = () => {
                       </p>
                     </form>
                   </div>
-                </div>
+                </div> 
               </div>
             </section>
           </main>
