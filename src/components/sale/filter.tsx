@@ -7,6 +7,7 @@ const Filter: React.FC = () => {
   const [showFilter, setShowFilter] = useState<boolean>(false);
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [selectedSubCategories, setSelectedSubCategories] = useState<string[]>([]);
+  const [selectedSubSubCategories, setSelectedSubSubCategories] = useState<string[]>([]);
 
   const categories = [
     {
@@ -94,13 +95,13 @@ const Filter: React.FC = () => {
         },
       ],
     },
-
-
-
-
   ];
 
-  const toggleSelection = (selectedItems: string[], item: string, setSelected: Function) => {
+  const toggleSelection = (
+    selectedItems: string[], 
+    item: string, 
+    setSelected: React.Dispatch<React.SetStateAction<string[]>>
+  ) => {
     setSelected(
       selectedItems.includes(item)
         ? selectedItems.filter((i) => i !== item)
@@ -108,39 +109,53 @@ const Filter: React.FC = () => {
     );
   };
 
+  const resetFilters = () => {
+    setSelectedCategories([]);
+    setSelectedSubCategories([]);
+    setSelectedSubSubCategories([]);
+  };
+
   const filteredSubCategories = categories
     .filter((cat) => selectedCategories.includes(cat.name))
     .flatMap((cat) => cat.subCategories);
 
+  const filteredSubSubCategories = categories
+    .filter((cat) => selectedCategories.includes(cat.name))
+    .flatMap((cat) => 
+      cat.subCategories.filter((subCat) => 
+        selectedSubCategories.includes(subCat.name)
+      )
+    )
+    .flatMap((subCat) => subCat.subSubCategories);
+
   return (
-
-
-
     <div>
-      {/* Common Top Section */}
-
-
-      {/* Event Gallery Section */}
       <section className={style.sale_filter_container}>
         <div className="container-fluid">
           <div className="row">
             <div className="col-6">
-              <button onClick={() => setShowFilter(!showFilter)} className={style.filter_btn}>
-                Filter Category button
+              <button 
+                onClick={() => setShowFilter(!showFilter)} 
+                className={style.filter_btn}
+              >
+                Filter Category
               </button>
             </div>
             <div className="col-6">
-  <div className={style.sale_filter_container_right}>
-    <p className={style.m_none}>Showing 1-12 of 92 results</p>
-    <select className={style.sort_dropdown} onChange={(e) => console.log(e.target.value)}>
-      <option value="">Sort By</option>
-      <option value="price-low-to-high">Price: Low to High</option>
-      <option value="price-high-to-low">Price: High to Low</option>
-      <option value="newest">Newest</option>
-      <option value="rating">Rating</option>
-    </select>
-  </div>
-</div>
+              <div className={style.sale_filter_container_right}>
+                <p className={style.m_none}>Showing 1-12 of 92 results</p>
+                <select 
+                  className={style.sort_dropdown} 
+                  onChange={(e) => console.log(e.target.value)}
+                >
+                  <option value="">Sort By</option>
+                  <option value="price-low-to-high">Price: Low to High</option>
+                  <option value="price-high-to-low">Price: High to Low</option>
+                  <option value="newest">Newest</option>
+                  <option value="rating">Rating</option>
+                </select>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -153,8 +168,7 @@ const Filter: React.FC = () => {
                 <div className="col-12">
                   <div className={style.filterInnerContentCategory}>
                     {/* Category Section */}
-                    <div className={style.filterCategoryBox} >
-                      
+                    <div className={style.filterCategoryBox}>
                       {categories.map((category, index) => (
                         <div key={index} className={style.filterCheckbox}>
                           <label>{category.name}</label>
@@ -169,38 +183,16 @@ const Filter: React.FC = () => {
                               )
                             }
                           />
-
                         </div>
                       ))}
-
-                      {/* <div>
-
-                      {selectedCategories.length > 0 ? "" :
-
-                        <div>
-                          <p>Select Any Category</p>
-                        </div>
-                      }
-                      </div> */}
-
-
                     </div>
 
                     {/* Sub Category Section */}
-                    <div className={
-                      filteredSubCategories.length > 0
-                        ? `${style.filterCategoryBox} ${style.filterSubCategoryBox}`
-                        : ''
-                    }>
-
-                      <div className={style.displa_flex}>
-
-                        <div>
-
-                          {categories
-                            .filter((cat) => selectedCategories.includes(cat.name))
-                            .flatMap((cat) => cat.subCategories)
-                            .map((subCat, index) => (
+                    {selectedCategories.length > 0 && (
+                      <div className={`${style.filterCategoryBox} ${style.filterSubCategoryBox}`}>
+                        <div className={style.displa_flex}>
+                          <div>
+                            {filteredSubCategories.map((subCat, index) => (
                               <div key={index} className={style.filterCheckbox}>
                                 <label>{subCat.name}</label>
                                 <input
@@ -214,70 +206,50 @@ const Filter: React.FC = () => {
                                     )
                                   }
                                 />
-
                               </div>
                             ))}
-                        </div>
-                        {/* Sub Sub Category Section strat */}
-                        <div>
-
-                          <div
-                            className={
-                              categories
-                                .filter((cat) => selectedCategories.includes(cat.name))
-                                .flatMap((cat) =>
-                                  cat.subCategories.filter((subCat) =>
-                                    selectedSubCategories.includes(subCat.name)
-                                  )
-                                )
-                                .flatMap((subCat) => subCat.subSubCategories).length > 0
-                                ? `${style.filterCategoryBox} ${style.filterSubSubCategoryBox}`
-                                : ''
-                            }
-                          >
-                            {categories
-                              .filter((cat) => selectedCategories.includes(cat.name))
-                              .flatMap((cat) =>
-                                cat.subCategories.filter((subCat) =>
-                                  selectedSubCategories.includes(subCat.name)
-                                )
-                              )
-                              .flatMap((subCat) => subCat.subSubCategories)
-                              .map((subSubCat, index) => (
-                                <div key={index} className={style.filterCheckbox}>
-                                  <label>{subSubCat}</label>
-                                  <input type="checkbox" />
-                                </div>
-                              ))}
                           </div>
-
-
+                          
+                          {/* Sub Sub Category Section */}
+                          {selectedSubCategories.length > 0 && (
+                            <div>
+                              <div className={`${style.filterCategoryBox} ${style.filterSubSubCategoryBox}`}>
+                                {filteredSubSubCategories.map((subSubCat, index) => (
+                                  <div key={index} className={style.filterCheckbox}>
+                                    <label>{subSubCat}</label>
+                                    <input
+                                      type="checkbox"
+                                      checked={selectedSubSubCategories.includes(subSubCat)}
+                                      onChange={() =>
+                                        toggleSelection(
+                                          selectedSubSubCategories,
+                                          subSubCat,
+                                          setSelectedSubSubCategories
+                                        )
+                                      }
+                                    />
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                          )}
                         </div>
-                        {/* Sub Sub Category Section end */}
-
                       </div>
+                    )}
 
-                    </div>
-
-
-                    {selectedCategories.length > 0 ? <div className={style.filter_btn_containe}>
-  <button className={style.reset_btn}>Reset Filter</button>
-  <button className={style.apply_btn}>Apply Filter</button>
-</div> : ""
-
-
-}
-
-
-{/* <div>
-
-                      {selectedCategories.length > 0 ? "" :
-
-                        <div>
-                          <p>Select Any Category</p>
-                        </div>
-                      }
-                      </div> */}
+                    {selectedCategories.length > 0 && (
+                      <div className={style.filter_btn_containe}>
+                        <button 
+                          className={style.reset_btn}
+                          onClick={resetFilters}
+                        >
+                          Reset Filter
+                        </button>
+                        <button className={style.apply_btn}>
+                          Apply Filter
+                        </button>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
@@ -285,10 +257,7 @@ const Filter: React.FC = () => {
           </div>
         </section>
       )}
-
-
     </div>
-
   );
 };
 

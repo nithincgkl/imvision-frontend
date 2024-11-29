@@ -41,7 +41,7 @@ max-width: 100%;
     max-width: 410px;
     margin-left: 100px;
 }
-
+.form_container_half .formControl p{ color: red;}
 
 .form_back_icon{
     font-size: 50px;
