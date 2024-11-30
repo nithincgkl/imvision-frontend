@@ -111,6 +111,67 @@
     padding: 4rem 0;
 }
 
+.about_year{
+    float: left;
+    width: 100%;  
+    padding: 4rem 0; 
+}
+
+.about_year h1{
+    text-align: right;
+    padding: 0 50px;
+    font-size: 70px;
+    font-weight: bold;
+}
+
+.about_year h4{
+    text-align: right;
+    padding: 0 50px;
+
+}
+.about_year p{
+    font-size: 30px;
+    max-width: 410px;
+    line-height: 39px;
+    padding: 15px 0 50px 15px;
+}
+.about_three_box{
+    float: left;
+    width: 100%;
+}
+
+.bg_green{
+    background-color: #9FDEBE !important;
+}
+.bg_green h1{
+    color: #000;
+}
+.bg_green p{
+    color: #000;
+}
+.about_three_box .box{
+    background-color: #131313;
+    float: left;
+    width: 100%;
+
+}
+.about_three_box .box h1{ font-weight: bold;}
+.about_who_we_are{
+    float: left;
+    width: 100%;  
+    padding: 4rem 0; 
+}
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -166,6 +227,7 @@
     padding: 1.5rem;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     height: 100%;
+    padding: 60px 60px;
   }
   
   .box h3 {

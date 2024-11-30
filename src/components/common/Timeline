@@ -1,0 +1,113 @@
+import React, { useState, useEffect, useRef } from 'react';
+import { motion, useScroll, useSpring, useTransform } from 'framer-motion';
+
+const TimelineItem = ({ year, title, description, index, totalItems }) => {
+  return (
+    <div className="timeline-item relative pb-16 last:pb-0">
+      <div className="timeline-content flex items-start">
+        <div className="timeline-marker absolute -left-[35px] top-0 w-[70px] h-[70px] bg-green-500 rounded-full flex items-center justify-center text-white font-bold">
+          {year}
+        </div>
+        <div className="timeline-text pl-24">
+          <h3 className="text-2xl font-bold text-gray-800 mb-2">{title}</h3>
+          <p className="text-gray-600">{description}</p>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const Timeline = () => {
+  const [isVisible, setIsVisible] = useState(false);
+  const ref = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start end", "end start"]
+  });
+
+  const timelineData = [
+    {
+      year: '2014',
+      title: 'Company Founding',
+      description: 'IMVision was established with a vision to revolutionize LED technology in Sweden.'
+    },
+    {
+      year: '2016',
+      title: 'First Major Project',
+      description: 'Completed our first large-scale LED screen installation for a national event.'
+    },
+    {
+      year: '2018',
+      title: 'Expansion of Rental Services',
+      description: 'Launched comprehensive LED screen rental services for events and businesses.'
+    },
+    {
+      year: '2020',
+      title: 'Technology Innovation',
+      description: 'Developed proprietary flexible LED cabinet technology.'
+    },
+    {
+      year: '2022',
+      title: 'National Market Leader',
+      description: 'Recognized as the top LED screen provider in Sweden.'
+    },
+    {
+      year: '2024',
+      title: 'Continued Growth',
+      description: 'Expanded inventory to over 2400 m² of LED screens and 8 mobile screen units.'
+    }
+  ];
+
+  const scaleY = useSpring(scrollYProgress, {
+    stiffness: 100,
+    damping: 30
+  });
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY;
+      const componentPosition = ref.current ? ref.current.offsetTop : 0;
+      setIsVisible(scrollPosition >= componentPosition - window.innerHeight / 2);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  return (
+    <div className="timeline-section py-16 bg-gray-50">
+      <div className="container mx-auto px-4">
+        <div className="section-header text-center mb-12">
+          <h2 className="text-4xl font-bold text-gray-800">Our Journey</h2>
+          <p className="text-gray-600 mt-4">A decade of innovation in LED technology</p>
+        </div>
+        
+        <div className="timeline-wrapper relative" ref={ref}>
+          {/* Progress Line */}
+          <motion.div 
+            className="absolute left-[35px] top-0 bottom-0 w-1 bg-green-200"
+            style={{ 
+              scaleY,
+              transformOrigin: 'top',
+              opacity: isVisible ? 1 : 0,
+              transition: 'opacity 0.5s ease'
+            }}
+          />
+
+          <div className="timeline-content relative pl-16">
+            {timelineData.map((item, index) => (
+              <TimelineItem 
+                key={item.year}
+                {...item}
+                index={index}
+                totalItems={timelineData.length}
+              />
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Timeline;
