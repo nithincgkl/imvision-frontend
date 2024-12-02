@@ -5,10 +5,22 @@ import axios from 'axios';
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from 'swiper/modules';
 import styles from "./style.module.css";
-import ProductItem from '../product-item/product-item';
+import ProductItem from '../products/product-item';
+
+interface Product {
+  id: number;
+  thumbnail: {
+    formats?: {
+      large?: { url: string };
+    };
+    url: string;
+  };
+  title: string;
+  amount: string;
+}
 
 const HomeCarousel: React.FC<{ style_2?: boolean; style_3?: boolean }> = ({ style_2, style_3 }) => {
-  const [products, setProducts] = useState<any[]>([]);
+  const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
 
   // Fetch product data
@@ -88,8 +100,8 @@ const HomeCarousel: React.FC<{ style_2?: boolean; style_3?: boolean }> = ({ styl
           }}
           className={`cs_slider pt-5 cs_slider_3 anim_blog ${style_2 ? '' : 'style_slider'}`}
         >
-          {products.map((product, index) => (
-            <SwiperSlide key={index} className="swiper-slide">
+          {products.map((product) => (
+            <SwiperSlide key={product.id} className="swiper-slide">
               <ProductItem
                 item={{
                   id: product.id,
