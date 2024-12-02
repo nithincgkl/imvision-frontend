@@ -1,6 +1,8 @@
 import React, { useState, FormEvent } from 'react';
 import style from './style.module.css';
 import Link from 'next/link';
+import axios from 'axios';
+import { useSnackbar } from 'notistack';
 
 interface NavItem {
   label: string;
@@ -25,6 +27,7 @@ const LEGAL_LINKS: NavItem[] = [
 ];
 
 const FooterOne: React.FC = () => {
+  const { enqueueSnackbar } = useSnackbar(); // Notification hook
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -38,6 +41,8 @@ const FooterOne: React.FC = () => {
     helpTopic: '',
     companyName: '',
   });
+
+  const [isSubmitting, setIsSubmitting] = useState(false); // State to track submission status
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setFormData({
@@ -88,11 +93,43 @@ const FooterOne: React.FC = () => {
     return valid;
   };
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (validateForm()) {
-      console.log('Form submitted:', formData);
-      // Add your submission logic here
+      setIsSubmitting(true); // Set isSubmitting to true when form is being submitted
+      try {
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL; // Use environment variable for API URL
+        const apiToken = process.env.NEXT_PUBLIC_API_TOKEN; // Use environment variable for API Token
+
+        // Make API call to send the form data
+        const response = await axios.post(
+          `${apiUrl}leads`,
+          {
+            data: {
+              name: formData.name,
+              email: formData.email,
+              service: formData.helpTopic,
+              company: formData.companyName,
+            },
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${apiToken}`, // Include Bearer token in the request headers
+            },
+          }
+        );
+
+        // Success notification
+        enqueueSnackbar('Your message has been sent successfully!', { variant: 'success' });
+        console.log('Form submitted:', response.data);
+        setFormData({ name: '', email: '', helpTopic: '', companyName: '' }); // Clear the form after submission
+      } catch (error) {
+        // Error notification
+        enqueueSnackbar('There was an error submitting the form. Please try again.', { variant: 'error' });
+        console.error('Error submitting form:', error);
+      } finally {
+        setIsSubmitting(false); // Reset isSubmitting to false after submission or error
+      }
     }
   };
 
@@ -173,20 +210,22 @@ const FooterOne: React.FC = () => {
                 </div>
               </div>
 
-              <button type="submit" className={`btn ${style.submitButton}`}>
-                <span>Let's Talk</span>
-                <svg
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="M5 12h14m-7-7 7 7-7 7" />
-                </svg>
+              <button type="submit" className={`btn ${style.submitButton}`} disabled={isSubmitting}>
+                {isSubmitting ? 'Sending...' : 'Let\'s Talk'}
+                {isSubmitting && (
+                  <svg
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <path d="M5 12h14m-7-7 7 7-7 7" />
+                  </svg>
+                )}
               </button>
             </form>
           </div>
