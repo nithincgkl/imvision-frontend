@@ -1,14 +1,10 @@
-import React, { FormEvent } from 'react';
-import style from "./style.module.css";
+import React, { useState, FormEvent } from 'react';
+import style from './style.module.css';
 import Link from 'next/link';
+
 interface NavItem {
   label: string;
   href: string;
-}
-
-interface PhoneOption {
-  value: string;
-  label: string;
 }
 
 const NAV_ITEMS: NavItem[] = [
@@ -25,20 +21,79 @@ const NAV_ITEMS: NavItem[] = [
 const LEGAL_LINKS: NavItem[] = [
   { label: 'Privacy Policy', href: '/privacy' },
   { label: 'Terms and Conditions', href: '/terms' },
-  { label: 'Cookie Policy', href: '/cookies' }
-];
-
-const PHONE_OPTIONS: PhoneOption[] = [
-  { value: 'Options', label: 'Options' },
-  { value: 'Options', label: 'Options' },
-  { value: 'Options', label: 'Options' },
-  { value: 'Options', label: 'Options' }
+  { label: 'Cookie Policy', href: '/cookies' },
 ];
 
 const FooterOne: React.FC = () => {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    helpTopic: '',
+    companyName: '',
+  });
+
+  const [errors, setErrors] = useState({
+    name: '',
+    email: '',
+    helpTopic: '',
+    companyName: '',
+  });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    setFormData({
+      ...formData,
+      [e.target.id]: e.target.value,
+    });
+
+    // Clear the error for the field being modified
+    setErrors({
+      ...errors,
+      [e.target.id]: '',
+    });
+  };
+
+  const validateForm = () => {
+    let valid = true;
+    const newErrors = {
+      name: '',
+      email: '',
+      helpTopic: '',
+      companyName: '',
+    };
+
+    if (!formData.name.trim()) {
+      newErrors.name = 'Name is required.';
+      valid = false;
+    }
+
+    if (!formData.email.trim()) {
+      newErrors.email = 'Email is required.';
+      valid = false;
+    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      newErrors.email = 'Please enter a valid email address.';
+      valid = false;
+    }
+
+    if (!formData.helpTopic.trim()) {
+      newErrors.helpTopic = 'Please select a topic.';
+      valid = false;
+    }
+
+    if (!formData.companyName.trim()) {
+      newErrors.companyName = 'Company Name is required.';
+      valid = false;
+    }
+
+    setErrors(newErrors);
+    return valid;
+  };
+
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // Add form submission logic here
+    if (validateForm()) {
+      console.log('Form submitted:', formData);
+      // Add your submission logic here
+    }
   };
 
   return (
@@ -47,11 +102,7 @@ const FooterOne: React.FC = () => {
         <div className="row">
           {/* Logo Section */}
           <div className="col-md-4 mb-4">
-            <img
-              src="/assets/images/footer-logo.png"
-              alt="Company Logo"
-              className={style.logo}
-            />
+            <img src="/assets/images/footer-logo.png" alt="Company Logo" className={style.logo} />
           </div>
 
           {/* Contact Form Section */}
@@ -60,24 +111,16 @@ const FooterOne: React.FC = () => {
             <form onSubmit={handleSubmit} className="mb-4">
               <div className="row">
                 <div className="col-md-6 mb-3">
-
-
-
-
-
                   <div className={style.formControl}>
                     <input
                       type="text"
                       id="name"
                       className={`form-control ${style.inputField}`}
                       placeholder="Name*"
+                      value={formData.name}
+                      onChange={handleChange}
                     />
-                    {/* <label
-                      htmlFor="name"
-                      className={style.inputLabel}
-                    >
-                      Name
-                    </label> */}
+                    {errors.name && <small className={style.errorText}>{errors.name}</small>}
                   </div>
                 </div>
 
@@ -88,28 +131,30 @@ const FooterOne: React.FC = () => {
                       id="email"
                       className={`form-control ${style.inputField}`}
                       placeholder="Email Address*"
+                      value={formData.email}
+                      onChange={handleChange}
                     />
-                    {/* <label
-                      htmlFor="email"
-                      className={style.inputLabel}
-                    >
-                      Email Address*
-                    </label> */}
+                    {errors.email && <small className={style.errorText}>{errors.email}</small>}
                   </div>
                 </div>
 
                 <div className="col-md-6 mb-3">
                   <div className={style.formControl}>
-
-
-                    <select className={`form-control ${style.inputField}`} >
-                      <option value="" className={style.firstFieldColor}>What can we help you with?</option>
+                    <select
+                      id="helpTopic"
+                      className={`form-control ${style.inputField}`}
+                      value={formData.helpTopic}
+                      onChange={handleChange}
+                    >
+                      <option value="" className={style.firstFieldColor}>
+                        What can we help you with?
+                      </option>
                       <option value="Sale">Sale</option>
                       <option value="Rent">Rent</option>
                       <option value="Career">Career</option>
                       <option value="Other">Other</option>
                     </select>
-
+                    {errors.helpTopic && <small className={style.errorText}>{errors.helpTopic}</small>}
                   </div>
                 </div>
 
@@ -117,34 +162,19 @@ const FooterOne: React.FC = () => {
                   <div className={style.formControl}>
                     <input
                       type="text"
-                      id="Company Name"
+                      id="companyName"
                       className={`form-control ${style.inputField}`}
-                      placeholder="Company Name"
+                      placeholder="Company Name*"
+                      value={formData.companyName}
+                      onChange={handleChange}
                     />
-                    {/* <label
-                      htmlFor="Company Name"
-                      className={style.inputLabel}
-                    >
-                      Company Name
-                    </label> */}
+                    {errors.companyName && <small className={style.errorText}>{errors.companyName}</small>}
                   </div>
                 </div>
               </div>
 
-              {/* <div className={style.formControl}>
-                <textarea
-                  id="message"
-                  rows={4}
-                  className={`form-control ${style.inputField} ${style.textareaField}`}
-                  placeholder="Message"
-                ></textarea>              
-              </div> */}
-
-              <button
-                type="submit"
-                className={`btn ${style.submitButton}`}
-              >
-                <span>Lets Talk</span>
+              <button type="submit" className={`btn ${style.submitButton}`}>
+                <span>Let's Talk</span>
                 <svg
                   width="24"
                   height="24"
@@ -167,24 +197,14 @@ const FooterOne: React.FC = () => {
               <ul className="list-inline mb-0">
                 {NAV_ITEMS.map((item: NavItem) => (
                   <li key={item.label} className="list-inline-item mx-3">
-                    <a
-                      href={item.href}
-                      className={style.navLink}
-                    >
+                    <Link href={item.href} className={style.navLink}>
                       {item.label}
-                    </a>
+                    </Link>
                   </li>
                 ))}
               </ul>
-
-
-
-
             </nav>
           </div>
-
-          {/* Bottom Logo */}
-
 
           {/* Legal Links */}
           <div className="col-12">
@@ -192,12 +212,9 @@ const FooterOne: React.FC = () => {
               <ul className="list-inline mb-0">
                 {LEGAL_LINKS.map((item: NavItem) => (
                   <li key={item.label} className="list-inline-item mx-3">
-                    <a
-                      href={item.href}
-                      className={style.legalLink}
-                    >
+                    <Link href={item.href} className={style.legalLink}>
                       {item.label}
-                    </a>
+                    </Link>
                   </li>
                 ))}
               </ul>

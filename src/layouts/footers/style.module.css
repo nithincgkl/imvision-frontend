@@ -1,38 +1,34 @@
-
-.main-footer{
-  font-family: 'Satoshi';
-    color: #fff;
-    float: left;
-    width: 100%;
-    padding: 80px 0;
+.main-footer {
+  font-family: "Satoshi";
+  color: #fff;
+  float: left;
+  width: 100%;
+  padding: 80px 0;
 }
 
-
-
-#style-1::-webkit-scrollbar-track
-{
-	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
-	border-radius: 10px;
-	background-color: #F5F5F5;
+#style-1::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  background-color: #f5f5f5;
 }
 
-#style-1::-webkit-scrollbar
-{
-	width: 12px;
-	background-color: #F5F5F5;
+#style-1::-webkit-scrollbar {
+  width: 12px;
+  background-color: #f5f5f5;
 }
 
-#style-1::-webkit-scrollbar-thumb
-{
-	border-radius: 10px;
-	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
-	background-color: #555;
+#style-1::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  background-color: #555;
 }
-.group[data-has-value="true"] .group-data-\[has-value\=true\]\:text-default-foreground {
+.group[data-has-value="true"]
+  .group-data-\[has-value\=true\]\:text-default-foreground {
   --tw-text-opacity: 1;
   color: #fff !important;
 }
-.group[data-filled-within="true"] .group-data-\[filled-within\=true\]\:text-default-600 {
+.group[data-filled-within="true"]
+  .group-data-\[filled-within\=true\]\:text-default-600 {
   --tw-text-opacity: 1;
   color: #fff !important;
 }
@@ -48,23 +44,11 @@
   color: #fff;
 }
 
-
-
-
-
-
-
-
-.footer-container{
-    float: left;
-    width: 100%;
-    padding: 4rem 0;
+.footer-container {
+  float: left;
+  width: 100%;
+  padding: 4rem 0;
 }
-
-
-
-
-
 
 .formControl {
   position: relative;
@@ -82,11 +66,6 @@
   border-bottom: solid 2px #747474;
   color: #fff;
 }
-
-
-
-
-
 
 .inputLabel {
   position: absolute;
@@ -181,18 +160,21 @@
   color: red;
 }
 
-
-
 @media screen and (max-width: 991px) {
-.logo {
-  max-width: 120px;
-  margin: 0 auto;
-  display: block;
+  .logo {
+    max-width: 120px;
+    margin: 0 auto;
+    display: block;
+  }
+  .footer-container h2 {
+    text-align: center;
+  }
+  .submitButton {
+    margin-top: 15px;
+  }
 }
-.footer-container h2{
-  text-align: center;
-}
-.submitButton {
-  margin-top: 15px;
-}
+.formControl small{ color: #ff0000;}
+
+.submitButton:active{
+ background-color: #70aa8d;
 }
