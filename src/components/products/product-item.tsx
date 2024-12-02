@@ -12,7 +12,7 @@ interface ProductItemProps {
 const ProductItem: React.FC<ProductItemProps> = ({ item }) => {
     return (
         <div>
-            <img src={item.img} alt={item.title} />
+            <img src={`${process.env.NEXT_PUBLIC_IMAGE_URL}${item.img}`} alt={item.title} />
             <h4>{item.title}</h4>
             <p>{item.des}</p>
         </div>
