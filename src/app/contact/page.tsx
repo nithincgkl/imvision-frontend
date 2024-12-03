@@ -321,7 +321,7 @@ const ContactPage = () => {
   <select
   className={`form-control ${style.inputField} ${errors.service ? style.errorInput : ''}`}
   value={service}
-  onChange={(e) => {
+  onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
     setService(e.target.value);
     handleServiceChange(e);
   }}
@@ -335,6 +335,7 @@ const ContactPage = () => {
   <option value="Career">Career</option>
   <option value="Other">Other</option>
 </select>
+
     <IoIosArrowDown className={style.arrowIcon} />
   </div>
   {errors.service && (
