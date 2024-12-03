@@ -14,12 +14,6 @@ import { IoIosArrowDown } from "react-icons/io";
 // New ContactInfoBoxes Component
 const ContactInfoBoxes = () => {
 
-  const handleServiceChange = (e) => {
-    const selectedValue = e.target.value;
-    e.target.style.color = selectedValue === "" ? "green" : "#222";
-  };
-
-  
   const boxData = [
     {
       title: "CEO",
@@ -91,10 +85,17 @@ const ContactPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { enqueueSnackbar } = useSnackbar();
 
+  // Function to handle service selection change
+  const handleServiceChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedValue = e.target.value;
+    setService(selectedValue); // Update service state
+    e.target.style.color = selectedValue === "" ? "green" : "#222";
+  };
+
   const validateForm = () => {
     const newErrors: {
       Name?: string;
-      email?: string; 
+      email?: string;
       Phone?: string;
       comment?: string;
       service?: string;
@@ -297,7 +298,7 @@ const ContactPage = () => {
                                 type="text"
                                 id="Phone"
                                 className={`form-control ${style.inputField} ${errors.Phone ? style.errorInput : ''}`}
-                                placeholder="Phone*"
+                                placeholder="Phone Number*"
                                 value={Phone}
                                 onChange={(e) => setPhone(e.target.value)}
                                 aria-invalid={errors.Phone ? "true" : "false"}
@@ -315,160 +316,81 @@ const ContactPage = () => {
                           </div>
 
                           <div className="col-md-6 mb-3">
-                          <div className={style.formControl}>
-  <div className={style.selectWrapper}>
-  <select
-  className={`form-control ${style.inputField} ${errors.service ? style.errorInput : ''}`}
-  value={service}
-  onChange={(e) => {
-    setService(e.target.value);
-    handleServiceChange(e);
-  }}
-  aria-invalid={errors.service ? "true" : "false"}
-  aria-describedby="service-error"
-  style={{ color: service === "" ? "#777777" : "#fff" }}
->
-  <option value="">Select Service *</option>
-  <option value="Sale">Sale</option>
-  <option value="Rent">Rent</option>
-  <option value="Career">Career</option>
-  <option value="Other">Other</option>
-</select>
-    <IoIosArrowDown className={style.arrowIcon} />
-  </div>
-  {errors.service && (
-    <p id="service-error" className={style.error}>
-      {errors.service}
-    </p>
-  )}
-</div>
-
-                          </div>
-
-                        </div>
-
-                        <div className="row">
-                          <div className="col-md-6 mb-3">
-
-                          <div className={style.formControl}>
-  <div className={style.selectWrapper}>
-    <select
-      className={`form-control ${style.inputField} ${errors.industryType ? style.errorInput : ''}`}
-      value={industryType}
-      onChange={(e) => setIndustryType(e.target.value)}
-      aria-invalid={errors.industryType ? "true" : "false"}
-      aria-describedby="industry-error"
-    >
-      <option value="">Industry Type *</option>
-      <option value="Automotive">Automotive</option>
-      <option value="Retail">Retail</option>
-      <option value="Government">Government</option>
-      <option value="Cooperate">Cooperate</option>
-    </select>
-    <IoIosArrowDown className={style.arrowIcon} />
-  </div>
-  {errors.industryType && (
-    <p id="industry-error" className={style.error}>
-      {errors.industryType}
-    </p>
-  )}
-</div>
-
-
-
-
-
-                            
-                            
-                          </div>
-
-                          <div className="col-md-6 mb-3">
                             <div className={style.formControl}>
-                              <input
-                                type="text"
-                                id="comment"
-                                className={`form-control ${style.inputField} ${errors.comment ? style.errorInput : ''}`}
-                                placeholder="Comment*"
-                                value={comment}
-                                onChange={(e) => setComment(e.target.value)}
-                                aria-invalid={errors.comment ? "true" : "false"}
-                                aria-describedby="comment-error"
-                              />
-                              {errors.comment && (
+                              <select
+                                className={`form-control ${style.selectField} ${errors.service ? style.errorInput : ''}`}
+                                onChange={handleServiceChange}
+                                value={service}
+                                aria-invalid={errors.service ? "true" : "false"}
+                                aria-describedby="service-error"
+                              >
+                                <option value="">Select a Service*</option>
+                                <option value="Rental">Rental</option>
+                                <option value="Sales">Sales</option>
+                                <option value="Support">Support</option>
+                              </select>
+                              {errors.service && (
                                 <p
-                                  id="comment-error"
+                                  id="service-error"
                                   className={style.error}
                                 >
-                                  {errors.comment}
+                                  {errors.service}
                                 </p>
                               )}
                             </div>
                           </div>
                         </div>
 
-                        <button
-                          type="submit"
-                          className={`mt-2 ${style.form_button}`}
-                          disabled={isLoading}
-                        >
-                          {isLoading ? 'Sending...' : 'Send Message'}
-                        </button>
+                        <div className="row">
+                          <div className="col-md-12 mb-3">
+                            <textarea
+                              id="comment"
+                              rows={4}
+                              className={`form-control ${style.textareaField} ${errors.comment ? style.errorInput : ''}`}
+                              placeholder="Your Comments*"
+                              value={comment}
+                              onChange={(e) => setComment(e.target.value)}
+                              aria-invalid={errors.comment ? "true" : "false"}
+                              aria-describedby="comment-error"
+                            ></textarea>
+                            {errors.comment && (
+                              <p
+                                id="comment-error"
+                                className={style.error}
+                              >
+                                {errors.comment}
+                              </p>
+                            )}
+                          </div>
+                        </div>
+
+                        <div className="row">
+                          <div className="col-md-12">
+                            <div className="form-group">
+                              <button
+                                type="submit"
+                                className="btn btn-primary w-100"
+                                disabled={isLoading}
+                              >
+                                {isLoading ? "Sending..." : "Send Message"}
+                              </button>
+                            </div>
+                          </div>
+                        </div>
                       </form>
                     </div>
                   </div>
                 </div>
-              </div>
-              </div>
-
-              <div  className={style["contact_box"]}>
-
-              <div className="container-fluid">
-                <div className="row">
-                  <div className="col-12">
-                    <ContactInfoBoxes />
-                  </div>
                 </div>
-              </div>
-              </div>
-
-              <div  className={style["contact_map"]}>
-
-              <div className="container-fluid">
-                <div className="row">
-                  <div className="col-md-6">
-                    <h4 className='mb-0'>Jönköping</h4>
-                  <p>Herkulesvägen 56, 553 02 Jönköping</p>
-                    <div className="cs_google_map cs_bg" data-src="assets/img/map_img.png">
-                    
-                      <iframe
-                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2034.7486218071434!2d14.155522576560296!3d57.78195697282992!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x465a0441ba937bc7%3A0x8c3d50363d781860!2sHerkulesv%C3%A4gen%2056%2C%20553%2002%20J%C3%B6nk%C3%B6ping!5e0!3m2!1sen!2sse!4v1701193248347!5m2!1sen!2sse"
-                        allowFullScreen={true}></iframe>
-                    </div>
-                  </div>
-                  <div className="col-md-6">
-                  <div  className={style["mb_pt_2"]}>
-                  <h4 className='mb-0'>Stockholm</h4>
-                  <p>Skeppargatan 11, 114 52 Stockholm</p>
-                    <div className="cs_google_map cs_bg" data-src="assets/img/map_img.png">
-                      <iframe
-                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2036.2497134455126!2d18.07935507656016!3d59.33554217283708!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x465f9d7aadf71dcf%3A0xbd49b70c41faf7f3!2sSkeppargatan%2011%2C%20114%2052%20Stockholm!5e0!3m2!1sen!2sse!4v1701193348944!5m2!1sen!2sse"
-                        allowFullScreen={true}></iframe>
-                    </div>
-                    </div>
-
-                  </div>
-                </div>
-              </div>
               </div>
 
             </section>
 
-
-            <LetsTalk />
           </main>
-          <FooterOne />
         </div>
       </div>
+      <ContactInfoBoxes />
+      <FooterOne />
     </Wrapper>
   );
 };
