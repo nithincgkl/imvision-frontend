@@ -14,14 +14,11 @@ interface MenuItem {
 const menu_data: MenuItem[] = [
   { id: 1, title: "Events", link: '/events', has_dropdown: false },
   { id: 2, title: "Expo", link: '/expo', has_dropdown: false },
-  { id: 2, title: "Products ", link: '/products ', has_dropdown: false },
-  // { id: 3, title: "Installation", link: '/installation', has_dropdown: false },
-  // { id: 4, title: "Sale", link: '/sale', has_dropdown: false },
-  { id: 5, title: "Installation", link: '/installation', has_dropdown: false },
-  { id: 6, title: "Contact", link: "/contact", has_dropdown: false },
+  { id: 3, title: "Products", link: '/products', has_dropdown: false }, // Unique key
+  { id: 4, title: "Installation", link: '/installation', has_dropdown: false },
+  { id: 5, title: "Contact", link: "/contact", has_dropdown: false },
   { id: 6, title: "Support", link: "/support", has_dropdown: false },
-  // { id: 7, title: "Sign In", link: "/sign-in", has_dropdown: false },
-  { id: 8, title: "🛒 Cart", link: "/Cart", has_dropdown: false },
+  { id: 7, title: "🛒 Cart", link: "/Cart", has_dropdown: false },
 ];
 
 interface MobileMenuProps {

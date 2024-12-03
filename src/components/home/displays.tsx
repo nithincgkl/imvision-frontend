@@ -22,6 +22,10 @@ const Displays: React.FC = () => {
                 width={600}
                 height={400}
                 priority
+                style={{ 
+                  width: '100%', 
+                  height: 'auto' 
+                }} // Ensures aspect ratio is maintained
               />
             </div>
             <div className="col-md-6">
@@ -41,10 +45,14 @@ const Displays: React.FC = () => {
 
                 <Image
                   src="/assets/images/home-displays-2.png"
-                  className="max-width-display"
                   alt="Displays"
                   width={600}
                   height={400}
+                  style={{ 
+                    width: '100%', 
+                    height: 'auto',
+                    maxWidth: '100%' 
+                  }} // Ensures aspect ratio and responsiveness
                 />
               </div>
             </div>
