@@ -20,7 +20,7 @@ const ProductItem: React.FC<ProductItemProps> = ({ item }) => {
           <div className={`${styles['box__inner']} ${styles['box--top-bot']}`}>
             <div className="cs_post cs_style_1">
               <Link href="/event-details" className={styles["pb-15"]}>
-                <Image src={item.img} alt={item.title} />
+                <img src={`${process.env.NEXT_PUBLIC_IMAGE_URL}${item.img}`} alt={item.title} />
               </Link>
               <div className="cs_post_info">
                 <h2 className="cs_post_title">
