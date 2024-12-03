@@ -1,4 +1,4 @@
-"use client"; // Add this at the very top
+"use client"; // Ensure this is at the very top of the file
 
 import React, { useState } from "react";
 import Wrapper from "@/layouts/wrapper";
@@ -11,7 +11,7 @@ import { LuMoveUpRight } from "react-icons/lu";
 import style from "./style.module.css";
 
 // Career opening data
-export const careerOpenings = [
+const careerOpenings = [
   {
     id: 1,
     image: "/assets/images/career-01.jpg",
@@ -41,7 +41,6 @@ export const careerOpenings = [
   },
 ];
 
-// Define the type for a job opening
 type CareerJob = typeof careerOpenings[0];
 
 const CareerBox = ({ job, onApply }: { job: CareerJob; onApply: (job: CareerJob) => void }) => (
