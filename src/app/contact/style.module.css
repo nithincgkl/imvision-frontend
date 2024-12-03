@@ -181,3 +181,32 @@
     padding: 1rem;
   }
 }
+
+
+
+
+.selectWrapper {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+
+.selectWrapper select {
+  appearance: none; /* Remove default arrow */
+  padding-right: 2rem; /* Add space for the custom arrow */
+}
+
+.arrowIcon {
+  position: absolute;
+  top: 50%;
+  right: 1rem; /* Adjust as per your design */
+  transform: translateY(-50%);
+  pointer-events: none; /* Allow clicks on the select element */
+  font-size: 1.2rem; /* Adjust size as needed */
+  color: #666; /* Adjust color as needed */
+}
+
+
+.selectWrapper select option[value=""] {
+  color: #999; /* Grey out the placeholder text */
+}

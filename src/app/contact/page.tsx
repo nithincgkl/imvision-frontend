@@ -9,9 +9,17 @@ import { useSnackbar } from 'notistack';
 import axios from 'axios';
 import ContactArea from '@/components/contact/ContactArea';
 import LetsTalk from '@/components/home/lets-talk';
+import { IoIosArrowDown } from "react-icons/io";
 
 // New ContactInfoBoxes Component
 const ContactInfoBoxes = () => {
+
+  const handleServiceChange = (e) => {
+    const selectedValue = e.target.value;
+    e.target.style.color = selectedValue === "" ? "green" : "#222";
+  };
+
+  
   const boxData = [
     {
       title: "CEO",
@@ -307,57 +315,71 @@ const ContactPage = () => {
                           </div>
 
                           <div className="col-md-6 mb-3">
-                            <div className={style.formControl}>
-                              <select
-                                className={`form-control ${style.inputField} ${errors.service ? style.errorInput : ''}`}
-                                value={service}
-                                onChange={(e) => setService(e.target.value)}
-                                aria-invalid={errors.service ? "true" : "false"}
-                                aria-describedby="service-error"
-                              >
-                                <option value="">Select Service *</option>
-                                <option value="Sale">Sale</option>
-                                <option value="Rent">Rent</option>
-                                <option value="Career">Career</option>
-                                <option value="Other">Other</option>
-                              </select>
-                              {errors.service && (
-                                <p
-                                  id="service-error"
-                                  className={style.error}
-                                >
-                                  {errors.service}
-                                </p>
-                              )}
-                            </div>
+                          <div className={style.formControl}>
+  <div className={style.selectWrapper}>
+  <select
+  className={`form-control ${style.inputField} ${errors.service ? style.errorInput : ''}`}
+  value={service}
+  onChange={(e) => {
+    setService(e.target.value);
+    handleServiceChange(e);
+  }}
+  aria-invalid={errors.service ? "true" : "false"}
+  aria-describedby="service-error"
+  style={{ color: service === "" ? "#777777" : "#fff" }}
+>
+  <option value="">Select Service *</option>
+  <option value="Sale">Sale</option>
+  <option value="Rent">Rent</option>
+  <option value="Career">Career</option>
+  <option value="Other">Other</option>
+</select>
+    <IoIosArrowDown className={style.arrowIcon} />
+  </div>
+  {errors.service && (
+    <p id="service-error" className={style.error}>
+      {errors.service}
+    </p>
+  )}
+</div>
+
                           </div>
+
                         </div>
 
                         <div className="row">
                           <div className="col-md-6 mb-3">
-                            <div className={style.formControl}>
-                              <select
-                                className={`form-control ${style.inputField} ${errors.industryType ? style.errorInput : ''}`}
-                                value={industryType}
-                                onChange={(e) => setIndustryType(e.target.value)}
-                                aria-invalid={errors.industryType ? "true" : "false"}
-                                aria-describedby="industry-error"
-                              >
-                                <option value="">Industry Type *</option>
-                                <option value="Automotive">Automotive</option>
-                                <option value="Retail">Retail</option>
-                                <option value="Government">Government</option>
-                                <option value="Cooperate">Cooperate</option>
-                              </select>
-                              {errors.industryType && (
-                                <p
-                                  id="industry-error"
-                                  className={style.error}
-                                >
-                                  {errors.industryType}
-                                </p>
-                              )}
-                            </div>
+
+                          <div className={style.formControl}>
+  <div className={style.selectWrapper}>
+    <select
+      className={`form-control ${style.inputField} ${errors.industryType ? style.errorInput : ''}`}
+      value={industryType}
+      onChange={(e) => setIndustryType(e.target.value)}
+      aria-invalid={errors.industryType ? "true" : "false"}
+      aria-describedby="industry-error"
+    >
+      <option value="">Industry Type *</option>
+      <option value="Automotive">Automotive</option>
+      <option value="Retail">Retail</option>
+      <option value="Government">Government</option>
+      <option value="Cooperate">Cooperate</option>
+    </select>
+    <IoIosArrowDown className={style.arrowIcon} />
+  </div>
+  {errors.industryType && (
+    <p id="industry-error" className={style.error}>
+      {errors.industryType}
+    </p>
+  )}
+</div>
+
+
+
+
+
+                            
+                            
                           </div>
 
                           <div className="col-md-6 mb-3">
