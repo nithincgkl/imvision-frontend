@@ -5,7 +5,7 @@ import axios from 'axios';
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from 'swiper/modules';
 import styles from "./style.module.css";
-import ProductItem from '../products/product-item';
+import ProductItem from '../product-item/product-item';
 
 interface Product {
   id: number;
