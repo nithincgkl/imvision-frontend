@@ -7,11 +7,13 @@ import HeaderOne from '@/layouts/headers/HeaderOne';
 import style from "./style.module.css";
 import { useSnackbar } from 'notistack';
 import axios from 'axios';
-import ContactArea from '@/components/contact/ContactArea';
 import LetsTalk from '@/components/home/lets-talk';
+import { IoChevronDown } from "react-icons/io5";
 
 // New ContactInfoBoxes Component
 const ContactInfoBoxes = () => {
+
+
   const boxData = [
     {
       title: "CEO",
@@ -51,7 +53,7 @@ const ContactInfoBoxes = () => {
         {boxData.map((box, index) => (
           <div key={index} className="col-md-4 col-sm-6">
             <div className={style["card_contact"]}>
-              <div className="card-body p-4">
+              <div>
                 <h3>{box.title}</h3>
                 <h4>{box.subtitle}</h4>
                 <p dangerouslySetInnerHTML={{ __html: box.description }} />
@@ -86,7 +88,7 @@ const ContactPage = () => {
   const validateForm = () => {
     const newErrors: {
       Name?: string;
-      email?: string; 
+      email?: string;
       Phone?: string;
       comment?: string;
       service?: string;
@@ -194,249 +196,255 @@ const ContactPage = () => {
           <main>
             <section className={style["contact_section"]}>
 
-              <div  className={style["contact_banner"]}>
-              <div className="container-fluid">
-                <div className="row">
-                  <div className="col-md-8">
-                    <h1 className={style.pageTitle}>Get in Touch<br />
-                      With Us</h1>
-                  </div>
-                  <div className="col-md-4">
-                    <p>Are you ready to make the leap to the ultimate innovation in LED technology?<br />
-                      Leave your contact details and our sales team will help you take the first step to discover the power of LED technology in sales & rental.</p>
-                  </div>
-                </div>
-              </div>
-              </div>
-
-              <div  className={style["contact_video"]}>
+              <div className={style["contact_banner"]}>
                 <div className="container-fluid">
-                <div className="row">
-                  <div className="col-12">
-                    <video autoPlay loop muted playsInline className={style["contact-video"]} >
-                      <source src="/assets/videos/contact.mp4" type="video/mp4" />
-                      Your browser does not support the video tag.
-                    </video>
+                  <div className="row">
+                    <div className="col-md-8">
+                      <h1 className={style.pageTitle}>Get in Touch<br />
+                        With Us</h1>
+                    </div>
+                    <div className="col-md-4">
+                      <p>Are you ready to make the leap to the ultimate innovation in LED technology?<br />
+                        Leave your contact details and our sales team will help you take the first step to discover the power of LED technology in sales & rental.</p>
+                    </div>
                   </div>
                 </div>
               </div>
-              </div>
 
-              <div  className={style["contact_form_container"]}>
+              <div className={style["contact_video"]}>
                 <div className="container-fluid">
-                <div className="row">
-                  <div className="col-12">
-                    <div className={style["contact_form"]}>
-                      <form onSubmit={handleSubmit} className="w-full max-w-md space-y-6 px-8">
-                        <div className="row">
-                          <div className="col-md-12 mb-3">
-                            <h2 className='text-center'>Send a Message</h2>
-                          </div>
-                        </div>
-
-                        <div className="row">
-                          <div className="col-md-6 mb-3">
-                            <div className={style.formControl}>
-                              <input
-                                type="text"
-                                id="Name"
-                                className={`form-control ${style.inputField} ${errors.Name ? style.errorInput : ''}`}
-                                placeholder="Name*"
-                                value={Name}
-                                onChange={(e) => setName(e.target.value)}
-                                aria-invalid={errors.Name ? "true" : "false"}
-                                aria-describedby="Name-error"
-                              />
-                              {errors.Name && (
-                                <p
-                                  id="Name-error"
-                                  className={style.error}
-                                >
-                                  {errors.Name}
-                                </p>
-                              )}
-                            </div>
-                          </div>
-
-                          <div className="col-md-6 mb-3">
-                            <div className={style.formControl}>
-                              <input
-                                type="email"
-                                id="Email"
-                                className={`form-control ${style.inputField} ${errors.email ? style.errorInput : ''}`}
-                                placeholder="Email*"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                                aria-invalid={errors.email ? "true" : "false"}
-                                aria-describedby="email-error"
-                              />
-                              {errors.email && (
-                                <p
-                                  id="email-error"
-                                  className={style.error}
-                                >
-                                  {errors.email}
-                                </p>
-                              )}
-                            </div>
-                          </div>
-                        </div>
-
-                        <div className="row">
-                          <div className="col-md-6 mb-3">
-                            <div className={style.formControl}>
-                              <input
-                                type="text"
-                                id="Phone"
-                                className={`form-control ${style.inputField} ${errors.Phone ? style.errorInput : ''}`}
-                                placeholder="Phone*"
-                                value={Phone}
-                                onChange={(e) => setPhone(e.target.value)}
-                                aria-invalid={errors.Phone ? "true" : "false"}
-                                aria-describedby="Phone-error"
-                              />
-                              {errors.Phone && (
-                                <p
-                                  id="Phone-error"
-                                  className={style.error}
-                                >
-                                  {errors.Phone}
-                                </p>
-                              )}
-                            </div>
-                          </div>
-
-                          <div className="col-md-6 mb-3">
-                            <div className={style.formControl}>
-                              <select
-                                className={`form-control ${style.inputField} ${errors.service ? style.errorInput : ''}`}
-                                value={service}
-                                onChange={(e) => setService(e.target.value)}
-                                aria-invalid={errors.service ? "true" : "false"}
-                                aria-describedby="service-error"
-                              >
-                                <option value="">Select Service *</option>
-                                <option value="Sale">Sale</option>
-                                <option value="Rent">Rent</option>
-                                <option value="Career">Career</option>
-                                <option value="Other">Other</option>
-                              </select>
-                              {errors.service && (
-                                <p
-                                  id="service-error"
-                                  className={style.error}
-                                >
-                                  {errors.service}
-                                </p>
-                              )}
-                            </div>
-                          </div>
-                        </div>
-
-                        <div className="row">
-                          <div className="col-md-6 mb-3">
-                            <div className={style.formControl}>
-                              <select
-                                className={`form-control ${style.inputField} ${errors.industryType ? style.errorInput : ''}`}
-                                value={industryType}
-                                onChange={(e) => setIndustryType(e.target.value)}
-                                aria-invalid={errors.industryType ? "true" : "false"}
-                                aria-describedby="industry-error"
-                              >
-                                <option value="">Industry Type *</option>
-                                <option value="Automotive">Automotive</option>
-                                <option value="Retail">Retail</option>
-                                <option value="Government">Government</option>
-                                <option value="Cooperate">Cooperate</option>
-                              </select>
-                              {errors.industryType && (
-                                <p
-                                  id="industry-error"
-                                  className={style.error}
-                                >
-                                  {errors.industryType}
-                                </p>
-                              )}
-                            </div>
-                          </div>
-
-                          <div className="col-md-6 mb-3">
-                            <div className={style.formControl}>
-                              <input
-                                type="text"
-                                id="comment"
-                                className={`form-control ${style.inputField} ${errors.comment ? style.errorInput : ''}`}
-                                placeholder="Comment*"
-                                value={comment}
-                                onChange={(e) => setComment(e.target.value)}
-                                aria-invalid={errors.comment ? "true" : "false"}
-                                aria-describedby="comment-error"
-                              />
-                              {errors.comment && (
-                                <p
-                                  id="comment-error"
-                                  className={style.error}
-                                >
-                                  {errors.comment}
-                                </p>
-                              )}
-                            </div>
-                          </div>
-                        </div>
-
-                        <button
-                          type="submit"
-                          className={`mt-2 ${style.form_button}`}
-                          disabled={isLoading}
-                        >
-                          {isLoading ? 'Sending...' : 'Send Message'}
-                        </button>
-                      </form>
+                  <div className="row">
+                    <div className="col-12">
+                      <video autoPlay loop muted playsInline className={style["contact-video"]} >
+                        <source src="/assets/videos/contact.mp4" type="video/mp4" />
+                        Your browser does not support the video tag.
+                      </video>
                     </div>
                   </div>
                 </div>
               </div>
-              </div>
 
-              <div  className={style["contact_box"]}>
+              <div className={style["contact_form_container"]}>
+                <div className="container-fluid">
+                  <div className="row">
+                    <div className="col-12">
+                      <div className={style["contact_form"]}>
+                        <form onSubmit={handleSubmit} className="w-full max-w-md space-y-6 px-8">
+                          <div className="row">
+                            <div className="col-md-12 mb-3">
+                              <h2 className='text-center'>Send a Message</h2>
+                            </div>
+                          </div>
 
-              <div className="container-fluid">
-                <div className="row">
-                  <div className="col-12">
-                    <ContactInfoBoxes />
+                          <div className="row">
+                            <div className="col-md-6 mb-3">
+                              <div className={style.formControl}>
+                                <input
+                                  type="text"
+                                  id="Name"
+                                  className={`form-control ${style.inputField} ${errors.Name ? style.errorInput : ''}`}
+                                  placeholder="Name*"
+                                  value={Name}
+                                  onChange={(e) => setName(e.target.value)}
+                                  aria-invalid={errors.Name ? "true" : "false"}
+                                  aria-describedby="Name-error"
+                                />
+                                {errors.Name && (
+                                  <p
+                                    id="Name-error"
+                                    className={style.error}
+                                  >
+                                    {errors.Name}
+                                  </p>
+                                )}
+                              </div>
+                            </div>
+
+                            <div className="col-md-6 mb-3">
+                              <div className={style.formControl}>
+                                <input
+                                  type="text" // Changed from "email" to "text"
+                                  id="Email"
+                                  className={`form-control ${style.inputField} ${errors.email ? style.errorInput : ''}`}
+                                  placeholder="Email*"
+                                  value={email}
+                                  onChange={(e) => setEmail(e.target.value)}
+                                  aria-invalid={errors.email ? "true" : "false"}
+                                  aria-describedby="email-error"
+                                  autoComplete="off" // Optional: To disable autocomplete suggestions
+                                />
+                                {errors.email && (
+                                  <p id="email-error" className={style.error}>
+                                    {errors.email}
+                                  </p>
+                                )}
+                              </div>
+                            </div>
+                          </div>
+
+                          <div className="row">
+                            <div className="col-md-6 mb-3">
+                              <div className={style.formControl}>
+                                <input
+                                  type="text" // Still using "text" for complete control
+                                  id="Phone"
+                                  className={`form-control ${style.inputField} ${errors.Phone ? style.errorInput : ''}`}
+                                  placeholder="Phone*"
+                                  value={Phone}
+                                  onChange={(e) => setPhone(e.target.value.replace(/[^0-9]/g, ''))} // Only allow numbers
+                                  onKeyPress={(e) => {
+                                    if (!/[0-9]/.test(e.key)) {
+                                      e.preventDefault(); // Block non-numeric characters
+                                    }
+                                  }}
+                                  aria-invalid={errors.Phone ? "true" : "false"}
+                                  aria-describedby="Phone-error"
+                                />
+                                {errors.Phone && (
+                                  <p id="Phone-error" className={style.error}>
+                                    {errors.Phone}
+                                  </p>
+                                )}
+                              </div>
+                            </div>
+
+                            <div className="col-md-6 mb-3">
+                              <div className={style.formControl}>
+                                <div className="position-relative">
+                                  <select
+                                    className={`form-control ${style.inputField} ${errors.service ? style.errorInput : ''}`}
+                                    value={service}
+                                    onChange={(e) => setService(e.target.value)}
+                                    aria-invalid={errors.service ? "true" : "false"}
+                                    aria-describedby="service-error"
+                                  >
+                                    <option value="">Select Service *</option>
+                                    <option value="Sale">Sale</option>
+                                    <option value="Rent">Rent</option>
+                                    <option value="Career">Career</option>
+                                    <option value="Other">Other</option>
+                                  </select>
+                                  <IoChevronDown className={style.selectIcon} />
+                                </div>
+                                {errors.service && (
+                                  <p
+                                    id="service-error"
+                                    className={style.error}
+                                  >
+                                    {errors.service}
+                                  </p>
+                                )}
+                              </div>
+                            </div>
+                          </div>
+
+                          <div className="row">
+                            <div className="col-md-6 mb-3">
+                              <div className={style.formControl}>
+                                <div className="position-relative">
+                                  <select
+                                    className={`form-control ${style.inputField} ${errors.industryType ? style.errorInput : ''}`}
+                                    value={industryType}
+                                    onChange={(e) => setIndustryType(e.target.value)}
+                                    aria-invalid={errors.industryType ? "true" : "false"}
+                                    aria-describedby="industry-error"
+                                  >
+                                    <option value="">Industry Type *</option>
+                                    <option value="Automotive">Automotive</option>
+                                    <option value="Retail">Retail</option>
+                                    <option value="Government">Government</option>
+                                    <option value="Cooperate">Cooperate</option>
+                                  </select>
+                                  <IoChevronDown className={style.selectIcon} />
+                                </div>
+                                {errors.industryType && (
+                                  <p
+                                    id="industry-error"
+                                    className={style.error}
+                                  >
+                                    {errors.industryType}
+                                  </p>
+                                )}
+                              </div>
+                            </div>
+
+                            <div className="col-md-6 mb-3">
+                              <div className={style.formControl}>
+                                <input
+                                  type="text"
+                                  id="comment"
+                                  className={`form-control ${style.inputField} ${errors.comment ? style.errorInput : ''}`}
+                                  placeholder="Comment*"
+                                  value={comment}
+                                  onChange={(e) => setComment(e.target.value)}
+                                  aria-invalid={errors.comment ? "true" : "false"}
+                                  aria-describedby="comment-error"
+                                />
+                                {errors.comment && (
+                                  <p
+                                    id="comment-error"
+                                    className={style.error}
+                                  >
+                                    {errors.comment}
+                                  </p>
+                                )}
+                              </div>
+                            </div>
+                          </div>
+
+                          <button
+                            type="submit"
+                            className={`mt-2 ${style.form_button}`}
+                            disabled={isLoading}
+                          >
+                            {isLoading ? 'Sending...' : 'Send Message'}
+                          </button>
+                        </form>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
-              </div>
 
-              <div  className={style["contact_map"]}>
+              <div className={style["contact_box"]}>
 
-              <div className="container-fluid">
-                <div className="row">
-                  <div className="col-md-6">
-                    <h4 className='mb-0'>Jönköping</h4>
-                  <p>Herkulesvägen 56, 553 02 Jönköping</p>
-                    <div className="cs_google_map cs_bg" data-src="assets/img/map_img.png">
-                    
-                      <iframe
-                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2034.7486218071434!2d14.155522576560296!3d57.78195697282992!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x465a0441ba937bc7%3A0x8c3d50363d781860!2sHerkulesv%C3%A4gen%2056%2C%20553%2002%20J%C3%B6nk%C3%B6ping!5e0!3m2!1sen!2sse!4v1701193248347!5m2!1sen!2sse"
-                        allowFullScreen={true}></iframe>
+                <div className="container-fluid">
+                  <div className="row">
+                    <div className="col-12">
+                      <ContactInfoBoxes />
                     </div>
-                  </div>
-                  <div className="col-md-6">
-                  <div  className={style["mb_pt_2"]}>
-                  <h4 className='mb-0'>Stockholm</h4>
-                  <p>Skeppargatan 11, 114 52 Stockholm</p>
-                    <div className="cs_google_map cs_bg" data-src="assets/img/map_img.png">
-                      <iframe
-                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2036.2497134455126!2d18.07935507656016!3d59.33554217283708!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x465f9d7aadf71dcf%3A0xbd49b70c41faf7f3!2sSkeppargatan%2011%2C%20114%2052%20Stockholm!5e0!3m2!1sen!2sse!4v1701193348944!5m2!1sen!2sse"
-                        allowFullScreen={true}></iframe>
-                    </div>
-                    </div>
-
                   </div>
                 </div>
               </div>
+
+              <div className={style["contact_map"]}>
+
+                <div className="container-fluid">
+                  <div className="row">
+                    <div className="col-md-6">
+                      <h4 className='mb-0'>Jönköping</h4>
+                      <p>Herkulesvägen 56, 553 02 Jönköping</p>
+                      <div className="cs_google_map cs_bg" data-src="assets/img/map_img.png">
+
+                        <iframe
+                          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2034.7486218071434!2d14.155522576560296!3d57.78195697282992!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x465a0441ba937bc7%3A0x8c3d50363d781860!2sHerkulesv%C3%A4gen%2056%2C%20553%2002%20J%C3%B6nk%C3%B6ping!5e0!3m2!1sen!2sse!4v1701193248347!5m2!1sen!2sse"
+                          allowFullScreen={true}></iframe>
+                      </div>
+                    </div>
+                    <div className="col-md-6">
+                      <div className={style["mb_pt_2"]}>
+                        <h4 className='mb-0'>Stockholm</h4>
+                        <p>Skeppargatan 11, 114 52 Stockholm</p>
+                        <div className="cs_google_map cs_bg" data-src="assets/img/map_img.png">
+                          <iframe
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2036.2497134455126!2d18.07935507656016!3d59.33554217283708!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x465f9d7aadf71dcf%3A0xbd49b70c41faf7f3!2sSkeppargatan%2011%2C%20114%2052%20Stockholm!5e0!3m2!1sen!2sse!4v1701193348944!5m2!1sen!2sse"
+                            allowFullScreen={true}></iframe>
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
               </div>
 
             </section>

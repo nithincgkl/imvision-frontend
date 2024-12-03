@@ -178,3 +178,12 @@
 .submitButton:active{
  background-color: #70aa8d;
 }
+
+.footer-container input::placeholder {
+  color: #fff;
+  opacity: 1; /* Firefox */
+}
+
+.footer-container input::-ms-input-placeholder { /* Edge 12-18 */
+  color:  #fff;
+}

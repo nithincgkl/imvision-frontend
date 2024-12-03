@@ -73,7 +73,8 @@
 
 .card_contact {
   background-color: #1b1b1b;
-  min-height: 300px;
+  padding: 20px 20px;
+    min-height: 230px;
   display: flex;
   align-items: center;
 }
@@ -209,4 +210,29 @@
 
 .selectWrapper select option[value=""] {
   color: #999; /* Grey out the placeholder text */
+}
+
+
+
+
+.contact_form input::placeholder {
+  color: #fff;
+  opacity: 1; /* Firefox */
+}
+
+.contact_form input::-ms-input-placeholder { /* Edge 12-18 */
+  color:  #fff;
+}
+
+.formControl {
+  position: relative;
+}
+
+.selectIcon {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: #666; /* Adjust color as needed */
 }
