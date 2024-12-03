@@ -102,14 +102,14 @@ const HomeCarousel: React.FC<{ style_2?: boolean; style_3?: boolean }> = ({ styl
         >
           {products.map((product) => (
             <SwiperSlide key={product.id} className="swiper-slide">
-              <ProductItem
+              {/* <ProductItem
                 item={{
                   id: product.id,
                   img: product.thumbnail?.formats?.large?.url || product.thumbnail?.url,
                   title: product.title,
                   des: product.amount,
                 }}
-              />
+              /> */}
             </SwiperSlide>
           ))}
         </Swiper>
