@@ -7,7 +7,7 @@ import styles from './style.module.css';
 interface ProductItemProps {
   item: {
     id: any;
-    img: string; // Use string for dynamic URLs
+    img: any; // Use string for dynamic URLs
     title: string;
     des: string;
   };
