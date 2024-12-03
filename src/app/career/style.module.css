@@ -1,0 +1,111 @@
+.contact_section {
+    float: left;
+    width: 100%;
+    padding: 4rem 0;
+  }
+  
+  .contact_banner {
+    float: left;
+    width: 100%;
+    padding: 4rem 0 3rem 0;
+  }
+  
+  .contact_video {
+    float: left;
+    width: 100%;
+  }
+  /* Responsive Styles */
+  @media screen and (max-width: 991px) {
+    .contact_banner {
+      padding: 2rem 0 2rem 0;
+    }
+  
+    .contact_banner h1 {
+      font-size: 30px;
+    }
+
+
+  }
+.career_container{
+  float: left;
+  width: 100%; 
+}
+.talk-btn {
+  position: relative;
+  background: #fff;
+  font-size: 14px;
+  text-transform: uppercase;
+  padding: 12px 20px;
+  color: #000;
+  border: none;
+  letter-spacing: 1px;
+  font-weight: 600;
+  margin-top: 50px;
+  margin-bottom: 50px;
+}
+.talk-btn:hover {
+  background: #fff;
+  color: #000;
+}
+.career_box{  float: left;
+  width: 100%; 
+  display: flex;
+  background-color: #222222;
+  padding: 30px;
+  margin-bottom: 30px;
+ }
+
+ .career_box div:first-child{  width: 25%;}
+ .career_box div:nth-child(2) {padding:0 0 0 30px;width: 70%;}
+.career_box h4{    margin-bottom: 5px; }
+.career_box p{     margin-bottom: 8px;}
+.career_box p span{ color: #B5B5B5; }
+.career_box_btn{
+  float: left;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  margin-top: 10px;
+}
+.apply_btn {
+  position: relative;
+  background: #9FDEBE;
+  font-size: 14px;
+  text-transform: uppercase;
+  padding: 12px 20px;
+  color: #000;
+  border: none;
+  letter-spacing: 1px;
+  font-weight: 600;
+  margin-left: 30px;
+}
+.apply_btn:hover {
+  background: #fff;
+  color: #000;
+}
+.career_box a{
+ color: #9FDEBE;
+ /* font-size: 22px; */
+}
+.career_box a:hover{
+  color: #fff;
+ }
+.career_box a svg{
+  margin-left: 10px;
+}
+.load_more {
+  position: relative;
+  background: #fff;
+  font-size: 14px;
+  text-transform: uppercase;
+  padding: 12px 20px;
+  color: #000;
+  border: none;
+  letter-spacing: 1px;
+  font-weight: 600;
+}
+.load_more:hover {
+  background-color: #9FDEBE;
+
+}
