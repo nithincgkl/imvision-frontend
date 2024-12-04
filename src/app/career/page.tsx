@@ -1,6 +1,6 @@
 "use client"; // Ensure this is at the very top of the file
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Wrapper from "@/layouts/wrapper";
 import FooterOne from "@/layouts/footers/FooterOne";
 import HeaderOne from "@/layouts/headers/HeaderOne";
@@ -79,6 +79,22 @@ const CareerBox = ({ job, onApply }: { job: CareerJob; onApply: (job: CareerJob)
 const Career = () => {
   const [displayedJobs, setDisplayedJobs] = useState(3);
   const [selectedJob, setSelectedJob] = useState<CareerJob | null>(null);
+
+  // Add useEffect to manage body scroll
+  useEffect(() => {
+    if (selectedJob) {
+      // Disable scrolling when modal is open
+      document.body.style.overflow = 'hidden';
+    } else {
+      // Re-enable scrolling when modal is closed
+      document.body.style.overflow = 'unset';
+    }
+
+    // Cleanup function to reset body style when component unmounts
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [selectedJob]);
 
   const handleLoadMore = () => setDisplayedJobs((prev) => prev + 3);
   const handleApply = (job: CareerJob) => setSelectedJob(job);
