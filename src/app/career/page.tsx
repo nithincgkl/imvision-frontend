@@ -236,7 +236,6 @@ const Career = () => {
                       className={`form-control ${style.inputField}`}
                       placeholder="Name"
                       value={formData.name}
-                      onChange={handleInputChange}
                     />
                   </div>
                   <div className="col-md-6 mb-3">
@@ -246,7 +245,6 @@ const Career = () => {
                       className={`form-control ${style.inputField}`}
                       placeholder="Email"
                       value={formData.email}
-                      onChange={handleInputChange}
                     />
                   </div>
                 </div>
@@ -258,7 +256,6 @@ const Career = () => {
                       className={`form-control ${style.inputField}`}
                       placeholder="Phone"
                       value={formData.phone}
-                      onChange={handleInputChange}
                     />
                   </div>
                   <div className="col-md-6 mb-3">
@@ -266,7 +263,6 @@ const Career = () => {
                       name="service"
                       className={`form-control ${style.inputField}`}
                       value={formData.service}
-                      onChange={handleInputChange}
                     >
                       <option value="">Select Service</option>
                       <option value="Sale">Sale</option>
@@ -284,7 +280,6 @@ const Career = () => {
                       name="resume"
                       className={`form-control ${style.inputField}`}
                       placeholder="Upload Resume"
-                      onChange={handleInputChange}
                     />
                   </div>
                   <div className="col-md-6 mb-3">
@@ -294,7 +289,6 @@ const Career = () => {
                       className={`form-control ${style.inputField}`}
                       placeholder="Message"
                       value={formData.Message}
-                      onChange={handleInputChange}
                     />
                   </div>
                 </div>
