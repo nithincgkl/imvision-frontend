@@ -153,9 +153,9 @@ const Career = () => {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     
-    // Handle file input differently
-    if (name === 'resume' && e.target instanceof HTMLInputElement) {
-      setFormData(prev => ({ ...prev, resume: e.target.files?.[0]?.name || '' }));
+    // Handle file input differently with type assertion
+    if (name === 'resume' && e.target instanceof HTMLInputElement && e.target.files) {
+      setFormData(prev => ({ ...prev, resume: e.target.files![0]?.name || '' }));
       return;
     }
   
