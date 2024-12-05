@@ -23,7 +23,40 @@ const careerOpenings = [
     location: "Herkulesvägen 56, Skeppargatan 11",
     expertise: "Image technology LED, Grand Ma2, timecode & DMX",
   },
-  // Other job listings...
+  {
+    id: 2,
+    image: "/assets/images/career-02.jpg",
+    title: "Summer Job At Tour!",
+    description:
+      "We are looking for a driven person with some technical competence",
+    details:
+      "The work is mostly scheduled for evenings and weekends, some work outside the summer period may occur.",
+    location: "Herkulesvägen 56, Skeppargatan 11",
+    expertise: "Image technology LED, Grand Ma2, timecode & DMX",
+  },
+  {
+    id: 3,
+    image: "/assets/images/career-03.jpg",
+    title: "Summer Job At Tour!",
+    description:
+      "We are looking for a driven person with some technical competence",
+    details:
+      "The work is mostly scheduled for evenings and weekends, some work outside the summer period may occur.",
+    location: "Herkulesvägen 56, Skeppargatan 11",
+    expertise: "Image technology LED, Grand Ma2, timecode & DMX",
+  },
+  {
+    id: 4,
+    image: "/assets/images/career-03.jpg",
+    title: "Summer Job At Tour!",
+    description:
+      "We are looking for a driven person with some technical competence",
+    details:
+      "The work is mostly scheduled for evenings and weekends, some work outside the summer period may occur.",
+    location: "Herkulesvägen 56, Skeppargatan 11",
+    expertise: "Image technology LED, Grand Ma2, timecode & DMX",
+  },
+  
 ];
 
 type CareerJob = (typeof careerOpenings)[0];
@@ -212,6 +245,8 @@ const Career = () => {
                         </button>
                       </div>
                     )}
+
+
                   </div>
                 </div>
               </section>
@@ -295,7 +330,7 @@ const Career = () => {
                 <div className="row">
                   <div className="col-md-12 mb-3">
                     <button type="submit" className={style.talk_btn}>
-                      Submit
+                    Talk to Expert
                     </button>
                     <button
                       type="button"

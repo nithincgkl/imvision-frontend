@@ -31,9 +31,15 @@
     width: 100% !important;
 }
 .career_box div:nth-child(2) {
-  padding: 10px 0;
+  padding: 10px 0 !important;
   width: 100% !important;
 }
+.contact_section {
+  padding: 2rem 0 0 0;
+}
+
+
+
 
 
   }
@@ -88,6 +94,7 @@
   border: none;
   letter-spacing: 1px;
   font-weight: 600;
+  min-width: 150px;
   margin-left: 30px;
 }
 .apply_btn:hover {
@@ -271,8 +278,18 @@
 .selectIcon {
   position: absolute;
   right: 15px;
-  top: 50%;
+  top: 43%;
   transform: translateY(-50%);
   pointer-events: none;
   color: #666;
+}
+
+
+.form input::placeholder {
+  color: #fff;
+  opacity: 1; /* Firefox */
+}
+
+.form input::-ms-input-placeholder { /* Edge 12-18 */
+  color:  #fff;
 }
