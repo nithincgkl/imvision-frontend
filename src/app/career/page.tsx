@@ -150,7 +150,7 @@ const Career = () => {
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const { name, value } = e.target;
-
+  
     if (name === "resume" && e.target instanceof HTMLInputElement) {
       setFormData((prev) => ({
         ...prev,
@@ -159,7 +159,7 @@ const Career = () => {
     } else {
       setFormData((prev) => ({ ...prev, [name]: value }));
     }
-
+  
     if (name === "Message" && value.length > 500) {
       setErrors((prev) => ({
         ...prev,
@@ -169,6 +169,7 @@ const Career = () => {
       setErrors((prev) => ({ ...prev, Message: "" }));
     }
   };
+  
 
   const validateForm = () => {
     const newErrors = {
