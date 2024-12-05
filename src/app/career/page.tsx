@@ -330,7 +330,7 @@ const Career = () => {
                 <div className="row">
                   <div className="col-md-12 mb-3">
                     <button type="submit" className={style.talk_btn}>
-                    Talk to Expert
+                    Submit
                     </button>
                     <button
                       type="button"
