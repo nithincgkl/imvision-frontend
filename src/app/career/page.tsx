@@ -120,14 +120,7 @@ const Career = () => {
   const handleApply = (job: CareerJob) => setSelectedJob(job);
   const handleCloseModal = () => setSelectedJob(null);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    const { name, value } = e.target;
-    if (name === "resume" && e.target instanceof HTMLInputElement) {
-      setFormData((prev) => ({ ...prev, resume: e.target.files?.[0]?.name || "" }));
-    } else {
-      setFormData((prev) => ({ ...prev, [name]: value }));
-    }
-  };
+ 
 
   const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
