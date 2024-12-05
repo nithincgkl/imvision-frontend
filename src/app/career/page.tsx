@@ -262,7 +262,7 @@ const Career = () => {
                     <select
                       name="service"
                       className={`form-control ${style.inputField}`}
-                      value={formData.service}
+                      
                     >
                       <option value="">Select Service</option>
                       <option value="Sale">Sale</option>
