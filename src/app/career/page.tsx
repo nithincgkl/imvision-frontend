@@ -151,14 +151,7 @@ const Career = () => {
   ) => {
     const { name, value } = e.target;
   
-    if (name === "resume" && e.target instanceof HTMLInputElement) {
-      setFormData((prev) => ({
-        ...prev,
-        resume: e.target.files?.[0]?.name || "",
-      }));
-    } else {
-      setFormData((prev) => ({ ...prev, [name]: value }));
-    }
+   
   
     if (name === "Message" && value.length > 500) {
       setErrors((prev) => ({
