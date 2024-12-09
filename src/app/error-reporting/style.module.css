@@ -28,6 +28,9 @@
     .error_reporting {
         padding-bottom: 0 !important;
     }
+    .textareaField {
+      margin-bottom: 30px;
+  }
 
   }
 
@@ -152,5 +155,57 @@
   margin-left: 15px;
 }
 .error_form_footer{
-  
+  float: left;
+  width: 100%;
+  margin-top: 30px;
+}
+.error_form_footer_inner{
+  float: right;
+}
+
+.error_form_footer_inner button{
+  padding: 10px 35px;
+  border: none;
+  background-color: #fff;
+  color: #000;
+  font-weight: 600;
+}
+.error_form_footer_inner input{margin-bottom: 0;}
+.error_form_footer_inner label{margin-bottom: 0;}
+
+.custom_checkbox {
+  width: 20px;
+  height: 20px;
+  border: 1px solid #f9f4f1;
+  background-color: #131313;
+  cursor: pointer;
+  appearance: none; /* Remove default browser styling */
+  display: inline-block;
+  position: relative;
+  margin-right: 10px;
+}
+
+.custom_checkbox:checked {
+  background-color: #131313; /* Keep the red background for checked state */
+  border-color: #f9f4f1;
+}
+
+.custom_checkbox:checked::after {
+  content: '';
+  position: absolute;
+  top: 4px; /* Adjust position */
+  left: 6px; /* Adjust position */
+  width: 6px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+.input_error {
+  margin-top: -30px;
+  margin-bottom: 10px;
+}
+.textarea_error{
+  margin-top: 0px;
+  margin-bottom: 10px;
 }
