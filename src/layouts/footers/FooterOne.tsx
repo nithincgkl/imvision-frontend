@@ -15,8 +15,9 @@ const NAV_ITEMS: NavItem[] = [
   { label: 'About IM Vision', href: '/about' },
   { label: 'Contact Us', href: '/contact' },
   { label: 'Error reporting', href: '/error-reporting' },
+  { label: 'Work With us', href: '/work-with-us' },
   { label: 'Rental conditions', href: '/rental-conditions' },
-  { label: '​Work with us', href: '/​work-with-us' },
+ 
   { label: 'Sign In', href: '/login' },
 ];
 

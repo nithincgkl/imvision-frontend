@@ -136,7 +136,7 @@ const Filter: React.FC = () => {
       <section className={style.sale_filter_container}>
         <div className="container-fluid">
           <div className="row">
-            <div className="col-6">
+            <div className="col-12 col-md-6">
 
 
               <button onClick={() => setShowFilter(!showFilter)} className={style.filter_btn}>
@@ -144,7 +144,7 @@ const Filter: React.FC = () => {
               </button>
               <FaAngleDown className={style.btn_cat} />
             </div>
-            <div className="col-6">
+            <div className="col-12 col-md-6">
               <div className={style.sale_filter_container_right}>
                 <p className={style.m_none}>
                   Showing 1-12 of 92 results
