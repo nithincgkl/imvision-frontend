@@ -1,0 +1,65 @@
+.contact_section {
+    float: left;
+    width: 100%;
+    padding: 4rem 0;
+  }
+  
+  .contact_banner {
+    float: left;
+    width: 100%;
+    padding: 4rem 0 3rem 0;
+  } 
+  
+  
+  /* Responsive Styles */
+  @media screen and (max-width: 991px) {
+    .contact_banner {
+      padding: 2rem 0 2rem 0;
+    }
+  
+    .contact_banner h1 {
+      font-size: 30px;
+    }
+
+    .rental_conditions_container {
+        padding: 10px !important;
+        text-align: justify;
+    }
+    .rental_conditions {
+        padding-bottom: 0 !important;
+    }
+
+  }
+
+  .rental_conditions{
+    float: left;
+    width: 100%;
+    padding:0 0 4rem 0;
+  }
+  .rental_conditions_container{
+    float: left;
+    width: 100%;
+    background-color: #131313;
+    padding: 100px;
+  }
+  .rental_conditions_container li{
+    margin-bottom: 15px;
+  }
+  .download_btn_container{
+    display: flex;
+    float: left;
+    border: solid 1px #999999;
+}
+.download_btn_container img{    min-width: 100px;
+    height: 100%;}
+.download_btn_container h4{ font-size: 20px; margin-bottom: 10px; padding: 15px 15px 0 15px;}
+.download_btn{
+    display: flex;
+    float: left;
+    padding:0 15px 15px 15px;
+}
+.download_btn svg{ margin-left: 15px;}
+
+.rental_conditions_container ol{
+    background-image: radial-gradient(#304239 5%, #131313  40%);
+}

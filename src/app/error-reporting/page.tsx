@@ -51,7 +51,7 @@ const RentalConditions: React.FC = () => {
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value, type } = e.target;
-    
+
     let processedValue: string | boolean | File | null = value;
 
     if (type === 'file') {
@@ -60,14 +60,10 @@ const RentalConditions: React.FC = () => {
     } else if (type === 'checkbox') {
       const checkboxInput = e.target as HTMLInputElement;
       processedValue = checkboxInput.checked;
+    } else if (name === 'phone') {
+      // Allow only numeric values for phone
+      processedValue = value.replace(/\D/g, '');
     }
-
-    console.log('Field changed:', {
-      name,
-      value,
-      type,
-      processedValue
-    });
 
     setFormData(prevState => ({
       ...prevState,
@@ -86,61 +82,45 @@ const RentalConditions: React.FC = () => {
   const validateForm = (): boolean => {
     const newErrors: FormErrors = {};
 
-    // Name validation (required, only letters and spaces)
     if (!formData.name.trim()) {
       newErrors.name = 'Name is required';
     } else if (!/^[a-zA-Z\s]+$/.test(formData.name)) {
       newErrors.name = 'Name should contain only letters';
     }
 
-    // Address validation (required)
     if (!formData.address.trim()) {
       newErrors.address = 'Address is required';
     }
 
-    // Email validation
     if (!formData.email.trim()) {
       newErrors.email = 'Email is required';
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
       newErrors.email = 'Email is invalid';
     }
 
-    // Phone validation (only numbers)
     if (!formData.phone.trim()) {
       newErrors.phone = 'Phone is required';
-    } else if (!/^\d+$/.test(formData.phone)) {
-      newErrors.phone = 'Phone should contain only numbers';
     }
 
-    // Company validation (optional but with some basic checks)
-    if (!formData.company) {
-      // Allow letters, numbers, spaces, dots, hyphens
-      if (!/^[a-zA-Z0-9\s.-]+$/.test(formData.company)) {
-        newErrors.company = 'Company /Business Name is required';
-      }
+    if (!formData.company.trim()) {
+      newErrors.company = 'Company / Business Name is required';
     }
 
-    // Message validation
     if (!formData.message.trim()) {
-      newErrors.message = 'Describe your matter as carefully as possible, enter room number or similar is required';
+      newErrors.message = 'Describe your matter as carefully as possible is required';
     }
 
-    // File validation 
     if (!formData.file) {
       newErrors.file = 'Please upload a document';
     }
 
-    // Service Agreement validation
     if (!formData.serviceAgreement) {
       newErrors.serviceAgreement = 'Please select an option';
     }
 
-    // GDPR Consent validation
     if (!formData.gdprConsent) {
       newErrors.gdprConsent = 'You must agree to GDPR consent';
     }
-
-    console.log('Validation Errors:', newErrors);
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -148,13 +128,9 @@ const RentalConditions: React.FC = () => {
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    
-    console.log('Form Data Before Submission:', formData);
-    
+
     if (validateForm()) {
-      // Form is valid, proceed with submission
       console.log('Form submitted successfully:', formData);
-      // Add your actual form submission logic here
     } else {
       console.log('Form has validation errors');
     }
@@ -224,13 +200,14 @@ const RentalConditions: React.FC = () => {
                               {errors.email && <div className={`text-danger ${style.input_error}`}>{errors.email}</div>}
 
                               <input 
-                                type="text"
-                                name="phone"
-                                value={formData.phone}
-                                onChange={handleChange}
-                                className={`form-control ${style.inputField} ${errors.phone ? 'is-invalid' : ''}`}
-                                placeholder="Phone*" 
-                              />
+  type="text"
+  name="phone"
+  value={formData.phone}
+  onChange={handleChange}
+  className={`form-control ${style.inputField} ${errors.phone ? 'is-invalid' : ''}`}
+  placeholder="Phone*" 
+  pattern="\d*"
+/>
                               {errors.phone && <div className={`text-danger ${style.input_error}`}>{errors.phone}</div>}
 
                               <input 
@@ -301,7 +278,7 @@ const RentalConditions: React.FC = () => {
 
                                     <input 
                                       type="radio" 
-                                      className="radio" 
+                                      className={`radio ${style.radio_input_two}`}  
                                       name="serviceAgreement" 
                                       value="Dont_know" 
                                       id="Dont_know"
