@@ -1,79 +1,163 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "./style.module.css";
 
 const InstallationForm: React.FC = () => {
+    const [errors, setErrors] = useState<{ [key: string]: string }>({});
+
+    const validateForm = (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        const formErrors: { [key: string]: string } = {};
+        const form = event.currentTarget;
+        const name = form["name"].value.trim();
+        const email = form["email"].value.trim();
+        const phone = form["Phone"].value.trim();
+        const company = form["company"].value.trim();
+        const address = form["address"].value.trim();
+        const comments = form["comments"].value.trim();
+
+        // Validate Name
+        if (!name) {
+            formErrors.name = "Name is required.";
+        }
+
+        // Validate Email
+        if (!email) {
+            formErrors.email = "Email is required.";
+        } else if (!/\S+@\S+\.\S+/.test(email)) {
+            formErrors.email = "Email is invalid.";
+        }
+
+        // Validate Phone
+        if (!phone) {
+            formErrors.phone = "Phone number is required.";
+        } else if (!/^\d+$/.test(phone)) {
+            formErrors.phone = "Phone number must contain only digits.";
+        }
+
+        // Validate Company
+        if (!company) {
+            formErrors.company = "Company/Business Name is required.";
+        }
+
+        // Validate Address
+        if (!address) {
+            formErrors.address = "Address & City is required.";
+        }
+
+        // Validate Comments (optional but included for demonstration)
+        if (comments && comments.length > 200) {
+            formErrors.comments = "Comments should not exceed 200 characters.";
+        }
+
+        if (Object.keys(formErrors).length > 0) {
+            setErrors(formErrors);
+        } else {
+            setErrors({});
+            alert("Form submitted successfully!");
+        }
+    };
+
     return (
         <>
             <section className={styles["instructions_form"]}>
                 <div className="container-fluid">
                     <div className="row">
-                        <div className="col-md-12"><h2 className="text-center">Contact Support</h2></div>
                         <div className="col-md-12">
-                            <form className={styles["installation-form"]}>
+                            <h2 className="text-center">Contact Support</h2>
+                        </div>
+                        <div className="col-md-12">
+                            <form
+                                className={styles["installation-form"]}
+                                onSubmit={validateForm}
+                                noValidate
+                            >
                                 <div className="row">
                                     {/* First Row */}
                                     <div className="col-md-6">
-                                        <input
-                                            type="text"
-                                            id="name"
-                                            name="name"
-                                            placeholder="Your Name*"
-                                            className={styles["form-input"]}
-                                            required
-                                        />
+                                        <div className={styles.formControl}>
+                                            <input
+                                                type="text"
+                                                id="name"
+                                                className={`form-control ${styles.inputField}`}
+                                                placeholder="Name*"
+                                            />
+                                            {errors.name && (
+                                                <span className={styles.error}>{errors.name}</span>
+                                            )}
+                                        </div>
                                     </div>
                                     <div className="col-md-6">
-                                        <input
-                                            type="email"
-                                            id="email"
-                                            name="email"
-                                            placeholder="Email*"
-                                            className={styles["form-input"]}
-                                            required
-                                        />
+                                        <div className={styles.formControl}>
+                                            <input
+                                                type="email"
+                                                id="email"
+                                                className={`form-control ${styles.inputField}`}
+                                                placeholder="Email*"
+                                            />
+                                            {errors.email && (
+                                                <span className={styles.error}>{errors.email}</span>
+                                            )}
+                                        </div>
                                     </div>
 
                                     {/* Second Row */}
                                     <div className="col-md-6">
-                                        <input
-                                            type="tel"
-                                            id="phone"
-                                            name="phone"
-                                            placeholder="Phone*"
-                                            className={styles["form-input"]}
-                                            required
-                                        />
+                                        <div className={styles.formControl}>
+                                            <input
+                                                type="text"
+                                                id="Phone"
+                                                className={`form-control ${styles.inputField}`}
+                                                placeholder="Phone*"
+                                            />
+                                            {errors.phone && (
+                                                <span className={styles.error}>{errors.phone}</span>
+                                            )}
+                                        </div>
                                     </div>
                                     <div className="col-md-6">
-                                        <input
-                                            type="text"
-                                            id="company"
-                                            name="company"
-                                            placeholder="Company/Business Name*"
-                                            className={styles["form-input"]}
-                                            required
-                                        />
+                                        <div className={styles.formControl}>
+                                            <input
+                                                type="text"
+                                                id="company"
+                                                className={`form-control ${styles.inputField}`}
+                                                placeholder="Company/Business Name*"
+                                            />
+                                            {errors.company && (
+                                                <span className={styles.error}>
+                                                    {errors.company}
+                                                </span>
+                                            )}
+                                        </div>
                                     </div>
 
                                     {/* Third Row */}
                                     <div className="col-md-6">
-                                        <input
-                                            type="text"
-                                            id="address"
-                                            name="address"
-                                            placeholder="Address & City*"
-                                            className={styles["form-input"]}
-                                            required
-                                        />
+                                        <div className={styles.formControl}>
+                                            <input
+                                                type="text"
+                                                id="address"
+                                                className={`form-control ${styles.inputField}`}
+                                                placeholder="Address & City*"
+                                            />
+                                            {errors.address && (
+                                                <span className={styles.error}>{errors.address}</span>
+                                            )}
+                                        </div>
                                     </div>
                                     <div className="col-md-6">
-                                        <input
-                                            type="text"
-                                            id="comments"
-                                            name="comments"
-                                            placeholder="Any Specific Comment?"
-                                            className={styles["form-input"]}
-                                        />
+                                        <div className={styles.formControl}>
+                                            <input
+                                                type="text"
+                                                id="comments"
+                                                className={`form-control ${styles.inputField}`}
+                                                placeholder="Any Specific Comment?"
+                                            />
+                                            {errors.comments && (
+                                                <span className={styles.error}>
+                                                    {errors.comments}
+                                                </span>
+                                            )}
+                                        </div>
                                     </div>
 
                                     {/* Fourth Row - Submit Button */}
