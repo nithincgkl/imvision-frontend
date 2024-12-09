@@ -100,18 +100,18 @@ const HomeCarousel: React.FC<{ style_2?: boolean; style_3?: boolean }> = ({ styl
           }}
           className={`cs_slider pt-5 cs_slider_3 anim_blog ${style_2 ? '' : 'style_slider'}`}
         >
-          {products.map((product) => (
-            <SwiperSlide key={product.id} className="swiper-slide">
-              <ProductItem
-                item={{
-                  id: product.id,
-                  img: product.thumbnail?.formats?.large?.url || product.thumbnail?.url,
-                  title: product.title,
-                  des: product.amount,
-                }}
-              />
-            </SwiperSlide>
-          ))}
+   {Array.isArray(products) && products.map((product) => (
+   <SwiperSlide key={product.id} className="swiper-slide">
+     <ProductItem
+       item={{
+         id: product.id,
+         img: product.thumbnail?.formats?.large?.url || product.thumbnail?.url,
+         title: product.title,
+         des: product.amount,
+       }}
+     />
+   </SwiperSlide>
+))}
         </Swiper>
       </div>
       {style_2 ? null : style_3 ? null : <div className="cs_height_150 cs_height_lg_60"></div>}

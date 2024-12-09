@@ -588,6 +588,21 @@ progress {
   margin-right: auto;
   margin-left: auto;
 }
+
+.line {
+  position: relative;
+  color: #fff;
+}
+
+.line-mask {
+  position: absolute;
+  right: 0;
+  background-color: black;
+  opacity: 0.5;
+  width: 100%;
+  bottom: -10px;
+  z-index: 1;
+}
 @media (min-width: 576px) {
   .container,
   .container-sm {
