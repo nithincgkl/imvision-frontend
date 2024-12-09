@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from 'react';
+import React, { useState, ChangeEvent, FormEvent } from 'react';
 import Link from 'next/link';
 import Wrapper from '@/layouts/wrapper';
 import FooterOne from '@/layouts/footers/FooterOne';
@@ -8,8 +8,34 @@ import style from "./style.module.css";
 import LetsTalk from '@/components/home/lets-talk';
 import { FiDownload } from "react-icons/fi";
 
-const RentalConditions = () => {
-  const [formData, setFormData] = useState({
+// Define the shape of the form data
+interface FormData {
+  name: string;
+  address: string;
+  email: string;
+  phone: string;
+  company: string;
+  message: string;
+  file: File | null;
+  serviceAgreement: string;
+  gdprConsent: boolean;
+}
+
+// Define the shape of the errors object
+interface FormErrors {
+  name?: string;
+  address?: string;
+  email?: string;
+  phone?: string;
+  company?: string;
+  message?: string;
+  file?: string;
+  serviceAgreement?: string;
+  gdprConsent?: string;
+}
+
+const RentalConditions: React.FC = () => {
+  const [formData, setFormData] = useState<FormData>({
     name: '',
     address: '',
     email: '',
@@ -21,28 +47,35 @@ const RentalConditions = () => {
     gdprConsent: false
   });
 
-  const [errors, setErrors] = useState({});
+  const [errors, setErrors] = useState<FormErrors>({});
 
-  const handleChange = (e) => {
-    const { name, value, type, files, checked } = e.target;
+  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value, type } = e.target;
     
+    let processedValue: string | boolean | File | null = value;
+
+    if (type === 'file') {
+      const fileInput = e.target as HTMLInputElement;
+      processedValue = fileInput.files ? fileInput.files[0] : null;
+    } else if (type === 'checkbox') {
+      const checkboxInput = e.target as HTMLInputElement;
+      processedValue = checkboxInput.checked;
+    }
+
     console.log('Field changed:', {
       name,
       value,
       type,
-      files,
-      checked
+      processedValue
     });
 
     setFormData(prevState => ({
       ...prevState,
-      [name]: type === 'file' ? files[0] 
-            : type === 'checkbox' ? checked 
-            : value
+      [name]: processedValue
     }));
 
     // Clear specific field error when user starts typing
-    if (errors[name]) {
+    if (errors[name as keyof FormErrors]) {
       setErrors(prevErrors => ({
         ...prevErrors,
         [name]: ''
@@ -50,8 +83,8 @@ const RentalConditions = () => {
     }
   };
 
-  const validateForm = () => {
-    const newErrors = {};
+  const validateForm = (): boolean => {
+    const newErrors: FormErrors = {};
 
     // Name validation (required, only letters and spaces)
     if (!formData.name.trim()) {
@@ -80,9 +113,7 @@ const RentalConditions = () => {
     }
 
     // Company validation (optional but with some basic checks)
-    
     if (!formData.company) {
-    
       // Allow letters, numbers, spaces, dots, hyphens
       if (!/^[a-zA-Z0-9\s.-]+$/.test(formData.company)) {
         newErrors.company = 'Company /Business Name is required';
@@ -115,7 +146,7 @@ const RentalConditions = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     
     console.log('Form Data Before Submission:', formData);
