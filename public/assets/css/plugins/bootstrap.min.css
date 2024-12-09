@@ -10458,7 +10458,7 @@ fieldset:disabled .btn {
  #smooth-wrapper {
   overflow: hidden;
   position: relative;
-  z-index: 9999;
+  /* z-index: 9999; */
 }
 
 #smooth-content {

@@ -1,8 +1,8 @@
 'use client';
 import React from 'react';
-import Link from 'next/link';
-import Image from 'next/image'; // Import Image from Next.js
+import Link from 'next/link'; // Import Image from Next.js
 import styles from './style.module.css';
+import Image from 'next/image';
 
 interface ProductItemProps {
   item: {
@@ -21,9 +21,9 @@ const ProductItem: React.FC<ProductItemProps> = ({ item }) => {
           <div className={`${styles['box__inner']} ${styles['box--top-bot']}`}>
             <div className="cs_post cs_style_1">
               <Link href="/event-details" className={styles['pb-15']}>
-                {/* Use Image for optimized loading */}
-                <img
-                  src={`${process.env.NEXT_PUBLIC_IMAGE_URL}${item.img}`}
+                {/* Use the imported image directly */}
+                <Image
+                  src={item.img} // Use directly without concatenation
                   alt={item.title}
                   width={300} // Provide dimensions
                   height={200}

@@ -275,6 +275,14 @@
   right: 15px;
   top: 10px;
 }
+.form input::placeholder {
+  color: #fff;
+  opacity: 1; /* Firefox */
+}
+
+.form input::-ms-input-placeholder { /* Edge 12-18 */
+  color:  #fff;
+}
 .selectIcon {
   position: absolute;
   right: 15px;
@@ -285,11 +293,3 @@
 }
 
 
-.form input::placeholder {
-  color: #fff;
-  opacity: 1; /* Firefox */
-}
-
-.form input::-ms-input-placeholder { /* Edge 12-18 */
-  color:  #fff;
-}
