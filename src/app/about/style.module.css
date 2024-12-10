@@ -7,8 +7,9 @@
   }
 
   .abou_section .about_banner {
-    width: 100%;
-    padding: 4rem 0 3rem 0;
+  float: left;
+  width: 100%;
+  padding: 4rem 0 3rem 0;
   }
 
   .about_video {
@@ -205,6 +206,13 @@
                 margin-left: auto;
                 }
                 
+  .about_banner {
+    padding: 2rem 0 2rem 0;
+  }
+  
+  .pageTitle{
+    font-size: 30px;
+  }
                 .about_card2{
                   padding-bottom: 0px;
                   width: 700px;
@@ -230,6 +238,9 @@
                         margin-left: auto;
                         margin-right: auto;
                         }
+                        .about_years p {
+                          margin-top: -2px;
+                            }
                       .about_years h1 {
                         font-size:50px;
                         margin-left: 50px;
@@ -299,7 +310,10 @@
                     }
 
                     @media(max-width:390px){
-
+                      .pageTitle{
+                        font-size: 29px;
+                      }
+                       
                           .about_card2{
                             padding-bottom: 0px;
                             width: auto;

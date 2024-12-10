@@ -44,8 +44,9 @@ export default function Profilepage() {
                   </div>
             
                 </div>
-                <div className='p-5 bg-white container col-12 h-m justify-content-center'>
-                  <form className={style.form}>
+
+                <div className='container'>
+                  <form className={`${style.form} bg-danger`}>
                 <div className="row">
                   <div className="col-md-4 mb-3">
                     <label>Name</label>
@@ -66,7 +67,7 @@ export default function Profilepage() {
                     />
                   </div>
                 </div>
-
+ 
                 <div className="row">
                   <div className="col-md-4 mb-3">
                   <label>Phone</label>
@@ -133,8 +134,9 @@ export default function Profilepage() {
                       <option value="Rent">Rent</option>
                       <option value="Career">Career</option>
                       <option value="Other">Other</option>
+                      <IoChevronDown className={style.selectIcon} />
+
                     </select>
-                    <IoChevronDown className={style.selectIcon} />
                   </div>
                 </div>
                 <div className="row">
