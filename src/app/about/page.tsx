@@ -48,15 +48,15 @@ const AboutPage = () => {
           <main>
             <section className={style.about_section}>
               <div className={style["about_banner"]}>
-                <div className="container">
+                <div className="container-fluid">
                   <div className="row">
-                    <div className="col-xl-7 col-lg-7 col-md-6 ">
-                      <h3 className={style.pageTitle}>
+                    <div className="col-md-8">
+                      <h1 className={style.pageTitle}>
                         Experts In LED Solutions
                         <br /> For All Types Of Purpose
-                      </h3>
+                      </h1>
                     </div>
-                    <div className="col-xl-5 col-lg-5 col-md-6">
+                    <div className="col-md-4">
                       <p>
                         IM vision is a professional and reliable partner and we<br className='d-xl-block d-lg-none d-md-none d-none'/>
                         are with you all the way from order to execution.
@@ -67,7 +67,7 @@ const AboutPage = () => {
               </div>
 
               <div>
-                <div className="container my-4">
+                <div className="container-fluid my-4">
                   <div className="row">
                     <div >
                       <video

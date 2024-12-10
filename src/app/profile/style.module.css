@@ -16,9 +16,15 @@ align-items: center;
 background-color: #222222;
 border: none;}
 
+.profile_nav button:hover{
+  background-color: #9FDEBE;
+}
+.form {
+  padding: 79px 102px 79px 102px;
+}
 .inputField {
-    width: 100%;
-    padding: 0.75rem 1rem;
+width: 340px;
+height: 59px;
     border: none;
     background-color: #141414;
     transition: all 0.2s ease-in-out;
