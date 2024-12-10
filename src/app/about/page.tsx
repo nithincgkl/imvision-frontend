@@ -67,7 +67,7 @@ const AboutPage = () => {
               </div>
 
               <div>
-                <div className="container">
+                <div className="container my-4">
                   <div className="row">
                     <div >
                       <video
@@ -87,12 +87,11 @@ const AboutPage = () => {
 
               <div className="my-5">
                 <div className="d-flex flex-row gap-md-5 gap-4 bg-black justify-content-center col-12">
-                  <div className={style["about_years"]}>
+                  <div className={style.about_years}>
                     <h1>
                       10<span>+</span>
                       <br />
-                      <h3 className='d-md-block d-none'>YEARS</h3>
-                      <h5 className='d-md-none d-block'>YEARS</h5>
+                      <p className=''>YEARS</p>
                     </h1>
                   </div>
                   <div>
@@ -148,7 +147,7 @@ const AboutPage = () => {
               <div>
                 <h3 className="">Who we are</h3><br />
                 <div className="">
-                  <div className={`line`}>
+                  <div className={`line position-relative text-white`}>
                     <div className={`${style.whoVR_para} pt-3 d-flex flex-row`}>
                       <div className='d-flex flex-column gap-2'>
                         <div className={`${style.para_ball}`}></div>
@@ -199,11 +198,13 @@ const AboutPage = () => {
                         help build the future of collaboration.
                       </p>
                     </div>
-                    <div className='line-mask d-lg-block d-md-none d-none'></div>
+                    <div className='line-mask d-lg-block d-md-none d-none position-absolute bg-black z-1' style={{right: '0',width:'100%',bottom:'-10px',opacity:'0.5'}}></div>
                   </div>
                 </div>
               </div>
             </div>
+
+
 
                <div className={`d-flex flex-lg-row flex-md-column flex-column container mx-auto gap-lg-5 gap-md-3 gap-3 pb-2 col-12`}>
                 <div
