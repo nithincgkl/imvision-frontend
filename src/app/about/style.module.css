@@ -24,6 +24,11 @@
   font-size:smaller;
   }
 
+  .about_years p {
+    font-size:40px;
+    margin-top: -20px;
+      }
+
   .about_card1{
   padding: 25px;
   padding-right: 40px;
@@ -40,7 +45,7 @@
       }
 
     .whoVR{
-    margin-left: 250px;
+    margin-left: 350px;
     margin-top: 50px;
     position: relative;
     }
@@ -115,6 +120,27 @@
       width: 89%;
       transition: transform 0.3s ease, color 0.3s ease;                
       }
+
+      @media(max-width:1600px){
+
+      
+        .whoVR{
+          margin-left: 250px;
+          margin-top: 50px;
+          position: relative;
+          }
+      }
+      
+
+      @media(max-width:1500px){
+
+      
+              .whoVR{
+                margin-left: 200px;
+                margin-top: 50px;
+                position: relative;
+                }
+            }
 
       @media(max-width:1400px){
         
@@ -251,7 +277,7 @@
                           .about_card2{
                             padding-bottom: 0px;
                             width: auto;
-                            height: 138px; 
+                            height: 150px; 
                             display: flex;
                             flex-direction: row;                        
                               }
@@ -266,5 +292,25 @@
                                 font-size: 60px; 
                                 margin-left: -20px;   
                                }
+                               .about_years p {
+                                font-size:30px;
+                                  }
                           
                     }
+
+                    @media(max-width:390px){
+
+                          .about_card2{
+                            padding-bottom: 0px;
+                            width: auto;
+                            height: 160px; 
+                            display: flex;
+                            flex-direction: row;                        
+                              }
+
+                              .about_card2 p{
+                                font-size: 14px;
+                                line-height: 20px;
+                                margin-top: 0px;               
+                                }
+                              }
