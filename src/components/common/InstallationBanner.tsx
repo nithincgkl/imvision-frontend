@@ -8,7 +8,9 @@ const InstallationBanner: React.FC = () => {
       <section className={styles["nav-banner-container"]}>
         <div className={styles["banner"]}>
           <div className="container-fluid">
+          <div className="row">
             <div className="col-md-12">
+              
               <video
                 autoPlay
                 loop
@@ -23,9 +25,10 @@ const InstallationBanner: React.FC = () => {
             <div className={styles["banner-content"]}>
               <h1>Installation</h1>
               {/* <h2>Your display partner</h2> */}
-            </div>
+            </div> 
 
             <button className={styles["talk-btn"]}>Talk to Expert</button>
+          </div>
           </div>
         </div>
       </section>

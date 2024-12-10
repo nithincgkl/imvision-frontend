@@ -6,10 +6,11 @@ import FooterOne from '@/layouts/footers/FooterOne'
 import styles from "./style.module.css";
 import InstallationBanner from '@/components/common/InstallationBanner';
 import InstallationForm from '@/components/common/InstallationForm';
+import LetsTalk from '@/components/home/lets-talk';
 
 const Index: React.FC = () => {
     return (
-        <Wrapper>
+        <Wrapper> 
             <HeaderOne />
             <div id="smooth-wrapper">
                 <div id="smooth-content" className='smooth-content'>
@@ -57,6 +58,7 @@ const Index: React.FC = () => {
                         </section>
 
                         <InstallationForm />
+                        <LetsTalk />
 
 
                         <FooterOne />

@@ -211,7 +211,7 @@ const FooterOne: React.FC = () => {
                 </div>
               </div>
 
-              <button type="submit" className={`btn ${style.submitButton}`} disabled={isSubmitting}>
+              <button type="submit" className={`${style.submitButton}`} disabled={isSubmitting}>
                 {isSubmitting ? 'Sending...' : 'Let\'s Talk'}
                 {isSubmitting && (
                   <svg

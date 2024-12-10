@@ -44,10 +44,9 @@ const InstallationForm: React.FC = () => {
             formErrors.address = "Address & City is required.";
         }
 
-        // Validate Comments (optional but included for demonstration)
-        if (comments && comments.length > 200) {
-            formErrors.comments = "Comments should not exceed 200 characters.";
-        }
+        if (!comments) {
+            formErrors.comments = "Any Specific Comment?";
+        }        
 
         if (Object.keys(formErrors).length > 0) {
             setErrors(formErrors);

@@ -173,14 +173,29 @@
 }
 
 .submit-button:hover {
-    background-color: #777777;
-}
+    background-color: #9addbb;
+    color: #fff;
+} 
  
 .installation-form input::placeholder {
     color: #fff;
     opacity: 1; /* Firefox */
   }
-
+  .talk-btn {
+    position: absolute;
+    bottom: 50px;
+    background: #fff;
+    font-size: 14px;
+    text-transform: uppercase;
+    padding: 12px 20px;
+    margin-left: 15px;
+    color: #000;
+    border: none;
+    left: 50px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    max-width: 200px;
+}
 
 
 

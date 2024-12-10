@@ -112,7 +112,8 @@
 }
 
 .submitButton:hover {
-  background-color: #70aa8d;
+  background-color: #9addbb;
+  color: #fff;
 }
 
 .submitButton svg {
