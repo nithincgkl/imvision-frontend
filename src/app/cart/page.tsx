@@ -21,18 +21,17 @@ const RentalConditions = () => {
       <div className={style.datePickerWrapper} onClick={onClick}>
         <input
           type="text"
-          value={value}
+          value={value} // Ensure the value prop is passed to the input field
           readOnly
-          ref={ref}
+          ref={ref} // Ensure the ref is correctly forwarded
           className={style.dateInput}
         />
-        <span className={style.calendarIcon}>
-          📅
-        </span>
+        <span className={style.calendarIcon}>📅</span>
       </div>
     )
   );
-
+  
+  CalendarInput.displayName = "CalendarInput";
   return (
     <Wrapper>
       <HeaderOne />
