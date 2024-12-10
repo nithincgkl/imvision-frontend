@@ -109,9 +109,9 @@ const InstallationForm: React.FC = () => {
             id="Phone"
             className={`form-control ${styles.inputField}`}
             placeholder="Phone*"
-            onInput={(e) => {
-                // Restrict input to numbers only
-                e.target.value = e.target.value.replace(/[^0-9]/g, '');
+            onInput={(e: React.FormEvent<HTMLInputElement>) => {
+                const target = e.target as HTMLInputElement; // Explicitly typing as HTMLInputElement
+                target.value = target.value.replace(/[^0-9]/g, '');
             }}
         />
         {errors.phone && (
@@ -119,6 +119,8 @@ const InstallationForm: React.FC = () => {
         )}
     </div>
 </div>
+
+
 
                                     <div className="col-md-6">
                                         <div className={styles.formControl}>
