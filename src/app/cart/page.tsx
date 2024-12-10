@@ -16,6 +16,7 @@ const RentalConditions = () => {
   const handleIncrease = () => setItemCount((prevCount) => prevCount + 1);
   const handleDecrease = () => setItemCount((prevCount) => Math.max(1, prevCount - 1)); // Minimum count is 1
 
+  // CalendarInput component
   const CalendarInput = React.forwardRef<HTMLInputElement, { value: string; onClick: () => void }>(
     ({ value, onClick }, ref) => (
       <div className={style.datePickerWrapper} onClick={onClick}>
@@ -32,6 +33,7 @@ const RentalConditions = () => {
   );
   
   CalendarInput.displayName = "CalendarInput";
+
   return (
     <Wrapper>
       <HeaderOne />
@@ -66,7 +68,7 @@ const RentalConditions = () => {
                                 <DatePicker
                                   selected={startDate}
                                   onChange={(date) => setStartDate(date || new Date())}
-                                  customInput={<CalendarInput />}
+                                  customInput={<CalendarInput value={startDate.toISOString().split('T')[0]} onClick={() => {}} />}
                                   dateFormat="yyyy-MM-dd"
                                 />
                               </div>
@@ -75,7 +77,7 @@ const RentalConditions = () => {
                                 <DatePicker
                                   selected={endDate}
                                   onChange={(date) => setEndDate(date || new Date())}
-                                  customInput={<CalendarInput />}
+                                  customInput={<CalendarInput value={endDate.toISOString().split('T')[0]} onClick={() => {}} />}
                                   dateFormat="yyyy-MM-dd"
                                 />
                               </div>
