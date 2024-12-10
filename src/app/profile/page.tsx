@@ -44,10 +44,10 @@ export default function Profilepage() {
                   </div>
             
                 </div>
-                <div className='p-5 bg-white container'>
+                <div className='p-5 d-flex justify-content-center container'>
                   <form className={style.form}>
                 <div className="row">
-                  <div className="col-md-4 mb-3">
+                  <div className="col-md-7 mb-3">
                     <input
                       type="text"
                       name="name"
@@ -55,7 +55,7 @@ export default function Profilepage() {
                       placeholder="Name"
                     />
                   </div>
-                  <div className="col-md-4 mb-3">
+                  <div className="col-md-7 mb-3">
                     <input
                       type="email"
                       name="email"
@@ -65,7 +65,7 @@ export default function Profilepage() {
                   </div>
                 </div>
                 <div className="row">
-                  <div className="col-md-4 mb-3">
+                  <div className="col-md-7 mb-3">
                     <input
                       type="text"
                       name="phone"
@@ -73,12 +73,11 @@ export default function Profilepage() {
                       placeholder="Phone"
                     />
                   </div>
-                  <div className="col-md-4 mb-3">
+                  <div className="col-md-7 mb-3">
                     <select
                       name="service"
                       className={`form-control ${style.inputField}`}
-                      
-                    >
+                      >
                       <option value="">Select Service</option>
                       <option value="Sale">Sale</option>
                       <option value="Rent">Rent</option>
@@ -89,7 +88,7 @@ export default function Profilepage() {
                   </div>
                 </div>
                 <div className="row">
-                  <div className="col-md-4 mb-3">
+                  <div className="col-md-7 mb-3">
                     <input
                       type="file"
                       name="resume"
@@ -97,7 +96,7 @@ export default function Profilepage() {
                       placeholder="Upload Resume"
                     />
                   </div>
-                  <div className="col-md-4 mb-3">
+                  <div className="col-md-7 mb-3">
                     <input
                       type="text"
                       name="Message"
