@@ -196,7 +196,10 @@
     letter-spacing: 1px;
     max-width: 200px;
 }
-
+.talk-btn:hover {
+  background-color: #9addbb;
+  color: #fff;
+}
 
 
 

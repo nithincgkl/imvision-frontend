@@ -8,46 +8,47 @@ const InstallationForm: React.FC = () => {
         event.preventDefault();
         const formErrors: { [key: string]: string } = {};
         const form = event.currentTarget;
-        const name = form["name"].value.trim();
-        const email = form["email"].value.trim();
-        const phone = form["Phone"].value.trim();
-        const company = form["company"].value.trim();
-        const address = form["address"].value.trim();
-        const comments = form["comments"].value.trim();
-
+    
+        const name = (form.elements.namedItem("name") as HTMLInputElement)?.value.trim();
+        const email = (form.elements.namedItem("email") as HTMLInputElement)?.value.trim();
+        const phone = (form.elements.namedItem("Phone") as HTMLInputElement)?.value.trim();
+        const company = (form.elements.namedItem("company") as HTMLInputElement)?.value.trim();
+        const address = (form.elements.namedItem("address") as HTMLInputElement)?.value.trim();
+        const comments = (form.elements.namedItem("comments") as HTMLInputElement)?.value.trim();
+    
         // Validate Name
         if (!name) {
             formErrors.name = "Name is required.";
         }
-
+    
         // Validate Email
         if (!email) {
             formErrors.email = "Email is required.";
         } else if (!/\S+@\S+\.\S+/.test(email)) {
             formErrors.email = "Email is invalid.";
         }
-
+    
         // Validate Phone
         if (!phone) {
             formErrors.phone = "Phone number is required.";
         } else if (!/^\d+$/.test(phone)) {
             formErrors.phone = "Phone number must contain only digits.";
         }
-
+    
         // Validate Company
         if (!company) {
             formErrors.company = "Company/Business Name is required.";
         }
-
+    
         // Validate Address
         if (!address) {
             formErrors.address = "Address & City is required.";
         }
-
+    
         if (!comments) {
             formErrors.comments = "Any Specific Comment?";
-        }        
-
+        }
+    
         if (Object.keys(formErrors).length > 0) {
             setErrors(formErrors);
         } else {
@@ -55,6 +56,7 @@ const InstallationForm: React.FC = () => {
             alert("Form submitted successfully!");
         }
     };
+    
 
     return (
         <>
