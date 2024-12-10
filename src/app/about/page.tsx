@@ -107,7 +107,7 @@ const AboutPage = () => {
               </div>
 
               {/* ||||card1 |||||| */}
-              <div className={`d-flex flex-md-row flex-column container  gap-md-5 gap-3 pb-2`}>
+              <div className={`d-flex flex-md-row flex-column container gap-md-5 gap-3 pb-2`}>
                 <div
                   className={`${style.about_card1} text-black ms-xxl-5 ms-xl-2`}
                   style={{ background: '#9FDEBE', paddingRight: '55px', paddingLeft: '35px' }}
@@ -174,7 +174,7 @@ const AboutPage = () => {
                       </p>
                     </div>
 
-                    <div className={`${style.whoVR_para} `}>
+                    <div className={`${style.whoVR_para}`}>
                       <div className='d-flex flex-column gap-2'>
                         <div className={`${style.para_ball}`} style={{ height: '29px' }}></div>
                         <div className={`${style.para_line}`}></div>
@@ -187,7 +187,7 @@ const AboutPage = () => {
                       </p>
                     </div>
 
-                    <div className={`${style.whoVR_para} `}>
+                    <div className={`${style.whoVR_para}`}>
                       <div className='d-flex flex-column'>
                         <div className={`${style.para_ball}`} style={{ height: '22px' }}></div>
                       </div>
