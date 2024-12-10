@@ -67,7 +67,7 @@ export default function Profilepage() {
                     />
                   </div>
                 </div>
-
+ 
                 <div className="row">
                   <div className="col-md-4 mb-3">
                   <label>Phone</label>

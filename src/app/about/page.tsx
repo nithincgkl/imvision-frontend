@@ -48,7 +48,7 @@ const AboutPage = () => {
           <main>
             <section className={style.about_section}>
               <div className={style["about_banner"]}>
-                <div className="container-fluid">
+                <div className="container-fluid my-5" >
                   <div className="row">
                     <div className="col-md-8">
                       <h1 className={style.pageTitle}>
