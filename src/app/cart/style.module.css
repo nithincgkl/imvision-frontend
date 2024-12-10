@@ -21,45 +21,101 @@
       font-size: 30px;
     }
 
-    .rental_conditions_container {
+    .cart_box {
         padding: 10px !important;
         text-align: justify;
     }
-    .rental_conditions {
+    .cart_conditions {
         padding-bottom: 0 !important;
     }
 
   }
 
-  .rental_conditions{
+  .cart_conditions{
     float: left;
     width: 100%;
     padding:0 0 4rem 0;
   }
-  .rental_conditions_container{
+  .cart_box{
     float: left;
     width: 100%;
-    background-color: #131313;
-    padding: 100px;
+    margin-bottom: 15px;
+
   }
-  .rental_conditions_container li{
+  .cart_box li{
     margin-bottom: 15px;
   }
-  .download_btn_container{
-    display: flex;
+.cart_box:nth-child(odd) {
+    background-color: #5C553A;
+  }
+  .cart_box:nth-child(even) {
+    background: #3F3A5C;
+  }
+  .cart_box_header{
     float: left;
-    border: solid 1px #999999;
-}
-.download_btn_container img{    min-width: 100px;
-    height: 100%;}
-.download_btn_container h4{ font-size: 20px; margin-bottom: 10px; padding: 15px 15px 0 15px;}
-.download_btn{
+    width: 100%;
     display: flex;
-    float: left;
-    padding:0 15px 15px 15px;
-}
-.download_btn svg{ margin-left: 15px;}
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px;
+  }
 
-.rental_conditions_container ol{
-    background-image: radial-gradient(#304239 5%, #131313  40%);
+
+
+
+  .datePickers {
+  display: flex;
+  gap: 20px;
+}
+
+.datePickerLabel {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.datePickerLabel span {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.datePickerWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.dateInput {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 150px;
+}
+
+.calendarIcon {
+  position: absolute;
+  right: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  color: #555;
+}
+
+.itemAdjuster {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.itemAdjuster button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  border-radius: 3px;
+}
+
+.itemAdjuster span {
+  font-size: 16px;
+  font-weight: bold;
 }

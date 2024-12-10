@@ -75,7 +75,9 @@
     .banner-content {
         left: 15px !important;
     }
-
+    .talk-btn{
+      left: 10px !important;
+    }
 
 }
 
@@ -87,7 +89,7 @@
     }
 
     .banner-content h1 {
-        font-size: 25px;
+        /* font-size: 25px; */
         margin-bottom: 15px;
     }
 
@@ -161,7 +163,7 @@
     background-color: #ffffff;
     color: #000000;
     border: none;
-    height: 60px;
+    padding: 0.75rem 1.5rem;
     font-size: 18px;
     text-transform: uppercase;
     border-radius: 5px;

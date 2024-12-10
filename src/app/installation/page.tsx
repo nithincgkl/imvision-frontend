@@ -20,6 +20,7 @@ const Index: React.FC = () => {
                         <section className={styles["instructions"]}>
                             <div className="container-fluid">
                                 <div className="row">
+                                    <div className="col-md-12"><h2>Instructions</h2></div>
                                     <div className="col-md-12">
 
                                         <div className={styles["box-container"]}>

@@ -47,6 +47,7 @@
 @media (max-width: 992px) {
     .instructions .box {
         flex: 1 1 calc(50% - 2rem); /* Two columns */
+        padding: 30px 30px;
     }
 }
 
