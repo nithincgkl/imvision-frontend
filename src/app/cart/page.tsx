@@ -7,6 +7,7 @@ import FooterOne from '@/layouts/footers/FooterOne';
 import HeaderOne from '@/layouts/headers/HeaderOne';
 import style from './style.module.css';
 import LetsTalk from '@/components/home/lets-talk';
+import { RiDeleteBin6Line } from "react-icons/ri";
 
 const RentalConditions = () => {
   const [startDate, setStartDate] = useState<Date>(new Date()); // Default to today
@@ -61,10 +62,10 @@ const RentalConditions = () => {
                             <p>Rental</p>
                           </div>
                           <div className='float-left'>
-                            <p className='float-start'>Select Rental Period:</p>
+                            <p className='float-start pt-2'>Select Rental Period:</p>
                             <div className={style.datePickers}>
                               <div className={style.datePickerLabel}>
-                                <span>From:</span>
+                                <span className={style['from_text']}>From:</span>
                                 <DatePicker
                                   selected={startDate}
                                   onChange={(date) => setStartDate(date || new Date())}
@@ -73,7 +74,7 @@ const RentalConditions = () => {
                                 />
                               </div>
                               <div className={style.datePickerLabel}>
-                                <span>To:</span>
+                                <span className={style['to_text']}>To:</span>
                                 <DatePicker
                                   selected={endDate}
                                   onChange={(date) => setEndDate(date || new Date())}
@@ -84,27 +85,36 @@ const RentalConditions = () => {
                             </div>
                           </div>
                         </div>
-                        <div className={style['cart_box_header']}>
-                          <div>
+                        <div className={style['cart_box_body']}>
+                          <div  className={style['cart_box_img']}>
                             <img
-                              src="/assets/images/events.jpg"
+                              src="/assets/images/cart.jpg"
                               className="w-100"
                               alt="Events banner"
                             />
                           </div>
-                          <div>
+
+                          <div className={style['cart_box_right']}>
+                            <div>
                             <p>ABSENnicon C Slim Series 165″</p>
                             <br />
-                            <div className={style.itemAdjuster}>
+
+                            <div className={style['cart_box_add_btn']}>
+                              <div className={style.itemAdjuster}>
                               <button onClick={handleDecrease}>-</button>
                               <span>{itemCount}</span>
                               <button onClick={handleIncrease}>+</button>
                             </div>
                             <p>SEK 100.00</p>
+                            </div>
+                            
                           </div>
                           <div>
-                            <button>Remove</button>
+                            <button>Remove &nbsp;  <RiDeleteBin6Line /></button>
                           </div>
+                          </div>
+
+
                         </div>
                       </div>
                     </div>

@@ -11,6 +11,173 @@
   } 
   
   
+
+
+  .cart_conditions{
+    float: left;
+    width: 100%;
+    padding:0 0 4rem 0;
+  }
+  .cart_box{
+    float: left;
+    width: 100%;
+    margin-bottom: 15px;
+
+  }
+  .cart_box li{
+    margin-bottom: 15px;
+  }
+.cart_box:nth-child(odd) .cart_box_header {
+    background-color: #5C553A;
+  }
+  .cart_box:nth-child(even) .cart_box_header{
+    background: #3F3A5C;
+  }
+  .cart_box_header{
+    float: left;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px;
+  }
+
+.cart_box_body{
+  float: left;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding: 30px;
+    background: #222;
+}
+.cart_box_img {
+  width: 100%;
+  max-width: 300px;
+}
+.cart_box_body img{
+  max-width: 300px;
+  border: solid;
+}
+.cart_box_header .float-start{
+  margin-top: 10px;
+}
+.cart_box_right {
+  display: flex;
+  text-align: center;
+  justify-content: space-between;
+  float: left;
+  width: 100%;
+  padding: 0 0 0 30px;
+}
+.cart_box_right p{
+  margin-bottom: 0;
+  float: left;
+  width: 100%;
+}
+
+.cart_box_add_btn{
+  display: flex;
+  margin-top: 20px;
+}
+
+.cart_box_add_btn p{
+  color: #9FDEBE;
+  font-weight: 600;
+}
+
+.cart_box button{
+  padding: 10px 35px;
+  display: inline-flex;
+  position: relative;
+  height: inherit;
+  align-items: center;
+  font-weight: 300;
+  letter-spacing: 0.3px;
+  background-color: #C03939;
+  border: none;
+}
+
+
+
+
+
+
+
+  .datePickers {
+  display: flex;
+  gap: 20px;
+  padding-left: 15px;
+}
+
+.datePickerLabel {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-left: 30px;
+}
+
+.datePickerLabel span {
+  margin-bottom: 5px;
+}
+
+.datePickerWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.from_text{
+  position: relative;
+  z-index: 100;
+}
+.to_text{
+  position: relative;
+  z-index: 100;
+  font-weight: 100;
+}
+.dateInput {
+  padding: 10px;
+  /* border: 1px solid #ccc; */
+  border-radius: 5px;
+  /* width: 150px; */
+  background-color: #46402B;
+  padding-left: 75px;
+  color: #fff;
+  max-width: 208px;
+  border: none;
+  margin-left: -60px;
+
+}
+
+.calendarIcon {
+  position: absolute;
+  right: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  color: #555;
+}
+
+.itemAdjuster {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.itemAdjuster button  {
+  background-color: #141414;
+  color: #fff;
+  border: none;
+  padding: 3px 13px;
+  cursor: pointer;
+  border-radius: 3px;
+}
+
+.itemAdjuster span {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+
+
   /* Responsive Styles */
   @media screen and (max-width: 991px) {
     .contact_banner {
@@ -28,94 +195,11 @@
     .cart_conditions {
         padding-bottom: 0 !important;
     }
+    .cart_box_header{
+      display: block;
+    }
+    .cart_box_header p{
+      margin-bottom: 0;
+    }
 
   }
-
-  .cart_conditions{
-    float: left;
-    width: 100%;
-    padding:0 0 4rem 0;
-  }
-  .cart_box{
-    float: left;
-    width: 100%;
-    margin-bottom: 15px;
-
-  }
-  .cart_box li{
-    margin-bottom: 15px;
-  }
-.cart_box:nth-child(odd) {
-    background-color: #5C553A;
-  }
-  .cart_box:nth-child(even) {
-    background: #3F3A5C;
-  }
-  .cart_box_header{
-    float: left;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 15px;
-  }
-
-
-
-
-  .datePickers {
-  display: flex;
-  gap: 20px;
-}
-
-.datePickerLabel {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-
-.datePickerLabel span {
-  font-weight: bold;
-  margin-bottom: 5px;
-}
-
-.datePickerWrapper {
-  position: relative;
-  display: flex;
-  align-items: center;
-}
-
-.dateInput {
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  width: 150px;
-}
-
-.calendarIcon {
-  position: absolute;
-  right: 10px;
-  font-size: 16px;
-  cursor: pointer;
-  color: #555;
-}
-
-.itemAdjuster {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.itemAdjuster button {
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  padding: 5px 10px;
-  cursor: pointer;
-  border-radius: 3px;
-}
-
-.itemAdjuster span {
-  font-size: 16px;
-  font-weight: bold;
-}
