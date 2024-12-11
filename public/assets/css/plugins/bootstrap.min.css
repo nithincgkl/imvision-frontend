@@ -10536,7 +10536,11 @@ h2 a{
 }
 
 
-
+@media screen and (max-width: 991px) {
+h2.react-datepicker__current-month {
+  font-size: 14px !important;
+}
+}
 
 
 

@@ -78,6 +78,7 @@
     .talk-btn{
       left: 10px !important;
     }
+   
 
 }
 
@@ -321,3 +322,8 @@
   
   }
 /* input */
+@media screen and (max-width: 991px) {
+.installation_title {
+  font-size: 40px !important;
+}
+}

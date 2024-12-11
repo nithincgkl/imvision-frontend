@@ -23,7 +23,7 @@ const InstallationBanner: React.FC = () => {
               </video>
             </div>
             <div className={styles["banner-content"]}>
-              <h1>Installation</h1>
+              <h1 className={styles["installation_title"]}>Installation</h1>
               {/* <h2>Your display partner</h2> */}
             </div> 
 

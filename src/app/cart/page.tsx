@@ -56,10 +56,11 @@ const RentalConditions = () => {
                 <div className="container-fluid">
                   <div className="row">
                     <div className="col-md-12">
+                      
                       <div className={style['cart_box']}>
                         <div className={style['cart_box_header']}>
                           <div>
-                            <p>Rental</p>
+                            <p className='mb-0'>Rental</p>
                           </div>
                           <div className='float-left'>
                             <p className='float-start pt-2'>Select Rental Period:</p>
@@ -113,10 +114,49 @@ const RentalConditions = () => {
                             <button>Remove &nbsp;  <RiDeleteBin6Line /></button>
                           </div>
                           </div>
-
-
                         </div>
                       </div>
+
+
+                      <div className={style['cart_box']}>
+                        <div className={style['cart_box_header']}>
+                          <div>
+                            <p className='mb-0'>Sale</p>
+                          </div>
+                         
+                        </div>
+                        <div className={style['cart_box_body']}>
+                          <div  className={style['cart_box_img']}>
+                            <img
+                              src="/assets/images/cart.jpg"
+                              className="w-100"
+                              alt="Events banner"
+                            />
+                          </div>
+
+                          <div className={style['cart_box_right']}>
+                            <div>
+                            <p>ABSENnicon C Slim Series 165″ IM Series P0.93mm – COB with CCT tech </p>
+                            <br />
+
+                            <div className={style['cart_box_add_btn']}>
+                              <div className={style.itemAdjuster}>
+                              <button onClick={handleDecrease}>-</button>
+                              <span>{itemCount}</span>
+                              <button onClick={handleIncrease}>+</button>
+                            </div>
+                            <p>SEK 100.00</p>
+                            </div>
+                            
+                          </div>
+                          <div>
+                            <button>Remove &nbsp;  <RiDeleteBin6Line /></button>
+                          </div>
+                          </div>
+                        </div>
+                      </div>
+
+
                     </div>
                   </div>
                 </div>
