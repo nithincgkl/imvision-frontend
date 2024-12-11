@@ -196,10 +196,48 @@
         padding-bottom: 0 !important;
     }
     .cart_box_header{
+      text-align: center;
       display: block;
     }
     .cart_box_header p{
       margin-bottom: 0;
     }
+    .cart_box_header p{
+      float: left;
+      width: 100%;
+      margin-bottom: 10px;
+  }
+  .datePickers {
+    /* display: block; */
+    gap: 20px;
+    padding-left: 0;
+    float: left;
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.mobile_ml{
+  margin-left: 30px !important;
+}
+.datePickerLabel {
+  margin-left: 15px;
+}
+.cart_box_body {
+  padding: 10px;
+}
+.cart_box_img {
+  min-width: 125px;
+}
+.cart_box_right {
+  display: block;
+}
+.cart_box_add_btn {
+  display: block;
+}
+.itemAdjuster {
+  display: block;
+}
+
 
   }

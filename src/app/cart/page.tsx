@@ -73,7 +73,7 @@ const RentalConditions = () => {
                                   dateFormat="yyyy-MM-dd"
                                 />
                               </div>
-                              <div className={style.datePickerLabel}>
+                              <div className={`${style.datePickerLabel} ${style.mobile_ml}`}>
                                 <span className={style['to_text']}>To:</span>
                                 <DatePicker
                                   selected={endDate}
