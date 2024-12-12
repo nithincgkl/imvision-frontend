@@ -22,7 +22,7 @@ const ProductItem: React.FC<ProductItemProps> = ({ item }) => {
             <div className="cs_post cs_style_1">
               <Link href="/event-details" className={styles['pb-15']}>
                 {/* Use the imported image directly */}
-                <Image
+                <img
                   src={item.img} // Use directly without concatenation
                   alt={item.title}
                   width={300} // Provide dimensions
