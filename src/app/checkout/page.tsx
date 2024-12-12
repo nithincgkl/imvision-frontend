@@ -13,7 +13,7 @@ const RentalConditions = () => {
     gdprConsent: false, // Initialize GDPR consent to false
   });
 
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, checked } = e.target;
     setFormData((prevData) => ({
       ...prevData,
