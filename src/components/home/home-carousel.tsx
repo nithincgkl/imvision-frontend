@@ -22,31 +22,24 @@ interface Product {
 const HomeCarousel: React.FC<{ style_2?: boolean; style_3?: boolean }> = ({ style_2, style_3 }) => {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
 
   // Fetch product data
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        // Use relative path instead of full URL
-        const response = await fetch('/api/products', {
-          method: 'GET',
+        const API_URL = process.env.NEXT_PUBLIC_API_URL + "products";
+        const API_TOKEN = process.env.NEXT_PUBLIC_API_TOKEN;
+
+        const response = await axios.get(API_URL, {
           headers: {
-            'Authorization': `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
-            'Content-Type': 'application/json'
-          }
+            Authorization: `Bearer ${API_TOKEN}`,
+          },
         });
 
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        const data = await response.json();
-        setProducts(data);
+        setProducts(response.data);
         setLoading(false);
       } catch (error) {
         console.error("Error fetching product data:", error);
-        setError(error instanceof Error ? error.message : 'An unknown error occurred');
         setLoading(false);
       }
     };
@@ -59,15 +52,6 @@ const HomeCarousel: React.FC<{ style_2?: boolean; style_3?: boolean }> = ({ styl
     return (
       <div className={styles['home-carousel']}>
         <p>Loading products...</p>
-      </div>
-    );
-  }
-
-  // Render error state
-  if (error) {
-    return (
-      <div className={styles['home-carousel']}>
-        <p>Error loading products: {error}</p>
       </div>
     );
   }
@@ -102,11 +86,10 @@ const HomeCarousel: React.FC<{ style_2?: boolean; style_3?: boolean }> = ({ styl
 
         <Swiper
           modules={[Autoplay]}
-          loop={products.length > 3} // Only enable loop if more than 3 products
+          loop={true}
           speed={1000}
           spaceBetween={30}
-          slidesPerView={3} // Fixed number of slides to view
-          centeredSlides={true}
+          slidesPerView="auto"
           autoplay={{
             delay: 3000,
             disableOnInteraction: false,

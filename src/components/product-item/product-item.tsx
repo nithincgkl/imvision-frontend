@@ -1,29 +1,19 @@
 'use client';
 import React from 'react';
-import Link from 'next/link';
-import Image from 'next/image';
-import { useSnackbar } from 'notistack';
-import { useCart } from '@/context/cart-context'; // Adjust the import path as needed
+import Link from 'next/link'; // Import Image from Next.js
 import styles from './style.module.css';
+import Image from 'next/image';
 
 interface ProductItemProps {
   item: {
     id: any;
-    img: any;
+    img: any; // Use string for dynamic URLs
     title: string;
     des: string;
   };
 }
 
 const ProductItem: React.FC<ProductItemProps> = ({ item }) => {
-  const { addToCart } = useCart();
-  const { enqueueSnackbar } = useSnackbar();
-
-  const handleAddToCart = () => {
-    addToCart(item);
-    enqueueSnackbar(`${item.title} added to cart`, { variant: 'success' });
-  };
-
   return (
     <div className={styles['our-screen-box']}>
       <div className={styles['main_div']}>
@@ -31,10 +21,11 @@ const ProductItem: React.FC<ProductItemProps> = ({ item }) => {
           <div className={`${styles['box__inner']} ${styles['box--top-bot']}`}>
             <div className="cs_post cs_style_1">
               <Link href="/event-details" className={styles['pb-15']}>
+                {/* Use the imported image directly */}
                 <Image
-                  src={item.img}
+                  src={item.img} // Use directly without concatenation
                   alt={item.title}
-                  width={300}
+                  width={300} // Provide dimensions
                   height={200}
                   className={styles['product-image']}
                 />
@@ -45,7 +36,7 @@ const ProductItem: React.FC<ProductItemProps> = ({ item }) => {
                 </h2>
                 <p className="cs_m0">SEK {item.des}</p>
                 <div className={styles['button-section']}>
-                  <button onClick={handleAddToCart}>Add to Cart</button>
+                  <button>Add to Cart</button>
                   <button>Quick Enquiry</button>
                 </div>
               </div>

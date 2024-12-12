@@ -2,7 +2,6 @@
 
 import Link from 'next/link';
 import React, { useState } from 'react';
-import { useCart } from '@/context/cart-context'; // Adjust the import path as needed
 
 interface MenuItem {
   id: number;
@@ -15,7 +14,7 @@ interface MenuItem {
 const menu_data: MenuItem[] = [
   { id: 1, title: "Events", link: '/events', has_dropdown: false },
   { id: 2, title: "Expo", link: '/expo', has_dropdown: false },
-  { id: 3, title: "Products", link: '/products', has_dropdown: false },
+  { id: 3, title: "Products", link: '/products', has_dropdown: false }, // Unique key
   { id: 4, title: "Installation", link: '/installation', has_dropdown: false },
   { id: 5, title: "Contact", link: "/contact", has_dropdown: false },
   { id: 6, title: "Support", link: "/support", has_dropdown: false },
@@ -29,19 +28,11 @@ interface MobileMenuProps {
 }
 
 const MobileMenu: React.FC<MobileMenuProps> = ({ active, navTitle, openMobileMenu }) => {
-  const { getCartItemCount } = useCart();
-  const cartItemCount = getCartItemCount();
-
   return (
     <ul className="cs_nav_list" style={{ display: active ? "block" : "none" }}>
       {menu_data.map((menu) => (
-        <li 
-          key={menu.id} 
-          className={`${menu.has_dropdown ? "menu-item-has-children" : ""} ${navTitle === menu.title ? "active" : ""}`}
-        >
-          <Link href={menu.link}>
-            {menu.title === '🛒 Cart' ? `🛒 Cart (${cartItemCount})` : menu.title}
-          </Link>
+        <li key={menu.id} className={`${menu.has_dropdown ? "menu-item-has-children" : ""} ${navTitle === menu.title ? "active" : ""}`}>
+          <Link href={menu.link}>{menu.title}</Link>
           {menu.has_dropdown && (
             <>
               <ul className="cs_mega_wrapper" style={{ display: navTitle === menu.title ? "block" : "none" }}>
@@ -51,10 +42,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ active, navTitle, openMobileMen
                   </li>
                 ))}
               </ul>
-              <span 
-                onClick={() => openMobileMenu(menu.title)} 
-                className={`cs_munu_dropdown_toggle ${navTitle === menu.title ? "active" : ""}`}
-              ></span>
+              <span onClick={() => openMobileMenu(menu.title)} className={`cs_munu_dropdown_toggle ${navTitle === menu.title ? "active" : ""}`}></span>
             </>
           )}
         </li>
