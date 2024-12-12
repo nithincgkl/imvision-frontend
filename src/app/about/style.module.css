@@ -92,7 +92,7 @@
   height: 438px; 
   display: flex;
   flex-direction: column;   
-  justify-content: space-between;
+  /* justify-content: space-between; */
     }
 
   .about_card2:hover{
@@ -115,8 +115,8 @@
     .about_card2 p{
       font-size: 15px;
       line-height: 18px;
-      margin-top: -13px;
-      font-weight: 500;
+     margin-top: 120px;  
+    font-weight: 500;
       font-stretch: ultra-condensed;
       width: 89%;
       transition: transform 0.3s ease, color 0.3s ease;                
@@ -190,8 +190,12 @@
                 margin-top: 50px;
                 position: relative;
                 }
-            }
 
+                .about_card2 p{
+                  line-height: 18px;
+                 margin-top: 80px; 
+            }
+          }
             @media(max-width:1100px){
               .whoVR{
                 margin-left: 80px;
