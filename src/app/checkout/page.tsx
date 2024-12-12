@@ -6,6 +6,7 @@ import HeaderOne from '@/layouts/headers/HeaderOne';
 import style from "./style.module.css";
 import LetsTalk from '@/components/home/lets-talk';
 import Link from 'next/link';
+import { IoChevronDown } from 'react-icons/io5';
 
 // Main RentalConditions Component
 const RentalConditions = () => {
@@ -153,16 +154,38 @@ const RentalConditions = () => {
                                   />
                                 </div>
                               </div>
+
+
+
+
                               <div className="col-md-6">
                                 <div className={style.formControl}>
-                                  <input
-                                    type="text"
-                                    id="Country"
-                                    className={`form-control ${style.inputField}`}
-                                    placeholder="Country / Region*"
-                                  />
+                                  <div className={style.selectWrapper}>
+                                    <select
+                                      id="Country"
+                                      name="Country"
+                                      className={`form-control ${style.inputField}`}
+                                      onChange={handleChange}
+                                      value={formData.Country || ''} // Bind value to state
+                                    >
+                                      <option value="">Select Country / Region*</option>
+                                      <option value="Sweden">Sweden</option>
+                                      <option value="USA">United States</option>
+                                      <option value="Canada">Canada</option>
+                                      <option value="Germany">Germany</option>
+                                      <option value="France">France</option>
+                                      <option value="UK">United Kingdom</option>
+                                      <option value="Australia">Australia</option>
+                                      {/* Add more countries as needed */}
+                                    </select>
+                                    <IoChevronDown className={style.arrowIcon} /> {/* Add the icon here */}
+                                  </div>
                                 </div>
                               </div>
+
+
+
+
                             </div>
                           </div>
 
@@ -289,6 +312,7 @@ const RentalConditions = () => {
                                 <h4>Select Shipment Type</h4>
 
                                 <fieldset>
+
                                   <div className={style.fieldset_radio}>
                                     <input
                                       type="radio"
@@ -315,9 +339,6 @@ const RentalConditions = () => {
 
                                     <br />
 
-
-
-
                                     <input
                                       type="radio"
                                       className={`radio ${style.radio_input_two}`}
@@ -333,20 +354,32 @@ const RentalConditions = () => {
                                   </div>
                                 </fieldset>
 
-
                               </div>
 
 
                               <div className="col-md-4">
                                 <h6>Calculate Shipping</h6>
-
                                 <div className={style.formControl}>
-                                  <input
-                                    type="text"
-                                    id="FirstName"
-                                    className={`form-control ${style.inputField}`}
-                                    placeholder="First Name*"
-                                  />
+                                  <div className={style.selectWrapper}>
+                                    <select
+                                      id="Country"
+                                      name="Country"
+                                      className={`form-control ${style.inputField}`}
+                                      onChange={handleChange}
+                                      value={formData.Country || ''} // Bind value to state
+                                    >
+                                      <option value="">Sweden</option>
+                                      <option value="Sweden">Sweden</option>
+                                      <option value="Sweden">Sweden</option>
+                                      <option value="Sweden">Sweden</option>
+                                      <option value="Sweden">Sweden</option>
+                                      <option value="Sweden">Sweden</option>
+                                      <option value="Sweden">United Sweden</option>
+                                      <option value="Sweden">Sweden</option>
+                                      {/* Add more countries as needed */}
+                                    </select>
+                                    <IoChevronDown className={style.arrowIcon} /> {/* Add the icon here */}
+                                  </div>
                                 </div>
 
                                 <div className={style.formControl}>
@@ -374,10 +407,6 @@ const RentalConditions = () => {
 
                             </div>
 
-
-
-
-
                           </div>
 
                         </form>
@@ -390,11 +419,6 @@ const RentalConditions = () => {
                 </div>
 
               </div>
-
-
-
-
-
 
             </section>
             <LetsTalk />

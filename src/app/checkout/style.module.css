@@ -21,6 +21,24 @@
     width: 100%;
     padding:0 0 4rem 0;
   }
+  .checkout_footer .formControl {
+    position: relative;
+    margin-bottom: 15px;
+}
+
+.checkout_footer button{
+  background-color: #fff;
+  color: #000;
+  padding: 10px 35px;
+  position: relative;
+  text-transform: uppercase;
+  font-weight: 300;
+  letter-spacing: 0.3px;
+  width: 100%;
+  float: left;
+  text-align: center;
+  border: none;
+}
   .checkout_container{
     float: left;
     width: 100%;
@@ -110,7 +128,7 @@ width: 100%;
   
 .formControl {
   position: relative;
-  margin-bottom: 43px;
+  margin-bottom: 38px;
 }
 
 .inputField {
@@ -188,10 +206,29 @@ width: 100%;
 }
 
 
+/* Style for the select wrapper to position the icon */
+.selectWrapper {
+  position: relative; /* Make it a positioned container for the icon */
+}
 
+.selectWrapper select {
+  appearance: none; /* Remove default styling */
+  -webkit-appearance: none; /* Safari */
+  -moz-appearance: none; /* Firefox */
+  padding-right: 30px; /* Add padding to the right for the icon */
+  width: 100%; /* Ensure the select takes full width */
+}
 
-
-
+/* Style for the icon */
+.arrowIcon {
+  position: absolute;
+  right: 10px; /* Position it on the right side */
+  top: 50%;
+  transform: translateY(-50%); /* Vertically center the icon */
+  font-size: 20px; /* Adjust the size of the icon */
+  color: #ffffff; /* Color of the icon */
+  pointer-events: none; /* Prevent clicking on the icon */
+}
 
 
 
