@@ -10543,6 +10543,12 @@ h2.react-datepicker__current-month {
 }
 
 
+@media screen and (max-width: 1850px) and (min-width: 992px) {
+  .react-datepicker-popper {
+    left: -50px !important;
+}
+}
+
 
 
 

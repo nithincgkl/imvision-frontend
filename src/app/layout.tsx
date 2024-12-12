@@ -2,6 +2,7 @@
 
 import "@/styles/index.scss";
 import { SnackbarProvider } from "notistack";
+import { CartProvider } from '@/context/cart-context'; // Adjust the import path as needed
 
 export default function RootLayout({
   children,
@@ -20,16 +21,18 @@ export default function RootLayout({
       </head>
 
       <body className="dark">
-        <SnackbarProvider
-          maxSnack={3} // Maximum number of snackbars to show at once
-          autoHideDuration={3000} // Auto-hide after 3 seconds
-          anchorOrigin={{
-            vertical: 'bottom',
-            horizontal: 'right', // Position of the snackbar
-          }}
-        >
-          {children}
-        </SnackbarProvider>
+        <CartProvider>
+          <SnackbarProvider
+            maxSnack={3}
+            autoHideDuration={3000}
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'right',
+            }}
+          >
+            {children}
+          </SnackbarProvider>
+        </CartProvider>
       </body>
     </html>
   );

@@ -16,7 +16,7 @@
   .cart_conditions{
     float: left;
     width: 100%;
-    padding:0 0 4rem 0;
+    padding:0 0 0 0;
   }
   .cart_box{
     float: left;
@@ -83,6 +83,8 @@
 .cart_box_add_btn p{
   color: #9FDEBE;
   font-weight: 600;
+  text-align: left;
+  padding-left: 15px;
 }
 
 .cart_box_right button{
@@ -175,7 +177,39 @@
   font-size: 16px;
   font-weight: bold;
 }
+.grand_total{
+  float: left;
+  width: 100%;
+  border-top: solid 1px #cccccc78;
+  margin-top: 50px;
+  padding-top: 50px;
+}
+.grand_total_box{
+  float: right;
+}
+.grand_total_box p{
+  font-size: 20px;
 
+}
+.grand_total_box p span{
+  color: #9FDEBE;
+  font-weight: 600;
+  margin-left: 15px;
+
+}
+.grand_total_box button{
+  padding: 10px 35px;
+    display: inline-flex;
+    position: relative;
+    height: inherit;
+    align-items: center;
+    font-weight: 300;
+    letter-spacing: 0.3px;
+    background-color: #fff;
+    border: none;
+    color: #000;
+
+}
 
 
   /* Responsive Styles */
@@ -245,9 +279,12 @@
 .cart_box button {
   padding: 4px 10px;
 }
+.grand_total{
+  margin-top: 10px;
+  padding-top: 15px;
+}
 
 
   }
-
 
 

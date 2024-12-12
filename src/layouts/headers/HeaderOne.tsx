@@ -23,7 +23,7 @@ const menu_data: MenuItem[] = [
   { id: 5, title: "Installation", link: '/installation', has_dropdown: false },
   { id: 6, title: "Contact", link: "/contact", has_dropdown: false },
   { id: 7, title: "Sign In", link: "/sign-in", has_dropdown: false },
-  { id: 8, title: "🛒 Cart", link: "/Cart", has_dropdown: false },
+  { id: 8, title: "🛒 Cart", link: "/cart", has_dropdown: false },
 ];
 
 const HeaderOne: React.FC = () => {
