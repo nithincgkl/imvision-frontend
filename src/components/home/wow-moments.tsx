@@ -29,10 +29,8 @@ const WowMoments: React.FC = () => {
           id: item.id,
           title: item.title,
           description: item.description,
-          thumbnailUrl: `${process.env.NEXT_PUBLIC_IMAGE_URL}${item.thumbnail.url}`,
+          thumbnailUrl: `${item.thumbnail?.url}`,
         }));
-
-        console.log("Fetched Categories:", data);
         setCategories(data);
       } catch (error) {
         console.error('Error fetching event categories:', error);

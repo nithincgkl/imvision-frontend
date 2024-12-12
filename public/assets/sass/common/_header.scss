@@ -142,7 +142,10 @@
     max-width: 100%;
     padding: 0 100px;
 }
-
+.container-fluid  {
+    max-width: 100%;
+    padding: 0 100px;
+}
 .cs_site_header_style1 {
     border-bottom: 1px solid #1a188d;
     .cs_main_header_right {
@@ -645,6 +648,9 @@
     .cs_site_header_full_width .container {
         max-width: 100%;
     }
+    .container-fluid {
+        max-width: 100%;
+    }
 }
 
 @media screen and (max-width: 1199px) {
@@ -652,6 +658,9 @@
         width: 100% !important;
     }
     .cs_site_header_full_width .container {
+        
+    }
+    .container-fluid {
         padding: 0 15px;
     }
     .cs_munu_dropdown_toggle {
