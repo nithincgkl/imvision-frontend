@@ -9,11 +9,20 @@ import style from './style.module.css';
 import LetsTalk from '@/components/home/lets-talk';
 import { RiDeleteBin6Line } from "react-icons/ri";
 
+interface CartItem {
+  id: number;
+  name: string;
+  type: string;
+  count: number;
+  price: number;
+  image: string;
+}
+
 const RentalConditions = () => {
-  const [startDate, setStartDate] = useState(new Date());
-  const [endDate, setEndDate] = useState(new Date(Date.now() + 24 * 60 * 60 * 1000));
+  const [startDate, setStartDate] = useState<Date>(new Date());
+  const [endDate, setEndDate] = useState<Date>(new Date(Date.now() + 24 * 60 * 60 * 1000));
   
-  const [cartItems, setCartItems] = useState([
+  const [cartItems, setCartItems] = useState<CartItem[]>([
     {
       id: 1,
       name: "ABSENnicon C Slim Series 165\"",
@@ -32,7 +41,7 @@ const RentalConditions = () => {
     }
   ]);
 
-  const handleIncrease = (id) => {
+  const handleIncrease = (id: number) => {
     setCartItems(prevItems => 
       prevItems.map(item => 
         item.id === id ? { ...item, count: item.count + 1 } : item
@@ -40,7 +49,7 @@ const RentalConditions = () => {
     );
   };
 
-  const handleDecrease = (id) => {
+  const handleDecrease = (id: number) => {
     setCartItems(prevItems => 
       prevItems.map(item => 
         item.id === id ? { ...item, count: Math.max(1, item.count - 1) } : item
@@ -48,7 +57,7 @@ const RentalConditions = () => {
     );
   };
 
-  const handleRemoveItem = (id) => {
+  const handleRemoveItem = (id: number) => {
     setCartItems(prevItems => prevItems.filter(item => item.id !== id));
   };
 
@@ -56,8 +65,7 @@ const RentalConditions = () => {
     return cartItems.reduce((total, item) => total + (item.price * item.count), 0).toFixed(2);
   };
 
-  // CalendarInput component
-  const CalendarInput = React.forwardRef(
+  const CalendarInput = React.forwardRef<HTMLInputElement, { value: string; onClick: () => void }>(
     ({ value, onClick }, ref) => (
       <div className={style.datePickerWrapper} onClick={onClick}>
         <input
