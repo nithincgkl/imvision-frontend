@@ -208,7 +208,7 @@ const AboutPage = () => {
 
                <div className={`d-flex flex-lg-row flex-md-column flex-column container mx-auto gap-lg-5 gap-md-3 gap-3 pb-2 col-12`}>
                 <div
-                  className={`${style.about_card2}  ms-xxl-5 ms-xl-2`}                 
+                  className={`${style.about_card2} ms-xxl-5 ms-xl-2`}                 
                 >
                   <h2 className="fw-bold">01</h2>
                   <p className=''>
