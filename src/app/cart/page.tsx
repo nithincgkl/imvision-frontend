@@ -1,15 +1,87 @@
-'use client'
-import React from 'react';
-import Link from 'next/link';
+'use client';
+import React, { useState } from 'react';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 import Wrapper from '@/layouts/wrapper';
 import FooterOne from '@/layouts/footers/FooterOne';
 import HeaderOne from '@/layouts/headers/HeaderOne';
-import style from "./style.module.css";
+import style from './style.module.css';
 import LetsTalk from '@/components/home/lets-talk';
-import { FiDownload } from "react-icons/fi";
+import { RiDeleteBin6Line } from "react-icons/ri";
 
-// Main ContactPage Component
+interface CartItem {
+  id: number;
+  name: string;
+  type: string;
+  count: number;
+  price: number;
+  image: string;
+}
+
 const RentalConditions = () => {
+  const [startDate, setStartDate] = useState<Date>(new Date());
+  const [endDate, setEndDate] = useState<Date>(new Date(Date.now() + 24 * 60 * 60 * 1000));
+  
+  const [cartItems, setCartItems] = useState<CartItem[]>([
+    {
+      id: 1,
+      name: "ABSENnicon C Slim Series 165\"",
+      type: "Rental",
+      count: 1,
+      price: 100.00,
+      image: "/assets/images/cart.jpg"
+    },
+    {
+      id: 2,
+      name: "ABSENnicon C Slim Series 165\" IM Series P0.93mm – COB with CCT tech",
+      type: "Sale",
+      count: 1,
+      price: 110.00,
+      image: "/assets/images/cart.jpg"
+    }
+  ]);
+
+  const handleIncrease = (id: number) => {
+    setCartItems(prevItems => 
+      prevItems.map(item => 
+        item.id === id ? { ...item, count: item.count + 1 } : item
+      )
+    );
+  };
+
+  const handleDecrease = (id: number) => {
+    setCartItems(prevItems => 
+      prevItems.map(item => 
+        item.id === id ? { ...item, count: Math.max(1, item.count - 1) } : item
+      )
+    );
+  };
+
+  const handleRemoveItem = (id: number) => {
+    setCartItems(prevItems => prevItems.filter(item => item.id !== id));
+  };
+
+  const calculateTotal = () => {
+    return cartItems.reduce((total, item) => total + (item.price * item.count), 0).toFixed(2);
+  };
+
+  const CalendarInput = React.forwardRef<HTMLInputElement, { value: string; onClick: () => void }>(
+    ({ value, onClick }, ref) => (
+      <div className={style.datePickerWrapper} onClick={onClick}>
+        <input
+          type="text"
+          value={value}
+          readOnly
+          ref={ref}
+          className={style.dateInput}
+        />
+        <span className={style.calendarIcon}>📅</span>
+      </div>
+    )
+  );
+
+  CalendarInput.displayName = "CalendarInput";
+
   return (
     <Wrapper>
       <HeaderOne />
@@ -23,47 +95,95 @@ const RentalConditions = () => {
                     <div className="col-md-12">
                       <h1 className={style.pageTitle}>My Cart</h1>
                     </div>
-                   
                   </div>
                 </div>
               </div>
 
-              <div className={style["rental_conditions"]}>
+              <div className={style['cart_conditions']}>
                 <div className="container-fluid">
                   <div className="row">
                     <div className="col-md-12">
-                      <div className={style["rental_conditions_container"]}>
-                        <h4>Rental conditions</h4>
-                        <ol>
-                          <li>The lessee must take good care of the equipment. Damage caused by carelessness is charged regardless of whether the damage was caused by fault or accident.</li>
-                          <li>The lessee does not have the right to sell, pledge, transfer or take the equipment out of the country. Nor, in turn, rent or lend the equipment without written consent from IMPROD AB.</li>
-                          <li>The equipment must, unless otherwise agreed, be picked up and left at IMPROD AB, Hekulesvägen 56 in Jönköping.</li>
-                          <li>Lately returned equipment is charged according to IMPROD AB rental prices calculated after a 1-day rental per started delayed day.</li>
-                          <li>The renter is responsible for damage to the rental equipment, theft, etc., and is liable for compensation up to the full value of the equipment as well as other costs incurred by IMPROD AB due to such damage, from the time the equipment leaves IMPROD AB's warehouse until it is returned. This also applies to cases where IMPROD AB arranged/ordered delivery/collection. To the extent that IMPROD AB's own insurance, according to IMPROD AB's assessment, may apply, the lessee is liable for compensation for all costs incurred by IMPROD AB due to such damage, including deductibles agreed in IMPROD AB's insurance.</li>
-                          <li>IMPROD AB does not compensate for failed or canceled performances, recordings or the like caused by equipment faults or other circumstances beyond IMPROD AB's control.</li>
-                          <li>Cancellation of booked equipment and staff must be done no later than two weeks before the start of the rental period. If cancellation occurs later, 50% of the rental amount will be charged. If cancellation is made the day before or on the same day as the start of the rental period, 100% of the rental amount will be charged. For equipment booked but not collected, the agreed rental cost is charged unless otherwise agreed.</li>
-                          <li>If the lessee does not take into account the above rental conditions, delays the agreed payment, goes bankrupt, ends up insolvent, is declared incompetent, dies or in some other way breaks the rental agreement entered into, IMPROD AB has the right to immediately repossess the equipment and cancel the agreement. In that case, the lessee must pay the rental cost until the day IMPROD AB takes the equipment back.</li>                        
-                        </ol>
-                        <div  className={style["download_btn_container"]}>
-                          <div><img src="/assets/images/download.jpg" className="w-100" alt="" /></div>
-                          <a 
-                            href="/lease-agreement.pdf" 
-                            download 
-                            className={style["download-link"]}
-                          >
-                            <h4>Download Lease Agreement</h4>
-                            <div className={style["download_btn"]}>
-                              <span>PDF  1.5 MB</span>
-                              <span><FiDownload /></span>
+                      {cartItems.length > 0 ? (
+                        <>
+                          {cartItems.map((item) => (
+                            <div key={item.id} className={style['cart_box']}>
+                              <div className={style['cart_box_header']}>
+                                <div>
+                                  <p className='mb-0'>{item.type}</p>
+                                </div>
+                                {item.type === 'Rental' && (
+                                  <div className='float-left'>
+                                    <p className='float-start pt-2'>Select Rental Period:</p>
+                                    <div className={style.datePickers}>
+                                      <div className={style.datePickerLabel}>
+                                        <span className={style['from_text']}>From:</span>
+                                        <DatePicker
+                                          selected={startDate}
+                                          onChange={(date) => setStartDate(date || new Date())}
+                                          customInput={<CalendarInput value={startDate.toISOString().split('T')[0]} onClick={() => { }} />}
+                                          dateFormat="yyyy-MM-dd"
+                                        />
+                                      </div>
+                                      <div className={`${style.datePickerLabel} ${style.mobile_ml}`}>
+                                        <span className={style['to_text']}>To:</span>
+                                        <DatePicker
+                                          selected={endDate}
+                                          onChange={(date) => setEndDate(date || new Date())}
+                                          customInput={<CalendarInput value={endDate.toISOString().split('T')[0]} onClick={() => { }} />}
+                                          dateFormat="yyyy-MM-dd"
+                                        />
+                                      </div>
+                                    </div>
+                                  </div>
+                                )}
+                              </div>
+                              <div className={style['cart_box_body']}>
+                                <div className={style['cart_box_img']}>
+                                  <img
+                                    src={item.image}
+                                    className="w-100"
+                                    alt={`${item.name} banner`}
+                                  />
+                                </div>
+
+                                <div className={style['cart_box_right']}>
+                                  <div>
+                                    <p>{item.name}</p>
+                                    <br />
+
+                                    <div className={style['cart_box_add_btn']}>
+                                      <div className={style.itemAdjuster}>
+                                        <button onClick={() => handleDecrease(item.id)}>-</button>
+                                        <span>{item.count}</span>
+                                        <button onClick={() => handleIncrease(item.id)}>+</button>
+                                      </div>
+                                      <p>SEK {(item.price * item.count).toFixed(2)}</p>
+                                    </div>
+                                  </div>
+                                  <div>
+                                    <button onClick={() => handleRemoveItem(item.id)}>
+                                      Remove &nbsp; <RiDeleteBin6Line />
+                                    </button>
+                                  </div>
+                                </div>
+                              </div>
                             </div>
-                          </a>
-                        </div>
-                      </div>
+                          ))}
+
+                          <div className={style['grand_total']}>
+                            <div className={style['grand_total_box']}>
+                              <p>Grand Total:<span>SEK {calculateTotal()}</span></p>
+                              <button>Proceed To Checkout</button>
+                            </div>
+                          </div>
+                        </>
+                      ) : (
+                        <p>Cart is empty</p>
+                      )}
                     </div>
                   </div>
                 </div>
               </div>
-
             </section>
 
             <LetsTalk />

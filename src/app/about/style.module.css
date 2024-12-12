@@ -7,8 +7,9 @@
   }
 
   .abou_section .about_banner {
-    width: 100%;
-    padding: 4rem 0 3rem 0;
+  float: left;
+  width: 100%;
+  padding: 4rem 0 3rem 0;
   }
 
   .about_video {
@@ -23,6 +24,11 @@
   vertical-align:super;
   font-size:smaller;
   }
+
+  .about_years p {
+    font-size:40px;
+    margin-top: -20px;
+      }
 
   .about_card1{
   padding: 25px;
@@ -40,7 +46,7 @@
       }
 
     .whoVR{
-    margin-left: 250px;
+    margin-left: 350px;
     margin-top: 50px;
     position: relative;
     }
@@ -116,6 +122,27 @@
       transition: transform 0.3s ease, color 0.3s ease;                
       }
 
+      @media(max-width:1600px){
+
+      
+        .whoVR{
+          margin-left: 250px;
+          margin-top: 50px;
+          position: relative;
+          }
+      }
+      
+
+      @media(max-width:1500px){
+
+      
+              .whoVR{
+                margin-left: 200px;
+                margin-top: 50px;
+                position: relative;
+                }
+            }
+
       @media(max-width:1400px){
         
   .about_card1{
@@ -179,6 +206,13 @@
                 margin-left: auto;
                 }
                 
+  .about_banner {
+    padding: 2rem 0 2rem 0;
+  }
+  
+  .pageTitle{
+    font-size: 30px;
+  }
                 .about_card2{
                   padding-bottom: 0px;
                   width: 700px;
@@ -204,6 +238,9 @@
                         margin-left: auto;
                         margin-right: auto;
                         }
+                        .about_years p {
+                          margin-top: -2px;
+                            }
                       .about_years h1 {
                         font-size:50px;
                         margin-left: 50px;
@@ -251,7 +288,7 @@
                           .about_card2{
                             padding-bottom: 0px;
                             width: auto;
-                            height: 138px; 
+                            height: 150px; 
                             display: flex;
                             flex-direction: row;                        
                               }
@@ -266,5 +303,28 @@
                                 font-size: 60px; 
                                 margin-left: -20px;   
                                }
+                               .about_years p {
+                                font-size:30px;
+                                  }
                           
                     }
+
+                    @media(max-width:390px){
+                      .pageTitle{
+                        font-size: 29px;
+                      }
+                       
+                          .about_card2{
+                            padding-bottom: 0px;
+                            width: auto;
+                            height: 160px; 
+                            display: flex;
+                            flex-direction: row;                        
+                              }
+
+                              .about_card2 p{
+                                font-size: 14px;
+                                line-height: 20px;
+                                margin-top: 0px;               
+                                }
+                              }

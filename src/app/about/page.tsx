@@ -48,15 +48,15 @@ const AboutPage = () => {
           <main>
             <section className={style.about_section}>
               <div className={style["about_banner"]}>
-                <div className="container">
+                <div className="container-fluid my-5" >
                   <div className="row">
-                    <div className="col-xl-7 col-lg-7 col-md-6 ">
-                      <h3 className={style.pageTitle}>
+                    <div className="col-md-8">
+                      <h1 className={style.pageTitle}>
                         Experts In LED Solutions
                         <br /> For All Types Of Purpose
-                      </h3>
+                      </h1>
                     </div>
-                    <div className="col-xl-5 col-lg-5 col-md-6">
+                    <div className="col-md-4">
                       <p>
                         IM vision is a professional and reliable partner and we<br className='d-xl-block d-lg-none d-md-none d-none'/>
                         are with you all the way from order to execution.
@@ -67,7 +67,7 @@ const AboutPage = () => {
               </div>
 
               <div>
-                <div className="container">
+                <div className="container-fluid my-4">
                   <div className="row">
                     <div >
                       <video
@@ -87,12 +87,11 @@ const AboutPage = () => {
 
               <div className="my-5">
                 <div className="d-flex flex-row gap-md-5 gap-4 bg-black justify-content-center col-12">
-                  <div className={style["about_years"]}>
+                  <div className={style.about_years}>
                     <h1>
                       10<span>+</span>
                       <br />
-                      <h3 className='d-md-block d-none'>YEARS</h3>
-                      <h5 className='d-md-none d-block'>YEARS</h5>
+                      <p className=''>YEARS</p>
                     </h1>
                   </div>
                   <div>
@@ -108,7 +107,7 @@ const AboutPage = () => {
               </div>
 
               {/* ||||card1 |||||| */}
-              <div className={`d-flex flex-md-row flex-column container  gap-md-5 gap-3 pb-2`}>
+              <div className={`d-flex flex-md-row flex-column container gap-md-5 gap-3 pb-2`}>
                 <div
                   className={`${style.about_card1} text-black ms-xxl-5 ms-xl-2`}
                   style={{ background: '#9FDEBE', paddingRight: '55px', paddingLeft: '35px' }}
@@ -148,7 +147,7 @@ const AboutPage = () => {
               <div>
                 <h3 className="">Who we are</h3><br />
                 <div className="">
-                  <div className={`line`}>
+                  <div className={`line position-relative text-white`}>
                     <div className={`${style.whoVR_para} pt-3 d-flex flex-row`}>
                       <div className='d-flex flex-column gap-2'>
                         <div className={`${style.para_ball}`}></div>
@@ -175,7 +174,7 @@ const AboutPage = () => {
                       </p>
                     </div>
 
-                    <div className={`${style.whoVR_para} `}>
+                    <div className={`${style.whoVR_para}`}>
                       <div className='d-flex flex-column gap-2'>
                         <div className={`${style.para_ball}`} style={{ height: '29px' }}></div>
                         <div className={`${style.para_line}`}></div>
@@ -188,7 +187,7 @@ const AboutPage = () => {
                       </p>
                     </div>
 
-                    <div className={`${style.whoVR_para} `}>
+                    <div className={`${style.whoVR_para}`}>
                       <div className='d-flex flex-column'>
                         <div className={`${style.para_ball}`} style={{ height: '22px' }}></div>
                       </div>
@@ -199,11 +198,13 @@ const AboutPage = () => {
                         help build the future of collaboration.
                       </p>
                     </div>
-                    <div className='line-mask d-lg-block d-md-none d-none'></div>
+                    <div className='line-mask d-lg-block d-md-none d-none position-absolute bg-black z-1' style={{right: '0',width:'100%',bottom:'-10px',opacity:'0.5'}}></div>
                   </div>
                 </div>
               </div>
             </div>
+
+
 
                <div className={`d-flex flex-lg-row flex-md-column flex-column container mx-auto gap-lg-5 gap-md-3 gap-3 pb-2 col-12`}>
                 <div

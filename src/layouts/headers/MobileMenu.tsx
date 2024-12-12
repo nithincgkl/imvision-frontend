@@ -18,7 +18,7 @@ const menu_data: MenuItem[] = [
   { id: 4, title: "Installation", link: '/installation', has_dropdown: false },
   { id: 5, title: "Contact", link: "/contact", has_dropdown: false },
   { id: 6, title: "Support", link: "/support", has_dropdown: false },
-  { id: 7, title: "🛒 Cart", link: "/Cart", has_dropdown: false },
+  { id: 7, title: "🛒 Cart", link: "/cart", has_dropdown: false },
 ];
 
 interface MobileMenuProps {

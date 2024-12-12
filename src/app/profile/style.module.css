@@ -1,0 +1,40 @@
+
+ 
+  .profile_section {
+    float: left;
+    width: 100%;
+    padding: 4rem 0;
+  }
+
+  .profile_nav button{
+    width:172px;
+    height: 50px;
+    display: flex;
+    flex-direction: row;
+justify-content: center;
+align-items: center;
+background-color: #222222;
+border: none;}
+
+.profile_nav button:hover{
+  background-color: #9FDEBE;
+}
+.form {
+  padding: 79px 102px 79px 102px;
+}
+.inputField {
+width: 340px;
+height: 59px;
+    border: none;
+    background-color: #141414;
+    transition: all 0.2s ease-in-out;
+    border-radius: 0;
+    border-bottom: solid 2px #747474;
+    color: #fff;
+  }
+  
+  .inputField:focus {
+    outline: none;
+    border-color: #86b7fe;
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+  }

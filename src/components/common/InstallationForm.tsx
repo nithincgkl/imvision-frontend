@@ -53,7 +53,7 @@ const InstallationForm: React.FC = () => {
             setErrors(formErrors);
         } else {
             setErrors({});
-            alert("Form submitted successfully!");
+          
         }
     };
     
@@ -103,18 +103,25 @@ const InstallationForm: React.FC = () => {
 
                                     {/* Second Row */}
                                     <div className="col-md-6">
-                                        <div className={styles.formControl}>
-                                            <input
-                                                type="text"
-                                                id="Phone"
-                                                className={`form-control ${styles.inputField}`}
-                                                placeholder="Phone*"
-                                            />
-                                            {errors.phone && (
-                                                <span className={styles.error}>{errors.phone}</span>
-                                            )}
-                                        </div>
-                                    </div>
+    <div className={styles.formControl}>
+        <input
+            type="tel"
+            id="Phone"
+            className={`form-control ${styles.inputField}`}
+            placeholder="Phone*"
+            onInput={(e: React.FormEvent<HTMLInputElement>) => {
+                const target = e.target as HTMLInputElement; // Explicitly typing as HTMLInputElement
+                target.value = target.value.replace(/[^0-9]/g, '');
+            }}
+        />
+        {errors.phone && (
+            <span className={styles.error}>{errors.phone}</span>
+        )}
+    </div>
+</div>
+
+
+
                                     <div className="col-md-6">
                                         <div className={styles.formControl}>
                                             <input
@@ -167,7 +174,7 @@ const InstallationForm: React.FC = () => {
                                             type="submit"
                                             className={styles["submit-button"]}
                                         >
-                                            Submit
+                                            Send Message
                                         </button>
                                     </div>
                                 </div>

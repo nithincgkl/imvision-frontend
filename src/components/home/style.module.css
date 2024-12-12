@@ -365,8 +365,6 @@
   width: 100%;
 }
 
-
-
 /* home-experience */
 
 .home-experience{
@@ -376,14 +374,11 @@
     overflow: hidden;
     background-color: #141414;
     border-radius: 30px;
-
-
 }
+
 .home-experience h3{
   margin: 0 0;
-  line-height: 35px;
-
-  
+  line-height: 35px; 
 }
 
 .experience-box-container  {
@@ -513,7 +508,7 @@
 
 @media (max-width: 768px) {
     .banner-content h1 {
-      font-size: 2rem;
+      font-size: 3rem;
     }
   
     .banner-content p {
