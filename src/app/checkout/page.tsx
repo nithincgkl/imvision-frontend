@@ -15,13 +15,14 @@ const RentalConditions = () => {
     serviceAgreement: '', // Initialize serviceAgreement
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement>) => {
     const { name, value, checked, type } = e.target;
     setFormData((prevData) => ({
       ...prevData,
       [name]: type === 'checkbox' ? checked : value, // Update based on input type
     }));
   };
+  
 
   return (
     <Wrapper>
