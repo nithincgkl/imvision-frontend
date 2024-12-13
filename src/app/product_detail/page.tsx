@@ -7,6 +7,16 @@ import style from "./style.module.css";
 import LetsTalk from '@/components/home/lets-talk';
 
 export default function ProductDetail() {
+  const [count, setCount] = useState(0); // Initialize count as 0
+
+  const handleIncrease = () => {
+    setCount(count + 1); // Increment count by 1
+  };
+
+  const handleDecrease = () => {
+    setCount(count - 1); // Decrement count by 1
+  };
+
   return (
     <Wrapper>
     <HeaderOne />
@@ -26,8 +36,13 @@ export default function ProductDetail() {
                             <h4 className={`${style.SEK} my-2`}>SEK 55.00  NOK</h4>
                             <div className='d-flex'>
                             <div className={style['button-section']}>
+                            <div className={style.itemAdjuster}>
+                                        <button onClick={() => handleDecrease()}>-</button>
+                                        <span className='m-1'>{count}</span>
+                                        <button onClick={() => handleIncrease()}>+</button>
+                                      </div>
                             <button>Add to Cart</button>
-                            <button>Quick Enquiry</button>
+                            <button className='bg-black'>Quick Enquiry</button>
                             </div>
                             </div>
                         </div>
