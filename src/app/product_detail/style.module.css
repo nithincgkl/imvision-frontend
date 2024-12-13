@@ -1,0 +1,46 @@
+.product_detail_section {
+    float: left;
+    width: 100%;
+    padding: 4rem 0;
+  }
+
+  .SEK {
+    color: #9FDEBE;
+    font-weight: 600;
+  }
+
+  .button-section {
+    display: flex;
+    margin-top: 1rem;
+  }
+
+
+.add_to_cart{
+  width: 200px;
+  height: 53px;
+  color: black;
+  font-size: 22px;
+border: none;
+}
+
+.itemAdjuster {
+  display: flex;
+  align-items: center;
+  gap:10px
+  
+}
+
+.itemAdjuster button  {
+  background-color: #141414;
+  color: #fff;
+  border: none;
+  width: 45px;
+  height: 53px;
+  font-size: 30px;
+  cursor: pointer;
+}
+
+.itemAdjuster span {
+  font-size: 18px;
+  font-weight: bold;
+}

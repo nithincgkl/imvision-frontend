@@ -25,8 +25,10 @@ export default function Profilepage() {
   const [countries, setCountries] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [activeForm, setActiveForm] = useState<string>('personal');
-  const [showPassword, setShowPassword] = useState(false);
-  const [formData, setFormData] = useState({
+  const [showCurrentPassword, setShowCurrentPassword] = useState(false);
+  const [showNewPassword, setShowNewPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+    const [formData, setFormData] = useState({
     name: '',
     email: '',
     phone: '',
@@ -53,10 +55,18 @@ export default function Profilepage() {
     confirmPassword: '',
   });
 
-  const togglePasswordVisibility = () => {
-    setShowPassword((prevState) => !prevState);
-  };
+type PasswordField = 'current' | 'new' | 'confirm';
 
+const togglePasswordVisibility = (field: PasswordField) => {
+  if (field === 'current') {
+    setShowCurrentPassword((prevState) => !prevState);
+  } else if (field === 'new') {
+    setShowNewPassword((prevState) => !prevState);
+  } else if (field === 'confirm') {
+    setShowConfirmPassword((prevState) => !prevState);
+  }
+};
+  
   useEffect(() => {
     fetch('https://restcountries.com/v3.1/all')
       .then((response) => response.json())
@@ -315,9 +325,10 @@ export default function Profilepage() {
                 )}
 
               {activeForm === 'orders' && (
-                    <div className={`${style.orders_form_main}`}>
-                      <div className={`${style.orders_form}`}>
-                        <p className={`${style.type} mb-0`}>Sale</p>
+                <div className='d-flex flex-column gap-2'>
+                    <div className={`${style.orders_form_main} gap-5`}>
+                    <div className={`${style.orders_form} ${isOpen ? style.ordersFormOpen : ''}`}>
+                    <p className={`${style.type} mb-0`}>Sale</p>
                         <p className={`${style.order_num} `}>Order Id : 456AWE5</p>
                         <p className={`${style.model} d-md-block d-none`}>IM Series P0.93mm – COB with CCT tech 600×337.5 mm</p>
                         <p className='mb-0 pt-2 align-items-center'>
@@ -380,83 +391,85 @@ export default function Profilepage() {
                             </div>
                           )}
                        </div>
+                       </div>
               )}
 
 
-                {activeForm === 'account' && (
-                  <form onSubmit={handleSubmit} className={`${style.accounts_form} justify-content-center`}>
-                    <div className={`${style.form_align}`}>
-                      <h4>Change Password</h4>
+{activeForm === 'account' && (
+  <form onSubmit={handleSubmit} className={`${style.accounts_form} justify-content-center`}>
+    <div className={`${style.form_align}`}>
+      <h4>Change Password</h4>
 
-                      {/* Current Password */}
-                      <div className="col-xl-6 col-lg-8 mb-3">
-                        <div className={style.formControl}>
-                          <input
-                            type={showPassword ? 'text' : 'password'}
-                            className={`form-control ${style.inputField}`}
-                            placeholder="Current Password"
-                            value={formData.currentPassword}
-                            onChange={(e) => setFormData({ ...formData, currentPassword: e.target.value })}
-                          />
-                          <button
-                            className={`absolute inset-y-0 right-0 pr-3 flex items-center ${style.eye_button}`}
-                            type="button"
-                            onClick={togglePasswordVisibility}
-                          >
-                            {showPassword ? <FaEye /> : <FaEye />}
-                          </button>
-                        </div>
-                        {errors.currentPassword && <div className="text-danger">{errors.currentPassword}</div>}
-                      </div>
+      {/* Current Password */}
+      <div className="col-xl-6 col-lg-8 mb-3">
+        <div className={style.formControl}>
+          <input
+            type={showCurrentPassword ? 'text' : 'password'}
+            className={`form-control ${style.inputField}`}
+            placeholder="Current Password"
+            value={formData.currentPassword}
+            onChange={(e) => setFormData({ ...formData, currentPassword: e.target.value })}
+          />
+          <button
+            className={`absolute inset-y-0 right-0 pr-3 flex items-center ${style.eye_button}`}
+            type="button"
+            onClick={() => togglePasswordVisibility('current')}
+          >
+            {showCurrentPassword ? <FaEye /> : <FaEye />}
+          </button>
+        </div>
+        {errors.currentPassword && <div className="text-danger">{errors.currentPassword}</div>}
+      </div>
 
-                      {/* New Password */}
-                      <div className="col-xl-6 col-lg-8 mb-3">
-                        <div className={style.formControl}>
-                          <input
-                            type={showPassword ? 'text' : 'password'}
-                            className={`form-control ${style.inputField}`}
-                            placeholder="New Password"
-                            value={formData.newPassword}
-                            onChange={(e) => setFormData({ ...formData, newPassword: e.target.value })}
-                          />
-                          <button
-                            className={`absolute inset-y-0 right-0 pr-3 flex items-center ${style.eye_button}`}
-                            type="button"
-                            onClick={togglePasswordVisibility}
-                          >
-                            {showPassword ? <FaEye /> : <FaEye />}
-                          </button>
-                        </div>
-                        {errors.newPassword && <div className="text-danger">{errors.newPassword}</div>}
-                      </div>
+      {/* New Password */}
+      <div className="col-xl-6 col-lg-8 mb-3">
+        <div className={style.formControl}>
+          <input
+            type={showNewPassword ? 'text' : 'password'}
+            className={`form-control ${style.inputField}`}
+            placeholder="New Password"
+            value={formData.newPassword}
+            onChange={(e) => setFormData({ ...formData, newPassword: e.target.value })}
+          />
+          <button
+            className={`absolute inset-y-0 right-0 pr-3 flex items-center ${style.eye_button}`}
+            type="button"
+            onClick={() => togglePasswordVisibility('new')}
+          >
+            {showNewPassword ? <FaEye /> : <FaEye />}
+          </button>
+        </div>
+        {errors.newPassword && <div className="text-danger">{errors.newPassword}</div>}
+      </div>
 
-                      {/* Confirm Password */}
-                      <div className="col-xl-6 col-lg-8 mb-3">
-                        <div className={style.formControl}>
-                          <input
-                            type={showPassword ? 'text' : 'password'}
-                            className={`form-control ${style.inputField}`}
-                            placeholder="Confirm New Password"
-                            value={formData.confirmPassword}
-                            onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
-                          />
-                          <button
-                            className={`absolute inset-y-0 right-0 pr-3 flex items-center ${style.eye_button}`}
-                            type="button"
-                            onClick={togglePasswordVisibility}
-                          >
-                            {showPassword ? <FaEye /> : <FaEye />}
-                          </button>
-                        </div>
-                        {errors.confirmPassword && <div className="text-danger">{errors.confirmPassword}</div>}
-                      </div>
+      {/* Confirm Password */}
+      <div className="col-xl-6 col-lg-8 mb-3">
+        <div className={style.formControl}>
+          <input
+            type={showConfirmPassword ? 'text' : 'password'}
+            className={`form-control ${style.inputField}`}
+            placeholder="Confirm New Password"
+            value={formData.confirmPassword}
+            onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
+          />
+          <button
+            className={`absolute inset-y-0 right-0 pr-3 flex items-center ${style.eye_button}`}
+            type="button"
+            onClick={() => togglePasswordVisibility('confirm')}
+          >
+            {showConfirmPassword ? <FaEye /> : <FaEye />}
+          </button>
+        </div>
+        {errors.confirmPassword && <div className="text-danger">{errors.confirmPassword}</div>}
+      </div>
 
-                      <div className="col-xl-6 col-lg-8 my-3">
-                        <button type="submit" className={style.submit_btn}>Submit</button>
-                      </div>
-                    </div>
-                  </form>
-                )}
+      <div className="col-xl-6 col-lg-8 my-3">
+        <button type="submit" className={style.submit_btn}>Submit</button>
+      </div>
+    </div>
+  </form>
+)}
+
               </div>
             </section>
 
