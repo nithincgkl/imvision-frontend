@@ -19,6 +19,19 @@
     flex: 1;
   }
 
+.button-section button:last-child { 
+  font-size: 16px; 
+  background-color: #1E1E1E;
+  border: none; 
+  font-weight: 500;
+  white-space: nowrap; 
+}
+
+.add_to_cart{
+  width: 180px;
+  height: 53px;
+
+}
 
 .itemAdjuster {
   display: flex;

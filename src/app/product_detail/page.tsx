@@ -41,8 +41,8 @@ export default function ProductDetail() {
                                         <span className='m-1'>{count}</span>
                                         <button onClick={() => handleIncrease()}>+</button>
                                       </div>
-                            <button>Add to Cart</button>
-                            <button className='bg-black'>Quick Enquiry</button>
+                            <button className={style['add_to_cart']}>Add to Cart</button>
+                            <button className='bg-black border-0 w-100'>Quick Enquiry</button>
                             </div>
                             </div>
                         </div>
