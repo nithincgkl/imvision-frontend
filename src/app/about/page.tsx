@@ -46,7 +46,10 @@ const AboutPage = () => {
       <div id="smooth-wrapper">
         <div id="smooth-content">
           <main>
+
+
             <section className={style.about_section}>
+              
               <div className={style["about_banner"]}>
                 <div className="container-fluid my-5" >
                   <div className="row">
@@ -154,8 +157,7 @@ const AboutPage = () => {
                         <div className={`${style.para_line}`}></div>
                       </div>
                       <p className='pb-3'>
-                        Connection and collaboration without boundaries are essential for<br className='d-lg-block d-md-none d-none'/>
-                        progress. At IMvision, we believe that intelligent solutions are the<br className='d-lg-block d-md-none d-none'/>
+                        Connection and collaboration without boundaries are essential for progress. At IMvision, we believe that intelligent <br className='d-lg-block d-md-none d-none'/>solutions are the
                         driving force behind both economic and social development.
                       </p>
                     </div>
@@ -166,9 +168,9 @@ const AboutPage = () => {
                         <div className={`${style.para_line}`}></div>
                       </div>
                       <p>
-                        With this in mind, IMvision was created as a platform where information<br className='d-lg-block d-md-none d-none'/>
+                        With this in mind, IMvision was created as a platform where information
                         flows seamlessly, fostering creativity and innovation. Our goal is to<br className='d-lg-block d-md-none d-none'/>
-                        empower a space—both physical and virtual—where genuine<br  className='d-lg-block d-md-none d-none'/>
+                        empower a space—both physical and virtual—where genuine
                         connections can be made, and collaboration thrives, whether offline or<br className='d-lg-block d-md-none d-none'/>
                         online.
                       </p>
@@ -180,8 +182,8 @@ const AboutPage = () => {
                         <div className={`${style.para_line}`}></div>
                       </div>
                       <p>
-                        The name IMvision reflects our commitment to intelligent display<br className='d-lg-block d-md-none d-none'/>
-                        solutions that bring people together. We aim to provide advanced,<br className='d-lg-block d-md-none d-none'/>
+                        The name IMvision reflects our commitment to intelligent display
+                        solutions that bring people together. <br className='d-lg-block d-md-none d-none'/>We aim to provide advanced,
                         integrated technology to elevate organizational efficiency and enhance<br className='d-lg-block d-md-none d-none'/>
                         communication.
                       </p>
@@ -192,9 +194,9 @@ const AboutPage = () => {
                         <div className={`${style.para_ball}`} style={{ height: '22px' }}></div>
                       </div>
                       <p>
-                        By eliminating barriers to connection, we create environments that<br className='d-lg-block d-md-none d-none' />
+                        By eliminating barriers to connection, we create environments that
                         inspire innovation, enabling full immersion and sparking new<br className='d-lg-block d-md-none d-none'/>
-                        possibilities for growth. At IMvision, we don’t just rent displays—we<br className='d-lg-block d-md-none d-none' />
+                        possibilities for growth. At IMvision, we don’t just rent displays—we
                         help build the future of collaboration.
                       </p>
                     </div>
@@ -206,7 +208,7 @@ const AboutPage = () => {
 
 
 
-               <div className={`d-flex flex-lg-row flex-md-column flex-column container mx-auto gap-lg-5 gap-md-3 gap-3 pb-2 col-12`}>
+               <div className={`d-flex flex-lg-row flex-md-column flex-column container mx-auto gap-lg-3 gap-md-3 gap-3 pb-2 col-12`}>
                 <div
                   className={`${style.about_card2} ms-xxl-5 ms-xl-2`}                 
                 >
