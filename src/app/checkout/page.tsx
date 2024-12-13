@@ -15,7 +15,7 @@ const RentalConditions = () => {
     serviceAgreement: '', // Initialize serviceAgreement
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement>) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value, checked, type } = e.target;
     setFormData((prevData) => ({
       ...prevData,
