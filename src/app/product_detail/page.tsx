@@ -5,6 +5,8 @@ import FooterOne from '@/layouts/footers/FooterOne';
 import HeaderOne from '@/layouts/headers/HeaderOne';
 import style from "./style.module.css";
 import LetsTalk from '@/components/home/lets-talk';
+import { HiOutlineShoppingBag } from "react-icons/hi2";
+
 
 export default function ProductDetail() {
   const [count, setCount] = useState(0); // Initialize count as 0
@@ -40,16 +42,17 @@ export default function ProductDetail() {
                                         <button onClick={() => handleDecrease()}>-</button>
                                         <span className='m-1'>{count}</span>
                                         <button onClick={() => handleIncrease()}>+</button>
-                                      </div>
-                            <button className={style['add_to_cart']}>Add to Cart</button>
-                            <button className='bg-black border-0 w-100'>Quick Enquiry</button>
+                              </div>
+                            <button className={`${style.add_to_cart} ms-4`}>Add to Cart <span><HiOutlineShoppingBag height={50} width={50}/></span></button>
+                            <button className='ms-4 fs-5 bg-black border-0'>Quick Enquiry</button>
                             </div>
                             </div>
                         </div>
                     </div>
                 </div>
                
-            </section>      
+            </section>
+            <LetsTalk />      
         </main>
         <FooterOne />
       </div>
