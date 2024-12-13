@@ -11,18 +11,39 @@ import { IoChevronDown } from 'react-icons/io5';
 // Main RentalConditions Component
 const RentalConditions = () => {
   const [formData, setFormData] = useState({
-    gdprConsent: false, // Initialize GDPR consent to false
-    serviceAgreement: '', // Initialize serviceAgreement
+    gdprConsent: false,
+    serviceAgreement: '',
+    Country: '',
+    FirstName: '',
+    Surname: '',
+    Email: '',
+    Phone: '',
+    Street: '',
+    HouseNumber: '',
+    City: '',
+    PostalCode: '',
+    State: '',
+    Notes: ''
   });
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    const { name, value, checked, type } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: type === 'checkbox' ? checked : value, // Update based on input type
-    }));
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value, type } = e.target;
+    
+    // Handle checkbox separately
+    if (type === 'checkbox') {
+      const checkedValue = (e.target as HTMLInputElement).checked;
+      setFormData((prevData) => ({
+        ...prevData,
+        [name]: checkedValue,
+      }));
+    } else {
+      // Handle text inputs and select elements
+      setFormData((prevData) => ({
+        ...prevData,
+        [name]: value,
+      }));
+    }
   };
-  
 
   return (
     <Wrapper>
@@ -48,7 +69,6 @@ const RentalConditions = () => {
                   <div className="row">
                     <div className="col-md-8">
                       <div className={style["checkout_container"]}>
-
                         <form>
                           <div className={style["checkout_inner_container"]}>
                             <div className="row">
@@ -58,8 +78,11 @@ const RentalConditions = () => {
                                   <input
                                     type="text"
                                     id="FirstName"
+                                    name="FirstName"
                                     className={`form-control ${style.inputField}`}
                                     placeholder="First Name*"
+                                    value={formData.FirstName}
+                                    onChange={handleChange}
                                   />
                                 </div>
                               </div>
@@ -68,8 +91,11 @@ const RentalConditions = () => {
                                   <input
                                     type="text"
                                     id="Surname"
+                                    name="Surname"
                                     className={`form-control ${style.inputField}`}
                                     placeholder="Surname*"
+                                    value={formData.Surname}
+                                    onChange={handleChange}
                                   />
                                 </div>
                               </div>
@@ -81,8 +107,11 @@ const RentalConditions = () => {
                                   <input
                                     type="email"
                                     id="Email"
+                                    name="Email"
                                     className={`form-control ${style.inputField}`}
                                     placeholder="Email Address*"
+                                    value={formData.Email}
+                                    onChange={handleChange}
                                   />
                                 </div>
                               </div>
@@ -91,8 +120,11 @@ const RentalConditions = () => {
                                   <input
                                     type="number"
                                     id="Phone"
+                                    name="Phone"
                                     className={`form-control ${style.inputField}`}
                                     placeholder="Phone*"
+                                    value={formData.Phone}
+                                    onChange={handleChange}
                                   />
                                 </div>
                               </div>
@@ -104,8 +136,11 @@ const RentalConditions = () => {
                                   <input
                                     type="text"
                                     id="Street"
+                                    name="Street"
                                     className={`form-control ${style.inputField}`}
                                     placeholder="Street*"
+                                    value={formData.Street}
+                                    onChange={handleChange}
                                   />
                                 </div>
                               </div>
@@ -114,8 +149,11 @@ const RentalConditions = () => {
                                   <input
                                     type="text"
                                     id="HouseNumber"
+                                    name="HouseNumber"
                                     className={`form-control ${style.inputField}`}
                                     placeholder="House Number*"
+                                    value={formData.HouseNumber}
+                                    onChange={handleChange}
                                   />
                                 </div>
                               </div>
@@ -127,8 +165,11 @@ const RentalConditions = () => {
                                   <input
                                     type="text"
                                     id="City"
+                                    name="City"
                                     className={`form-control ${style.inputField}`}
                                     placeholder="City / Town*"
+                                    value={formData.City}
+                                    onChange={handleChange}
                                   />
                                 </div>
                               </div>
@@ -137,8 +178,11 @@ const RentalConditions = () => {
                                   <input
                                     type="text"
                                     id="PostalCode"
+                                    name="PostalCode"
                                     className={`form-control ${style.inputField}`}
                                     placeholder="Postal Code*"
+                                    value={formData.PostalCode}
+                                    onChange={handleChange}
                                   />
                                 </div>
                               </div>
@@ -150,14 +194,14 @@ const RentalConditions = () => {
                                   <input
                                     type="text"
                                     id="State"
+                                    name="State"
                                     className={`form-control ${style.inputField}`}
                                     placeholder="State*"
+                                    value={formData.State}
+                                    onChange={handleChange}
                                   />
                                 </div>
                               </div>
-
-
-
 
                               <div className="col-md-6">
                                 <div className={style.formControl}>
@@ -177,16 +221,11 @@ const RentalConditions = () => {
                                       <option value="France">France</option>
                                       <option value="UK">United Kingdom</option>
                                       <option value="Australia">Australia</option>
-                                      {/* Add more countries as needed */}
                                     </select>
-                                    <IoChevronDown className={style.arrowIcon} /> {/* Add the icon here */}
+                                    <IoChevronDown className={style.arrowIcon} />
                                   </div>
                                 </div>
                               </div>
-
-
-
-
                             </div>
                           </div>
 
@@ -215,14 +254,16 @@ const RentalConditions = () => {
                                   <input
                                     type="text"
                                     id="Notes"
+                                    name="Notes"
                                     className={`form-control ${style.inputField}`}
                                     placeholder="Order Notes (optional)"
+                                    value={formData.Notes}
+                                    onChange={handleChange}
                                   />
                                 </div>
                               </div>
                             </div>
                           </div>
-
                         </form>
                       </div>
                     </div>
@@ -243,8 +284,8 @@ const RentalConditions = () => {
                                     <p>IM Series P0.93mm  x 3</p>
                                   </div>
                                   <div>
-                                    <p>SEK 0.00</p>
-                                    <p>SEK 0.00</p>
+                                    <p>SEK 0.00</p>
+                                    <p>SEK 0.00</p>
                                   </div>
                                 </div>
                               </div>
@@ -255,8 +296,8 @@ const RentalConditions = () => {
                                     <p>Shipping</p>
                                   </div>
                                   <div>
-                                    <p>SEK 10.00</p>
-                                    <p>SEK 10.00 </p>
+                                    <p>SEK 10.00</p>
+                                    <p>SEK 10.00 </p>
                                   </div>
                                 </div>
                                 <span className={style["im_hr"]}></span>
@@ -267,14 +308,13 @@ const RentalConditions = () => {
                                     <h6>Grant Total</h6>
                                   </div>
                                   <div>
-                                    <h6><span>SEK 10.00</span> </h6>
+                                    <h6><span>SEK 10.00</span> </h6>
                                   </div>
                                 </div>
 
                                 <div className={style["single_row"]}>
                                   <p>Your personal data will be used to process your order, improve your experience on the website and for other purposes described in our
-                                    <Link href="/privacy-policy" className="cs_hero_btn">privacy policy</Link> .</p>
-
+                                    <Link href="/privacy-policy" className="cs_hero_btn">privacy policy</Link> .</p>
                                 </div>
                               </div>
                               <div className={style["checkout_table_sec"]}>
@@ -285,35 +325,23 @@ const RentalConditions = () => {
                             </div>
                           </div>
                         </div>
-
                       </div>
                     </div>
-
                   </div>
                 </div>
-
               </div>
-
-
 
               <div className={style["checkout_footer"]}>
                 <div className="container-fluid">
                   <div className="row">
                     <div className="col-md-12">
                       <div className={style["checkout_container"]}>
-
-
                         <form>
                           <div className={style["checkout_inner_container"]}>
-
-
                             <div className="row">
-
                               <div className="col-md-8">
                                 <h4>Select Shipment Type</h4>
-
                                 <fieldset>
-
                                   <div className={style.fieldset_radio}>
                                     <input
                                       type="radio"
@@ -336,7 +364,7 @@ const RentalConditions = () => {
                                       onChange={handleChange}
                                       checked={formData.serviceAgreement === 'Platform'}
                                     />
-                                    <label htmlFor="Platform">&nbsp; Platform price Central Sweden - Calculated upon confirmation:SEK 1000.00 </label>
+                                    <label htmlFor="Platform">&nbsp; Platform price Central Sweden - Calculated upon confirmation:SEK 1000.00 </label>
 
                                     <br />
 
@@ -354,32 +382,25 @@ const RentalConditions = () => {
                                     <p><i>Shipping options will be updated at checkout.</i></p>
                                   </div>
                                 </fieldset>
-
                               </div>
-
 
                               <div className="col-md-4">
                                 <h6>Calculate Shipping</h6>
                                 <div className={style.formControl}>
                                   <div className={style.selectWrapper}>
                                     <select
-                                      id="Country"
-                                      name="Country"
+                                      id="ShippingCountry"
+                                      name="ShippingCountry"
                                       className={`form-control ${style.inputField}`}
                                       onChange={handleChange}
                                       value={formData.Country || ''} // Bind value to state
                                     >
                                       <option value="">Sweden</option>
                                       <option value="Sweden">Sweden</option>
-                                      <option value="Sweden">Sweden</option>
-                                      <option value="Sweden">Sweden</option>
-                                      <option value="Sweden">Sweden</option>
-                                      <option value="Sweden">Sweden</option>
                                       <option value="Sweden">United Sweden</option>
-                                      <option value="Sweden">Sweden</option>
-                                      {/* Add more countries as needed */}
+                                      {/* Duplicate options removed for brevity */}
                                     </select>
-                                    <IoChevronDown className={style.arrowIcon} /> {/* Add the icon here */}
+                                    <IoChevronDown className={style.arrowIcon} />
                                   </div>
                                 </div>
 
@@ -387,8 +408,10 @@ const RentalConditions = () => {
                                   <input
                                     type="text"
                                     id="Place"
+                                    name="Place"
                                     className={`form-control ${style.inputField}`}
                                     placeholder="Place"
+                                    onChange={handleChange}
                                   />
                                 </div>
 
@@ -396,31 +419,24 @@ const RentalConditions = () => {
                                   <input
                                     type="text"
                                     id="ZIP-Code"
+                                    name="ZIPCode"
                                     className={`form-control ${style.inputField}`}
                                     placeholder="ZIP Code"
+                                    onChange={handleChange}
                                   />
                                 </div>
                                 <div className={style.formControl}>
-                                  <button>Update</button>
+                                  <button type="button">Update</button>
                                 </div>
-
                               </div>
-
                             </div>
-
                           </div>
-
                         </form>
                       </div>
                     </div>
-
-
-
                   </div>
                 </div>
-
               </div>
-
             </section>
             <LetsTalk />
           </main>
@@ -432,3 +448,9 @@ const RentalConditions = () => {
 };
 
 export default RentalConditions;
+
+
+
+
+
+                                
