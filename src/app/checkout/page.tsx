@@ -276,7 +276,7 @@ const RentalConditions = () => {
                                     onChange={handleChange}
                                     className={style["custom_checkbox"]}
                                   />
-                                  <label htmlFor="GDPR" className='mb-0'>Consent according to GDPR</label>
+                                  <label htmlFor="GDPR" className='mb-0'>Deliver to Billing Address</label>
                                 </div>
                               </div>
                             </div>
@@ -349,7 +349,7 @@ const RentalConditions = () => {
 
                                 <div className={style["single_row"]}>
                                   <p>Your personal data will be used to process your order, improve your experience on the website and for other purposes described in our
-                                    <Link href="/privacy-policy" className="cs_hero_btn">privacy policy</Link> .</p>
+                                     &nbsp;<Link href="/privacy-policy" className="cs_hero_btn">privacy policy</Link> .</p>
                                 </div>
                               </div>
                               <div className={style["checkout_table_sec"]}>
@@ -423,18 +423,18 @@ const RentalConditions = () => {
                                 <h6>Calculate Shipping</h6>
                                 <div className={style.formControl}>
                                   <div className={style.selectWrapper}>
-                                    <select
-                                      id="ShippingCountry"
-                                      name="ShippingCountry"
-                                      className={`form-control ${style.inputField}`}
-                                      onChange={handleChange}
-                                      value={formData.Country || ''} // Bind value to state
-                                    >
-                                      <option value="">Sweden</option>
-                                      <option value="Sweden">Sweden</option>
-                                      <option value="Sweden">United Sweden</option>
-                                      {/* Duplicate options removed for brevity */}
-                                    </select>
+                                  <select
+  id="Country"
+  name="Country" // Change to match the state key
+  className={`form-control ${style.inputField}`}
+  onChange={handleChange}
+  value={formData.Country || ''} // Bind value to the correct state key
+>
+  <option value="Sweden">Sweden</option>
+  <option value="uk">UK</option>
+  <option value="uae">UAE</option>
+  <option value="us">United States</option>
+</select>
                                     <IoChevronDown className={style.arrowIcon} />
                                   </div>
                                 </div>
@@ -461,7 +461,7 @@ const RentalConditions = () => {
                                   />
                                 </div>
                                 <div className={style.formControl}>
-                                  <button type="button">Update</button>
+                                  <button type="button" className={style.update_btn}>Update</button>
                                 </div>
                               </div>
                             </div>
