@@ -5,7 +5,9 @@
     width: 100%;
     padding: 4rem 0;
   }
-
+.profile_section label{
+  color: #9A9A9A;
+}
   .profile_nav button{
     width:172px;
     height: 50px;

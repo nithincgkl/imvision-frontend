@@ -6,7 +6,6 @@ import FooterOne from "@/layouts/footers/FooterOne";
 import HeaderOne from "@/layouts/headers/HeaderOne";
 import Filter from "@/components/sale/filter";
 import ProductItem from "@/components/product-item/product-item";
-import LetsTalk from '@/components/home/lets-talk';
 
 import rent_1 from "../../../public/assets/images/post/01.jpg";
 import rent_2 from "../../../public/assets/images/post/02.jpg";
@@ -20,7 +19,7 @@ import rent_9 from "../../../public/assets/images/post/01.jpg";
 import rent_10 from "../../../public/assets/images/post/02.jpg";
 import rent_11 from "../../../public/assets/images/post/03.jpg";
 import rent_12 from "../../../public/assets/images/post/04.jpg";
-
+import LetsTalk from '@/components/home/lets-talk';
 
 const blog_data = [
   {
