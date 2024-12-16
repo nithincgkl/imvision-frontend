@@ -23,6 +23,8 @@ const RentalConditions = () => {
     City: '',
     PostalCode: '',
     State: '',
+    CompanyName: '',
+    Reference: '',
     Notes: ''
   });
 
@@ -227,6 +229,39 @@ const RentalConditions = () => {
                                 </div>
                               </div>
                             </div>
+
+
+                            <div className="row">
+                              <div className="col-md-6">
+                                <div className={style.formControl}>
+                                  <input
+                                    type="text"
+                                    id="Company-Name"
+                                    name="Company-Name"
+                                    className={`form-control ${style.inputField}`}
+                                    placeholder="Company Name (optional)"
+                                    value={formData.CompanyName}
+                                    onChange={handleChange}
+                                  />
+                                </div>
+                              </div>
+                              <div className="col-md-6">
+                                <div className={style.formControl}>
+                                  <input
+                                    type="text"
+                                    id="Reference"
+                                    name="Reference"
+                                    className={`form-control ${style.inputField}`}
+                                    placeholder="Reference (optional)"
+                                    value={formData.Reference}
+                                    onChange={handleChange}
+                                  />
+                                </div>
+                              </div>
+                              </div>
+
+
+
                           </div>
 
                           <div className={`my-4 ${style.checkout_container}`}>
