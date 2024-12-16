@@ -4182,6 +4182,7 @@ fieldset:disabled .btn {
     border-bottom-left-radius: 0;
   }
 }
+
 .accordion {
   --bs-accordion-color: #000;
   --bs-accordion-bg: #fff;
