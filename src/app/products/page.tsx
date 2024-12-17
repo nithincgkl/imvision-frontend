@@ -5,7 +5,7 @@ import Wrapper from "@/layouts/wrapper";
 import FooterOne from "@/layouts/footers/FooterOne";
 import HeaderOne from "@/layouts/headers/HeaderOne";
 import Filter from "@/components/sale/filter";
-import EventItem from "@/components/event-item/event-item";
+import ProductItem from "@/components/product-item/product-item";
 import LetsTalk from '@/components/home/lets-talk';
 
 import rent_1 from "../../../public/assets/images/post/01.jpg";
@@ -112,7 +112,7 @@ const Page: React.FC = () => {
                 <div className="container-fluid">
                   <div className="row">
                     <div className="col-12">
-                      <h1 className={style.pageTitle}>Rent Products</h1>
+                      <h1 className={style.pageTitle}>Products</h1>
                     </div>
                   </div>
                 </div>
@@ -125,7 +125,7 @@ const Page: React.FC = () => {
                   <div className="row">
                     {blog_data.map((item) => (
                       <div className="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12" key={item.id}>
-                        <EventItem item={item} />
+                        <ProductItem item={item} />
                       </div>
                     ))}
                   </div>

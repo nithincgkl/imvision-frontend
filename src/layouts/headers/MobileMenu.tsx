@@ -14,7 +14,7 @@ interface MenuItem {
 const menu_data: MenuItem[] = [
   { id: 1, title: "Events", link: '/events', has_dropdown: false },
   { id: 2, title: "Expo", link: '/expo', has_dropdown: false },
-  { id: 3, title: "Products", link: '/rent-products', has_dropdown: false }, // Unique key
+  { id: 3, title: "Products", link: '/products', has_dropdown: false }, // Unique key
   { id: 4, title: "Installation", link: '/installation', has_dropdown: false },
   { id: 5, title: "Contact", link: "/contact", has_dropdown: false },
   { id: 6, title: "Support", link: "/error-reporting", has_dropdown: false },
