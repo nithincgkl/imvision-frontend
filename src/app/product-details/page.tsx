@@ -174,8 +174,8 @@ export default function ProductDetail() {
                   </div>
 
                         <div className={`${style.main_details} col-lg-5 col-md-5 col-12`}>
-                            <h1 className=''>ABSENnicon C Slim Series 165</h1>
-                            <h4 className={`${style.SEK} my-lg-2 my-md-0`}>SEK 55.00  NOK</h4>
+                            <h4 className=''>ABSENnicon C Slim Series 165</h4>
+                            <h5 className={`${style.SEK} my-lg-2 my-md-0`}>SEK 55.00  NOK</h5>
                                 <div className='d-flex'>
                                 <div className={style['button-section']}>
                                 <div className={style.itemAdjuster}>
@@ -205,7 +205,7 @@ export default function ProductDetail() {
                       <p>With an ultra-thin frame of 5 mm, the screen reaches a screen-to-body ratio of 98%, providing an immersive experience for all viewers. Experience outstanding visual performance with the Absenicon C Slim series. Every dark or bright detail looks vivid and clear with its 110% NTSC color gamut and 600 nits brightness. Read more</p>
                     </div>
 
-                    <h2 className=' fw-semibold mb-4'>Product Specifications</h2>
+                    <h3 className='mb-4'>Product Specifications</h3>
 
                     <div className={`${style.product_spec}`}>
                       <div className={`${style.spec_detail}`}>
@@ -255,7 +255,7 @@ export default function ProductDetail() {
                       </div>
                     </div>
                     <div>
-                      <h2  className=' fw-semibold mb-4 my-5'> Related Products</h2>
+                      <h3  className='mb-4 my-5'> Related Products</h3>
                       <div className="d-flex">
 
                   <Swiper
