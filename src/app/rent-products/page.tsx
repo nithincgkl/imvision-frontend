@@ -9,6 +9,7 @@ import Filter from '@/components/sale/filter';
 import ProductItem from '@/components/product-item/product-item';
 import LetsTalk from '@/components/home/lets-talk';
 
+// Define types for products
 interface Product {
   id: number;
   img: string;
@@ -18,6 +19,7 @@ interface Product {
   slug: string;
 }
 
+// Page.tsx for Rent Products
 const RentPage: React.FC = () => {
   const [productData, setProductData] = useState<Product[]>([]); // Original rent products
   const [filteredProductData, setFilteredProductData] = useState<Product[]>([]); // Filtered rent products
@@ -143,8 +145,8 @@ const RentPage: React.FC = () => {
           <FooterOne />
         </div>
       </div>
-      </Wrapper>
-    );
+    </Wrapper>
+  );
 };
 
 export default RentPage;
