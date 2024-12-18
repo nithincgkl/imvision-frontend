@@ -1,15 +1,52 @@
-'use client'
-import React from 'react';
-import Link from 'next/link';
+'use client';
+import React, { useState } from 'react';
 import Wrapper from '@/layouts/wrapper';
 import FooterOne from '@/layouts/footers/FooterOne';
 import HeaderOne from '@/layouts/headers/HeaderOne';
 import style from "./style.module.css";
 import LetsTalk from '@/components/home/lets-talk';
-import { FiDownload } from "react-icons/fi";
+import Link from 'next/link';
+import { IoChevronDown } from 'react-icons/io5';
 
-// Main ContactPage Component
+// Main RentalConditions Component
 const RentalConditions = () => {
+  const [formData, setFormData] = useState({
+    gdprConsent: false,
+    serviceAgreement: '',
+    Country: '',
+    FirstName: '',
+    Surname: '',
+    Email: '',
+    Phone: '',
+    Street: '',
+    HouseNumber: '',
+    City: '',
+    PostalCode: '',
+    State: '',
+    CompanyName: '',
+    Reference: '',
+    Notes: ''
+  });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value, type } = e.target;
+    
+    // Handle checkbox separately
+    if (type === 'checkbox') {
+      const checkedValue = (e.target as HTMLInputElement).checked;
+      setFormData((prevData) => ({
+        ...prevData,
+        [name]: checkedValue,
+      }));
+    } else {
+      // Handle text inputs and select elements
+      setFormData((prevData) => ({
+        ...prevData,
+        [name]: value,
+      }));
+    }
+  };
+
   return (
     <Wrapper>
       <HeaderOne />
@@ -20,45 +57,308 @@ const RentalConditions = () => {
               <div className={style.contact_banner}>
                 <div className="container-fluid">
                   <div className="row">
-                    <div className="col-md-8">
-                      <h1 className={style.pageTitle}>Lease agreement</h1>
-                    </div>
-                    <div className="col-md-4">
-                      <p>The lessee must take good care of the equipment. Damage caused by carelessness is charged regardless of whether the damage was caused by fault or accident</p>
+                    <div className="col-md-12">
+                      <div className='text-center'>
+                        <h1 className={style.pageTitle}>Checkout</h1>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
 
-              <div className={style["rental_conditions"]}>
+              <div className={style["checkout"]}>
                 <div className="container-fluid">
                   <div className="row">
-                    <div className="col-md-12">
-                      <div className={style["rental_conditions_container"]}>
-                        <h4>Rental conditions</h4>
-                        <ol>
-                          <li>The lessee must take good care of the equipment. Damage caused by carelessness is charged regardless of whether the damage was caused by fault or accident.</li>
-                          <li>The lessee does not have the right to sell, pledge, transfer or take the equipment out of the country. Nor, in turn, rent or lend the equipment without written consent from IMPROD AB.</li>
-                          <li>The equipment must, unless otherwise agreed, be picked up and left at IMPROD AB, Hekulesvägen 56 in Jönköping.</li>
-                          <li>Lately returned equipment is charged according to IMPROD AB rental prices calculated after a 1-day rental per started delayed day.</li>
-                          <li>The renter is responsible for damage to the rental equipment, theft, etc., and is liable for compensation up to the full value of the equipment as well as other costs incurred by IMPROD AB due to such damage, from the time the equipment leaves IMPROD AB's warehouse until it is returned. This also applies to cases where IMPROD AB arranged/ordered delivery/collection. To the extent that IMPROD AB's own insurance, according to IMPROD AB's assessment, may apply, the lessee is liable for compensation for all costs incurred by IMPROD AB due to such damage, including deductibles agreed in IMPROD AB's insurance.</li>
-                          <li>IMPROD AB does not compensate for failed or canceled performances, recordings or the like caused by equipment faults or other circumstances beyond IMPROD AB's control.</li>
-                          <li>Cancellation of booked equipment and staff must be done no later than two weeks before the start of the rental period. If cancellation occurs later, 50% of the rental amount will be charged. If cancellation is made the day before or on the same day as the start of the rental period, 100% of the rental amount will be charged. For equipment booked but not collected, the agreed rental cost is charged unless otherwise agreed.</li>
-                          <li>If the lessee does not take into account the above rental conditions, delays the agreed payment, goes bankrupt, ends up insolvent, is declared incompetent, dies or in some other way breaks the rental agreement entered into, IMPROD AB has the right to immediately repossess the equipment and cancel the agreement. In that case, the lessee must pay the rental cost until the day IMPROD AB takes the equipment back.</li>                        
-                        </ol>
-                        <div  className={style["download_btn_container"]}>
-                          <div><img src="/assets/images/download.jpg" className="w-100" alt="" /></div>
-                          <a 
-                            href="/lease-agreement.pdf" 
-                            download 
-                            className={style["download-link"]}
-                          >
-                            <h4>Download Lease Agreement</h4>
-                            <div className={style["download_btn"]}>
-                              <span>PDF  1.5 MB</span>
-                              <span><FiDownload /></span>
+                    <div className="col-md-8">
+                      <div className={style["checkout_container"]}>
+                        <form>
+                          <div className={style["checkout_inner_container"]}>
+                            <div className="row">
+                              <div className="col-md-12"><h4>Billing Address</h4></div>
+                              <div className="col-md-6">
+                                <div className={style.formControl}>
+                                  <input
+                                    type="text"
+                                    id="FirstName"
+                                    name="FirstName"
+                                    className={`form-control ${style.inputField}`}
+                                    placeholder="First Name*"
+                                    value={formData.FirstName}
+                                    onChange={handleChange}
+                                  />
+                                </div>
+                              </div>
+                              <div className="col-md-6">
+                                <div className={style.formControl}>
+                                  <input
+                                    type="text"
+                                    id="Surname"
+                                    name="Surname"
+                                    className={`form-control ${style.inputField}`}
+                                    placeholder="Surname*"
+                                    value={formData.Surname}
+                                    onChange={handleChange}
+                                  />
+                                </div>
+                              </div>
                             </div>
-                          </a>
+
+                            <div className="row">
+                              <div className="col-md-6">
+                                <div className={style.formControl}>
+                                  <input
+                                    type="email"
+                                    id="Email"
+                                    name="Email"
+                                    className={`form-control ${style.inputField}`}
+                                    placeholder="Email Address*"
+                                    value={formData.Email}
+                                    onChange={handleChange}
+                                  />
+                                </div>
+                              </div>
+                              <div className="col-md-6">
+                                <div className={style.formControl}>
+                                  <input
+                                    type="number"
+                                    id="Phone"
+                                    name="Phone"
+                                    className={`form-control ${style.inputField}`}
+                                    placeholder="Phone*"
+                                    value={formData.Phone}
+                                    onChange={handleChange}
+                                  />
+                                </div>
+                              </div>
+                            </div>
+
+                            <div className="row">
+                              <div className="col-md-6">
+                                <div className={style.formControl}>
+                                  <input
+                                    type="text"
+                                    id="Street"
+                                    name="Street"
+                                    className={`form-control ${style.inputField}`}
+                                    placeholder="Street*"
+                                    value={formData.Street}
+                                    onChange={handleChange}
+                                  />
+                                </div>
+                              </div>
+                              <div className="col-md-6">
+                                <div className={style.formControl}>
+                                  <input
+                                    type="text"
+                                    id="HouseNumber"
+                                    name="HouseNumber"
+                                    className={`form-control ${style.inputField}`}
+                                    placeholder="House Number*"
+                                    value={formData.HouseNumber}
+                                    onChange={handleChange}
+                                  />
+                                </div>
+                              </div>
+                            </div>
+
+                            <div className="row">
+                              <div className="col-md-6">
+                                <div className={style.formControl}>
+                                  <input
+                                    type="text"
+                                    id="City"
+                                    name="City"
+                                    className={`form-control ${style.inputField}`}
+                                    placeholder="City / Town*"
+                                    value={formData.City}
+                                    onChange={handleChange}
+                                  />
+                                </div>
+                              </div>
+                              <div className="col-md-6">
+                                <div className={style.formControl}>
+                                  <input
+                                    type="text"
+                                    id="PostalCode"
+                                    name="PostalCode"
+                                    className={`form-control ${style.inputField}`}
+                                    placeholder="Postal Code*"
+                                    value={formData.PostalCode}
+                                    onChange={handleChange}
+                                  />
+                                </div>
+                              </div>
+                            </div>
+
+                            <div className="row">
+                              <div className="col-md-6">
+                                <div className={style.formControl}>
+                                  <input
+                                    type="text"
+                                    id="State"
+                                    name="State"
+                                    className={`form-control ${style.inputField}`}
+                                    placeholder="State*"
+                                    value={formData.State}
+                                    onChange={handleChange}
+                                  />
+                                </div>
+                              </div>
+
+                              <div className="col-md-6">
+                                <div className={style.formControl}>
+                                  <div className={style.selectWrapper}>
+                                    <select
+                                      id="Country"
+                                      name="Country"
+                                      className={`form-control ${style.inputField}`}
+                                      onChange={handleChange}
+                                      value={formData.Country || ''} // Bind value to state
+                                    >
+                                      <option value="">Select Country / Region*</option>
+                                      <option value="Sweden">Sweden</option>
+                                      <option value="USA">United States</option>
+                                      <option value="Canada">Canada</option>
+                                      <option value="Germany">Germany</option>
+                                      <option value="France">France</option>
+                                      <option value="UK">United Kingdom</option>
+                                      <option value="Australia">Australia</option>
+                                    </select>
+                                    <IoChevronDown className={style.arrowIcon} />
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
+
+                            <div className="row">
+                              <div className="col-md-6">
+                                <div className={style.formControl}>
+                                  <input
+                                    type="text"
+                                    id="Company-Name"
+                                    name="Company-Name"
+                                    className={`form-control ${style.inputField}`}
+                                    placeholder="Company Name (optional)"
+                                    value={formData.CompanyName}
+                                    onChange={handleChange}
+                                  />
+                                </div>
+                              </div>
+                              <div className="col-md-6">
+                                <div className={style.formControl}>
+                                  <input
+                                    type="text"
+                                    id="Reference"
+                                    name="Reference"
+                                    className={`form-control ${style.inputField}`}
+                                    placeholder="Reference (optional)"
+                                    value={formData.Reference}
+                                    onChange={handleChange}
+                                  />
+                                </div>
+                              </div>
+                              </div>
+
+
+
+                          </div>
+
+                          <div className={`my-4 ${style.checkout_container}`}>
+                            <div className="row">
+                              <div className="col-md-12">
+                                <div className={`mb-0 ${style.formControl}`}>
+                                  <input
+                                    type="checkbox"
+                                    id="GDPR"
+                                    name="gdprConsent"
+                                    checked={formData.gdprConsent}
+                                    onChange={handleChange}
+                                    className={style["custom_checkbox"]}
+                                  />
+                                  <label htmlFor="GDPR" className='mb-0'>Deliver to Billing Address</label>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div className={style["checkout_inner_container"]}>
+                            <div className="row">
+                              <div className="col-md-12">
+                                <div className={`mb-0 ${style.formControl}`}>
+                                  <input
+                                    type="text"
+                                    id="Notes"
+                                    name="Notes"
+                                    className={`form-control ${style.inputField}`}
+                                    placeholder="Order Notes (optional)"
+                                    value={formData.Notes}
+                                    onChange={handleChange}
+                                  />
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+
+                    <div className="col-md-4">
+                      <div className={style["checkout_container"]}>
+                        <div className={style["checkout_inner_container"]}>
+                          <div className="row">
+                            <div className="col-md-12"><h4>Order Summary</h4></div>
+                            <div className="col-md-12">
+                              <div className={style["checkout_table"]}>
+                                <div className={style["single_row"]}>
+                                  <h5>Products</h5>
+                                </div>
+                                <div className={style["two_row"]}>
+                                  <div>
+                                    <p>ABSENnicon Slim 165″ x 2</p>
+                                    <p>IM Series P0.93mm  x 3</p>
+                                  </div>
+                                  <div>
+                                    <p>SEK 0.00</p>
+                                    <p>SEK 0.00</p>
+                                  </div>
+                                </div>
+                              </div>
+                              <div className={style["checkout_table_sec"]}>
+                                <div className={style["two_row"]}>
+                                  <div>
+                                    <p>Subtotal</p>
+                                    <p>Shipping</p>
+                                  </div>
+                                  <div>
+                                    <p>SEK 10.00</p>
+                                    <p>SEK 10.00 </p>
+                                  </div>
+                                </div>
+                                <span className={style["im_hr"]}></span>
+                              </div>
+                              <div className={style["checkout_table_sec"]}>
+                                <div className={style["two_row"]}>
+                                  <div>
+                                    <h6>Grant Total</h6>
+                                  </div>
+                                  <div>
+                                    <h6><span>SEK 10.00</span> </h6>
+                                  </div>
+                                </div>
+
+                                <div className={style["single_row"]}>
+                                  <p>Your personal data will be used to process your order, improve your experience on the website and for other purposes described in our
+                                     &nbsp;<Link href="/privacy-policy" className="cs_hero_btn">privacy policy</Link> .</p>
+                                </div>
+                              </div>
+                              <div className={style["checkout_table_sec"]}>
+                                <div className={style["single_row"]}>
+                                  <button>Place order</button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -66,8 +366,113 @@ const RentalConditions = () => {
                 </div>
               </div>
 
-            </section>
+              <div className={style["checkout_footer"]}>
+                <div className="container-fluid">
+                  <div className="row">
+                    <div className="col-md-12">
+                      <div className={style["checkout_container"]}>
+                        <form>
+                          <div className={style["checkout_inner_container"]}>
+                            <div className="row">
+                              <div className="col-md-8">
+                                <h4>Select Shipment Type</h4>
+                                <fieldset>
+                                  <div className={style.fieldset_radio}>
+                                    <input
+                                      type="radio"
+                                      className="radio"
+                                      name="serviceAgreement"
+                                      value="yourself"
+                                      id="yourself"
+                                      onChange={handleChange}
+                                      checked={formData.serviceAgreement === 'yourself'}
+                                    />
+                                    <label htmlFor="yourself">&nbsp; Pick up yourself - Jönköping</label>
+                                    <br />
 
+                                    <input
+                                      type="radio"
+                                      className={`radio ${style.radio_input}`}
+                                      name="serviceAgreement"
+                                      value="Platform"
+                                      id="Platform"
+                                      onChange={handleChange}
+                                      checked={formData.serviceAgreement === 'Platform'}
+                                    />
+                                    <label htmlFor="Platform">&nbsp; Platform price Central Sweden - Calculated upon confirmation:SEK 1000.00 </label>
+
+                                    <br />
+
+                                    <input
+                                      type="radio"
+                                      className={`radio ${style.radio_input_two}`}
+                                      name="serviceAgreement"
+                                      value="Download"
+                                      id="Download"
+                                      onChange={handleChange}
+                                      checked={formData.serviceAgreement === 'Download'}
+                                    />
+                                    <label htmlFor="Download">&nbsp; Download yourself - Stockholm</label>
+
+                                    <p><i>Shipping options will be updated at checkout.</i></p>
+                                  </div>
+                                </fieldset>
+                              </div>
+
+                              <div className="col-md-4">
+                                <h6>Calculate Shipping</h6>
+                                <div className={style.formControl}>
+                                  <div className={style.selectWrapper}>
+                                  <select
+  id="Country"
+  name="Country" // Change to match the state key
+  className={`form-control ${style.inputField}`}
+  onChange={handleChange}
+  value={formData.Country || ''} // Bind value to the correct state key
+>
+  <option value="Sweden">Sweden</option>
+  <option value="uk">UK</option>
+  <option value="uae">UAE</option>
+  <option value="us">United States</option>
+</select>
+                                    <IoChevronDown className={style.arrowIcon} />
+                                  </div>
+                                </div>
+
+                                <div className={style.formControl}>
+                                  <input
+                                    type="text"
+                                    id="Place"
+                                    name="Place"
+                                    className={`form-control ${style.inputField}`}
+                                    placeholder="Place"
+                                    onChange={handleChange}
+                                  />
+                                </div>
+
+                                <div className={style.formControl}>
+                                  <input
+                                    type="text"
+                                    id="ZIP-Code"
+                                    name="ZIPCode"
+                                    className={`form-control ${style.inputField}`}
+                                    placeholder="ZIP Code"
+                                    onChange={handleChange}
+                                  />
+                                </div>
+                                <div className={style.formControl}>
+                                  <button type="button" className={style.update_btn}>Update</button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
             <LetsTalk />
           </main>
           <FooterOne />
@@ -78,3 +483,9 @@ const RentalConditions = () => {
 };
 
 export default RentalConditions;
+
+
+
+
+
+                                

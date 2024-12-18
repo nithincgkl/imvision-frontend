@@ -11,7 +11,7 @@ import { FiDownload } from "react-icons/fi";
 // Main ContactPage Component
 const RentalConditions = () => {
   return (
-    <Wrapper>
+    <Wrapper> 
       <HeaderOne />
       <div id="smooth-wrapper">
         <div id="smooth-content">

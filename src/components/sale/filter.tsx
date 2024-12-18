@@ -5,9 +5,40 @@ import { FaAngleDown } from "react-icons/fa6";
 import axios from "axios";
 import style from "./style.module.css";
 
-// Define props interface
+// Define types for categories and filters
+interface Category {
+  id: string;
+  category_name: string;
+}
+
+interface SubCategory {
+  id: string;
+  sub_category_name: string;
+}
+
+interface SubSubCategory {
+  id: string;
+  sub_sub_category_name: string;
+}
+
+interface Filter {
+  categoryIds: number[];
+  subCategoryIds: number[];
+  subSubCategoryIds: number[];
+}
+
+interface Product {
+  id: number;
+  img: string;
+  title: string;
+  des: string;
+  sale_rent: string;
+  slug:string
+}
+
+// Define props for the Filter component
 interface FilterProps {
-  onApplyFilters: (filters: any) => void;  // Replace 'any' with a more specific type if you know the structure
+  onApplyFilters: (products: Product[]) => void;
 }
 
 const Filter: React.FC<FilterProps> = ({ onApplyFilters }) => {
@@ -15,61 +46,74 @@ const Filter: React.FC<FilterProps> = ({ onApplyFilters }) => {
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [selectedSubCategories, setSelectedSubCategories] = useState<string[]>([]);
   const [selectedSubSubCategories, setSelectedSubSubCategories] = useState<string[]>([]);
-  const [categories, setCategories] = useState<any[]>([]); 
-  const [subCategories, setSubCategories] = useState<any[]>([]);
-  const [subSubCategories, setSubSubCategories] = useState<any[]>([]);
-      
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [subCategories, setSubCategories] = useState<SubCategory[]>([]);
+  const [subSubCategories, setSubSubCategories] = useState<SubSubCategory[]>([]);
+  const [error, setError] = useState<string | null>(null);
+
   useEffect(() => {
     // Fetch Categories
-    axios.get(`${process.env.NEXT_PUBLIC_API_URL}products/product-categories`, {
-      headers: {
-        Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`
+    const fetchCategories = async () => {
+      try {
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}products/product-categories`, {
+          headers: {
+            Authorization:`Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`
+          }
+        });
+        setCategories(response.data);
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+        setError("Failed to load categories. Please try again later.");
       }
-    })
-    .then((response) => {
-      setCategories(response.data); 
-    })
-    .catch((error) => {
-      console.error("Error fetching categories:", error);
-    });
+    };
+
+    fetchCategories();
   }, []);
 
   useEffect(() => {
     // Fetch Sub Categories based on selected categories
-    if (selectedCategories.length > 0) {
-      axios.post(`${process.env.NEXT_PUBLIC_API_URL}products/subcategories`, {
-        categoryIds: selectedCategories
-      }, {
-        headers: {
-          Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`
+    const fetchSubCategories = async () => {
+      if (selectedCategories.length > 0) {
+        try {
+          const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}products/subcategories`, {
+            categoryIds: selectedCategories
+          }, {
+            headers: {
+              Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`
+            }
+          });
+          setSubCategories(response.data);
+        } catch (error) {
+          console.error("Error fetching sub-categories:", error);
+          setError("Failed to load sub-categories. Please try again later.");
         }
-      })
-      .then((response) => {
-        setSubCategories(response.data);
-      })
-      .catch((error) => {
-        console.error("Error fetching sub-categories:", error);
-      });
-    }
+      }
+    };
+
+    fetchSubCategories();
   }, [selectedCategories]);
 
   useEffect(() => {
     // Fetch Sub-Sub Categories based on selected sub-categories
-    if (selectedSubCategories.length > 0) {
-      axios.post(`${process.env.NEXT_PUBLIC_API_URL}products/subsubcategories`, {
-        subCategoryIds: selectedSubCategories
-      }, {
-        headers: {
-          Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`
+    const fetchSubSubCategories = async () => {
+      if (selectedSubCategories.length > 0) {
+        try {
+          const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}products/subsubcategories`, {
+            subCategoryIds: selectedSubCategories
+          }, {
+            headers: {
+              Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`
+            }
+          });
+          setSubSubCategories(response.data);
+        } catch (error) {
+          console.error("Error fetching sub-sub-categories:", error);
+          setError("Failed to load sub-sub-categories. Please try again later.");
         }
-      })
-      .then((response) => {
-        setSubSubCategories(response.data);
-      })
-      .catch((error) => {
-        console.error("Error fetching sub-sub-categories:", error);
-      });
-    }
+      }
+    };
+
+    fetchSubSubCategories();
   }, [selectedSubCategories]);
 
   const toggleSelection = (
@@ -85,40 +129,51 @@ const Filter: React.FC<FilterProps> = ({ onApplyFilters }) => {
   };
 
   const resetFilters = () => {
+    // Reset local state
     setSelectedCategories([]);
     setSelectedSubCategories([]);
     setSelectedSubSubCategories([]);
+
+    // Pass empty array to trigger default rent products
+    onApplyFilters([]);
   };
 
-  const applyFilters = () => {
-    const filters = {
+  const applyFilters = async () => {
+    const filters: Filter = {
       categoryIds: selectedCategories.map((category) => parseInt(category)),
       subCategoryIds: selectedSubCategories.map((subCategory) => parseInt(subCategory)),
       subSubCategoryIds: selectedSubSubCategories.map((subSubCategory) => parseInt(subSubCategory)),
     };
-  
-    console.log("Applying Filters:", filters);
-  
-    // Check if onApplyFilters is a function
-    if (typeof onApplyFilters === 'function') {
-      axios.post(`${process.env.NEXT_PUBLIC_API_URL}products/filter`, filters, {
+
+    try {
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}products/filter`, filters, {
         headers: {
-          Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
+          Authorization:`Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
           'Content-Type': 'application/json',
         },
-      })
-      .then((response) => {
-        console.log("Filtered products:", response.data);
-        onApplyFilters(response.data);  // This should now work correctly
-      })
-      .catch((error) => {
-        console.error("Error applying filters:", error);
       });
-    } else {
-      console.error("onApplyFilters is not a function");
+
+      const transformedData = response.data.map((item: any) => {
+        const imageUrl =
+          (item.product_images && item.product_images.length > 0 && item.product_images[0].url) ||
+          (item.thumbnail && item.thumbnail.url) ||
+          'No image is available';
+
+        return {
+          id: item.id,
+          img: imageUrl,
+          title: item.title,
+          des: item.description || '',
+          sale_rent: item.sale_rent,
+        };
+      });
+
+      onApplyFilters(transformedData);
+    } catch (error) {
+      console.error("Error applying filters:", error);
+      setError("Failed to apply filters. Please try again later.");
     }
   };
-  
 
   return (
     <div>
@@ -137,7 +192,7 @@ const Filter: React.FC<FilterProps> = ({ onApplyFilters }) => {
                   Showing 1-12 of 92 results
                 </p>
                 <select className={style.sort_dropdown} onChange={(e) => console.log(e.target.value)}>
-                  <option value="">Default Sorting </option>
+                  <option value="">Default Sorting</option>
                   <option value="price-low-to-high">Price: Low to High</option>
                   <option value="price-high-to-low">Price: High to Low</option>
                   <option value="newest">Newest</option>
@@ -230,18 +285,13 @@ const Filter: React.FC<FilterProps> = ({ onApplyFilters }) => {
                 </div>
               </div>
 
-              {/* Reset & Apply Filters Section */}
-              <div className="row">
-                <div className="col-12">
-                  <div className={style.filterResetContainer}>
-                    <button onClick={resetFilters} className={style.filterResetBtn}>
-                      Reset Filter
-                    </button>
-                    <button onClick={applyFilters} className={style.applyFilterBtn}>
-                      Apply Filter
-                    </button>
-                  </div>
-                </div>
+              <div className={style.filterActionButtons}>
+                <button className={style.applyFilterButton} onClick={applyFilters}>
+                  Apply Filters
+                </button>
+                <button className={style.resetFilterButton} onClick={resetFilters}>
+                  Reset Filters
+                </button>
               </div>
             </div>
           </div>
