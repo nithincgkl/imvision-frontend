@@ -148,9 +148,4 @@ const Page: React.FC = () => {
     </Wrapper>
   );
 };
-<<<<<<< HEAD
- 
-=======
-
->>>>>>> c6b769af6e04908e709438e625067d7e912a0db5
 export default Page;
