@@ -190,7 +190,7 @@ export default function ProductDetail() {
                                 </div>
                                 </div>
                                 <div className={`${style.sale_section} my-lg-3 my-md-0 `}>
-                                  <h6 className='ps-4 p-2' >sale</h6>
+                                  <h6 className='ps-4 p-2' >Sale</h6>
                                   <div className='p-lg-3 p-md-4 p-4  ps-4 pt-lg-1 pt-md-0 pt-0'>
                                   <p className='text-success fw-bold'>Available In Stock</p>
                                   <p className=''><span className='fw-bold text-white'>Article Code:</span> 234</p>
@@ -202,7 +202,7 @@ export default function ProductDetail() {
 
                     <div className={`${style.para_section} my-5 `}>
                       <p>The Absenicon C Slim Series LED Display is much more than just a screen. The C Slim display is highly integrated and includes control unit, modules, cabinets, installation brackets, cables and all necessary display elements needed for the installation.</p>
-                      <p>With an ultra-thin frame of 5 mm, the screen reaches a screen-to-body ratio of 98%, providing an immersive experience for all viewers. Experience outstanding visual performance with the Absenicon C Slim series. Every dark or bright detail looks vivid and clear with its 110% NTSC color gamut and 600 nits brightness. Read more</p>
+                      <p>With an ultra-thin frame of 5 mm, the screen reaches a screen-to-body ratio of 98%, providing an immersive experience for all viewers. Experience outstanding visual performance with the Absenicon C Slim series. Every dark or bright detail looks vivid and clear with its 110% NTSC color gamut and 600 nits brightness.</p>
                     </div>
 
                     <h3 className='mb-4'>Product Specifications</h3>
