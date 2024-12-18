@@ -1,145 +1,304 @@
 'use client';
-import React from 'react';
+
+import React, { useState, useEffect } from "react";
+import { FaAngleDown } from "react-icons/fa6";
+import axios from "axios";
 import style from "./style.module.css";
-import Wrapper from "@/layouts/wrapper";
-import FooterOne from "@/layouts/footers/FooterOne";
-import HeaderOne from "@/layouts/headers/HeaderOne";
-import Filter from "@/components/sale/filter";
-import EventItem from "@/components/event-item/event-item";
-import LetsTalk from '@/components/home/lets-talk';
 
-import rent_1 from "../../../public/assets/images/post/01.jpg";
-import rent_2 from "../../../public/assets/images/post/02.jpg";
-import rent_3 from "../../../public/assets/images/post/03.jpg";
-import rent_4 from "../../../public/assets/images/post/04.jpg";
-import rent_5 from "../../../public/assets/images/post/01.jpg";
-import rent_6 from "../../../public/assets/images/post/02.jpg";
-import rent_7 from "../../../public/assets/images/post/03.jpg";
-import rent_8 from "../../../public/assets/images/post/04.jpg";
-import rent_9 from "../../../public/assets/images/post/01.jpg";
-import rent_10 from "../../../public/assets/images/post/02.jpg";
-import rent_11 from "../../../public/assets/images/post/03.jpg";
-import rent_12 from "../../../public/assets/images/post/04.jpg";
+// Define types for categories and filters
+interface Category {
+  id: string;
+  category_name: string;
+}
 
+interface SubCategory {
+  id: string;
+  sub_category_name: string;
+}
 
-const blog_data = [
-  {
-    id: 1,
-    img: rent_1,
-    title: `496×496 P1.9 Corner`,
-    des: `1274`,
-  },
-  {
-    id: 2,
-    img: rent_2,
-    title: `ABSENnicon C Slim Series 110″`,
-    des: `15000`,
-  },
-  {
-    id: 3,
-    img: rent_3,
-    title: `ABSENnicon C Slim Series 110″`,
-    des: `15000`,
-  },
-  {
-    id: 4,
-    img: rent_4,
-    title: `ABSENnicon C Slim Series 110″`,
-    des: `15000`,
-  },
-  {
-    id: 5,
-    img: rent_5,
-    title: `ABSENnicon C Slim Series 110″`,
-    des: `15000`,
-  },
-  {
-    id: 6,
-    img: rent_6,
-    title: `ABSENnicon C Slim Series 110″`,
-    des: `15000`,
-  },
-  {
-    id: 7,
-    img: rent_7,
-    title: `ABSENnicon C Slim Series 110″`,
-    des: `15000`,
-  },
-  {
-    id: 8,
-    img: rent_8,
-    title: `ABSENnicon C Slim Series 110″`,
-    des: `15000`,
-  },
-  {
-    id: 9,
-    img: rent_9,
-    title: `ABSENnicon C Slim Series 110″`,
-    des: `15000`,
-  },
-  {
-    id: 10,
-    img: rent_10,
-    title: `ABSENnicon C Slim Series 110″`,
-    des: `15000`,
-  },
-  {
-    id: 11,
-    img: rent_11,
-    title: `ABSENnicon C Slim Series 110″`,
-    des: `15000`,
-  },
-  {
-    id: 12,
-    img: rent_12,
-    title: `ABSENnicon C Slim Series 110″`,
-    des: `15000`,
-  },
-  
-];
+interface SubSubCategory {
+  id: string;
+  sub_sub_category_name: string;
+}
 
-const Page: React.FC = () => {
+interface Filter {
+  categoryIds: number[];
+  subCategoryIds: number[];
+  subSubCategoryIds: number[];
+}
+
+interface Product {
+  id: number;
+  img: string;
+  title: string;
+  des: string;
+  sale_rent: string;
+  slug:string
+}
+
+// Define props for the Filter component
+interface FilterProps {
+  onApplyFilters: (products: Product[]) => void;
+}
+
+const Filter: React.FC<FilterProps> = ({ onApplyFilters }) => {
+  const [showFilter, setShowFilter] = useState<boolean>(false);
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+  const [selectedSubCategories, setSelectedSubCategories] = useState<string[]>([]);
+  const [selectedSubSubCategories, setSelectedSubSubCategories] = useState<string[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [subCategories, setSubCategories] = useState<SubCategory[]>([]);
+  const [subSubCategories, setSubSubCategories] = useState<SubSubCategory[]>([]);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    // Fetch Categories
+    const fetchCategories = async () => {
+      try {
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}products/product-categories`, {
+          headers: {
+            Authorization:`Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`
+          }
+        });
+        setCategories(response.data);
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+        setError("Failed to load categories. Please try again later.");
+      }
+    };
+
+    fetchCategories();
+  }, []);
+
+  useEffect(() => {
+    // Fetch Sub Categories based on selected categories
+    const fetchSubCategories = async () => {
+      if (selectedCategories.length > 0) {
+        try {
+          const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}products/subcategories`, {
+            categoryIds: selectedCategories
+          }, {
+            headers: {
+              Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`
+            }
+          });
+          setSubCategories(response.data);
+        } catch (error) {
+          console.error("Error fetching sub-categories:", error);
+          setError("Failed to load sub-categories. Please try again later.");
+        }
+      }
+    };
+
+    fetchSubCategories();
+  }, [selectedCategories]);
+
+  useEffect(() => {
+    // Fetch Sub-Sub Categories based on selected sub-categories
+    const fetchSubSubCategories = async () => {
+      if (selectedSubCategories.length > 0) {
+        try {
+          const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}products/subsubcategories`, {
+            subCategoryIds: selectedSubCategories
+          }, {
+            headers: {
+              Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`
+            }
+          });
+          setSubSubCategories(response.data);
+        } catch (error) {
+          console.error("Error fetching sub-sub-categories:", error);
+          setError("Failed to load sub-sub-categories. Please try again later.");
+        }
+      }
+    };
+
+    fetchSubSubCategories();
+  }, [selectedSubCategories]);
+
+  const toggleSelection = (
+    selectedItems: string[], 
+    item: string, 
+    setSelected: React.Dispatch<React.SetStateAction<string[]>>
+  ) => {
+    setSelected(
+      selectedItems.includes(item)
+        ? selectedItems.filter((i) => i !== item)
+        : [...selectedItems, item]
+    );
+  };
+
+  const resetFilters = () => {
+    // Reset local state
+    setSelectedCategories([]);
+    setSelectedSubCategories([]);
+    setSelectedSubSubCategories([]);
+
+    // Pass empty array to trigger default rent products
+    onApplyFilters([]);
+  };
+
+  const applyFilters = async () => {
+    const filters: Filter = {
+      categoryIds: selectedCategories.map((category) => parseInt(category)),
+      subCategoryIds: selectedSubCategories.map((subCategory) => parseInt(subCategory)),
+      subSubCategoryIds: selectedSubSubCategories.map((subSubCategory) => parseInt(subSubCategory)),
+    };
+
+    try {
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}products/filter`, filters, {
+        headers: {
+          Authorization:`Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
+          'Content-Type': 'application/json',
+        },
+      });
+
+      const transformedData = response.data.map((item: any) => {
+        const imageUrl =
+          (item.product_images && item.product_images.length > 0 && item.product_images[0].url) ||
+          (item.thumbnail && item.thumbnail.url) ||
+          'No image is available';
+
+        return {
+          id: item.id,
+          img: imageUrl,
+          title: item.title,
+          des: item.description || '',
+          sale_rent: item.sale_rent,
+        };
+      });
+
+      onApplyFilters(transformedData);
+    } catch (error) {
+      console.error("Error applying filters:", error);
+      setError("Failed to apply filters. Please try again later.");
+    }
+  };
+
   return (
-    <Wrapper>
-      <HeaderOne />
+    <div>
+      <section className={style.sale_filter_container}>
+        <div className="container-fluid">
+          <div className="row">
+            <div className="col-12 col-md-6">
+              <button onClick={() => setShowFilter(!showFilter)} className={style.filter_btn}>
+                Filter Category button
+              </button>
+              <FaAngleDown className={style.btn_cat} />
+            </div>
+            <div className="col-12 col-md-6">
+              <div className={style.sale_filter_container_right}>
+                <p className={style.m_none}>
+                  Showing 1-12 of 92 results
+                </p>
+                <select className={style.sort_dropdown} onChange={(e) => console.log(e.target.value)}>
+                  <option value="">Default Sorting</option>
+                  <option value="price-low-to-high">Price: Low to High</option>
+                  <option value="price-high-to-low">Price: High to Low</option>
+                  <option value="newest">Newest</option>
+                  <option value="rating">Rating</option>
+                </select>
+                <FaAngleDown className={style.z_10} />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
-      <div id="smooth-wrapper">
-        <div id="smooth-content">
-          <main>
-            <div className={style["without-banner"]}>
-              {/* Common Top Section */}
-              <div className={style.topSection}>
-                <div className="container-fluid">
-                  <div className="row">
-                    <div className="col-12">
-                      <h1 className={style.pageTitle}>Rent Products</h1>
+      {showFilter && (
+        <section className={style.filterContent}>
+          <div className="container-fluid">
+            <div className={style.filterInnerContent}>
+              <div className="row">
+                <div className="col-12">
+                  <div className={style.filterInnerContentCategory}>
+                    {/* Category Section */}
+                    <div className={style.filterCategoryBox}>
+                      {categories.map((category, index) => (
+                        <div key={index} className={style.filterCheckbox}>
+                          <label>{category.category_name}</label>
+                          <input
+                            type="checkbox"
+                            checked={selectedCategories.includes(category.id)}
+                            onChange={() =>
+                              toggleSelection(
+                                selectedCategories,
+                                category.id,
+                                setSelectedCategories
+                              )
+                            }
+                          />
+                        </div>
+                      ))}
                     </div>
+
+                    {/* Sub Category Section */}
+                    {selectedCategories.length > 0 && (
+                      <div className={`${style.filterCategoryBox} ${style.filterSubCategoryBox}`}>
+                        <div className={style.displa_flex}>
+                          <div>
+                            {subCategories.map((subCat, index) => (
+                              <div key={index} className={style.filterCheckbox}>
+                                <label>{subCat.sub_category_name}</label>
+                                <input
+                                  type="checkbox"
+                                  checked={selectedSubCategories.includes(subCat.id)}
+                                  onChange={() =>
+                                    toggleSelection(
+                                      selectedSubCategories,
+                                      subCat.id,
+                                      setSelectedSubCategories
+                                    )
+                                  }
+                                />
+                              </div>
+                            ))}
+                          </div>
+
+                          {/* Sub Sub Category Section */}
+                          {selectedSubCategories.length > 0 && (
+                            <div>
+                              <div className={`${style.filterCategoryBox} ${style.filterSubSubCategoryBox}`}>
+                                {subSubCategories.map((subSubCat, index) => (
+                                  <div key={index} className={style.filterCheckbox}>
+                                    <label>{subSubCat.sub_sub_category_name}</label>
+                                    <input
+                                      type="checkbox"
+                                      checked={selectedSubSubCategories.includes(subSubCat.id)}
+                                      onChange={() =>
+                                        toggleSelection(
+                                          selectedSubSubCategories,
+                                          subSubCat.id,
+                                          setSelectedSubSubCategories
+                                        )
+                                      }
+                                    />
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
 
-              <Filter />
-
-              <section className={style["product_section"]}>
-                <div className="container-fluid">
-                  <div className="row">
-                    {blog_data.map((item) => (
-                      <div className="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12" key={item.id}>
-                        <EventItem item={item} />
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </section>
-
-              <LetsTalk />
+              <div className={style.filterActionButtons}>
+                <button className={style.applyFilterButton} onClick={applyFilters}>
+                  Apply Filters
+                </button>
+                <button className={style.resetFilterButton} onClick={resetFilters}>
+                  Reset Filters
+                </button>
+              </div>
             </div>
-          </main>
-          <FooterOne />
-        </div>
-      </div>
-    </Wrapper>
+          </div>
+        </section>
+      )}
+    </div>
   );
 };
 
-export default Page;
+export default Filter;

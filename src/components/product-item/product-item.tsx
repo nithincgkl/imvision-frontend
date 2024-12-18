@@ -10,6 +10,7 @@ interface ProductItemProps {
     img: any; // Use string for dynamic URLs
     title: string;
     des: string;
+    slug: string;
   };
 }
 
@@ -20,7 +21,7 @@ const ProductItem: React.FC<ProductItemProps> = ({ item }) => {
         <div className={`${styles['box']} ${styles['box--top-bot']}`}>
           <div className={`${styles['box__inner']} ${styles['box--top-bot']}`}>
             <div className="cs_post cs_style_1">
-              <Link href="/product-details" className={styles['pb-15']}>
+              <Link href={`/products/${item.slug}`} className={styles['pb-15']}>
                 {/* Use the imported image directly */}
                 <img
                   src={item.img} // Use directly without concatenation
@@ -31,8 +32,8 @@ const ProductItem: React.FC<ProductItemProps> = ({ item }) => {
                 />
               </Link>
               <div className="cs_post_info">
-                <h2 className="cs_post_title">
-                  <Link href="/product-details">{item.title}</Link>
+                <h2 className="cs_post_title" style={{ minHeight: '60px' }}>
+                  <Link href={`/products/${item.slug}`}>{item.title}</Link>
                 </h2>
                 <p className="cs_m0">SEK {item.des}</p>
                 <div className={styles['button-section']}>
