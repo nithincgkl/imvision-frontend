@@ -4,12 +4,35 @@ import React, { useState, useEffect } from "react";
 import { FaAngleDown } from "react-icons/fa6";
 import axios from "axios";
 import style from "./style.module.css";
+<<<<<<< HEAD
 
 // Define types for categories and filters
 interface Category {
   id: string;
   category_name: string;
 }
+=======
+import Wrapper from "@/layouts/wrapper";
+import FooterOne from "@/layouts/footers/FooterOne";
+import HeaderOne from "@/layouts/headers/HeaderOne";
+import Filter from "@/components/sale/filter";
+import EventItem from "@/components/event-item/event-item";
+import LetsTalk from '@/components/home/lets-talk';
+
+import rent_1 from "../../../public/assets/images/post/01.jpg";
+import rent_2 from "../../../public/assets/images/post/02.jpg";
+import rent_3 from "../../../public/assets/images/post/03.jpg";
+import rent_4 from "../../../public/assets/images/post/04.jpg";
+import rent_5 from "../../../public/assets/images/post/01.jpg";
+import rent_6 from "../../../public/assets/images/post/02.jpg";
+import rent_7 from "../../../public/assets/images/post/03.jpg";
+import rent_8 from "../../../public/assets/images/post/04.jpg";
+import rent_9 from "../../../public/assets/images/post/01.jpg";
+import rent_10 from "../../../public/assets/images/post/02.jpg";
+import rent_11 from "../../../public/assets/images/post/03.jpg";
+import rent_12 from "../../../public/assets/images/post/04.jpg";
+
+>>>>>>> fbb4335b1d4ede1833c9f0a8d60ef79009d0c5b0
 
 interface SubCategory {
   id: string;
@@ -285,6 +308,7 @@ const Filter: React.FC<FilterProps> = ({ onApplyFilters }) => {
                 </div>
               </div>
 
+<<<<<<< HEAD
               <div className={style.filterActionButtons}>
                 <button className={style.applyFilterButton} onClick={applyFilters}>
                   Apply Filters
@@ -293,6 +317,23 @@ const Filter: React.FC<FilterProps> = ({ onApplyFilters }) => {
                   Reset Filters
                 </button>
               </div>
+=======
+              <Filter />
+
+              <section className={style["product_section"]}>
+                <div className="container-fluid">
+                  <div className="row">
+                    {blog_data.map((item) => (
+                      <div className="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12" key={item.id}>
+                        <EventItem item={item} />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </section>
+
+              <LetsTalk />
+>>>>>>> fbb4335b1d4ede1833c9f0a8d60ef79009d0c5b0
             </div>
           </div>
         </section>
