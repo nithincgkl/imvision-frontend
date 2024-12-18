@@ -17,6 +17,7 @@ interface Product {
   };
   title: string;
   amount: string;
+  slug:string
 }
 
 const HomeCarousel: React.FC<{ style_2?: boolean; style_3?: boolean }> = ({ style_2, style_3 }) => {
@@ -65,7 +66,7 @@ const HomeCarousel: React.FC<{ style_2?: boolean; style_3?: boolean }> = ({ styl
             <h4>Displays</h4>
             <h3>Next-generation displays</h3>
           </div>
-          <div className="cs_section_heading_right cs_btn_anim">
+          {/* <div className="cs_section_heading_right cs_btn_anim">
             <Link href="/blog" className="cs_btn cs_style_1">
               <span>View Store</span>
               <svg
@@ -81,7 +82,7 @@ const HomeCarousel: React.FC<{ style_2?: boolean; style_3?: boolean }> = ({ styl
                 ></path>
               </svg>
             </Link>
-          </div>
+          </div> */}
         </div>
 
         <Swiper
@@ -108,6 +109,7 @@ const HomeCarousel: React.FC<{ style_2?: boolean; style_3?: boolean }> = ({ styl
                   img: product.thumbnail?.formats?.large?.url || product.thumbnail?.url,
                   title: product.title,
                   des: product.amount,
+                  slug:product.slug
                 }}
               />
             </SwiperSlide>

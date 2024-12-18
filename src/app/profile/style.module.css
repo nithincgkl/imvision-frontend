@@ -5,7 +5,9 @@
     width: 100%;
     padding: 4rem 0;
   }
-
+.profile_section label{
+  color: #9A9A9A;
+}
   .profile_nav button{
     width:172px;
     height: 50px;
@@ -14,22 +16,57 @@
 justify-content: center;
 align-items: center;
 background-color: #222222;
-border: none;}
+color: white;
+border: none;
+}
 
-.profile_nav button:hover{
+.profile_nav button span{
+  font-size: 22px;
+}
+
+.profile_nav button.focused {
   background-color: #9FDEBE;
+  color: #000;
 }
-.form {
-  padding: 79px 102px 79px 102px;
+
+.eye_button{
+  float: right;
+  padding: 0.75rem 0rem;
+  margin-top: -60px;
+  border: none;
+  background: none;
+  padding-right: 10px;
 }
+
+.selectIcon {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: #888888;
+}
+
+.personal_form {
+padding: 72px 72px 79px 72px;
+background-color: #131313;
+}
+
+.accounts_form {
+  background-color: #131313;
+  display: flex;
+  flex-direction: column;
+  padding: 102px;
+  width: 100%;
+  }
+
 .inputField {
-width: 340px;
-height: 59px;
+width: 100%;
+height: 69px;
     border: none;
-    background-color: #141414;
+    background-color: #222222;
     transition: all 0.2s ease-in-out;
     border-radius: 0;
-    border-bottom: solid 2px #747474;
     color: #fff;
   }
   
@@ -38,3 +75,335 @@ height: 59px;
     border-color: #86b7fe;
     box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
   }
+
+  .inputField::placeholder {
+    color: white;
+  }
+
+
+  .talk_btn{
+    width: 20%;
+    border: none;
+    background-color: #fff;
+    color: #000;
+    padding: 10px 0;
+    height: 60px;
+  }
+
+  .submit_btn{
+    width: 100%;
+    border: none;
+    background-color: #fff;
+    color: #000;
+    padding: 10px 0;
+    height: 60px;
+    font-weight: 500;
+    font-size: 22px;
+  }
+
+  .talk_btn svg{
+margin-top: -5px;
+  }
+
+  .form_align{
+    padding-left: 300px;
+  }
+
+  .orders_form_main {
+    width: 100%;
+    }
+
+  .orders_form {
+    background-color: #2E2D2D;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    }
+
+    .ordersFormOpen {
+      border-bottom: 0.1px solid #FFFFFF;
+  }
+
+    .orders_form p{
+      padding: 1.5rem;
+      padding-bottom: 0.5rem;
+      display: flex;
+      justify-content: center;
+      font-size: 20px;
+      white-space: nowrap;
+    }
+
+    .orders_form .type{
+min-width: 100px;
+background-color: #5C553A;
+    }  
+
+    .orders_form .order_num{
+      min-width: 300px;
+          } 
+          
+          .orders_form .model{
+            min-width: 350px;
+            overflow-x: auto;
+            scrollbar-width: none;
+            justify-content: flex-start;
+                }
+
+    .orders_form p span{
+      background-color: #222222;
+      color: green;
+    }
+    .orders_form button{
+      background-color: transparent;
+      border: none;
+      width: 10%;
+      color: #8C8C8C;
+    }
+
+    .orders_form_open{
+      font-size: 20px;
+      display: flex;
+      flex-direction: column;
+      background-color: #2E2D2D;
+
+    }
+
+  .orders_form_open img {
+    width: 210px;
+    height: 120px;
+  }
+
+  .orders_form_open .SEK {
+    color: #9FDEBE;
+    font-weight: 600;
+  }
+
+  .orders_form_open .status_details{
+    background-color: #222222;
+  }
+
+  .orders_form_open .status_details .order_tracker{
+    color: #0CB60F;
+    padding: 1px;
+    padding-left: 35px;
+    padding-top: 1px;
+    border-left: 3px dashed #0CB60F;
+  }
+
+.order_details {
+  display: flex;
+  flex-direction: row;
+  margin-top: 8px;
+  gap: 3rem;
+}
+
+
+    @media(max-width:1400px){  
+      .orders_form .type{
+        max-width: 117px;
+        background-color: #5C553A;
+            }  
+        
+            .orders_form .order_num{
+              min-width: 200px;
+                  } 
+                  
+                  .orders_form .model{
+                    min-width:250px;
+                    overflow-x: auto;
+                    scrollbar-width: none;
+                    justify-content: flex-start;
+                        }
+
+                        .orders_form button{
+                          background-color: transparent;
+                          border: none;
+                          width: 20%;
+                          margin-left: -30px;
+    }
+  }
+
+  @media(max-width:1200px){
+    .talk_btn{
+      width: 30%;
+    }
+
+  .form_align{
+    padding-left: 200px;
+  } 
+
+  .orders_form .model{
+          min-width:200px;
+              }
+
+              .orders_form button{
+                margin-left: 0px;
+                width: 50%;
+}
+  }
+
+  @media(max-width:992px){
+
+  .form_align{
+    padding-left: 0px;
+  } 
+
+  .personal_form {
+    padding: 40px;
+    }
+    
+    .accounts_form {
+      padding: 30px;
+      }
+
+      .orders_form {
+        background-color: #2E2D2D;
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        }
+        .orders_form p{
+          padding: 4px;
+          padding-bottom: 4px;
+          display: flex;
+          justify-content: center;
+          font-size: 15px;
+        }
+        .orders_form .type{
+        align-items: center;
+        max-width: 80px;
+        min-width: 80px;
+        }
+        .orders_form .order_num{
+          min-width: 150px;
+          align-items: center;
+          padding-top: 25px;
+
+              } 
+
+      .orders_form .model{
+        min-width:200px;
+        align-items: center;  
+        margin-right: 10px; 
+        padding-top: 25px;     
+            }
+
+            .orders_form button{
+              margin-left: -10px;
+              width: 50%;
+              }
+
+    .orders_form_open{
+      font-size: 15px;
+    }
+
+    .orders_form_open .status_details .order_tracker{
+      color: #0CB60F;
+      padding: 1px;
+      padding-left: 15px;
+height: 40px;    
+  padding-top: 2px;
+      border-left: 3px dashed #0CB60F;
+    } 
+  }
+
+  @media(max-width:768px){
+      .orders_form {
+        background-color: #2E2D2D;
+        display: flex;
+        justify-content:start;
+        width: 100%;
+        }
+
+        .orders_form .type{
+          background-color: #5C553A;
+          font-size: 20px;
+          padding: 15px;
+          padding-left: 20px;
+        }
+    
+
+  .form_align{
+      padding-left: 0px;
+    } 
+
+    .talk_btn{
+      width: 100%;
+    }
+    .profile_nav button{
+      width:102px;
+  }
+  
+  .profile_nav button span{
+    font-size: 15px;
+  }
+
+  .profile_nav button svg{
+height: 20px;
+width: 20px; 
+ }
+
+ .orders_form_open img {
+  width: auto;
+  height: 190px;
+}
+
+
+.order_details {
+  flex-direction: column;
+  margin-top: 15px;
+  gap: 0rem;
+}
+.order_details p{
+  height: 10px;
+}
+
+.order_details .order_details_heading{
+  height: 10px;
+  font-weight: 600;
+}
+
+.orders_form {
+  background-color: #5C553A;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  border-bottom: 0.1px #FFFFFF solid;
+  }
+    }
+
+    @media(max-width:520px){
+
+  .personal_form {
+    padding: 20px;
+    }
+
+
+.order_details {
+  flex-direction: column;
+  margin-top: 15px;
+  gap: 0rem;
+}
+.order_details p{
+  height: 20px;
+}
+
+.order_details .order_details_heading{
+  height: 10px;
+  font-weight: 600;
+  font-size: 17px;
+}
+    
+.orders_form_open .status_details .order_tracker{
+ width: 100%;
+ /* margin-left: 50px; */
+}
+
+.orders_form_open .SEK {
+  color: #9FDEBE;
+  font-weight: 600;
+  height: 15px;
+  margin-top: -10px;
+}
+
+    }

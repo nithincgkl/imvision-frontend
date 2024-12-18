@@ -1,7 +1,3 @@
-/*--------------------------------------------------------------
-8. Header
-----------------------------------------------------------------*/
-
 .cs_site_header {
     position: relative;
     z-index: 101;
@@ -10,7 +6,7 @@
 }
 
 .cs_site-branding {
-    display: inline-block;
+    display: inline-block;    
     max-width: 180px;
 }
 
@@ -142,7 +138,10 @@
     max-width: 100%;
     padding: 0 100px;
 }
-
+.container-fluid  {
+    max-width: 100%;
+    padding: 0 100px;
+}
 .cs_site_header_style1 {
     border-bottom: 1px solid #1a188d;
     .cs_main_header_right {
@@ -645,6 +644,9 @@
     .cs_site_header_full_width .container {
         max-width: 100%;
     }
+    .container-fluid {
+        max-width: 100%;
+    }
 }
 
 @media screen and (max-width: 1199px) {
@@ -652,6 +654,9 @@
         width: 100% !important;
     }
     .cs_site_header_full_width .container {
+        
+    }
+    .container-fluid {
         padding: 0 15px;
     }
     .cs_munu_dropdown_toggle {
@@ -815,6 +820,7 @@
 @media screen and (max-width: 991px) {
     .cs_site_header .container {
         max-width: 100%;
+        padding: 0 15px;
     }
     .cs_site_header.cs_style1 {
         .cs_action_box>*:not(:last-child) {

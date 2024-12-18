@@ -28,6 +28,11 @@
 
 
 
+
+
+
+
+
 .filterContent {
     padding: 15px  0 20px 0;
   }
@@ -46,7 +51,9 @@
     margin-left: 5px;
   }
   
-
+  .filterContent div {
+    /* margin-bottom: 10px; */
+  }
   
 .label_input_div{
     background-color: #363636;
@@ -82,16 +89,9 @@
   background-color: #9FDEBE;
   border: none;
   color: #000;
-  padding-right: 40px;
   font-size: 15px;
-  position: relative;
 }
-.btn_cat{
-  margin-left: -30px;
-  z-index: 100;
-  position: relative;
-  color: #000;
-}
+
 .sort_btn {
   display: inline-flex;
   position: relative;
@@ -125,7 +125,9 @@ color: #5D5D5D;
  width: 100%;
  display: flex; 
 }
-
+.filterCategoryBox{
+  /* margin-bottom: 30px; */
+}
 .filterCheckbox{
   background-color: #363636;
   display: flex;
@@ -152,6 +154,14 @@ margin-bottom: 0;
     padding: 25px;
     margin: 0 0 10px 25px;
 }
+
+
+
+
+
+
+
+
 
 
 
@@ -198,14 +208,11 @@ margin-bottom: 0;
   text-align: center;
   margin-left: 30px;
   text-transform: uppercase;
-  position: relative;
-    margin-right: -30px;
-    padding-right: 25px;
 }
 
 .sort_dropdown:focus {
   outline: none;
-  border-color: #618975; /* Optional: Highlight the border when focused */
+  border-color: #007bff; /* Optional: Highlight the border when focused */
 }
 .displa_flex{
   display: flex;
@@ -258,17 +265,12 @@ margin-bottom: 0;
     letter-spacing: 0px;
     padding: 5px 8px;
     font-size: 13px;
-    width: 100%;
-        margin-bottom: 15px;
 }
 .m_none{
   display: none;
 }
 .sort_dropdown {
   padding: 8px;
-  margin-left: 0;
-  width: 100%;
-  float: left;
 }
 .filterInnerContentCategory {
   display: block;
@@ -281,52 +283,5 @@ margin-bottom: 0;
   bottom: auto;
   position: relative;
 }
-.sale_filter_container_right {
-  display: block;
-}
-.sort_dropdown option{
-  float: left;
-  width: 100%;
 
-}
-
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-.z_10{
-  z-index: 1000;
-}
-
-.sort_dropdown:focus {
-  outline: none; /* Removes focus border */
-}
-
-
-
-.sort_dropdown_container::after {
-  content: "▼"; /* Default dropdown arrow */
-  font-size: 12px;
-  color: #fff;
-  position: absolute;
-  top: 50%;
-  right: 10px;
-  transform: translateY(-50%);
-  pointer-events: none;
-  transition: transform 0.2s;
-}
-
-.sort_dropdown_container.select-open::after {
-  content: "▲"; /* Up arrow */
-  transform: translateY(-50%) rotate(180deg);
 }

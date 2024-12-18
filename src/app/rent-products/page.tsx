@@ -1,5 +1,4 @@
 'use client';
-
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import style from './style.module.css';
@@ -10,54 +9,58 @@ import Filter from '@/components/sale/filter';
 import ProductItem from '@/components/product-item/product-item';
 import LetsTalk from '@/components/home/lets-talk';
 
-const Page: React.FC = () => {
-  const [productData, setProductData] = useState<any[]>([]); // State to hold product data
-  const [isLoading, setIsLoading] = useState<boolean>(true); // Loading state
-  const [error, setError] = useState<string | null>(null); // Error state
-  const [filters, setFilters] = useState<any>({}); // State to hold the filters
+interface Product {
+  id: number;
+  img: string;
+  title: string;
+  des: string;
+  sale_rent: string;
+  slug: string;
+}
 
-  // Function to fetch products based on filters
+const RentPage: React.FC = () => {
+  const [productData, setProductData] = useState<Product[]>([]); // Original rent products
+  const [filteredProductData, setFilteredProductData] = useState<Product[]>([]); // Filtered rent products
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+
+  // Function to fetch products
   const fetchProducts = async () => {
     setIsLoading(true);
     setError(null);
     try {
       const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_URL}products`, 
+        `${process.env.NEXT_PUBLIC_API_URL}products?populate=*`,
         {
           headers: {
             Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
             'Content-Type': 'application/json',
           },
-          params: {
-            'filters[sale_rent][$eq]': 'Rent', // Exact match for 'Rent'
-            'populate': '*',
-            ...filters // Include filters in the request
-          },
         }
       );
 
-      console.log("Rent Products:", response.data);
-
       if (response?.data?.length > 0) {
         const transformedData = response.data
-          .filter((item: any) => item.sale_rent === 'Rent')
+          .filter((item: any) => item.sale_rent === 'Rent') // Filter for rent products
           .map((item: any) => {
             const imageUrl =
               item.product_images && item.product_images.length > 0
                 ? item.product_images[0].url
                 : item.thumbnail
                 ? item.thumbnail.url
-                : '';
+                : 'No image is available';
 
             return {
               id: item.id,
               img: imageUrl,
               title: item.title,
               des: item.description || '',
+              sale_rent: item.sale_rent,
             };
           });
 
         setProductData(transformedData);
+        setFilteredProductData(transformedData);
       } else {
         setError('No rent products found.');
       }
@@ -69,15 +72,19 @@ const Page: React.FC = () => {
     }
   };
 
-  // Fetch products when the component mounts or when filters change
+  // Fetch products when component mounts
   useEffect(() => {
     fetchProducts();
-  }, [filters]); // Trigger fetching whenever filters change
+  }, []);
 
-  // // Apply filters and update the filters state
-  // const applyFilters = (newFilters: any) => {
-  //   setFilters(newFilters); // Update filters state when the user applies new filters
-  // };
+  // Handle applying filters
+  const handleApplyFilters = (filteredProducts: Product[]) => {
+    const finalProducts = filteredProducts.length > 0
+      ? filteredProducts.filter((product) => product.sale_rent === 'Rent')
+      : productData;
+
+    setFilteredProductData(finalProducts);
+  };
 
   return (
     <Wrapper>
@@ -97,7 +104,7 @@ const Page: React.FC = () => {
               </div>
 
               {/* Filter Component */}
-              {/* <Filter onApplyFilters={applyFilters} /> */}
+              <Filter onApplyFilters={handleApplyFilters} />
 
               {/* Product Section */}
               <section className={style['product_section']}>
@@ -111,8 +118,8 @@ const Page: React.FC = () => {
                       <div className="col-12 text-center">
                         <p>{error}</p>
                       </div>
-                    ) : productData.length > 0 ? (
-                      productData.map((item) => (
+                    ) : filteredProductData.length > 0 ? (
+                      filteredProductData.map((item) => (
                         <div
                           className="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12"
                           key={item.id}
@@ -122,7 +129,7 @@ const Page: React.FC = () => {
                       ))
                     ) : (
                       <div className="col-12 text-center">
-                        <p>No products found.</p>
+                        <p>No rent products found.</p>
                       </div>
                     )}
                   </div>
@@ -140,5 +147,4 @@ const Page: React.FC = () => {
     );
 };
 
-
-export default Page;         
+export default RentPage;
