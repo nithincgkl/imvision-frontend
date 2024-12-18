@@ -11,6 +11,7 @@ import EventsCarouselTwo from "@/components/events/events-carousel-two";
 import EventsCarouselThree from "@/components/events/events-carousel-three";
 import EventsCarouselFour from "@/components/events/events-carousel-four";
 import LetsTalk from "@/components/home/lets-talk";
+import Link from "next/link";
 
  
 interface RecentEvent {
@@ -85,7 +86,9 @@ const Page: React.FC = () => {
                 </div>
                 <div className={style["event-banner-text"]}>
                   <h1>Automotive</h1>
+                  <Link href="/contact">
                   <button onClick={handleTalkToExpert} className="btn-one">Talk to Expert</button>
+                  </Link>
                   <p className="text-center">
                     Rev up your automotive events with vibrant LED screens.
                     <br />

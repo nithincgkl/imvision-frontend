@@ -1,5 +1,4 @@
-"use client"
-
+"use client";
 import React, { useState, useEffect, useRef } from "react";
 import Wrapper from "@/layouts/wrapper";
 import FooterOne from "@/layouts/footers/FooterOne";
@@ -10,111 +9,110 @@ import { PiSuitcaseSimpleLight } from "react-icons/pi";
 import { LuMoveUpRight } from "react-icons/lu";
 import style from "./style.module.css";
 import { IoMdClose } from "react-icons/io";
+import axios from 'axios';
+import { log } from "console";
 
-const careerOpenings = [
-  
-  {
-    id: 1,
-    image: "/assets/images/career-01.jpg",
-    title: "Summer Job At Tour!",
-    description:
-      "We are looking for a driven person with some technical competence",
-    details:
-      "The work is mostly scheduled for evenings and weekends, some work outside the summer period may occur.",
-    location: "Herkulesvägen 56, Skeppargatan 11",
-    expertise: "Image technology LED, Grand Ma2, timecode & DMX",
-  },
-  {
-    id: 2,
-    image: "/assets/images/career-02.jpg",
-    title: "Summer Job At Tour!",
-    description:
-      "We are looking for a driven person with some technical competence",
-    details:
-      "The work is mostly scheduled for evenings and weekends, some work outside the summer period may occur.",
-    location: "Herkulesvägen 56, Skeppargatan 11",
-    expertise: "Image technology LED, Grand Ma2, timecode & DMX",
-  },
-  {
-    id: 3,
-    image: "/assets/images/career-03.jpg",
-    title: "Summer Job At Tour!",
-    description:
-      "We are looking for a driven person with some technical competence",
-    details:
-      "The work is mostly scheduled for evenings and weekends, some work outside the summer period may occur.",
-    location: "Herkulesvägen 56, Skeppargatan 11",
-    expertise: "Image technology LED, Grand Ma2, timecode & DMX",
-  },
-  {
-    id: 4,
-    image: "/assets/images/career-03.jpg",
-    title: "Summer Job At Tour!",
-    description:
-      "We are looking for a driven person with some technical competence",
-    details:
-      "The work is mostly scheduled for evenings and weekends, some work outside the summer period may occur.",
-    location: "Herkulesvägen 56, Skeppargatan 11",
-    expertise: "Image technology LED, Grand Ma2, timecode & DMX",
-  },
-];
 
-type CareerJob = (typeof careerOpenings)[0];
+    interface Thumbnail {
+      url: string;
+      formats: {
+        thumbnail: {
+          url: string;
+        };
+      };
+    }
 
-const CareerBox = ({
-  job,
-  onApply,
-}: {
-  job: CareerJob;
-  onApply: (job: CareerJob) => void;
-}) => (
-  <div className={style["career_box"]}>
-    <div>
-      <img src={job.image} className="w-100" alt={job.title} loading="lazy" />
+
+
+    interface CareerJob {
+      id: number;
+      documentId: string;
+      title: string;
+      location: string;
+      expert_in: string;
+      createdAt: string;
+      updatedAt: string;
+      publishedAt: string;
+      description: string | null;
+      slug: string;
+      thumbnail: Thumbnail | null;
+    }
+
+
+
+ 
+
+
+const CareerBox = ({ job, onApply }: { job: CareerJob; onApply: (job: CareerJob) => void; }) => (
+        <div className={style["career_box"]}>
+          <div>
+            {job.thumbnail? (
+              <img src={`${process.env.NEXT_PUBLIC_IMAGE_URL}${job.thumbnail.formats.thumbnail.url}`} className="w-100" alt={job.title} loading="lazy" />
+            ) : (
+              <div className={style["no-thumbnail"]}>No Image Available</div>
+            )}
+          </div>
+ 
+
+
+        <div>
+            <h4>{job.title}</h4>
+            <p dangerouslySetInnerHTML={{ __html: job.description || "No description available." }} />            {/* <p><span>{`Posted on: ${new Date(job.publishedAt).toLocaleDateString()}`}</span></p> */}
+            <p><IoLocationOutline /> Location: {job.location}</p>
+            <p><PiSuitcaseSimpleLight /> Expert in: {job.expert_in}</p>
+            <div className={style["career_box_btn"]}>
+                <span>
+                    <a href="mailto:career@imvision.se" className="d-inline-flex align-items-center">
+                        Send mail to career@imvision.se <LuMoveUpRight />
+                    </a>
+                </span>
+                <span>
+                    <button className={style["apply_btn"]} onClick={() => onApply(job)}>Apply Now</button>
+                </span>
+            </div>
+        </div>
     </div>
-    <div>
-      <h4>{job.title}</h4>
-      <p>{job.description}</p>
-      <p>
-        <span>{job.details}</span>
-      </p>
-      <p>
-        <IoLocationOutline /> Location: {job.location}
-      </p>
-      <p>
-        <PiSuitcaseSimpleLight /> Expert in: {job.expertise}
-      </p>
-      <div className={style["career_box_btn"]}>
-        <span>
-          <a
-            href="mailto:career@imvision.se"
-            className="d-inline-flex align-items-center"
-          >
-            Send mail to career@imvision.se <LuMoveUpRight />
-          </a>
-        </span>
-        <span>
-          <button className={style["apply_btn"]} onClick={() => onApply(job)}>
-            Apply Now
-          </button>
-        </span>
-      </div>
-    </div>
-  </div>
-);
+    );
 
 const Career = () => {
-  const [displayedJobs, setDisplayedJobs] = useState(3);
-  const [selectedJob, setSelectedJob] = useState<CareerJob | null>(null);
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    resume: "",
-    message: "",
-    service: "",
-  });
-  const modalRef = useRef<HTMLDivElement>(null);
+    const [careerOpenings, setCareerOpenings] = useState<CareerJob[]>([]);
+    const [displayedJobs, setDisplayedJobs] = useState(3);
+    const [selectedJob, setSelectedJob] = useState<CareerJob | null>(null);
+    const [formData, setFormData] = useState({
+        name: "",
+        email: "",
+        phone: "",
+        resume: null as File | string | null,
+        message: "",
+        service: "",
+    });
+    const modalRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+      const fetchJobs = async () => {
+          try {
+              const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}careers?populate=*`, {
+                  headers: {
+                      Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
+                  },
+              });          
+              
+  
+              // Accessing the jobs array from the response structure
+              const jobsArray = response.data.data; 
+  
+              // Ensure that the jobsArray is an array before setting state
+              if (Array.isArray(jobsArray)) {
+                  setCareerOpenings(jobsArray);
+              } else {
+                  console.error("Fetched data is not an array:", jobsArray);
+              }
+          } catch (error) {
+              console.error("Error fetching job data:", error);
+          }
+      };
+      fetchJobs();
+  }, []);
 
   useEffect(() => {
     const smoothContentEl = document.getElementById("smooth-content");
@@ -150,20 +148,20 @@ const Career = () => {
     };
   }, [selectedJob]);
 
-  const handleLoadMore = () => setDisplayedJobs((prev) => prev + 3);
-  const handleApply = (job: CareerJob) => setSelectedJob(job);
-  const handleCloseModal = () => setSelectedJob(null);
+const handleLoadMore = () => setDisplayedJobs((prev) => prev + 3);
+const handleApply = (job: CareerJob) => setSelectedJob(job);
+const handleCloseModal = () => setSelectedJob(null);
 
-  const handleInputChange = (
+const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const { name, value, type } = e.target;
-    
+
     // Handle file input separately
     if (type === 'file') {
       const fileInput = e.target as HTMLInputElement;
       const file = fileInput.files ? fileInput.files[0] : null;
-      
+
       setFormData((prevState) => ({
         ...prevState,
         [name]: file ? file.name : '',
@@ -176,19 +174,66 @@ const Career = () => {
     }
   };
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files ? e.target.files[0] : null;
-    setFormData((prevState) => ({
-      ...prevState,
-      resume: file ? file.name : '',
-    }));
-  };
+const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+const file = e.target.files ? e.target.files[0] : null;  
+  setFormData((prevState) => ({
+    ...prevState,
+    resume: file,
+  }));
+};
 
-  const handleFormSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log("Form submitted:", formData);
-    handleCloseModal();
-  };
+const handleFormSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+  if (!formData.resume) {
+    console.error("No file selected");
+    return;
+  } 
+
+  
+const uploadData = new FormData();
+  uploadData.append("files", formData.resume as File, (formData.resume as File).name);
+
+  try {
+    const uploadResponse = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}upload`, uploadData, {
+      headers: {
+        Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
+        'Content-Type': 'multipart/form-data'
+      }
+    });
+
+const uploadId = (uploadResponse.data[0].id);
+
+const careerFormData = {
+      data: {
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        resume: uploadId,
+        job: { 
+          connect: [selectedJob ? selectedJob.documentId: null] 
+        },
+        comments:formData.message
+
+      }
+    };
+    
+
+    try {
+      const careerResponse = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}job-enquiries?populate=job`, careerFormData, {
+        headers: {
+          Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
+          'Content-Type': 'application/json'
+        }
+      });
+
+      handleCloseModal();
+    } catch (error) {
+      console.error(error);
+    }
+  } catch (error) {
+    console.error(error);
+  }
+};
 
   return (
     <Wrapper>
@@ -232,7 +277,7 @@ const Career = () => {
                       >
                         <source
                           src="/assets/videos/career.mp4"
-                          type="video/mp4" 
+                          type="video/mp4"
                         />
                         Your browser does not support the video tag.
                       </video>
@@ -275,6 +320,8 @@ const Career = () => {
                   </div>
                 </div>
               </section>
+
+
 
               {selectedJob && (
                 <div className={style.modal}>
@@ -328,11 +375,7 @@ const Career = () => {
                             value={formData.service}
                             onChange={handleInputChange}
                           >
-                            <option value="">Select Service</option>
-                            <option value="Sale">Sale</option>
-                            <option value="Rent">Rent</option>
-                            <option value="Career">Career</option>
-                            <option value="Other">Other</option>
+                          <option value="">{selectedJob ? selectedJob.title : "Select Service"}</option>
                           </select>
                           <IoChevronDown className={style.selectIcon} />
                         </div>

@@ -7,6 +7,7 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { IoIosArrowRoundBack } from "react-icons/io";
 import Link from 'next/link';
 import { useSnackbar } from 'notistack';
+import axios from 'axios';
 
 const Page: React.FC = () => {
   const { enqueueSnackbar } = useSnackbar();
@@ -42,34 +43,32 @@ const Page: React.FC = () => {
       setErrors({});
       setLoading(true);
       try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}auth/local`, {
-          method: 'POST',
+        const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}auth/local`, {
+          identifier: email,
+          password: password,
+        }, {
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({
-            identifier: email,
-            password: password,
-          }),
         });
 
-        const data = await response.json();
+        const data = response.data;
 
-        if (response.ok) {
-          // Success - display success message
-          enqueueSnackbar('Login successful!', { variant: 'success' });
+        // Success - display success message
+        enqueueSnackbar('Login successful!', { variant: 'success' });
 
-          // Save token and user info to localStorage
-          localStorage.setItem('token', data.jwt);
-          localStorage.setItem('user', JSON.stringify(data.user));
-          window.location.href = '/';
-        } else {
-          // API error response
-          enqueueSnackbar(data.message || 'Invalid email or password', { variant: 'error' });
-        }
+        // Save token and user info to localStorage
+        localStorage.setItem('token', data.jwt);
+        localStorage.setItem('user', JSON.stringify(data.user));
+        window.location.href = '/';
       } catch (error) {
-        console.error('Error during login:', error);
-        enqueueSnackbar('An error occurred. Please try again.', { variant: 'error' });
+        if (axios.isAxiosError(error) && error.response) {
+          // API error response
+          enqueueSnackbar(error.response.data.message || 'Invalid email or password', { variant: 'error' });
+        } else {
+          // Other errors
+          enqueueSnackbar('An error occurred. Please try again.', { variant: 'error' });
+        }
       } finally {
         setLoading(false);
       }
@@ -77,7 +76,6 @@ const Page: React.FC = () => {
       setErrors(formErrors);
     }
   };
-
 
   return (
     <Wrapper>
@@ -102,7 +100,7 @@ const Page: React.FC = () => {
                   <div className={`col-md-6 ${style.form_container_half}`}>
                     <form onSubmit={handleSubmit} className="w-full max-w-md space-y-6 px-8">
                       <div className="col-md-12 mb-3">
-                      <Link href="/"><IoIosArrowRoundBack className={style["form_back_icon"]} /> Back to Home</Link>
+                        <Link href="/"><IoIosArrowRoundBack className={style["form_back_icon"]} /> Back to Home</Link>
                       </div>
                       <div className="col-md-12 mb-3">
                         <h2 className="mb-0">Hello,<br />Welcome Back</h2>
@@ -138,7 +136,7 @@ const Page: React.FC = () => {
                             type="button"
                             onClick={togglePasswordVisibility}
                           >
-                             {showPassword ? <FaEye /> : <FaEyeSlash />}
+                            {showPassword ? <FaEye /> : <FaEyeSlash />}
                           </button>
                           {errors.password && <p className={style.error}>{errors.password}</p>}
                         </div>
@@ -146,7 +144,7 @@ const Page: React.FC = () => {
 
                       <div className="col-md-12 mb-3">
                         <div className={style.formControl}>
-                          <Link href="/forgot-password" className={style["float_right"]}>Forgot password ?</Link>
+                          <Link href="/forgot-password" className={style["float_right"]}>Forgot password?</Link>
                         </div>
                       </div>
 

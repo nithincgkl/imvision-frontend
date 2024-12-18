@@ -24,13 +24,21 @@ const WowMoments: React.FC = () => {
             Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
           },
         });
-
-        const data = response.data.data.map((item: any) => ({
-          id: item.id,
-          title: item.title,
-          description: item.description,
-          thumbnailUrl: `${item.thumbnail?.url}`,
-        }));
+  
+        const data = response.data.data.map((item: any) => {
+          const thumbnailUrl = item.thumbnail.url.startsWith('http')
+            ? item.thumbnail.url // Use the full URL if it starts with http/https
+            : `${process.env.NEXT_PUBLIC_IMAGE_URL}${item.thumbnail.url}`; // Otherwise, prepend the base URL
+  
+          return {
+            id: item.id,
+            title: item.title,
+            description: item.description,
+            thumbnailUrl,
+          };
+        });
+  
+        console.log("Fetched Categories:", data);
         setCategories(data);
       } catch (error) {
         console.error('Error fetching event categories:', error);
@@ -38,10 +46,10 @@ const WowMoments: React.FC = () => {
         setLoading(false);
       }
     };
-
+  
     fetchEventCategories();
   }, []);
-
+  
   return (
     <>
       <section className={styles['home-wow']}>
@@ -79,7 +87,7 @@ const WowMoments: React.FC = () => {
               ))
             )}
             <div className="col-md-12 text-center">
-              <button>Know More Details</button>
+              {/* <button>Know More Details</button> */}
             </div>
           </div>
         </div>

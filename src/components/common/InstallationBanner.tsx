@@ -26,8 +26,9 @@ const InstallationBanner: React.FC = () => {
               <h1 className={styles["installation_title"]}>Installation</h1>
               {/* <h2>Your display partner</h2> */}
             </div> 
-
+            <Link href="/contact">
             <button className={styles["talk-btn"]}>Talk to Expert</button>
+            </Link>
           </div>
           </div>
         </div>

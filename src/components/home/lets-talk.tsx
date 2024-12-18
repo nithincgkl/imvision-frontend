@@ -1,6 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
 import styles from "./style.module.css";
+import Link from 'next/link';
 
 const LetsTalk: React.FC = () => {
   return (
@@ -34,7 +35,9 @@ const LetsTalk: React.FC = () => {
                 <div className={styles['lets-talk-text']}>
                   <h2>Have a project for us?</h2>
                   <h3>Let's talk.</h3>
+                  <Link href="/contact" >
                   <button className={styles['center-btn']}>Talk to expert</button>
+                  </Link>
                 </div>
               </div>
             </div>
