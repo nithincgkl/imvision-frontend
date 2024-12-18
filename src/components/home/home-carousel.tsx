@@ -66,7 +66,7 @@ const HomeCarousel: React.FC<{ style_2?: boolean; style_3?: boolean }> = ({ styl
             <h4>Displays</h4>
             <h3>Next-generation displays</h3>
           </div>
-          <div className="cs_section_heading_right cs_btn_anim">
+          {/* <div className="cs_section_heading_right cs_btn_anim">
             <Link href="/blog" className="cs_btn cs_style_1">
               <span>View Store</span>
               <svg
@@ -82,7 +82,7 @@ const HomeCarousel: React.FC<{ style_2?: boolean; style_3?: boolean }> = ({ styl
                 ></path>
               </svg>
             </Link>
-          </div>
+          </div> */}
         </div>
 
         <Swiper
