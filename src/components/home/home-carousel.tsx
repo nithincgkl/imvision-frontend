@@ -17,7 +17,8 @@ interface Product {
   };
   title: string;
   amount: string;
-  slug:string
+  slug: string;
+  sale_rent: string
 }
 
 const HomeCarousel: React.FC<{ style_2?: boolean; style_3?: boolean }> = ({ style_2, style_3 }) => {
@@ -109,7 +110,8 @@ const HomeCarousel: React.FC<{ style_2?: boolean; style_3?: boolean }> = ({ styl
                   img: product.thumbnail?.formats?.large?.url || product.thumbnail?.url,
                   title: product.title,
                   des: product.amount,
-                  slug:product.slug
+                  slug: product.slug,
+                  sale_rent: product.sale_rent
                 }}
               />
             </SwiperSlide>

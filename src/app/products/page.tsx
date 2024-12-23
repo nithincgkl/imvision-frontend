@@ -23,6 +23,7 @@ interface Product {
   title: string;
   amount: string;
   slug: string;  // Added slug
+  sale_rent: string
 }
 
 const Page: React.FC = () => {
@@ -77,15 +78,17 @@ const Page: React.FC = () => {
               <section className={style["product_section"]}>
                 <div className="container-fluid">
                   <div className="row">
-                  {products.map((product) => (
+                    {products.map((product) => (
                       <div className="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12" key={product.id}>
                         <ProductItem item={{
-                    id: product.id,
-                    img: product.thumbnail?.formats?.large?.url || product.thumbnail?.url,
-                    title: product.title,
-                    des: product.amount,
-                    slug: product.slug,  // Pass the slug to ProductItem
-                  }} />
+                          id: product.id,
+                          img: product.thumbnail?.formats?.large?.url || product.thumbnail?.url,
+                          title: product.title,
+                          des: product.amount,
+                          slug: product.slug,
+                          sale_rent: product.sale_rent // Correctly pass the slug
+                          // Pass the slug to ProductItem
+                        }} />
                       </div>
                     ))}
                   </div>
