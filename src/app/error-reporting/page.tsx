@@ -1,4 +1,4 @@
-'use client'
+'use client';
 import React, { useState, ChangeEvent, FormEvent } from 'react';
 import Link from 'next/link';
 import Wrapper from '@/layouts/wrapper';
@@ -6,7 +6,7 @@ import FooterOne from '@/layouts/footers/FooterOne';
 import HeaderOne from '@/layouts/headers/HeaderOne';
 import style from "./style.module.css";
 import LetsTalk from '@/components/home/lets-talk';
-import { FiDownload } from "react-icons/fi";
+import axios from 'axios';
 
 // Define the shape of the form data
 interface FormData {
@@ -17,8 +17,8 @@ interface FormData {
   company: string;
   message: string;
   file: File | null;
-  serviceAgreement: string;
-  gdprConsent: boolean;
+  serviceAgreement: string; // This will hold "Yes", "No", or "Dont_know"
+  gdprConsent: boolean; // Changed to boolean
 }
 
 // Define the shape of the errors object
@@ -34,7 +34,7 @@ interface FormErrors {
   gdprConsent?: string;
 }
 
-const RentalConditions: React.FC = () => {
+const ErrorReporting: React.FC = () => {
   const [formData, setFormData] = useState<FormData>({
     name: '',
     address: '',
@@ -43,11 +43,13 @@ const RentalConditions: React.FC = () => {
     company: '',
     message: '',
     file: null,
-    serviceAgreement: '',
-    gdprConsent: false
+    serviceAgreement: '', // Initialize as an empty string
+    gdprConsent: false // Initialize as a boolean
   });
 
   const [errors, setErrors] = useState<FormErrors>({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value, type } = e.target;
@@ -59,9 +61,8 @@ const RentalConditions: React.FC = () => {
       processedValue = fileInput.files ? fileInput.files[0] : null;
     } else if (type === 'checkbox') {
       const checkboxInput = e.target as HTMLInputElement;
-      processedValue = checkboxInput.checked;
+      processedValue = checkboxInput.checked; // This should be a boolean
     } else if (name === 'phone') {
-      // Allow only numeric values for phone
       processedValue = value.replace(/\D/g, '');
     }
 
@@ -71,6 +72,22 @@ const RentalConditions: React.FC = () => {
     }));
 
     // Clear specific field error when user starts typing
+    if (errors[name as keyof FormErrors]) {
+      setErrors(prevErrors => ({
+        ...prevErrors,
+        [name]: ''
+      }));
+    }
+  };
+
+  const handleRadioChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData(prevState => ({
+      ...prevState,
+      [name]: value // Update the serviceAgreement based on the selected radio button
+    }));
+
+    // Clear specific field error when user selects an option
     if (errors[name as keyof FormErrors]) {
       setErrors(prevErrors => ({
         ...prevErrors,
@@ -105,7 +122,7 @@ const RentalConditions: React.FC = () => {
     if (!formData.company.trim()) {
       newErrors.company = 'Company / Business Name is required';
     }
-
+    
     if (!formData.message.trim()) {
       newErrors.message = 'Describe your matter as carefully as possible is required';
     }
@@ -116,6 +133,8 @@ const RentalConditions: React.FC = () => {
 
     if (!formData.serviceAgreement) {
       newErrors.serviceAgreement = 'Please select an option';
+    } else if (!['Yes', 'No',"Don't know"].includes(formData.serviceAgreement)) {
+      newErrors.serviceAgreement = 'Invalid selection for service agreement';
     }
 
     if (!formData.gdprConsent) {
@@ -126,13 +145,110 @@ const RentalConditions: React.FC = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const uploadFile = async (file: File): Promise<string> => {
+    try {
+      const formData = new FormData();
+      formData.append('files', file);
+
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}upload`, formData, {
+        headers: {
+          'Authorization': `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
+        },
+      });
+
+      return response.data[0].id; // Assuming the API returns the file ID
+    } catch (error) {
+      console.error('File upload error:', error);
+      throw error;
+    }
+  };
+
+  const createTicket = async (documentId: string) => {
+    try {
+       // Transform the service agreement value to match API expectations
+    const transformServiceAgreement = (value: string): string => {
+      switch (value) {
+        case "Don't know":
+          return "Don't Know";  // Transform to match API expectation
+        default:
+          return value;  // Keep Yes and No as is
+      }
+    };
+      const ticketData = {
+        data: {
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          company_name: formData.company,
+          address: formData.address,
+          issue: formData.message,
+          service_agreement_improd_ab: transformServiceAgreement(formData.serviceAgreement),
+          document: documentId
+        }
+      };
+  
+      console.log('Ticket Data:', ticketData); // Log the ticket data
+  
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}tickets`, ticketData, {
+        headers: {
+          'Authorization': `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
+          'Content-Type': 'application/json'
+        },
+      });
+  
+      return response.data; // Assuming the API returns the created ticket data
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.response) {
+        console.error('Ticket creation error:', error.response.data);
+        throw new Error(error.response.data.message || 'Failed to create ticket');
+      } else {
+        console.error('Ticket creation error:', error);
+        throw new Error('Failed to create ticket');
+      }
+    }
+  };
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (validateForm()) {
-      console.log('Form submitted successfully:', formData);
-    } else {
+    if (!validateForm()) {
       console.log('Form has validation errors');
+      return;
+    }
+
+    setIsSubmitting(true);
+    setSubmitError(null);
+
+    try {
+      if (!formData.file) {
+        throw new Error('No file selected');
+      }
+
+      // First upload the file
+      const documentId = await uploadFile(formData.file);
+
+      // Then create the ticket with the file ID
+      await createTicket(documentId);
+
+      // Reset form after successful submission
+      setFormData({
+        name: '',
+        address: '',
+        email: '',
+        phone: '',
+        company: '',
+        message: '',
+        file: null,
+        serviceAgreement: '',
+        gdprConsent: false // Reset to boolean
+      });
+
+      alert('Error report submitted successfully!');
+    } catch (error) {
+      console.error('Submission error:', error);
+      setSubmitError('Failed to submit error report. Please try again.');
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -174,7 +290,7 @@ const RentalConditions: React.FC = () => {
                               />
                               {errors.name && <div className={`text-danger ${style.input_error}`}>{errors.name}</div>}
                             </div>
-                            <div className="col-md-7">
+                            <div className="col -md-7">
                               <input 
                                 type="text"
                                 name="address"
@@ -200,14 +316,14 @@ const RentalConditions: React.FC = () => {
                               {errors.email && <div className={`text-danger ${style.input_error}`}>{errors.email}</div>}
 
                               <input 
-  type="text"
-  name="phone"
-  value={formData.phone}
-  onChange={handleChange}
-  className={`form-control ${style.inputField} ${errors.phone ? 'is-invalid' : ''}`}
-  placeholder="Phone*" 
-  pattern="\d*"
-/>
+                                type="text"
+                                name="phone"
+                                value={formData.phone}
+                                onChange={handleChange}
+                                className={`form-control ${style.inputField} ${errors.phone ? 'is-invalid' : ''}`}
+                                placeholder="Phone*" 
+                                pattern="\d*"
+                              />
                               {errors.phone && <div className={`text-danger ${style.input_error}`}>{errors.phone}</div>}
 
                               <input 
@@ -260,7 +376,7 @@ const RentalConditions: React.FC = () => {
                                       name="serviceAgreement" 
                                       value="Yes" 
                                       id="Yes"
-                                      onChange={handleChange}
+                                      onChange={handleRadioChange}
                                       checked={formData.serviceAgreement === 'Yes'}
                                     />
                                     <label htmlFor="Yes">Yes</label>
@@ -271,7 +387,7 @@ const RentalConditions: React.FC = () => {
                                       name="serviceAgreement" 
                                       value="No" 
                                       id="No"
-                                      onChange={handleChange}
+                                      onChange={handleRadioChange}
                                       checked={formData.serviceAgreement === 'No'}
                                     />
                                     <label htmlFor="No">No</label>
@@ -280,12 +396,12 @@ const RentalConditions: React.FC = () => {
                                       type="radio" 
                                       className={`radio ${style.radio_input_two}`}  
                                       name="serviceAgreement" 
-                                      value="Dont_know" 
-                                      id="Dont_know"
-                                      onChange={handleChange}
-                                      checked={formData.serviceAgreement === 'Dont_know'}
+                                      value="Don't know" 
+                                      id="Don't know"
+                                      onChange={handleRadioChange}
+                                      checked={formData.serviceAgreement === "Don't know"}
                                     />
-                                    <label htmlFor="Dont_know">Don't know</label>
+                                    <label htmlFor="Don't know">Don't know</label>
                                   </div>
                                 </fieldset>
                                 {errors.serviceAgreement && <div className={`text-danger ${style.input_error}`}>{errors.serviceAgreement}</div>}
@@ -295,7 +411,7 @@ const RentalConditions: React.FC = () => {
                             </div>
                           </div>
 
-                          <div className={style["error_form_footer"]}>
+                          < div className={style["error_form_footer"]}>
                             <div className={style["error_form_footer_inner"]}>
                               <input 
                                 type="checkbox" 
@@ -313,7 +429,10 @@ const RentalConditions: React.FC = () => {
                                 </span>
                               </p>
                               {errors.gdprConsent && <div className={`text-danger ${style.input_error}`}>{errors.gdprConsent}</div>}
-                              <button type="submit">Send Error Report</button>
+                              {submitError && <div className={`text-danger ${style.submit_error}`}>{submitError}</div>}
+                              <button type="submit" disabled={isSubmitting}>
+                                {isSubmitting ? 'Sending...' : 'Send Error Report'}
+                              </button>
                             </div>
                           </div>
                         </form>
@@ -333,4 +452,4 @@ const RentalConditions: React.FC = () => {
   );
 };
 
-export default RentalConditions;
+export default ErrorReporting;
