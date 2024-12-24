@@ -81,6 +81,13 @@ const CartPage: React.FC = () => {
     }
   };
 
+  const handleCheckout = () => {
+    // Store cart items in local storage for checkout
+    const checkoutData = JSON.stringify(cartItems);
+    localStorage.setItem('checkoutData', checkoutData); // Store cart items in local storage
+    window.location.href = '/checkout'; // Redirect to checkout page
+  };
+
   const CalendarInput = React.forwardRef<HTMLInputElement, { value: string; onClick: () => void }>(
     ({ value, onClick }, ref) => (
       <div className={style.datePickerWrapper} onClick={onClick}>
@@ -109,7 +116,7 @@ const CartPage: React.FC = () => {
                 <div className="container-fluid">
                   <div className="row">
                     <div className="col-md-12">
-                       <h1 className={style.pageTitle}>My Cart [{cartItems.reduce((total, item) => total + item.count, 0)}]</h1>
+                      <h1 className={style.pageTitle}>My Cart [{cartItems.reduce((total, item) => total + item.count, 0)}]</h1>
                     </div>
                   </div>
                 </div>
@@ -121,7 +128,7 @@ const CartPage: React.FC = () => {
                     <div className="col-md-12">
                       {cartItems.length > 0 ? (
                         <>
-                            {cartItems.map((item) => (
+                          {cartItems.map((item) => (
                             <div key={item.id} className={style['cart_box']}>
                               <div className={style['cart_box_header']}>
                                 <div>
@@ -155,8 +162,7 @@ const CartPage: React.FC = () => {
                               </div>
                               <div className={style['cart_box_body']}>
                                 <div className={style['cart_box_img']}>
-                                <img src={item.img} alt={`${item.title} image`} />
-
+                                  <img src={item.img} alt={`${item.title} image`} />
                                 </div>
 
                                 <div className={style['cart_box_right']}>
@@ -183,12 +189,11 @@ const CartPage: React.FC = () => {
                             </div>
                           ))}
 
-
                           {/* Grand Total Section */}
                           <div className={style['grand_total']}>
                             <div className={style['grand_total_box']}>
                               <p>Grand Total:<span>SEK {calculateTotal()}</span></p>
-                              <button>Proceed To Checkout</button>
+                              <button onClick={handleCheckout}>Proceed To Checkout</button>
                             </div>
                           </div>
 
