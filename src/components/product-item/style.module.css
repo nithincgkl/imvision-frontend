@@ -68,8 +68,6 @@
   font-weight: 300;
 }
 
-
-
 .perfect-box p {
   font-size: 16px;
   letter-spacing: 0.5px;
@@ -95,7 +93,7 @@
   box-shadow: 14px 14px 4px darkblue;
   width: 100%;
   float: left;
-  min-height: 490px;
+  min-height: 525px;
   margin-bottom: 30;
 }
 
@@ -160,10 +158,6 @@
   width: 100%;
 }
 
-
-
-@media (min-width: 769px) and (max-width: 1250px) {
-}
 
 @media (max-width: 768px) {
 }

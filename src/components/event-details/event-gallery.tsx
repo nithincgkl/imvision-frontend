@@ -1,5 +1,6 @@
 import type { NextPage } from "next";
-import { useState, useCallback } from "react";
+import { useState, useEffect, useCallback } from "react";
+import axios from "axios"; // Import axios
 import style from "./style.module.css";
 import ImagePopup from "../modals/ImagePopup";
 
@@ -13,17 +14,40 @@ interface Image {
 const EventGallery: NextPage = () => {
   const [photoIndex, setPhotoIndex] = useState<number | null>(null);
   const [isOpen, setIsOpen] = useState(false);
-  const [images, setImages] = useState<Image[]>([
-    { id: 1, url: "assets/images/events-details/01.jpg", title: "Title 1" },
-    { id: 2, url: "assets/images/events-details/02.jpg", title: "Title 2" },
-    { id: 3, url: "assets/images/events-details/03.jpg", title: "Title 3" },
-    { id: 4, url: "assets/images/events-details/04.jpg", title: "Title 4" },
-    { id: 5, url: "assets/images/events-details/05.jpg", title: "Title 5" },
-    { id: 6, url: "assets/images/events-details/01.jpg", title: "Title 6" },
-    { id: 7, url: "assets/images/events-details/02.jpg", title: "Title 7" },
-    { id: 8, url: "assets/images/events-details/03.jpg", title: "Title 8" },
-    { id: 9, url: "assets/images/events-details/04.jpg", title: "Title 9" },
-  ]);
+  const [images, setImages] = useState<Image[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchImages = async () => {
+      try {
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}events?populate=*`, {
+          headers: {
+            Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
+          },
+        });
+
+        // Assuming the images are in response.data.data and you want to extract the images
+        const fetchedImages = response.data.data.map((event: any) => ({
+          id: event.id,
+          url: event.thumbnail?.url || event.images[0]?.url || "assets/images/fallback.jpg", // Fallback if no image
+          title: event.title,
+        }));
+
+        setImages(fetchedImages);
+      } catch (err: unknown) {
+        if (axios.isAxiosError(err)) {
+          setError(err.response?.data.data || 'An error occurred');
+        } else {
+          setError('An unexpected error occurred');
+        }
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchImages();
+  }, []);
 
   const handleImageLoad = useCallback((id: number, height: number) => {
     setImages((prevImages) =>
@@ -37,6 +61,9 @@ const EventGallery: NextPage = () => {
   }, []);
 
   const imageUrls = images.map((image) => image.url);
+
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error loading images: {error}</div>;
 
   return (
     <div className={style.pageWrapper}>

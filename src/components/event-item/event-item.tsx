@@ -4,7 +4,7 @@ import Link from 'next/link'; // Import Image from Next.js
 import styles from './style.module.css';
 import Image from 'next/image';
 
-interface ProductItemProps {
+interface EventsItemProps {
   item: {
     id: any;
     img: any; // Use string for dynamic URLs
@@ -13,7 +13,7 @@ interface ProductItemProps {
   };
 }
 
-const EventItem: React.FC<ProductItemProps> = ({ item }) => {
+const EventItem: React.FC<EventsItemProps> = ({ item }) => {
   return (
     <div className={styles['our-screen-box']}>
       <div className={styles['main_div']}>

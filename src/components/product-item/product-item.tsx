@@ -1,7 +1,8 @@
 'use client';
-import React from 'react';
+import React, { useState, useRef } from 'react';
 import Link from 'next/link';
 import styles from './style.module.css';
+import { IoMdClose } from 'react-icons/io';
 
 interface ProductItemProps {
   item: {
@@ -30,17 +31,17 @@ const ProductItem: React.FC<ProductItemProps> = ({ item, linkEnabled = true }) =
       type: item.sale_rent,
       count: 1, // Start with 1 item added
     };
-
+  
     // Retrieve existing cart items from local storage
     const existingCart = JSON.parse(localStorage.getItem('cartItems') || '[]');
-
+  
     // Check if the item already exists in the cart
     const existingItemIndex = existingCart.findIndex((cart: any) => cart.id === item.id);
-
+  
     if (existingItemIndex !== -1) {
       // Item already exists in the cart, so update the count
       existingCart[existingItemIndex].count += 1; // Increment count by 1 (or adjust as needed)
-
+  
       // If the count goes below 1, remove the item from the cart
       if (existingCart[existingItemIndex].count < 1) {
         existingCart.splice(existingItemIndex, 1); // Remove the item
@@ -49,10 +50,10 @@ const ProductItem: React.FC<ProductItemProps> = ({ item, linkEnabled = true }) =
       // If item does not exist, add the new item to the cart
       existingCart.push(cartItem);
     }
-
+  
     // Save updated cart back to local storage
     localStorage.setItem('cartItems', JSON.stringify(existingCart));
-
+  
     alert(`${item.title} has been added to your cart!`);
   };
 
@@ -97,6 +98,7 @@ const ProductItem: React.FC<ProductItemProps> = ({ item, linkEnabled = true }) =
           </div>
         </div>
       </div>
+
     </div>
   );
 };

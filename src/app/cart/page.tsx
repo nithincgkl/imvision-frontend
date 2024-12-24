@@ -47,22 +47,23 @@ const CartPage: React.FC = () => {
 
   const handleDecrease = (id: number) => {
     setCartItems(prevItems => {
-      const updatedItems = prevItems
-        .map(item =>
-          item.id === id
-            ? { ...item, count: item.count - 1 }
-            : item
-        )
-        .filter(item => item.count > 0); // If count is 0 or less, remove the item
-      updateLocalStorage();
+      const updatedItems = prevItems.map(item => {
+        if (item.id === id) {
+          const newCount = item.count - 1;
+          return { ...item, count: newCount };
+        }
+        return item;
+      }).filter(item => item.count > 0); // Move filter here to remove items with count 0
+  
+      localStorage.setItem('cartItems', JSON.stringify(updatedItems));
       return updatedItems;
     });
   };
 
   const handleRemoveItem = (id: number) => {
     setCartItems(prevItems => {
-      const updatedItems = prevItems.filter(item => item.id !== id); // Filter out the item with the given ID
-      updateLocalStorage();
+      const updatedItems = prevItems.filter(item => item.id !== id);
+      localStorage.setItem('cartItems', JSON.stringify(updatedItems));
       return updatedItems;
     });
   };

@@ -125,7 +125,7 @@ const RentPage: React.FC = () => {
                         <div
                           className="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12"
                           key={item.id}
-                        >
+                          >
                           <ProductItem item={item} />
                         </div>
                       ))
