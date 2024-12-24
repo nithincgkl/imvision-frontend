@@ -39,10 +39,6 @@ import { log } from "console";
     }
 
 
-
- 
-
-
 const CareerBox = ({ job, onApply }: { job: CareerJob; onApply: (job: CareerJob) => void; }) => (
         <div className={style["career_box"]}>
           <div>

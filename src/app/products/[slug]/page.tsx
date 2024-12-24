@@ -73,6 +73,13 @@ const Page: React.FC = () => {
         state:'',
         postal_code:'',
         message: '', // Added message to state
+=======
+      name: '',
+      email: '',
+      phone: '',
+      address: '',
+      message: '', // Added message to state
+>>>>>>> 01e02acefc19af92bd6e27dddb119c312c82625a
     });
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -196,6 +203,92 @@ const Page: React.FC = () => {
             console.error('Error message:', error.message);
             alert('Failed to submit enquiry. Please check the console for details.');
         }
+    };
+
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      const { name, value } = e.target;
+      setFormData({
+        ...formData,
+        [name]: value,
+      });
+    };
+  
+    const handleSubmit = async (e: React.FormEvent) => {
+      e.preventDefault();
+  
+      const token = localStorage.getItem('token');
+      const storedUser = localStorage.getItem('user');
+      
+      if (!storedUser) {
+        console.error('No user data found in localStorage.');
+        return;
+      }
+      
+      const user = JSON.parse(storedUser);
+      const userId = user.documentId;
+  
+      if (!token) {
+        console.error('No token found. User may not be logged in.');
+        return;
+      }
+  
+      const requestData = {
+        userId: userId,  // Fill in user ID
+        order_details: [],  // Placeholder for now
+        total_amount: 0,  // Placeholder for now
+        BillingAddress: {
+          FirstName: formData.name || '-',
+          LastName: '-', // Placeholder
+          Email: formData.email || '-',
+          Phone: formData.phone || '-',
+          Street: '-',
+          HouseNo: '-',
+          City: '-',
+          PostalCode: '-',
+          State: '-',
+          Country: '-',
+          CompanyName: '-',
+          Reference: '-', // Placeholder
+        },
+        ShippingAddress: {
+          FirstName: '-',  // Placeholder
+          LastName: '-',  // Placeholder
+          Email: '-',  // Placeholder
+          Phone: '-',  // Placeholder
+          Street: '-',  // Placeholder
+          HouseNo: '-',  // Placeholder
+          City: '-',  // Placeholder
+          PostalCode: '-',  // Placeholder
+          State: '-',  // Placeholder
+          Country: '-',  // Placeholder
+          CompanyName: '-',  // Placeholder
+          Reference: '-',  // Placeholder
+        },
+        DeliveryStatus: [
+          {
+            delivery_status: '-',
+            status_updated_at: new Date().toISOString(),
+          },
+        ],
+        message: formData.message || '-',  // Add message field
+      };
+  
+      try {
+        const response = await axios.post(
+          `${process.env.NEXT_PUBLIC_API_URL}orders`,
+          requestData,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              'Content-Type': 'application/json',
+            },
+          }
+        );
+        console.log('Order submitted:', response.data);
+        toggleModal();  // Close the modal after submission
+      } catch (error) {
+        console.error('Error submitting order:', error);
+      }
     };
 
     const toggleModal = () => {
@@ -392,7 +485,28 @@ const Page: React.FC = () => {
                                                 <p><span className='fw-bold text-white'>Category:</span> {featured.product_category.category_name}</p>
                                             </div>  
                                         </div>  
+<<<<<<< HEAD
                                     </div>  
+=======
+                                    </div>
+                                    <div className={`${style.para_section} my-5 `}>
+                      <p>{featured.description}</p>
+                    </div>
+
+
+                    {featured?.specifications && featured.specifications.length > 0 && (
+    <>
+        <h3 className='mb-4'>Product Specifications</h3>
+        <div className={`${style.product_spec}`}>
+            {featured.specifications.map((spec, index) => (
+                <div key={spec.id} className={`${style.spec_detail}`}>
+                    <h5 className='col-md-4 col-12'>{spec.specification}</h5>
+                    {spec.specification_title_desc && spec.specification_title_desc.length > 0 && (
+                        <div className='col-md-8 col-12'>
+                            {spec.specification_title_desc.map((desc, descIndex) => (
+                                <div key={descIndex}>
+                                    <p className='fw-bold'>{desc.title}<br/> <span className='fw-thin'>{desc.description}</span></p>                                 
+>>>>>>> 01e02acefc19af92bd6e27dddb119c312c82625a
                                 </div>
                                 <div className={`${style.para_section} my-5 `}>
                                     <p>{featured.description}</p>
@@ -613,6 +727,150 @@ const Page: React.FC = () => {
                 <FooterOne />
             </div>
         </div>
+<<<<<<< HEAD
+=======
+    </>
+)}
+                
+</div> 
+)}   
+
+{isModalVisible && (
+        <div className={style.modal} onClick={handleOutsideClick}>
+          <div ref={modalRef} className={style.modal_content}>
+            <h4>Quick Enquiry</h4>
+            <button
+              type="button"
+              className={style.close_btn}
+              onClick={toggleModal} // Close modal when clicked
+            >
+              <IoMdClose />
+            </button>
+            <form className={style.form}>
+              <div className="row">
+                <div className="col-md-6 mb-3">
+                  <input
+                    type="text"
+                    name="name"
+                    className={`form-control ${style.inputField}`}
+                    placeholder="Name"
+                    value={formData.name}
+                    onChange={handleInputChange}
+                  />
+                </div>
+                <div className="col-md-6 mb-3">
+                  <input
+                    type="email"
+                    name="email"
+                    className={`form-control ${style.inputField}`}
+                    placeholder="Email"
+                    value={formData.email}
+                    onChange={handleInputChange}
+                  />
+                </div>
+              </div>
+
+              <div className="row">
+                <div className="col-md-6 mb-3">
+                  <input
+                    type="text"
+                    name="phone"
+                    className={`form-control ${style.inputField}`}
+                    placeholder="Phone"
+                    value={formData.phone}
+                    onChange={handleInputChange}
+                  />
+                </div>
+
+                <div className="col-md-6 mb-3">
+                  <input
+                    type="address/city"
+                    name="address/city"
+                    className={`form-control ${style.inputField}`}
+                    placeholder="Address & City"
+                    value={formData.address}
+                    onChange={handleInputChange}
+                  />
+                </div>
+              </div>
+
+              <div className="row">
+                <div className="col-md-12 mb-3">
+                  <textarea
+                    name="message"
+                    className={`form-control ${style.inputField}`}
+                    placeholder="Message"
+                  />
+                </div>
+              </div>
+
+              <div className="row">
+                <div className="col-md-12 mb-3">
+                  <button  onClick={handleSubmit} type="submit" className={style.talk_btn}>
+                    Submit
+                  </button>
+                  <button
+                    type="button"
+                    className={style.cancel_btn}
+                    onClick={toggleModal} // Close modal on cancel
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+                <div className='my-5 container-fluid'>
+                      <h3  className='mb-4 my-5'> Related Products</h3>
+    
+                      <div className="d-flex">
+
+                  <Swiper
+                    modules={[Autoplay]}
+                    loop={true}
+                    speed={1000}
+                    spaceBetween={30}
+                    slidesPerView="auto"
+                    autoplay={{
+                      delay: 3000,
+                      disableOnInteraction: false,
+                    }}
+                    pagination={{
+                      el: ".cs_pagination",
+                      clickable: true,
+                    }}
+                    className={`cs_slider pt-5 cs_slider_3 anim_blog ${style ? '' : 'style_slider'}`}
+                    >      
+                          {products.map((product) => (
+            <SwiperSlide key={product.id} className="swiper-slide">
+               <Link href={`/products/${product.slug}`} passHref>
+        <ProductItem
+            item={{
+                id: product.id,
+                img: product.thumbnail?.formats?.large?.url || product.thumbnail?.url,
+                title: product.title,
+                des: product.amount,
+                slug: product.slug, 
+                sale_rent:product.sale_rent // Correctly pass the slug
+            }}
+            linkEnabled={false} // Link is enabled, will navigate to product page
+
+        />
+    </Link>
+            </SwiperSlide>
+          ))}
+                    </Swiper>
+                  </div>
+                    </div>           
+            </section>
+            <LetsTalk />
+          </main>
+          <FooterOne />
+        </div>
+      </div>
+>>>>>>> 01e02acefc19af92bd6e27dddb119c312c82625a
     </Wrapper>
 );
 }

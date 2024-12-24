@@ -22,10 +22,8 @@ interface CartItem {
 
 const CartPage: React.FC = () => {
   const [startDate, setStartDate] = useState<Date>(new Date());
-  const [endDate, setEndDate] = useState<Date>(new Date(Date.now() + 24 * 60 * 60 * 1000));
-  
+  const [endDate, setEndDate] = useState<Date>(new Date(Date.now() + 24 * 60 * 60 * 1000)); 
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
-
   // Load cart items from local storage on component mount
   useEffect(() => {
     const storedCartItems = JSON.parse(localStorage.getItem('cartItems') || '[]');
@@ -37,13 +35,18 @@ const CartPage: React.FC = () => {
   }, []);
 
   const handleIncrease = (id: number) => {
-    setCartItems(prevItems => 
-      prevItems.map(item => 
+    setCartItems(prevItems => {
+      const updatedItems = prevItems.map(item =>
         item.id === id ? { ...item, count: item.count + 1 } : item
-      )
-    );
-    updateLocalStorage();
+      );
+
+      // Save the updated cart to localStorage
+      localStorage.setItem('cartItems', JSON.stringify(updatedItems));
+
+      return updatedItems;
+    });
   };
+
 
   const handleDecrease = (id: number) => {
     setCartItems(prevItems => {
@@ -104,6 +107,23 @@ const CartPage: React.FC = () => {
   );
 
   CalendarInput.displayName = "CalendarInput";
+
+
+  const handleProceedToCheckout = () => {
+    const totalAmount = calculateTotal();
+    
+    // Prepare the data to be stored
+    const checkoutData = {
+      cartItems,
+      totalAmount
+    };
+  
+    // Log the data to the console before storing it
+    console.log('Checkout Data:', checkoutData);
+  
+    // Store both cart items and total in local storage
+    localStorage.setItem('total', JSON.stringify(checkoutData));
+  }
 
   return (
     <Wrapper>
@@ -193,6 +213,9 @@ const CartPage: React.FC = () => {
                           <div className={style['grand_total']}>
                             <div className={style['grand_total_box']}>
                               <p>Grand Total:<span>SEK {calculateTotal()}</span></p>
+                              <Link href="/checkout" >
+                              <button onClick={handleProceedToCheckout}>Proceed To Checkout</button>
+                              </Link>
                               <button onClick={handleCheckout}>Proceed To Checkout</button>
                             </div>
                           </div>
