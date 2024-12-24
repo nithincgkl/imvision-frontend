@@ -73,10 +73,10 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 };
 
 // Custom hook to use the cart context
-export const useCart = () => {
-  const context = useContext(CartContext);
-  if (context === undefined) {
-    throw new Error('useCart must be used within a CartProvider');
-  }
-  return context;
-};
+// export const useCart = () => {
+//   const context = useContext(CartContext);
+//   if (context === undefined) {
+//     throw new Error('useCart must be used within a CartProvider');
+//   }
+//   return context;
+// };

@@ -1,5 +1,5 @@
 'use client';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import Wrapper from '@/layouts/wrapper';
@@ -8,33 +8,38 @@ import HeaderOne from '@/layouts/headers/HeaderOne';
 import style from './style.module.css';
 import LetsTalk from '@/components/home/lets-talk';
 import { RiDeleteBin6Line } from "react-icons/ri";
-import Link from 'next/link';
 
 interface CartItem {
   id: number;
-  img: string;
-  title: string;
-  des: string; // Assuming this is the price as a string
-  amount: number;
-  count: number;
+  name: string;
   type: string;
+  count: number;
+  price: number;
+  image: string;
 }
 
-const CartPage: React.FC = () => {
+const RentalConditions = () => {
   const [startDate, setStartDate] = useState<Date>(new Date());
   const [endDate, setEndDate] = useState<Date>(new Date(Date.now() + 24 * 60 * 60 * 1000));
   
-  const [cartItems, setCartItems] = useState<CartItem[]>([]);
-
-  // Load cart items from local storage on component mount
-  useEffect(() => {
-    const storedCartItems = JSON.parse(localStorage.getItem('cartItems') || '[]');
-    if (storedCartItems.length === 0) {
-      // If no items in the cart, clear the local storage
-      localStorage.removeItem('cartItems');
+  const [cartItems, setCartItems] = useState<CartItem[]>([
+    {
+      id: 1,
+      name: "ABSENnicon C Slim Series 165\"",
+      type: "Rental",
+      count: 1,
+      price: 100.00,
+      image: "/assets/images/cart.jpg"
+    },
+    {
+      id: 2,
+      name: "ABSENnicon C Slim Series 165\" IM Series P0.93mm – COB with CCT tech",
+      type: "Sale",
+      count: 1,
+      price: 110.00,
+      image: "/assets/images/cart.jpg"
     }
-    setCartItems(storedCartItems);
-  }, []);
+  ]);
 
   const handleIncrease = (id: number) => {
     setCartItems(prevItems => 
@@ -42,43 +47,22 @@ const CartPage: React.FC = () => {
         item.id === id ? { ...item, count: item.count + 1 } : item
       )
     );
-    updateLocalStorage();
   };
 
   const handleDecrease = (id: number) => {
-    setCartItems(prevItems => {
-      const updatedItems = prevItems.map(item => {
-        if (item.id === id) {
-          const newCount = item.count - 1;
-          return { ...item, count: newCount };
-        }
-        return item;
-      }).filter(item => item.count > 0); // Move filter here to remove items with count 0
-  
-      localStorage.setItem('cartItems', JSON.stringify(updatedItems));
-      return updatedItems;
-    });
+    setCartItems(prevItems => 
+      prevItems.map(item => 
+        item.id === id ? { ...item, count: Math.max(1, item.count - 1) } : item
+      )
+    );
   };
 
   const handleRemoveItem = (id: number) => {
-    setCartItems(prevItems => {
-      const updatedItems = prevItems.filter(item => item.id !== id);
-      localStorage.setItem('cartItems', JSON.stringify(updatedItems));
-      return updatedItems;
-    });
+    setCartItems(prevItems => prevItems.filter(item => item.id !== id));
   };
 
   const calculateTotal = () => {
-    return cartItems.reduce((total, item) => total + (item.amount * item.count), 0).toFixed(2);
-  };
-
-  const updateLocalStorage = () => {
-    if (cartItems.length === 0) {
-      // If cart is empty, remove it from localStorage
-      localStorage.removeItem('cartItems');
-    } else {
-      localStorage.setItem('cartItems', JSON.stringify(cartItems));
-    }
+    return cartItems.reduce((total, item) => total + (item.price * item.count), 0).toFixed(2);
   };
 
   const CalendarInput = React.forwardRef<HTMLInputElement, { value: string; onClick: () => void }>(
@@ -109,7 +93,7 @@ const CartPage: React.FC = () => {
                 <div className="container-fluid">
                   <div className="row">
                     <div className="col-md-12">
-                       <h1 className={style.pageTitle}>My Cart [{cartItems.reduce((total, item) => total + item.count, 0)}]</h1>
+                      <h1 className={style.pageTitle}>My Cart</h1>
                     </div>
                   </div>
                 </div>
@@ -121,13 +105,13 @@ const CartPage: React.FC = () => {
                     <div className="col-md-12">
                       {cartItems.length > 0 ? (
                         <>
-                            {cartItems.map((item) => (
+                          {cartItems.map((item) => (
                             <div key={item.id} className={style['cart_box']}>
                               <div className={style['cart_box_header']}>
                                 <div>
                                   <p className='mb-0'>{item.type}</p>
                                 </div>
-                                {item.type === "Rent" && (
+                                {item.type === 'Rental' && (
                                   <div className='float-left'>
                                     <p className='float-start pt-2'>Select Rental Period:</p>
                                     <div className={style.datePickers}>
@@ -155,13 +139,16 @@ const CartPage: React.FC = () => {
                               </div>
                               <div className={style['cart_box_body']}>
                                 <div className={style['cart_box_img']}>
-                                <img src={item.img} alt={`${item.title} image`} />
-
+                                  <img
+                                    src={item.image}
+                                    className="w-100"
+                                    alt={`${item.name} banner`}
+                                  />
                                 </div>
 
                                 <div className={style['cart_box_right']}>
                                   <div>
-                                    <p>{item.title}</p>
+                                    <p>{item.name}</p>
                                     <br />
 
                                     <div className={style['cart_box_add_btn']}>
@@ -170,7 +157,7 @@ const CartPage: React.FC = () => {
                                         <span>{item.count}</span>
                                         <button onClick={() => handleIncrease(item.id)}>+</button>
                                       </div>
-                                      <p>SEK {(item.amount * item.count).toFixed(2)}</p>
+                                      <p>SEK {(item.price * item.count).toFixed(2)}</p>
                                     </div>
                                   </div>
                                   <div>
@@ -183,32 +170,24 @@ const CartPage: React.FC = () => {
                             </div>
                           ))}
 
-
-                          {/* Grand Total Section */}
                           <div className={style['grand_total']}>
                             <div className={style['grand_total_box']}>
                               <p>Grand Total:<span>SEK {calculateTotal()}</span></p>
                               <button>Proceed To Checkout</button>
                             </div>
                           </div>
-
                         </>
                       ) : (
-                        // Message when cart is empty
                         <p>Cart is empty</p>
                       )}
                     </div>
                   </div>
                 </div>
               </div>
-
             </section>
 
-            {/* Contact Section */}
             <LetsTalk />
           </main>
-
-          {/* Footer */}
           <FooterOne />
         </div>
       </div>
@@ -216,4 +195,4 @@ const CartPage: React.FC = () => {
   );
 };
 
-export default CartPage;
+export default RentalConditions;

@@ -28,6 +28,24 @@ const RentalConditions = () => {
     Notes: ''
   });
 
+  const [shippingformData, setShippingFormData] = useState({
+    gdprConsent: false,
+    serviceAgreement: '',
+    Country: '',
+    FirstName: '',
+    Surname: '',
+    Email: '',
+    Phone: '',
+    Street: '',
+    HouseNumber: '',
+    City: '',
+    PostalCode: '',
+    State: '',
+    CompanyName: '',
+    Reference: '',
+    Notes: ''
+  });
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value, type } = e.target;
     
@@ -281,24 +299,6 @@ const RentalConditions = () => {
                               </div>
                             </div>
                           </div>
-
-                          <div className={style["checkout_inner_container"]}>
-                            <div className="row">
-                              <div className="col-md-12">
-                                <div className={`mb-0 ${style.formControl}`}>
-                                  <input
-                                    type="text"
-                                    id="Notes"
-                                    name="Notes"
-                                    className={`form-control ${style.inputField}`}
-                                    placeholder="Order Notes (optional)"
-                                    value={formData.Notes}
-                                    onChange={handleChange}
-                                  />
-                                </div>
-                              </div>
-                            </div>
-                          </div>
                         </form>
                       </div>
                     </div>
@@ -366,6 +366,238 @@ const RentalConditions = () => {
                 </div>
               </div>
 
+              <div className={style["checkout"]}>
+                <div className="container-fluid">
+                  <div className="row">
+                    <div className="col-md-8">
+                      <div className={style["checkout_container"]}>
+                        <form>
+                          <div className={style["checkout_inner_container"]}>
+                            <div className="row">
+                              <div className="col-md-12"><h4>Billing Address</h4></div>
+                              <div className="col-md-6">
+                                <div className={style.formControl}>
+                                  <input
+                                    type="text"
+                                    id="FirstName"
+                                    name="FirstName"
+                                    className={`form-control ${style.inputField}`}
+                                    placeholder="First Name*"
+                                    value={shippingformData.FirstName}
+                                    // onChange={handleChange}
+                                  />
+                                </div>
+                              </div>
+                              <div className="col-md-6">
+                                <div className={style.formControl}>
+                                  <input
+                                    type="text"
+                                    id="Surname"
+                                    name="Surname"
+                                    className={`form-control ${style.inputField}`}
+                                    placeholder="Surname*"
+                                    value={shippingformData.Surname}
+                                    // onChange={handleChange}
+                                  />
+                                </div>
+                              </div>
+                            </div>
+
+                            <div className="row">
+                              <div className="col-md-6">
+                                <div className={style.formControl}>
+                                  <input
+                                    type="email"
+                                    id="Email"
+                                    name="Email"
+                                    className={`form-control ${style.inputField}`}
+                                    placeholder="Email Address*"
+                                    value={shippingformData.Email}
+                                    onChange={handleChange}
+                                  />
+                                </div>
+                              </div>
+                              <div className="col-md-6">
+                                <div className={style.formControl}>
+                                  <input
+                                    type="number"
+                                    id="Phone"
+                                    name="Phone"
+                                    className={`form-control ${style.inputField}`}
+                                    placeholder="Phone*"
+                                    value={shippingformData.Phone}
+                                    onChange={handleChange}
+                                  />
+                                </div>
+                              </div>
+                            </div>
+
+                            <div className="row">
+                              <div className="col-md-6">
+                                <div className={style.formControl}>
+                                  <input
+                                    type="text"
+                                    id="Street"
+                                    name="Street"
+                                    className={`form-control ${style.inputField}`}
+                                    placeholder="Street*"
+                                    value={shippingformData.Street}
+                                    onChange={handleChange}
+                                  />
+                                </div>
+                              </div>
+                              <div className="col-md-6">
+                                <div className={style.formControl}>
+                                  <input
+                                    type="text"
+                                    id="HouseNumber"
+                                    name="HouseNumber"
+                                    className={`form-control ${style.inputField}`}
+                                    placeholder="House Number*"
+                                    value={shippingformData.HouseNumber}
+                                    onChange={handleChange}
+                                  />
+                                </div>
+                              </div>
+                            </div>
+
+                            <div className="row">
+                              <div className="col-md-6">
+                                <div className={style.formControl}>
+                                  <input
+                                    type="text"
+                                    id="City"
+                                    name="City"
+                                    className={`form-control ${style.inputField}`}
+                                    placeholder="City / Town*"
+                                    value={shippingformData.City}
+                                    onChange={handleChange}
+                                  />
+                                </div>
+                              </div>
+                              <div className="col-md-6">
+                                <div className={style.formControl}>
+                                  <input
+                                    type="text"
+                                    id="PostalCode"
+                                    name="PostalCode"
+                                    className={`form-control ${style.inputField}`}
+                                    placeholder="Postal Code*"
+                                    value={shippingformData.PostalCode}
+                                    onChange={handleChange}
+                                  />
+                                </div>
+                              </div>
+                            </div>
+
+                            <div className="row">
+                              <div className="col-md-6">
+                                <div className={style.formControl}>
+                                  <input
+                                    type="text"
+                                    id="State"
+                                    name="State"
+                                    className={`form-control ${style.inputField}`}
+                                    placeholder="State*"
+                                    value={shippingformData.State}
+                                    onChange={handleChange}
+                                  />
+                                </div>
+                              </div>
+
+                              <div className="col-md-6">
+                                <div className={style.formControl}>
+                                  <div className={style.selectWrapper}>
+                                    <select
+                                      id="Country"
+                                      name="Country"
+                                      className={`form-control ${style.inputField}`}
+                                      onChange={handleChange}
+                                      value={shippingformData.Country || ''} // Bind value to state
+                                    >
+                                      <option value="">Select Country / Region*</option>
+                                      <option value="Sweden">Sweden</option>
+                                      <option value="USA">United States</option>
+                                      <option value="Canada">Canada</option>
+                                      <option value="Germany">Germany</option>
+                                      <option value="France">France</option>
+                                      <option value="UK">United Kingdom</option>
+                                      <option value="Australia">Australia</option>
+                                    </select>
+                                    <IoChevronDown className={style.arrowIcon} />
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
+
+                            <div className="row">
+                              <div className="col-md-6">
+                                <div className={style.formControl}>
+                                  <input
+                                    type="text"
+                                    id="Company-Name"
+                                    name="Company-Name"
+                                    className={`form-control ${style.inputField}`}
+                                    placeholder="Company Name (optional)"
+                                    value={shippingformData.CompanyName}
+                                    onChange={handleChange}
+                                  />
+                                </div>
+                              </div>
+                              <div className="col-md-6">
+                                <div className={style.formControl}>
+                                  <input
+                                    type="text"
+                                    id="Reference"
+                                    name="Reference"
+                                    className={`form-control ${style.inputField}`}
+                                    placeholder="Reference (optional)"
+                                    value={shippingformData.Reference}
+                                    onChange={handleChange}
+                                  />
+                                </div>
+                              </div>
+                              </div>
+
+
+
+                          </div>
+
+                          <div className={`my-4 ${style.checkout_container}`}>
+                            <div className="row">
+                              <div className="col-md-12">
+                                <div className={`mb-0 ${style.formControl}`}>
+                            
+                                                               </div>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div className={style["checkout_inner_container"]}>
+                            <div className="row">
+                              <div className="col-md-12">
+                                <div className={`mb-0 ${style.formControl}`}>
+                                  <input
+                                    type="text"
+                                    id="Notes"
+                                    name="Notes"
+                                    className={`form-control ${style.inputField}`}
+                                    placeholder="Order Notes (optional)"
+                                    value={formData.Notes}
+                                    onChange={handleChange}
+                                  />
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
               <div className={style["checkout_footer"]}>
                 <div className="container-fluid">
                   <div className="row">

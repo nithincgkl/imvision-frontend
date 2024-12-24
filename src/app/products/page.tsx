@@ -23,6 +23,7 @@ interface Product {
   title: string;
   amount: string;
   slug: string;  // Added slug
+  sale_rent:string
 }
 
 const Page: React.FC = () => {
@@ -84,7 +85,9 @@ const Page: React.FC = () => {
                     img: product.thumbnail?.formats?.large?.url || product.thumbnail?.url,
                     title: product.title,
                     des: product.amount,
-                    slug: product.slug,  // Pass the slug to ProductItem
+                    slug: product.slug,
+                    sale_rent:product.sale_rent // Correctly pass the slug
+                    // Pass the slug to ProductItem
                   }} />
                       </div>
                     ))}

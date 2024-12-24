@@ -58,6 +58,7 @@ const RentPage: React.FC = () => {
               title: item.title,
               des: item.description || '',
               sale_rent: item.sale_rent,
+              slug:item.slug
             };
           });
 
@@ -126,7 +127,7 @@ const RentPage: React.FC = () => {
                           className="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12"
                           key={item.id}
                         >
-                          <ProductItem item={item} />
+                          <ProductItem item={item} linkEnabled={false}/>
                         </div>
                       ))
                     ) : (

@@ -12,6 +12,7 @@
     "@types/react-modal-video": "^1.2.3",
     "axios": "^1.7.8",
     "better-sqlite3": "^11.7.0",
+    "bootstrap": "^5.3.3",
     "gsap": "^3.12.5",
     "install": "^0.13.0",
     "jquery": "^3.7.1",

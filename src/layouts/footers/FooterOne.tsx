@@ -258,6 +258,11 @@ const FooterOne: React.FC = () => {
                   </li>
                 ))}
               </ul>
+              <div className={style.disclaimer}>
+                <p className='my-4 col-xxl-8 col-xl-9 col-md-8 col-11 mx-auto'><span className='fw-bold mb-1'>Disclaimer</span><br/> 
+                    The photos and videos displayed on this website are used for representational purposes and remain the property of their respective owners. For any queries, please contact us at <a href="mailto:elliott@imvision.se" className='fw-bold'>elliott@imvision.se</a> 
+                </p>
+              </div>
             </nav>
           </div>
         </div>
