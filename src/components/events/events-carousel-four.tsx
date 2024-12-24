@@ -1,11 +1,12 @@
 'use client';
 import Link from 'next/link';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Swiper, SwiperSlide } from "swiper/react";
 import styles from "./style.module.css";
 import { Autoplay } from 'swiper/modules';
 import axios from 'axios';
 import Image from 'next/image';
+import { FaRegArrowAltCircleRight, FaRegArrowAltCircleLeft } from "react-icons/fa";
 
 // Updated interfaces to match the API response structure
 interface HomeCarouselProps {
@@ -57,6 +58,7 @@ const EventsCarouselFour: React.FC<HomeCarouselProps> = ({ style_2, style_3 }) =
   const [events, setEvents] = useState<Event[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const swiperRef = useRef<any>(null);
 
   useEffect(() => {
     const fetchEvents = async () => {
@@ -84,6 +86,21 @@ const EventsCarouselFour: React.FC<HomeCarouselProps> = ({ style_2, style_3 }) =
     fetchEvents();
   }, []);
 
+    // Function to handle next slide
+    const handleNext = () => {
+      if (swiperRef.current) {
+        swiperRef.current.swiper.slideNext();
+      }
+    };
+  
+    // Function to handle previous slide
+    const handlePrevious = () => {
+      if (swiperRef.current) {
+        swiperRef.current.swiper.slidePrev();
+      }
+    };
+
+
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error loading events: {error}</div>;
   if (!events.length) return <div>No events found</div>;
@@ -96,25 +113,18 @@ const EventsCarouselFour: React.FC<HomeCarouselProps> = ({ style_2, style_3 }) =
             <h3>Recent Events</h3>
           </div>
           <div className="cs_section_heading_right cs_btn_anim">
-            <Link href="/blog" className="cs_btn cs_style_1">
-              <span>View Store</span>
-              <svg
-                width="19"
-                height="13"
-                viewBox="0 0 19 13"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M18.5303 7.03033C18.8232 6.73744 18.8232 6.26256 18.5303 5.96967L13.7574 1.1967C13.4645 0.903806 12.9896 0.903806 12.6967 1.1967C12.4038 1.48959 12.4038 1.96447 12.6967 2.25736L16.9393 6.5L12.6967 10.7426C12.4038 11.0355 12.4038 11.5104 12.6967 11.8033C12.9896 12.0962 13.4645 12.0962 13.7574 11.8033L18.5303 7.03033ZM0 7.25H18V5.75H0V7.25Z"
-                  fill="currentColor"
-                ></path>
-              </svg>
-            </Link>
+          <div>
+              <FaRegArrowAltCircleLeft onClick={handlePrevious} style={{ cursor: 'pointer', height:'40px',width: '40px' }} />
+              <FaRegArrowAltCircleRight 
+// Increase width
+  onClick={handleNext} 
+  style={{ cursor: 'pointer', height:'40px',width: '40px' }} 
+/>            </div>
           </div>
         </div>
 
         <Swiper
+          ref={swiperRef} // Attach the ref here
           modules={[Autoplay]}
           loop={events.length > 1}
           speed={1000}
@@ -130,10 +140,11 @@ const EventsCarouselFour: React.FC<HomeCarouselProps> = ({ style_2, style_3 }) =
           }}
           className={`cs_slider pt-5 cs_slider_3 anim_blog ${style_2 ? '' : 'style_slider'}`}
         >
-          {events.map((event) => (
+        {events.map((event) => (
             <SwiperSlide key={event.id}>
-              <div className={styles['event-item']}>
-                <Link href={`/events/${event.slug}`}>
+        <div  className={styles['our-screen-box']}>
+                <div className="cs_post cs_style_1">
+                  <Link href={`/events/${event.slug}`} className="cs_post_thumb">
                   {event.thumbnail && (
                     <Image
                       src={event.thumbnail.formats?.medium?.url || event.thumbnail.url}
@@ -143,11 +154,17 @@ const EventsCarouselFour: React.FC<HomeCarouselProps> = ({ style_2, style_3 }) =
                       className={styles['event-image']}
                     />
                   )}
-                  <h4>{event.title}</h4>
-                  <p>{event.description}</p>
-                 
-                </Link>
-              </div>
+                       </Link>
+                  <div className="cs_post_info">
+                    <h2 className="cs_post_title">
+                      <Link href="/event-details">{event.title}</Link>
+                    </h2>
+                    <div>
+                    <p className="col-12">SEK {event.description}</p>
+                    </div>
+                    </div>
+                    </div>
+                    </div>
             </SwiperSlide>
           ))}
         </Swiper>

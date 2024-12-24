@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState ,useEffect} from 'react';
 import Wrapper from '@/layouts/wrapper';
 import FooterOne from '@/layouts/footers/FooterOne';
 import HeaderOne from '@/layouts/headers/HeaderOne';
@@ -8,7 +8,7 @@ import LetsTalk from '@/components/home/lets-talk';
 import Link from 'next/link';
 import { IoChevronDown } from 'react-icons/io5';
 import axios from 'axios';
-import { useRouter } from 'next/router';
+// import { useRouter } from 'next/router';
 
 
 // Main RentalConditions Component
@@ -104,26 +104,58 @@ const RentalConditions = () => {
       }));
     }
   };
+
+  const [cartItems, setCartItems] = useState<any[]>([]);
+
+  useEffect(() => {
+    // Fetch the cart items from localStorage
+    const storedCartItems = JSON.parse(localStorage.getItem('cartItems') || '[]');
+    setCartItems(storedCartItems);
+  }, []);
+
+  // Calculate the subtotal (sum of all item totals)
+  const calculateSubtotal = () => {
+    return cartItems.reduce((total: number, item: any) => {
+      return total + item.amount * item.count; // Multiply amount by count for each item
+    }, 0).toFixed(2); // Format the subtotal to two decimal places
+  };
+
+  // Shipping cost (hardcoded for simplicity, can be dynamic)
+  const shippingCost = 10.00;
+
+  // Calculate the grand total (subtotal + shipping)
+  const calculateGrandTotal = () => {
+    const subtotal = parseFloat(calculateSubtotal());
+    return (subtotal + shippingCost).toFixed(2); // Add shipping cost to the subtotal
+  };
+
+  const orderDetails = cartItems.map((item: any) => ({
+    product_name: item.title, // Assuming 'title' is the product name
+    qty: item.count,          // Quantity is the 'count'
+    amount: item.amount,      // Amount for each item
+    product_id: item.id,      // Assuming 'id' is the product ID
+  }));
+
+ 
+  const totalAmount = calculateSubtotal();
+
+  const storedUser = localStorage.getItem('user');
+      
+  if (!storedUser) {
+    console.error('No user data found in localStorage.');
+    return;
+  }
+  
+  const user = JSON.parse(storedUser);
+  const userId = user.documentId;
+
+
   const handlePlaceOrder = async () => {
-    const router = useRouter();
     const orderData = {
-      userId: "user123",
-      order_details: [
-        {
-          product_name: "Product 1",
-          qty: 2,
-          amount: 29.99,
-          product_id: "prod001"
-        },
-        {
-          product_name: "Product 2",
-          qty: 1,
-          amount: 49.99,
-          product_id: "prod002"
-        }
-      ],
-      total_amount: 109.97,
-      BillingAddress: {
+      userId: userId, // Replace with actual user ID if available
+      order_details: orderDetails,
+      total_amount: totalAmount, 
+       BillingAddress: {
         FirstName: formData.FirstName,
         LastName: formData.Surname,
         Email: formData.Email,
@@ -159,7 +191,7 @@ const RentalConditions = () => {
       ]
     };
     try {
-      const API_TOKEN = process.env.NEXT_PUBLIC_API_TOKEN;
+      const token = localStorage.getItem('token');
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_API_URL}orders`,
         {
@@ -168,14 +200,14 @@ const RentalConditions = () => {
         {
           headers: {
             "Content-Type": "application/json",
-            "Authorization": `Bearer ${API_TOKEN}`,
+            "Authorization": `Bearer ${token}`,
 
           },
         }
       );
 
       if (response.status === 200) {
-        router.push('/order-successful');
+        window.location.href = '/order-successful';  // Triggers a full-page redirect
       }
     }
     catch (error) {
@@ -397,8 +429,6 @@ const RentalConditions = () => {
                               </div>
                             </div>
 
-
-
                           </div>
 
                           <div className={`my-4 ${style.checkout_container}`}>
@@ -427,21 +457,24 @@ const RentalConditions = () => {
                         <div className={style["checkout_inner_container"]}>
                           <div className="row">
                             <div className="col-md-12"><h4>Order Summary</h4></div>
+
                             <div className="col-md-12">
                               <div className={style["checkout_table"]}>
                                 <div className={style["single_row"]}>
                                   <h5>Products</h5>
                                 </div>
-                                <div className={style["two_row"]}>
+                                {cartItems.map((item: any) => (
+
+                                <div key={item.id}  className={style["two_row"]}>
                                   <div>
-                                    <p>ABSENnicon Slim 165″ x 2</p>
-                                    <p>IM Series P0.93mm  x 3</p>
+                                  <p>{item.title} x {item.count}</p>
                                   </div>
                                   <div>
-                                    <p>SEK 0.00</p>
-                                    <p>SEK 0.00</p>
+                                  <p>SEK  {(item.amount * item.count).toFixed(2)}</p>
                                   </div>
                                 </div>
+                                                              ) )}
+
                               </div>
                               <div className={style["checkout_table_sec"]}>
                                 <div className={style["two_row"]}>
@@ -450,8 +483,9 @@ const RentalConditions = () => {
                                     <p>Shipping</p>
                                   </div>
                                   <div>
-                                    <p>SEK 10.00</p>
-                                    <p>SEK 10.00 </p>
+                                  <p>SEK {calculateSubtotal()}</p>
+                                  <p>SEK {shippingCost.toFixed(2)}</p>
+
                                   </div>
                                 </div>
                                 <span className={style["im_hr"]}></span>
@@ -462,7 +496,7 @@ const RentalConditions = () => {
                                     <h6>Grant Total</h6>
                                   </div>
                                   <div>
-                                    <h6><span>SEK 10.00</span> </h6>
+                                    <h6><span>SEK {calculateGrandTotal()}</span> </h6>
                                   </div>
                                 </div>
 
@@ -475,8 +509,10 @@ const RentalConditions = () => {
                                 <div className={style["single_row"]}>
                                   <button onClick={handlePlaceOrder}>Place order</button>
                                 </div>
+
                               </div>
                             </div>
+
                           </div>
                         </div>
                       </div>

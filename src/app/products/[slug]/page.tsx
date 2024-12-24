@@ -66,7 +66,100 @@ const Page: React.FC = () => {
     const [currentIndex, setCurrentIndex] = useState(0); // Track current image index
     const [isModalVisible, setIsModalVisible] = useState(false); // State for modal visibility
     const modalRef = useRef<HTMLDivElement>(null);
+    const [formData, setFormData] = useState({
+      name: '',
+      email: '',
+      phone: '',
+      address: '',
+      message: '', // Added message to state
+    });
 
+
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      const { name, value } = e.target;
+      setFormData({
+        ...formData,
+        [name]: value,
+      });
+    };
+  
+    const handleSubmit = async (e: React.FormEvent) => {
+      e.preventDefault();
+  
+      const token = localStorage.getItem('token');
+      const storedUser = localStorage.getItem('user');
+      
+      if (!storedUser) {
+        console.error('No user data found in localStorage.');
+        return;
+      }
+      
+      const user = JSON.parse(storedUser);
+      const userId = user.documentId;
+  
+      if (!token) {
+        console.error('No token found. User may not be logged in.');
+        return;
+      }
+  
+      const requestData = {
+        userId: userId,  // Fill in user ID
+        order_details: [],  // Placeholder for now
+        total_amount: 0,  // Placeholder for now
+        BillingAddress: {
+          FirstName: formData.name || '-',
+          LastName: '-', // Placeholder
+          Email: formData.email || '-',
+          Phone: formData.phone || '-',
+          Street: '-',
+          HouseNo: '-',
+          City: '-',
+          PostalCode: '-',
+          State: '-',
+          Country: '-',
+          CompanyName: '-',
+          Reference: '-', // Placeholder
+        },
+        ShippingAddress: {
+          FirstName: '-',  // Placeholder
+          LastName: '-',  // Placeholder
+          Email: '-',  // Placeholder
+          Phone: '-',  // Placeholder
+          Street: '-',  // Placeholder
+          HouseNo: '-',  // Placeholder
+          City: '-',  // Placeholder
+          PostalCode: '-',  // Placeholder
+          State: '-',  // Placeholder
+          Country: '-',  // Placeholder
+          CompanyName: '-',  // Placeholder
+          Reference: '-',  // Placeholder
+        },
+        DeliveryStatus: [
+          {
+            delivery_status: '-',
+            status_updated_at: new Date().toISOString(),
+          },
+        ],
+        message: formData.message || '-',  // Add message field
+      };
+  
+      try {
+        const response = await axios.post(
+          `${process.env.NEXT_PUBLIC_API_URL}orders`,
+          requestData,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              'Content-Type': 'application/json',
+            },
+          }
+        );
+        console.log('Order submitted:', response.data);
+        toggleModal();  // Close the modal after submission
+      } catch (error) {
+        console.error('Error submitting order:', error);
+      }
+    };
 
     const toggleModal = () => {
         setIsModalVisible(!isModalVisible);
@@ -233,8 +326,7 @@ const Page: React.FC = () => {
                         <div className='col-md-8 col-12'>
                             {spec.specification_title_desc.map((desc, descIndex) => (
                                 <div key={descIndex}>
-                                    <h6 className='fw-bold'>{desc.title}</h6>
-                                    <p>{desc.description}</p>
+                                    <p className='fw-bold'>{desc.title}<br/> <span className='fw-thin'>{desc.description}</span></p>                                 
                                 </div>
                             ))}
                         </div>
@@ -245,7 +337,7 @@ const Page: React.FC = () => {
     </>
 )}
                 
-                </div> 
+</div> 
 )}   
 
 {isModalVisible && (
@@ -267,6 +359,8 @@ const Page: React.FC = () => {
                     name="name"
                     className={`form-control ${style.inputField}`}
                     placeholder="Name"
+                    value={formData.name}
+                    onChange={handleInputChange}
                   />
                 </div>
                 <div className="col-md-6 mb-3">
@@ -275,6 +369,8 @@ const Page: React.FC = () => {
                     name="email"
                     className={`form-control ${style.inputField}`}
                     placeholder="Email"
+                    value={formData.email}
+                    onChange={handleInputChange}
                   />
                 </div>
               </div>
@@ -286,6 +382,8 @@ const Page: React.FC = () => {
                     name="phone"
                     className={`form-control ${style.inputField}`}
                     placeholder="Phone"
+                    value={formData.phone}
+                    onChange={handleInputChange}
                   />
                 </div>
 
@@ -295,6 +393,8 @@ const Page: React.FC = () => {
                     name="address/city"
                     className={`form-control ${style.inputField}`}
                     placeholder="Address & City"
+                    value={formData.address}
+                    onChange={handleInputChange}
                   />
                 </div>
               </div>
@@ -311,7 +411,7 @@ const Page: React.FC = () => {
 
               <div className="row">
                 <div className="col-md-12 mb-3">
-                  <button type="submit" className={style.talk_btn}>
+                  <button  onClick={handleSubmit} type="submit" className={style.talk_btn}>
                     Submit
                   </button>
                   <button
