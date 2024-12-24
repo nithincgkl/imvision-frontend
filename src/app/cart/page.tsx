@@ -216,7 +216,6 @@ const CartPage: React.FC = () => {
                               <Link href="/checkout" >
                               <button onClick={handleProceedToCheckout}>Proceed To Checkout</button>
                               </Link>
-                              <button onClick={handleCheckout}>Proceed To Checkout</button>
                             </div>
                           </div>
 
