@@ -23,6 +23,12 @@ interface ProductImage {
   related: RelatedProduct[]; // Keep the related products
 }
 
+
+interface ProductImage {
+  id: number;
+  url: string; // Add the url property
+}
+
 interface OrderDetail {
   id: number;
   product_name: string;
@@ -30,6 +36,7 @@ interface OrderDetail {
   amount: number;
   product_images: ProductImage[]; // Update to use the new ProductImage interface
   sale_rent: string;
+  article_code:string
 }
 
 
@@ -61,6 +68,7 @@ interface Order {
   ShippingAddress: ShippingAddress;
   DeliveryStatus: DeliveryStatus[];
 }
+
 
 export default function Profilepage() {
   const [isOpen, setIsOpen] = useState<number | null>(null); // Track which order is open
@@ -325,7 +333,7 @@ export default function Profilepage() {
                 </div>
               </div>
               {activeForm === 'personal' && (
-                <form onSubmit={handleSubmit} className={`${style.personal_form} justify-content-center`}>
+                <form onSubmit={handleSubmit} className={`${style.personal_form} justify-content-center container-sm my-5`}>
                   <div className="row">
                     <div className="col-md-6 mb-3">
                       <label>Name <span className='text-danger'>*</span></label>
@@ -465,97 +473,102 @@ export default function Profilepage() {
       ) : (
         orders.map((order) => {
           const totalAmount = order.order_details.reduce((acc, detail) => acc + detail.amount, 0);
-          const isCancelled = order.DeliveryStatus.some(status => status.delivery_status === 'Cancelled');
-          const isDelivered = order.DeliveryStatus.some(status => status.delivery_status === 'Delivered');
+
+          const isCancelled = order.DeliveryStatus.some(status => status.delivery_status === 'CANCELLED');
+          const isDelivered = order.DeliveryStatus.some(status => status.delivery_status === 'DELIVERED');
+          const isShipped = order.DeliveryStatus.some(status => status.delivery_status === 'SHIPPING');
+
+          const displayedArticleCodes = new Set();
 
           return (
             <div key={order.id} className={`${style.orders_form} ${isOpen === order.id ? style.ordersFormOpen : ''}`}>
-              <div className='d-flex w-100 justify-content-between align-items-center'> 
-                <p className={`${style.type} mb-0`}>{order.order_details[0]?.sale_rent}</p>
-                <p className={`${style.order_num}`}>Order Id : {order.id}</p>
-                <p className={`${style.model} d-md-block d-none text-truncate`}>{order.order_details[0]?.product_name}</p>
-                <p className='mb-0 pt-2 align-items-center'>
-                  <span className='py-lg-2 px-lg-4 px-md-3 d-md-block d-none'>
-                    {order.DeliveryStatus.length > 0 ? order.DeliveryStatus[0].delivery_status : 'No delivery status available'}
-                  </span>
-                </p>
-                <button className='d-md-block d-none'>Cancel Order</button>
-                <h3 className='pt-lg-1 pt-md-3 pt-3 mb-0' onClick={() => toggleAccordion(order.id)}>
-                  <span style={{ position: 'relative', display: 'inline-block' }}>
-                    {isOpen === order.id ? (
-                      <IoChevronUp height={50} width={50} className="pt-lg-2 me-2" />
-                    ) : (
-                      <IoChevronDown height={50} width={50} className="pt-lg-2 me-2" />
-                    )}
-                  </span>
-                </h3>
+             
+             <div className='d-flex col-12'> <p className={`${style.type} mb-0`} style={{backgroundColor: order.order_details[0]?.sale_rent === 'Rent' ? '#5C553A' : '#3F3A5C',}}>{order.order_details[0]?.sale_rent}</p>
+              <p className={`${style.order_num}`}>Order Id : {order.id}</p>
+              <p className={`${style.model} d-md-block d-none`}>{order.order_details[0]?.product_name}</p>
+              <p className='mb-0 pt-2 align-items-center'> 
+                <span className='py-lg-2 px-lg-4 px-md-3 d-md-block d-none'>
+                  {order.DeliveryStatus.length > 0 ? order.DeliveryStatus[0].delivery_status : 'No delivery status available'}
+                </span>
+              </p>
+              <button className='d-md-block d-none'>Cancel Order</button>
+              <h3 className='pt-lg-1 pt-md-3 pt-3' onClick={() => toggleAccordion(order.id)}>
+                <span style={{ position: 'relative', display: 'inline-block' }}>
+                  {isOpen === order.id ? (
+                    <IoChevronUp height={50} width={50} className="pt-lg-2 me-2" />
+                  ) : (
+                    <IoChevronDown height={50} width={50} className="pt-lg-2 me-2" />
+                  )}
+                </span>
+              </h3>
+
               </div>
 
               {isOpen === order.id && (
                 <div className={`${style.orders_form_open} p-4 d-flex flex-column`}>
-                  <div className="d-flex flex-column gap-md-4 gap-2">
-                    {order.order_details.map((detail: OrderDetail) => (
-                      <div key={detail.id} className="d-flex flex-row gap-4">
-                        <div className="position-relative" style={{ width: '120px' }}>
-                          {Array.isArray(detail.product_images) && detail.product_images.length > 0 && (
-                            <img
-                              src={detail.product_images[0]?.url}
-                              alt={detail.product_name}
-                              className={`${style.productImage} img-fluid`}
-                            />
-                          )}
-                        </div>
-                        <div className="d-flex flex-column justify-content-center">
-                          <p className={`${style.model} mb-2`}>{detail.product_name}</p>
-                          <p className={`${style.SEK} mb-2`}>SEK {detail.amount} | Quantity: {detail.qty}</p>
-                          
-                          {/* Display article codes for each related product */}
-                          {detail.product_images[0]?.related.map((relatedProduct: RelatedProduct) => (
-                            relatedProduct.article_code && (
-                              <div key={relatedProduct.id} className="d-flex align-items-center mb-1">
-                                <span className="text-secondary">
-                                  Article Code: {relatedProduct.article_code}
-                                </span>
-                              </div>
-                            )
-                          ))}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
+
+         <div className="d-flex flex-column gap-md-4 gap-2">
+  {order.order_details.map((detail: OrderDetail) => (
+    <div key={detail.id} className="d-flex flex-md-row flex-column">
+      {Array.isArray(detail.product_images) && detail.product_images.length > 0 && (
+        <img
+          src={detail.product_images[0]?.url}
+          alt={detail.product_name}
+          className={style.productImage}
+        />
+      )}
+      <div className="d-flex flex-column ">
+      <p className={`${style.model}`}>{detail.product_name}:</p>
+          <p className={`${style.SEK}`}>SEK {detail.amount} NOK</p>
+         <p className={`${style.model}`}>Quantity: {detail.qty} | Article code: {detail.article_code}</p>       
+      </div>
+    </div>
+  ))}
+</div>
 
                   <div className={`${style.status_details} p-3 pb-1 d-flex flex-md-row flex-column-reverse gap-lg-5 gap-4 my-2`}>
                     <div className='d-flex flex-column gap-1 my-2'>
-                      <div className={`${style.order_tracker}`}>
-                        <p><span><TbPackage /></span> Packed</p>
+                      <div className={`${style.order_tracker}`}  style={{
+                        borderLeft: `3px dashed ${isShipped ? '#0CB60F' : '#505050'}`,
+                        color: `${isShipped ? '#0CB60F' : '#505050'}`,
+                      }}>
+                        <p><span><TbPackage /></span> Packed
+                        </p>
                       </div>
                       <div className={`${style.order_tracker}`} style={{
-                        borderLeft: `3px dashed ${isCancelled ? '#505050' : '#0CB60F'}`,
-                        color: `${isCancelled ? 'red' : '#0CB60F'}`,
+                        borderLeft: `3px dashed ${isShipped ? '#0CB60F' : '#505050'}`,
+                        color: `${isShipped ? '#0CB60F' : isCancelled ? 'red' : '#505050'}`,
                       }}>
-                        <p><span><MdOutlineLocalShipping /></span> {isCancelled ? 'Cancelled' : 'Shipping'}</p>
+                        <p><span><MdOutlineLocalShipping /></span> {isCancelled ? 'Cancelled' : 'Shipping'}
+
+                        </p>
+
                       </div>
                       <div className={`${style.order_tracker}`} style={{
                         borderLeft: `3px dashed ${isDelivered ? '#0CB60F' : '#505050'}`,
                         color: `${isDelivered ? '#0CB60F' : '#505050'}`,
                       }}>
                         <p><span><CiCircleCheck /></span> Delivered</p>
+
                       </div>
                     </div>
                     <div>
                       <div className={`${style.order_details} mb-0`}>
-                        <p className={`${style.order_details_heading} col-lg-4 col-md-3 col-6`}>Contact no:</p>
-                        <p className='col-12'>{order.ShippingAddress.Phone}</p>
+                        <p className={`${style.order_details_heading} ms-0`}>Contact no:</p>
+                        <p className={`${style.order_fill}`}>{order.ShippingAddress.Phone}</p>
                       </div>
                       <div className={`${style.order_details}`}>
-                        <p className={`${style.order_details_heading} col-lg-4 col-md-3 col-8`}>Shipping Address:</p>
-                        <p className='col-12'>
+                        <p className={`${style.order_details_heading} ms-3 ms-md-0`}>Shipping Address:</p>
+                        <p className={`${style.order_address}`} >
+
                           {order.ShippingAddress.Street}, {order.ShippingAddress.City}, {order.ShippingAddress.State}, {order.ShippingAddress.PostalCode}, {order.ShippingAddress.Country}
                         </p>
                       </div>
                       <div className={`${style.order_details}`}>
-                        <p className={`${style.order_details_heading} col-lg-4 col-md-3 col-6`}>Total Amount:</p>
-                        <p className='col-12'>SEK {totalAmount}</p>
+
+                        <p className={`${style.order_details_heading}`}>Total Amount:</p>
+                        <p className={`${style.order_fill}`}>SEK {totalAmount}</p>
+
                       </div>
                     </div>
                   </div>
@@ -570,8 +583,10 @@ export default function Profilepage() {
 )}
 
 
+
               {activeForm === 'account' && (
-                <form onSubmit={handleAccountSubmit} className={`${style.accounts_form} justify-content-center`}>
+                <form onSubmit={handleAccountSubmit} className={`${style.accounts_form} justify-content-center container-sm my-5`}>
+
                   <div className={`${style.form_align}`}>
                     <h4>Change Password</h4>
                     {/* Current Password */}

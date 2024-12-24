@@ -1,16 +1,12 @@
 'use client';
-
 import { useEffect } from "react";  
 import { gsap } from 'gsap';
-
 import animationTitle from "@/utils/animationTitle";
 import DarkLight from "@/components/common/DarkLight";
 import MouseMove from "@/components/common/MouseMove";
 import ScrollToTop from "@/components/common/ScrollToTop";
-
 import { scrollSmother } from "@/utils/scrollSmother";
 import { buttonAnimation } from "@/utils/buttonAnimation";
-
 import { ScrollSmoother, } from "@/plugins";
 gsap.registerPlugin(ScrollSmoother);
 

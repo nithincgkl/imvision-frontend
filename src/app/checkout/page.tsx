@@ -44,6 +44,7 @@ const RentalConditions = () => {
   });
 
 
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value, type } = e.target;
 
@@ -577,17 +578,18 @@ const RentalConditions = () => {
                                 </div>
                               </div>
                             </div>
-
                             <div className="row">
                               <div className="col-md-6">
                                 <div className={style.formControl}>
                                   <input
                                     type="text"
                                     id="City"
+
                                     name="shippingCity"
                                     className={`form-control ${style.inputField}`}
                                     placeholder="City / Town*"
                                     value={formData.shippingCity}
+
                                     onChange={handleChange}
                                   />
                                 </div>
@@ -597,10 +599,12 @@ const RentalConditions = () => {
                                   <input
                                     type="text"
                                     id="PostalCode"
+
                                     name="shippingPostalCode"
                                     className={`form-control ${style.inputField}`}
                                     placeholder="Postal Code*"
                                     value={formData.shippingPostalCode}
+
                                     onChange={handleChange}
                                   />
                                 </div>
@@ -617,6 +621,7 @@ const RentalConditions = () => {
                                     className={`form-control ${style.inputField}`}
                                     placeholder="State*"
                                     value={formData.shippingState}
+
                                     onChange={handleChange}
                                   />
                                 </div>
@@ -627,10 +632,12 @@ const RentalConditions = () => {
                                   <div className={style.selectWrapper}>
                                     <select
                                       id="Country"
+
                                       name="shippingCountry"
                                       className={`form-control ${style.inputField}`}
                                       onChange={handleChange}
                                       value={formData.shippingCountry || ''} // Bind value to state
+
                                     >
                                       <option value="">Select Country / Region*</option>
                                       <option value="Sweden">Sweden</option>
@@ -654,10 +661,12 @@ const RentalConditions = () => {
                                   <input
                                     type="text"
                                     id="Company-Name"
+
                                     name="shippingCompanyName"
                                     className={`form-control ${style.inputField}`}
                                     placeholder="Company Name (optional)"
                                     value={formData.shippingCompanyName}
+
                                     onChange={handleChange}
                                   />
                                 </div>
@@ -667,14 +676,17 @@ const RentalConditions = () => {
                                   <input
                                     type="text"
                                     id="Reference"
+
                                     name="shippingReference"
                                     className={`form-control ${style.inputField}`}
                                     placeholder="Reference (optional)"
                                     value={formData.shippingReference}
+
                                     onChange={handleChange}
                                   />
                                 </div>
                               </div>
+
                             </div>
                           </div>
                           <div className={`my-4 ${style.checkout_container}`}>
@@ -700,10 +712,12 @@ const RentalConditions = () => {
                         </form>
                       </div>
                     </div>
+
                   </div>
                 </div>
               </div>
               {/* 
+
               <div className={style["checkout_footer"]}>
                 <div className="container-fluid">
                   <div className="row">

@@ -81,6 +81,7 @@ const Page: React.FC = () => {
                     {products.map((product) => (
                       <div className="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12" key={product.id}>
                         <ProductItem item={{
+
                           id: product.id,
                           img: product.thumbnail?.formats?.large?.url || product.thumbnail?.url,
                           title: product.title,

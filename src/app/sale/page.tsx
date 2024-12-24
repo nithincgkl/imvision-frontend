@@ -57,7 +57,8 @@ const Page: React.FC = () => {
               img: imageUrl,
               title: item.title,
               des: item. description || '',
-              sale_rent: item.sale_rent
+              sale_rent: item.sale_rent,
+              slug:item.slug,
             };
           });
           

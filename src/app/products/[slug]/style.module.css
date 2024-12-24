@@ -42,6 +42,7 @@
     font-size: 18px;
     font-weight: bold;
   }
+
   
   .sale_section {
     background-color: #141414;
@@ -138,275 +139,60 @@
     /* margin: 0 2px; */
     cursor: pointer;
   }
-  
-  .dot.active {
-    background-color: black;
+
+
+  .main_details h1 {
+    font-size: 25px;
   }
-  
-  @media (max-width: 1600px) {
-    .carousel_image img {
-      width: 650px;
-      height: 500px;
-    }
-  
-    .main_details h1 {
-      font-size: 45px;
-    }
+
+  .SEK {
+    font-size: 22px;
   }
-  
-  @media (max-width: 1500px) {
-    .carousel_image img {
-      width: 570px;
-      height: 470px;
-    }
-  
-    .main_details h1 {
-      font-size: 43px;
-    }
-  
-    .add_to_cart {
-      width: 180px;
-    }
+
+  .sale_section {
+    width: 100%;
+    font-size: 16px;
   }
-  
-  @media (max-width: 1400px) {
-    .carousel_image img {
-      width: auto;
-      height: 430px;
-    }
-  
-    .main_details h1 {
-      font-size: 38px;
-    }
-  
-    .add_to_cart {
-      width: 160px;
-      margin-left: 5px;
-      margin-right: 30px;
-    }
-  
-    .main_details {
-      margin-left: -25px;
-    }
-  
-    .itemAdjuster button {
-      width: 40px;
-      height: 51px;
-      font-size: 25px;
-    }
-  
-    .itemAdjuster span {
-      font-size: 18px;
-      font-weight: bold;
-    }
-  
-    .quick_enquiry {
-      padding: 0px;
-    }
-  
-    .itemAdjuster {
-      gap: 5px;
-    }
-  
-    .carousel_container {
-      margin-left: -30px;
-    }
+
+  .para_section {
+    font-size: 17px;
   }
-  
-  @media (max-width: 1200px) {
-    .carousel_image img {
-      width: auto;
-      height: 430px;
-    }
-  
-    .main_details {
-      margin-left: 0px;
-    }
-  
-    .carousel_container {
-      margin-left: 0px;
-    }
-  
-    .arrow {
-      background-color: #363636;
-      border-radius: 200px;
-      cursor: pointer;
-      font-size: 11px; /* Adjust size as needed */
-      margin: 0 8px; /* Add space between arrows and image */
-      width: 30px;
-      height: 30px;
-      align-self: center;
-      border: none;
-      color: #999999;
-    }
+
+  .product_spec {
+    background-color: #141414;
+    padding: 5px;
   }
-  
-  @media (max-width: 992px) {
-    .carousel_image img {
-      width: auto;
-      height: 400px;
-    }
-  
-    .main_details {
-      margin-left: 0px;
-    }
-  
-    .carousel_container {
-      margin-left: -10px;
-    }
-  
-    .arrow {
-      border-radius: 100px;
-      cursor: pointer;
-      width: 28px;
-      height: 28px;
-      font-size: 10px;
-    }
-  
-    .main_details h1 {
-      font-size: 30px;
-    }
-  
-    .spec_detail h5 {
-      font-size: 20px;
-    }
-  
-    .carousel_dots {
-      width: 22%;
-    }
-  
-    .button-section {
-      display: flex;
-      flex-direction: column;
-      margin-top: 1rem;
-    }
-  
-    .sale_section {
-      width: 89%;
-      font-size: 16px;
-    }
-  
-    .SEK {
-      color: #9FDEBE;
-      font-weight: 600;
-      font-size: 28px;
-    }
+
+  .product_spec span {
+    margin-left: 20px;
   }
-  
-  @media (max-width: 768px) {
-    .carousel_image img {
-      width: 750px;
-      height: 400px;
-    }
-  
-    .carousel_dots {
-      width: 22%;
-    }
-  
-    .dot {
-      display: inline-block;
-      width: 8px;
-      height: 8px;
-      background-color: rgba(128, 128, 128, 0.294);
-      border-radius: 50%;
-      /* margin: 0 2px; */
-      cursor: pointer;
-    }
-  
-    .main_details {
-      margin-top: 30px;
-    }
-  
-    .itemAdjuster {
-      margin-top: -20px;
-    }
-  
-    .carousel_container {
-      margin-left: 0px;
-    }
+
+  .product_spec p {
+    font-weight: 600;
+    margin-left: 10px;
   }
-  
-  @media (max-width: 520px) {
-    .carousel_image img {
-      width: 450px;
-      height: 200px;
-    }
-  
-    .arrow {
-      border-radius: 90%;
-      cursor: pointer;
-      width: 30px;
-      height: 30px;
-      font-size: 10px;
-      margin: 0 5px; /* Add space between arrows and image */
-    }
-  
-    .carousel_dots {
-      width: 22%;
-    }
-  
-    .dot {
-      display: inline-block;
-      width: 5px;
-      height: 5px;
-      background-color: rgba(128, 128, 128, 0.294);
-      border-radius: 50%;
-      /* margin: 0 2px; */
-      cursor: pointer;
-    }
-  
-    .main_details h1 {
-      font-size: 25px;
-    }
-  
-    .SEK {
-      font-size: 22px;
-    }
-  
-    .sale_section {
-      width: 100%;
-      font-size: 16px;
-    }
-  
-    .para_section {
-      font-size: 17px;
-    }
-  
-    .product_spec {
-      background-color: #141414;
-      padding: 5px;
-    }
-  
-    .product_spec span {
-      margin-left: 20px;
-    }
-  
-    .product_spec p {
-      font-weight: 600;
-      margin-left: 10px;
-    }
-  
-    .spec_detail {
-      border-bottom: 0.8px solid #747474;
-      display: flex;
-      flex-direction: column;
-      padding: 0rem;
-      width: 100%;
-      margin-left: auto;
-      margin-right: auto;
-    }
-  
-    .spec_detail h5 {
-      font-size: 25px;
-      padding-top: 10px;
-      font-weight: 600;
-      display: flex;
-      justify-content: center;
-    }
+
+  .spec_detail {
+    border-bottom: 0.8px solid #747474;
+    display: flex;
+    flex-direction: column;
+    padding: 0rem;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
   }
-  
-  @media (max-width: 390px) {
-    .carousel_dots {
-      width: 27%;
-    }
+
+  .spec_detail h5 {
+    font-size: 25px;
+    padding-top: 10px;
+    font-weight: 600;
+    display: flex;
+    justify-content: center;
   }
+}
+
+@media (max-width: 390px) {
+  .carousel_dots {
+    width: 27%;
+  }
+}

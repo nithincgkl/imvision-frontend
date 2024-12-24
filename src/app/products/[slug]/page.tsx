@@ -30,6 +30,7 @@ interface Product {
 }
 
 interface Specification {
+
     id: number;
     specification: string;
     specification_title_desc?: SpecificationDetail[];
@@ -39,6 +40,7 @@ interface SpecificationDetail {
     title: string;
     description: string;
 }
+
 
 interface Thumbnail {
     formats?: {
@@ -52,6 +54,7 @@ interface Thumbnail {
 interface ProductCategory {
     category_name: string;
 }
+
 
 const Page: React.FC = () => {
     const { slug } = useParams(); // Get the slug from the URL
@@ -217,6 +220,7 @@ const Page: React.FC = () => {
                                     <div className={`${style.para_section} my-5 `}>
                       <p>{featured.description}</p>
                     </div>
+
 
                     {featured?.specifications && featured.specifications.length > 0 && (
     <>

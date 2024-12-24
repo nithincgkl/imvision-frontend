@@ -57,6 +57,7 @@ const HomeCarousel: React.FC<{ style_2?: boolean; style_3?: boolean }> = ({ styl
       </div>
     );
   }
+  
 
   // Render carousel
   return (
