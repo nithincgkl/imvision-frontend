@@ -128,6 +128,7 @@ const RentPage: React.FC = () => {
                           key={item.id}
                         >
                           <ProductItem item={item} linkEnabled={false}/>
+
                         </div>
                       ))
                     ) : (

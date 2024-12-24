@@ -1,4 +1,4 @@
-import React, { useState, FormEvent } from 'react';
+import React, { useState, useEffect, FormEvent } from 'react';
 import style from './style.module.css';
 import Link from 'next/link';
 import axios from 'axios';
@@ -17,8 +17,9 @@ const NAV_ITEMS: NavItem[] = [
   { label: 'Error reporting', href: '/error-reporting' },
   { label: 'Work With us', href: '/work-with-us' },
   { label: 'Rental conditions', href: '/rental-conditions' },
- 
-  { label: 'Sign In', href: '/login' },
+  { label: 'Profile', href: '/profile' }, // Profile link
+  { label: 'Sign In', href: '/login' },  // Sign In link
+  { label: 'Logout', href: '/login' } // Logout link
 ];
 
 const LEGAL_LINKS: NavItem[] = [
@@ -44,6 +45,13 @@ const FooterOne: React.FC = () => {
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false); // State to track submission status
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // State for login status
+
+  // Check if the user is logged in (can be improved based on your authentication method)
+  useEffect(() => {
+    const token = localStorage.getItem('token'); // Example: check if an auth token is in localStorage
+    setIsLoggedIn(!!token); // Set isLoggedIn based on the presence of the token
+  }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setFormData({
@@ -132,6 +140,13 @@ const FooterOne: React.FC = () => {
         setIsSubmitting(false); // Reset isSubmitting to false after submission or error
       }
     }
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('token'); // Remove the token from local storage
+    setIsLoggedIn(false); // Update the login state
+    enqueueSnackbar('You have been logged out.', { variant: 'info' }); // Notify the user
+    window.location.href = '/login'; // Redirect to the login page
   };
 
   return (
@@ -224,7 +239,7 @@ const FooterOne: React.FC = () => {
                     strokeLinecap="round"
                     strokeLinejoin="round"
                   >
-                    <path d="M5 12h14m-7-7 7 7-7 7" />
+                    <path d=" M5 12h14m-7-7 7 7 -7" />
                   </svg>
                 )}
               </button>
@@ -235,13 +250,33 @@ const FooterOne: React.FC = () => {
           <div className="col-12 mb-4">
             <nav className="text-center">
               <ul className="list-inline mb-0">
-                {NAV_ITEMS.map((item: NavItem) => (
-                  <li key={item.label} className="list-inline-item mx-3">
-                    <Link href={item.href} className={style.navLink}>
-                      {item.label}
-                    </Link>
+                {NAV_ITEMS.map((item: NavItem) => {
+                  // Show Profile and Logout if user is logged in
+                  if (item.label === 'Profile' && !isLoggedIn) {
+                    return null; 
+                  }
+                  // Show Sign In if user is not logged in
+                  if (item.label === 'Sign In' && isLoggedIn) {
+                    return null; 
+                  }
+                  // Show Logout if user is logged in
+                  if (item.label === 'Logout' && !isLoggedIn) {
+                    return null; 
+                  }
+                  return (
+                    <li key={item.label} className="list-inline-item mx-3">
+                    {item.label === 'Logout' ? (
+                      <Link href="#" className={style.navLink} onClick={handleLogout}>
+                        {item.label}
+                      </Link>
+                    ) : (
+                      <Link href={item.href} className={style.navLink}>
+                        {item.label}
+                      </Link>
+                    )}
                   </li>
-                ))}
+                  );
+                })}
               </ul>
             </nav>
           </div>

@@ -12,6 +12,17 @@ import { MdOutlineLocalShipping } from "react-icons/md";
 import { CiCircleCheck } from "react-icons/ci";
 import axios from 'axios';
 
+interface RelatedProduct {
+  id: number;
+  article_code?: string; // Optional, since it may not always be present
+  // Add other properties if needed
+}
+interface ProductImage {
+  id: number;
+  url: string; // Add the url property
+  related: RelatedProduct[]; // Keep the related products
+}
+
 
 interface ProductImage {
   id: number;
@@ -57,6 +68,7 @@ interface Order {
   ShippingAddress: ShippingAddress;
   DeliveryStatus: DeliveryStatus[];
 }
+
 
 export default function Profilepage() {
   const [isOpen, setIsOpen] = useState<number | null>(null); // Track which order is open
@@ -461,6 +473,7 @@ export default function Profilepage() {
       ) : (
         orders.map((order) => {
           const totalAmount = order.order_details.reduce((acc, detail) => acc + detail.amount, 0);
+
           const isCancelled = order.DeliveryStatus.some(status => status.delivery_status === 'CANCELLED');
           const isDelivered = order.DeliveryStatus.some(status => status.delivery_status === 'DELIVERED');
           const isShipped = order.DeliveryStatus.some(status => status.delivery_status === 'SHIPPING');
@@ -488,10 +501,12 @@ export default function Profilepage() {
                   )}
                 </span>
               </h3>
+
               </div>
 
               {isOpen === order.id && (
                 <div className={`${style.orders_form_open} p-4 d-flex flex-column`}>
+
          <div className="d-flex flex-column gap-md-4 gap-2">
   {order.order_details.map((detail: OrderDetail) => (
     <div key={detail.id} className="d-flex flex-md-row flex-column">
@@ -527,13 +542,14 @@ export default function Profilepage() {
                         <p><span><MdOutlineLocalShipping /></span> {isCancelled ? 'Cancelled' : 'Shipping'}
 
                         </p>
+
                       </div>
                       <div className={`${style.order_tracker}`} style={{
                         borderLeft: `3px dashed ${isDelivered ? '#0CB60F' : '#505050'}`,
                         color: `${isDelivered ? '#0CB60F' : '#505050'}`,
                       }}>
-                        <p><span><CiCircleCheck /></span>Delivered
-                        </p>
+                        <p><span><CiCircleCheck /></span> Delivered</p>
+
                       </div>
                     </div>
                     <div>
@@ -544,12 +560,15 @@ export default function Profilepage() {
                       <div className={`${style.order_details}`}>
                         <p className={`${style.order_details_heading} ms-3 ms-md-0`}>Shipping Address:</p>
                         <p className={`${style.order_address}`} >
+
                           {order.ShippingAddress.Street}, {order.ShippingAddress.City}, {order.ShippingAddress.State}, {order.ShippingAddress.PostalCode}, {order.ShippingAddress.Country}
                         </p>
                       </div>
                       <div className={`${style.order_details}`}>
+
                         <p className={`${style.order_details_heading}`}>Total Amount:</p>
                         <p className={`${style.order_fill}`}>SEK {totalAmount}</p>
+
                       </div>
                     </div>
                   </div>
@@ -564,8 +583,10 @@ export default function Profilepage() {
 )}
 
 
+
               {activeForm === 'account' && (
                 <form onSubmit={handleAccountSubmit} className={`${style.accounts_form} justify-content-center container-sm my-5`}>
+
                   <div className={`${style.form_align}`}>
                     <h4>Change Password</h4>
                     {/* Current Password */}

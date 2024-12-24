@@ -34,7 +34,8 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ active, navTitle, openMobileMen
       {menu_data.map((menu) => (
         <li key={menu.id} className={`${menu.has_dropdown ? "menu-item-has-children" : ""} ${navTitle === menu.title ? "active" : ""}`}>
           <Link href={menu.link}>
-            {menu.title} 
+
+            {menu.title}
             {menu.title === "🛒 Cart" && cartItemCount > 0 && (
               <span className="cart-item-count">[{cartItemCount}]</span>
             )}

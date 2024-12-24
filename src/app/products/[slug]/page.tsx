@@ -15,22 +15,22 @@ import Link from 'next/link';
 import { IoMdClose } from 'react-icons/io';
 
 
-interface Product { 
-    id: number; 
-    title: string; 
-    amount: string; 
-    slug: string; 
-    description: string; 
-    qty: number; 
-    article_code: string; 
-    thumbnail: { formats?: { large?: { url: string }; }; url: string; }; 
-    product_category: {
-        category_name: string
-      };
-      sale_rent:string
-    } 
+interface Product {
+    id: number;
+    title: string;
+    amount: string;
+    slug: string;
+    description: string;
+    qty: number;
+    article_code: string;
+    sale_rent: string;
+    specifications: Specification[];
+    thumbnail: Thumbnail;
+    product_category: ProductCategory;
+}
 
-    interface Specification {
+interface Specification {
+
     id: number;
     specification: string;
     specification_title_desc?: SpecificationDetail[];
@@ -39,6 +39,20 @@ interface Product {
 interface SpecificationDetail {
     title: string;
     description: string;
+}
+
+
+interface Thumbnail {
+    formats?: {
+        large?: {
+            url: string;
+        };
+    };
+    url: string;
+}
+
+interface ProductCategory {
+    category_name: string;
 }
 
 
@@ -207,55 +221,29 @@ const Page: React.FC = () => {
                       <p>{featured.description}</p>
                     </div>
 
-                    <h3 className='mb-4'>Product Specifications</h3>
 
-                    <div className={`${style.product_spec}`}>
-                      <div className={`${style.spec_detail}`}>
-                        <h5 className='col-md-4 col-12'> Operation <br className='d-lg-none d-md-block d-none'/>Conditions</h5>
-                          <div className='col-md-4 col-12'>
-                            <p>Working Temperature <br  className='d-md-block d-none'/><span className='fw-medium fs-6'>0℃~+40℃ / 10~80%RH</span></p>
-                          </div>
-                      </div>
-
-                      <div className={`${style.spec_detail}`}>
-                        <h5 className='col-md-4 col-12'>Physical<br className='d-lg-none d-md-block d-none'/> Parameter</h5>
-                            <div className='col-md-4 col-12'>
-                              <p>Pixel Pitch <br  className='d-md-block d-none'/><span className='fw-medium fs-6'> 0.945 mm</span></p>
-                              <p>Diode Type<br  className='d-md-block d-none'/><span className='fw-medium fs-6'> Flip-chip RGB LED(172x86um)</span></p>
-                            </div>
-
-                            <div className='col-md-4 col-12'>
-                              <p>Pixel Configuration <br  className='d-md-block d-none'/><span className='fw-medium fs-6'>1280 x 720</span></p>
-                              {/* <p className='fw-bold col-md-4 col-12'>Diode Type<br/><span className='fw-medium fs-6'>Flip-chip RGB LED (172x86um)</span></p> */}
-                            </div>
-                      </div>
-
-                      <div className={`${style.spec_detail}`}>
-                      <h5 className='col-md-4 col-12'>Optical<br className='d-lg-none d-md-block d-none'/> Parameter</h5>
-                            <div className='col-md-4 col-12'>
-                              <p>Brightness<br  className='d-md-block d-none'/><span className='fw-medium fs-6'>600 nit</span></p>
-                              <p>Diode Type<br  className='d-md-block d-none'/><span className='fw-medium fs-6'>Flip-chip RGB LED(172x86um)</span></p>
-                            </div>
-
-                            <div className='col-md-4 col-12'>
-                            <p>Contrast Ratio<br className='d-md-block d-none'/><span className='fw-medium fs-6'>12,000 : 1 </span></p> 
-                            <p>Color Temperature<br  className='d-md-block d-none'/><span className='fw-medium fs-6'>6,500K ± 500K</span></p>
-                            </div>
-                      </div>
-
-                      <div className={`${style.spec_detail}`}>
-                      <h5 className='col-md-4 col-12'>Electrical<br className='d-lg-none d-md-block d-none'/> Parameter</h5>
-                            <div className='col-md-4 col-12'>
-                              <p>Refresh Rate <br className='d-md-block d-none'/> <span className='fw-medium fs-6'>3840 Hz</span></p>
-                              <p>Power Frequency <br className='d-md-block d-none'/> <span className='fw-medium fs-6'>50/60 Hz</span></p>
-                            </div>
-
-                            <div className='col-md-4 col-12'>
-                            <p>Input Voltage<br className='d-md-block d-none'/> <span className='fw-medium fs-6'> 100~240V AC</span></p>
-                            <p>IPower Consumption<br className='d-md-block d-none'/> <span className='fw-medium fs-6'> 321 W/m</span></p>
-                            </div>
-                      </div>
-                    </div>
+                    {featured?.specifications && featured.specifications.length > 0 && (
+    <>
+        <h3 className='mb-4'>Product Specifications</h3>
+        <div className={`${style.product_spec}`}>
+            {featured.specifications.map((spec, index) => (
+                <div key={spec.id} className={`${style.spec_detail}`}>
+                    <h5 className='col-md-4 col-12'>{spec.specification}</h5>
+                    {spec.specification_title_desc && spec.specification_title_desc.length > 0 && (
+                        <div className='col-md-8 col-12'>
+                            {spec.specification_title_desc.map((desc, descIndex) => (
+                                <div key={descIndex}>
+                                    <h6 className='fw-bold'>{desc.title}</h6>
+                                    <p>{desc.description}</p>
+                                </div>
+                            ))}
+                        </div>
+                    )}
+                </div>
+            ))}
+        </div>
+    </>
+)}
                 
                 </div> 
 )}   
