@@ -30,12 +30,25 @@ const HeaderOne: React.FC = () => {
   const { sticky } = UseSticky();
   const [active, setActive] = useState(false);
   const [navTitle, setNavTitle] = useState("");
+  const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [lastScrollTop, setLastScrollTop] = useState(0);
 
   const handleActive = () => setActive(!active);
   const openMobileMenu = (menu: string) => {
     setNavTitle(navTitle === menu ? "" : menu);
   };
+
+  // Load cart items from local storage on component mount
+  useEffect(() => {
+    const storedCartItems = JSON.parse(localStorage.getItem('cartItems') || '[]');
+    if (storedCartItems.length === 0) {
+      // If no items in the cart, clear the local storage
+      localStorage.removeItem('cartItems');
+    }
+    setCartItems(storedCartItems);
+  }, []);
+
+  const cartItemCount = cartItems.reduce((total, item) => total + item.count, 0);  // Calculate the total count of items in the cart
 
   useEffect(() => {
     const handleScroll = () => {
@@ -81,7 +94,7 @@ const HeaderOne: React.FC = () => {
               </div>
               <div className="cs_main_header_right">
                 <div className="cs_nav cs_medium">
-                  <MobileMenu active={active} navTitle={navTitle} openMobileMenu={openMobileMenu} />
+                  <MobileMenu active={active} navTitle={navTitle} openMobileMenu={openMobileMenu} cartItemCount={cartItemCount} />
                   <span 
                     className={`cs_munu_toggle ${active ? "cs_toggle_active" : ""}`} 
                     onClick={handleActive}
@@ -89,18 +102,6 @@ const HeaderOne: React.FC = () => {
                     <span></span>
                   </span>
                 </div>
-                {/*
-                <div className="cs_toolbox">
-                  <span className="cs_icon_btn">
-                    <span className="cs_icon_btn_in" onClick={handleActive}>
-                      <span></span>
-                      <span></span>
-                      <span></span>
-                      <span></span>
-                    </span>
-                  </span>
-                </div>
-                */}
               </div>
             </div>
           </div>
@@ -111,3 +112,13 @@ const HeaderOne: React.FC = () => {
 };
 
 export default HeaderOne;
+
+interface CartItem {
+  id: number;
+  img: string;
+  title: string;
+  des: string; // Assuming this is the price as a string
+  amount: number;
+  count: number;
+  type: string;
+}
