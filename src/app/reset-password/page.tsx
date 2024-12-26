@@ -6,6 +6,15 @@ import Wrapper from "@/layouts/wrapper";
 import { FaEye } from "react-icons/fa";
 import axios from 'axios';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { CartProvider, useCart } from '@/context/cart-context'; // Import the useCart hook
+
+const ResetPassword: React.FC = () => {
+  return (
+    <CartProvider>
+      <Page />
+    </CartProvider>
+  );
+};
 
 const Page: React.FC = () => {
   const router = useRouter();
@@ -161,4 +170,4 @@ const Page: React.FC = () => {
   );
 };
 
-export default Page;
+export default ResetPassword;

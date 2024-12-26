@@ -9,6 +9,16 @@ import Link from 'next/link';
 import { IoChevronDown } from 'react-icons/io5';
 import axios from 'axios';
 // import { useRouter } from 'next/router';
+import { CartProvider, useCart } from '@/context/cart-context'; // Import the useCart hook
+
+const Checkout: React.FC = () => {
+  return (
+    <CartProvider>
+      <RentalConditions />
+    </CartProvider>
+  );
+};
+
 
 
 // Main RentalConditions Component
@@ -870,7 +880,7 @@ const RentalConditions = () => {
   );
 };
 
-export default RentalConditions;
+export default Checkout;
 
 
 

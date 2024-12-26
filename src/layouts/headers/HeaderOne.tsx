@@ -1,4 +1,5 @@
-'use client'
+// HeaderOne.tsx
+'use client';
 import Link from "next/link";
 import MobileMenu from "./MobileMenu";
 import UseSticky from "@/hooks/UseSticky";
@@ -6,31 +7,13 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import logo from "@/assets/img/logo.svg";
 import Logo_white from "@/assets/img/Logo_white.png";
-
-interface MenuItem {
-  id: number;
-  title: string;
-  link: string;
-  has_dropdown: boolean;
-  sub_menu?: { id: number; title: string; link: string }[];
-}
-
-const menu_data: MenuItem[] = [
-  { id: 1, title: "Events", link: '/events', has_dropdown: false },
-  { id: 2, title: "Fair", link: '/fair', has_dropdown: false },
-  { id: 3, title: "Studios", link: '/studios', has_dropdown: false },
-  { id: 4, title: "Sale", link: '/sale', has_dropdown: false },
-  { id: 5, title: "Installation", link: '/installation', has_dropdown: false },
-  { id: 6, title: "Contact", link: "/contact", has_dropdown: false },
-  { id: 7, title: "Sign In", link: "/sign-in", has_dropdown: false },
-  { id: 8, title: "🛒 Cart", link: "/cart", has_dropdown: false },
-];
+import { useCart } from '@/context/cart-context'; // Import the useCart hook
 
 const HeaderOne: React.FC = () => {
   const { sticky } = UseSticky();
   const [active, setActive] = useState(false);
   const [navTitle, setNavTitle] = useState("");
-  const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  const { cartItems } = useCart(); // Access cart items from context
   const [lastScrollTop, setLastScrollTop] = useState(0);
 
   const handleActive = () => setActive(!active);
@@ -38,17 +21,7 @@ const HeaderOne: React.FC = () => {
     setNavTitle(navTitle === menu ? "" : menu);
   };
 
-  // Load cart items from local storage on component mount
-  useEffect(() => {
-    const storedCartItems = JSON.parse(localStorage.getItem('cartItems') || '[]');
-    if (storedCartItems.length === 0) {
-      // If no items in the cart, clear the local storage
-      localStorage.removeItem('cartItems');
-    }
-    setCartItems(storedCartItems);
-  }, []);
-
-  const cartItemCount = cartItems.reduce((total, item) => total + item.count, 0);  // Calculate the total count of items in the cart
+  const cartItemCount = cartItems.reduce((total, item) => total + item.count, 0); // Calculate the total count of items in the cart
 
   useEffect(() => {
     const handleScroll = () => {
@@ -94,8 +67,8 @@ const HeaderOne: React.FC = () => {
               </div>
               <div className="cs_main_header_right">
                 <div className="cs_nav cs_medium">
-                  <MobileMenu active={active} navTitle={navTitle} openMobileMenu={openMobileMenu} cartItemCount={cartItemCount} />
-                  <span 
+                <MobileMenu active={active} navTitle={navTitle} openMobileMenu={openMobileMenu} cartItemCount={cartItemCount} />
+                <span 
                     className={`cs_munu_toggle ${active ? "cs_toggle_active" : ""}`} 
                     onClick={handleActive}
                   >
@@ -112,13 +85,3 @@ const HeaderOne: React.FC = () => {
 };
 
 export default HeaderOne;
-
-interface CartItem {
-  id: number;
-  img: string;
-  title: string;
-  des: string; // Assuming this is the price as a string
-  amount: number;
-  count: number;
-  type: string;
-}

@@ -9,86 +9,46 @@ import style from './style.module.css';
 import LetsTalk from '@/components/home/lets-talk';
 import { RiDeleteBin6Line } from "react-icons/ri";
 import Link from 'next/link';
-
-interface CartItem {
-  id: number;
-  img: string;
-  title: string;
-  des: string; // Assuming this is the price as a string
-  amount: number;
-  count: number;
-  type: string;
-}
+import { CartProvider, useCart } from '@/context/cart-context'; // Import the useCart hook
 
 const CartPage: React.FC = () => {
+  return (
+    <CartProvider>
+      <CartContent />
+    </CartProvider>
+  );
+};
+
+const CartContent: React.FC = () => {
+  const { cartItems, removeFromCart, updateCartItemCount } = useCart();
   const [startDate, setStartDate] = useState<Date>(new Date());
   const [endDate, setEndDate] = useState<Date>(new Date(Date.now() + 24 * 60 * 60 * 1000)); 
-  const [cartItems, setCartItems] = useState<CartItem[]>([]);
-  // Load cart items from local storage on component mount
-  useEffect(() => {
-    const storedCartItems = JSON.parse(localStorage.getItem('cartItems') || '[]');
-    if (storedCartItems.length === 0) {
-      // If no items in the cart, clear the local storage
-      localStorage.removeItem('cartItems');
-    }
-    setCartItems(storedCartItems);
-  }, []);
 
   const handleIncrease = (id: number) => {
-    setCartItems(prevItems => {
-      const updatedItems = prevItems.map(item =>
-        item.id === id ? { ...item, count: item.count + 1 } : item
-      );
-
-      // Save the updated cart to localStorage
-      localStorage.setItem('cartItems', JSON.stringify(updatedItems));
-
-      return updatedItems;
-    });
+    const currentItem = cartItems.find(item => item.id === id);
+    if (currentItem) {
+      updateCartItemCount(id, currentItem.count + 1);
+    }
   };
 
-
   const handleDecrease = (id: number) => {
-    setCartItems(prevItems => {
-      const updatedItems = prevItems.map(item => {
-        if (item.id === id) {
-          const newCount = item.count - 1;
-          return { ...item, count: newCount };
-        }
-        return item;
-      }).filter(item => item.count > 0); // Move filter here to remove items with count 0
-  
-      localStorage.setItem('cartItems', JSON.stringify(updatedItems));
-      return updatedItems;
-    });
+    const currentItem = cartItems.find(item => item.id === id);
+    if (currentItem) {
+      const newCount = currentItem.count - 1;
+      if (newCount > 0) {
+        updateCartItemCount(id, newCount);
+      } else {
+        removeFromCart(id);
+      }
+    }
   };
 
   const handleRemoveItem = (id: number) => {
-    setCartItems(prevItems => {
-      const updatedItems = prevItems.filter(item => item.id !== id);
-      localStorage.setItem('cartItems', JSON.stringify(updatedItems));
-      return updatedItems;
-    });
+    removeFromCart(id);
   };
 
   const calculateTotal = () => {
     return cartItems.reduce((total, item) => total + (item.amount * item.count), 0).toFixed(2);
-  };
-
-  const updateLocalStorage = () => {
-    if (cartItems.length === 0) {
-      // If cart is empty, remove it from localStorage
-      localStorage.removeItem('cartItems');
-    } else {
-      localStorage.setItem('cartItems', JSON.stringify(cartItems));
-    }
-  };
-
-  const handleCheckout = () => {
-    // Store cart items in local storage for checkout
-    const checkoutData = JSON.stringify(cartItems);
-    localStorage.setItem('checkoutData', checkoutData); // Store cart items in local storage
-    window.location.href = '/checkout'; // Redirect to checkout page
   };
 
   const CalendarInput = React.forwardRef<HTMLInputElement, { value: string; onClick: () => void }>(
@@ -108,22 +68,15 @@ const CartPage: React.FC = () => {
 
   CalendarInput.displayName = "CalendarInput";
 
-
   const handleProceedToCheckout = () => {
     const totalAmount = calculateTotal();
-    
-    // Prepare the data to be stored
     const checkoutData = {
       cartItems,
       totalAmount
     };
-  
-    // Log the data to the console before storing it
     console.log('Checkout Data:', checkoutData);
-  
-    // Store both cart items and total in local storage
     localStorage.setItem('total', JSON.stringify(checkoutData));
-  }
+  };
 
   return (
     <Wrapper>
@@ -213,8 +166,8 @@ const CartPage: React.FC = () => {
                           <div className={style['grand_total']}>
                             <div className={style['grand_total_box']}>
                               <p>Grand Total:<span>SEK {calculateTotal()}</span></p>
-                              <Link href="/checkout" >
-                              <button onClick={handleProceedToCheckout}>Proceed To Checkout</button>
+                              <Link href="/checkout">
+                                <button onClick={handleProceedToCheckout}>Proceed To Checkout</button>
                               </Link>
                             </div>
                           </div>

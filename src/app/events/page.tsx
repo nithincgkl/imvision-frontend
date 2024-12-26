@@ -12,6 +12,15 @@ import EventsCarouselThree from "@/components/events/events-carousel-three";
 import EventsCarouselFour from "@/components/events/events-carousel-four";
 import LetsTalk from "@/components/home/lets-talk";
 import Link from "next/link";
+import { CartProvider, useCart } from '@/context/cart-context'; // Import the useCart hook
+
+const Events: React.FC = () => {
+  return (
+    <CartProvider>
+      <Page />
+    </CartProvider>
+  );
+};
 
  
 interface RecentEvent {
@@ -136,8 +145,6 @@ const Page: React.FC = () => {
 
             <EventsCarouselTwo /> 
 
-          
-
             <section className={style["event-corporate"]}>
               <div className={style["event-corporate-container"]}>
               <div className="container-fluid">
@@ -164,16 +171,13 @@ const Page: React.FC = () => {
               </div>
             </section>
 
-            <EventsCarouselThree /> 
-
-           
+            <EventsCarouselThree />
 
             <section className={`${style['event-corporate']} bg-light-black`}>
               <div className={style["event-corporate-container"]}>
                 <div className="container-fluid">
                   <div className="row">
-
-                  <div className="col-md-12">
+                 <div className="col-md-12">
                     <img src="/assets/images/retail.jpg" alt="Retail events" className="w-100" />
                     <div className={style["event-corporate-text"]}>
                       <h3 className="text-center">Retail</h3>
@@ -189,22 +193,14 @@ const Page: React.FC = () => {
                       level.
                     </div>
                   </div>
-
                   </div>
-
                 </div>
               </div>
             </section>
-
-            <EventsCarouselFour /> 
-
-            <LetsTalk />
-           
-
-
             
-
-
+            <EventsCarouselFour /> 
+            
+            <LetsTalk />
           </main>
           <FooterOne />
         </div>
@@ -213,4 +209,4 @@ const Page: React.FC = () => {
   );
 };
 
-export default Page;
+export default Events;

@@ -7,6 +7,16 @@ import HeaderOne from '@/layouts/headers/HeaderOne';
 import style from "./style.module.css";
 import LetsTalk from '@/components/home/lets-talk';
 import axios from 'axios';
+import { CartProvider, useCart } from '@/context/cart-context'; // Import the useCart hook
+
+const ErrorReporting: React.FC = () => {
+  return (
+    <CartProvider>
+      <ErrorReportings />
+    </CartProvider>
+  );
+};
+
 
 // Define the shape of the form data
 interface FormData {
@@ -34,7 +44,7 @@ interface FormErrors {
   gdprConsent?: string;
 }
 
-const ErrorReporting: React.FC = () => {
+const ErrorReportings: React.FC = () => {
   const [formData, setFormData] = useState<FormData>({
     name: '',
     address: '',

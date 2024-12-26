@@ -11,6 +11,15 @@ import { TbPackage } from "react-icons/tb";
 import { MdOutlineLocalShipping } from "react-icons/md";
 import { CiCircleCheck } from "react-icons/ci";
 import axios from 'axios';
+import { CartProvider, useCart } from '@/context/cart-context'; // Import the useCart hook
+
+const Profile: React.FC = () => {
+  return (
+    <CartProvider>
+      <Page />
+    </CartProvider>
+  );
+};
 
 interface RelatedProduct {
   id: number;
@@ -70,13 +79,25 @@ interface Order {
 }
 
 
-export default function Profilepage() {
+const Page: React.FC = () => {
   const [isOpen, setIsOpen] = useState<number | null>(null); // Track which order is open
   const toggleAccordion = (orderId: number) => setIsOpen(isOpen === orderId ? null : orderId);
   
   const [countries, setCountries] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [activeForm, setActiveForm] = useState<string>('personal');
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
   
   const [formData, setFormData] = useState({
     name: '',
@@ -481,10 +502,10 @@ export default function Profilepage() {
           const displayedArticleCodes = new Set();
 
           return (
-            <div key={order.id} className={`${style.orders_form} ${isOpen === order.id ? style.ordersFormOpen : ''}`}>
+            <div key={order.id} className={`${style.orders_form} ${isOpen === order.id ? style.ordersFormOpen : ''}`}  style={{        background: windowWidth < 766 ? (order.order_details[0]?.sale_rent === 'Rent' ? '#5C553A' : '#3F3A5C') : '#2E2D2D'}}>
              
               <div className='d-flex col-12'> 
-                <p className={`${style.type} mb-0`} style={{backgroundColor: order.order_details[0]?.sale_rent === 'Rent' ? '#5C553A' : '#3F3A5C',}}>
+                <p className={`${style.type} mb-0`} style={{background: order.order_details[0]?.sale_rent === 'Rent' ? '#5C553A' : '#3F3A5C',}}>
                   {order.order_details[0]?.sale_rent}
                 </p>
                 <p className={`${style.order_num}`}>Order Id : {order.id}</p>
@@ -493,12 +514,10 @@ export default function Profilepage() {
                   <span className='py-lg-2 px-lg-4 px-md-3 d-md-block d-none'>
                     {order.DeliveryStatus.length > 0 ? order.DeliveryStatus[0].delivery_status : 'No delivery status available'}
                   </span>
-                </p>
-                
-               
+                </p>             
 
-                <h3 className='pt-lg-1 pt-md-3 pt-3' onClick={() => toggleAccordion(order.id)}>
-                  <span style={{ position: 'relative', display: 'inline-block' }}>
+                <h3 className='pt-lg-1 pt-md-3 pt-3 '  onClick={() => toggleAccordion(order.id)}>
+                  <span style={{ position: 'relative', display: 'inline-block' }} className=''>
                     {isOpen === order.id ? (
                       <IoChevronUp height={50} width={50} className="pt-lg-2 me-2" />
                     ) : (
@@ -659,3 +678,5 @@ export default function Profilepage() {
     </Wrapper>
   );
 }
+
+export default Profile;
