@@ -213,8 +213,9 @@ const RentalConditions = () => {
         }
       );
       if (response.status === 201 || response.status === 200) {
-        window.location.href = '/order-successful'; 
+        window.location.href = "/order-successful?id=${response.data.id}"
     }
+  }
     catch (error) {
       if (axios.isAxiosError(error)) {
         console.error("Error response:", error.response?.data);

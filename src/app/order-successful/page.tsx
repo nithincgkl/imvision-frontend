@@ -27,7 +27,6 @@ const Page = () => {
           <main>
             <section className={style.contact_section}>
               
-z
               <div className={style["order_successful"]}>
                 <div className="container-fluid">
                   <div className="row">
