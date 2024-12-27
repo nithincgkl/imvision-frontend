@@ -21,33 +21,15 @@ const Profile: React.FC = () => {
   );
 };
 
-interface RelatedProduct {
-  id: number;
-  article_code?: string; // Optional, since it may not always be present
-  // Add other properties if needed
-}
-interface ProductImage {
-  id: number;
-  url: string; // Add the url property
-  related: RelatedProduct[]; // Keep the related products
-}
-
-
-interface ProductImage {
-  id: number;
-  url: string; // Add the url property
-}
-
 interface OrderDetail {
   id: number;
   product_name: string;
   qty: number;
   amount: number;
-  product_images: ProductImage[]; // Update to use the new ProductImage interface
+  product_images: string; // Update to use the new ProductImage interface
   sale_rent: string;
   article_code:string
 }
-
 
 interface DeliveryStatus {
   id: number;
@@ -86,8 +68,7 @@ const Page: React.FC = () => {
   const [countries, setCountries] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [activeForm, setActiveForm] = useState<string>('personal');
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-
+  const [windowWidth, setWindowWidth] = useState<number>(typeof window !== 'undefined' ? window.innerWidth : 0);
   useEffect(() => {
     const handleResize = () => {
       setWindowWidth(window.innerWidth);
@@ -502,7 +483,7 @@ const Page: React.FC = () => {
           const displayedArticleCodes = new Set();
 
           return (
-            <div key={order.id} className={`${style.orders_form} ${isOpen === order.id ? style.ordersFormOpen : ''}`}  style={{        background: windowWidth < 766 ? (order.order_details[0]?.sale_rent === 'Rent' ? '#5C553A' : '#3F3A5C') : '#2E2D2D'}}>
+            <div key={order.id} className={`${style.orders_form} ${isOpen === order.id ? style.ordersFormOpen : ''}`}  style={{ background: windowWidth < 766 ? (order.order_details[0]?.sale_rent === 'Rent' ? '#5C553A' : '#3F3A5C') : '#2E2D2D'}}>
              
               <div className='d-flex col-12'> 
                 <p className={`${style.type} mb-0`} style={{background: order.order_details[0]?.sale_rent === 'Rent' ? '#5C553A' : '#3F3A5C',}}>
