@@ -1,4 +1,3 @@
-// src/context/cart-context.tsx
 import React, { createContext, useContext, useEffect, useState } from 'react';
 
 interface CartItem {
@@ -22,12 +21,17 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [cartItems, setCartItems] = useState<CartItem[]>(() => {
-    const storedCartItems = JSON.parse(localStorage.getItem('cartItems') || '[]');
-    return storedCartItems.length > 0 ? storedCartItems : [];
+    if (typeof window !== 'undefined') { // Check if we are in a browser environment
+      const storedCartItems = JSON.parse(localStorage.getItem('cartItems') || '[]');
+      return storedCartItems.length > 0 ? storedCartItems : [];
+    }
+    return []; // Return an empty array if not in a browser environment
   });
 
   useEffect(() => {
-    localStorage.setItem('cartItems', JSON.stringify(cartItems));
+    if (typeof window !== 'undefined') { // Check if we are in a browser environment
+      localStorage.setItem('cartItems', JSON.stringify(cartItems));
+    }
   }, [cartItems]);
 
   const addToCart = (item: CartItem) => {

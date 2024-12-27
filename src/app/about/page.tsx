@@ -5,6 +5,15 @@ import FooterOne from '@/layouts/footers/FooterOne';
 import HeaderOne from '@/layouts/headers/HeaderOne';
 import style from "./style.module.css";
 import LetsTalk from '@/components/home/lets-talk';
+import { CartProvider, useCart } from '@/context/cart-context'; // Import the useCart hook
+
+const About: React.FC = () => {
+  return (
+    <CartProvider>
+      <AboutPage />
+    </CartProvider>
+  );
+}
 
 const AboutPage = () => {
   useEffect(() => {
@@ -206,8 +215,6 @@ const AboutPage = () => {
               </div>
             </div>
 
-
-
                <div className={`d-flex flex-lg-row flex-md-column flex-column container mx-auto gap-lg-3 gap-md-3 gap-3 pb-2 col-12`}>
                 <div
                   className={`${style.about_card2} ms-xxl-5 ms-xl-2`}                 
@@ -252,4 +259,4 @@ const AboutPage = () => {
   );
 };
 
-export default AboutPage;
+export default About;
