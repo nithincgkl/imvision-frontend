@@ -8,6 +8,15 @@ import { IoIosArrowRoundBack } from "react-icons/io";
 import Link from 'next/link';
 import { useSnackbar } from 'notistack';
 import axios from 'axios';
+import { CartProvider, useCart } from '@/context/cart-context'; // Import the useCart hook
+
+const Login: React.FC = () => {
+  return (
+    <CartProvider>
+      <Page />
+    </CartProvider>
+  );
+};
 
 const Page: React.FC = () => {
   const { enqueueSnackbar } = useSnackbar();
@@ -168,4 +177,4 @@ const Page: React.FC = () => {
   );
 };
 
-export default Page;
+export default Login;

@@ -1,11 +1,22 @@
 'use client';
 
-import React, { useState, FormEvent } from 'react';
+import React, { useState, FormEvent, Suspense } from 'react';
 import style from "./style.module.css";
 import Wrapper from "@/layouts/wrapper";
 import { FaEye } from "react-icons/fa";
 import axios from 'axios';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { CartProvider } from '@/context/cart-context'; // Import the useCart hook
+
+const ResetPassword: React.FC = () => {
+  return (
+    <CartProvider>
+      <Suspense fallback={<div>Loading...</div>}>
+        <Page />
+      </Suspense>
+    </CartProvider>
+  );
+};
 
 const Page: React.FC = () => {
   const router = useRouter();
@@ -71,7 +82,7 @@ const Page: React.FC = () => {
         <div id="smooth-content">
           <main>
             <section className={style["reset_password"]}>
-              <div className="container-fluid">
+              <div className="container justify-content-center">
                 <div className="row">
                   <div className={style.form_container_half}>
                     <form onSubmit={handleSubmit} className="w-full max-w-md space-y-6 px-8">
@@ -107,14 +118,16 @@ const Page: React.FC = () => {
                             name="password"
                             value={formData.password}
                             onChange={handleChange}
-                            className={`form-control ${style.inputField}`}
+                            className={`form control ${style.inputField}`}
                             placeholder="Password*"
                             minLength={8}
+                            aria-label="Password"
                           />
                           <button
                             type="button"
                             className={`absolute inset-y-0 right-0 pr-3 flex items-center ${style.eye_button}`}
                             onClick={() => setShowPassword(!showPassword)}
+                            aria-label={showPassword ? "Hide password" : "Show password"}
                           >
                             <FaEye />
                           </button>
@@ -131,11 +144,13 @@ const Page: React.FC = () => {
                             className={`form-control ${style.inputField}`}
                             placeholder="Confirm Password*"
                             minLength={8}
+                            aria-label="Confirm Password"
                           />
                           <button
                             type="button"
                             className={`absolute inset-y-0 right-0 pr-3 flex items-center ${style.eye_button}`}
                             onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                            aria-label={showConfirmPassword ? "Hide confirm password" : "Show confirm password"}
                           >
                             <FaEye />
                           </button>
@@ -161,4 +176,4 @@ const Page: React.FC = () => {
   );
 };
 
-export default Page;
+export default ResetPassword;

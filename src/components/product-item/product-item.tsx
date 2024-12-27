@@ -1,14 +1,16 @@
 'use client';
 import React from 'react';
 import Link from 'next/link';
+import { useSnackbar } from 'notistack'; // Import useSnackbar hook
 import styles from './style.module.css';
+import { useCart } from '@/context/cart-context'; // Import the useCart hook
 
 interface ProductItemProps {
   item: {
-    id: any;
-    img: any; // Use string for dynamic URLs
+    id: number; // Use number for IDs
+    img: string; // Use string for dynamic URLs
     title: string;
-    des: string;
+    des: string; // Assuming this is the price
     slug: string;
     sale_rent: string;
   };
@@ -16,27 +18,16 @@ interface ProductItemProps {
 }
 
 const ProductItem: React.FC<ProductItemProps> = ({ item, linkEnabled = true }) => {
-  const productLink = `/products/${item.slug}`; // Link to product page
+  const { enqueueSnackbar } = useSnackbar(); // Initialize useSnackbar hook
+  const { addToCart } = useCart(); // Use the cart context
 
-  const redirectToLogin = () => {
-    window.location.href = '/login'; // Adjust the path to your login page
-  };
-
-  const addToCart = () => {
-    const isLoggedIn = !!localStorage.getItem('token'); // Check if the user is logged in
-
-    if (!isLoggedIn) {
-      redirectToLogin(); // Redirect to login if not logged in
-      return;
-    }
-
-    // Create a cart item object
+  const handleAddToCart = () => {
     const cartItem = {
       id: item.id,
       img: item.img,
       title: item.title,
       des: item.des,
-      amount: item.des, // Assuming 'des' holds the amount; adjust if necessary
+      amount: parseFloat(item.des), // Assuming 'des' holds the amount; convert to number
       type: item.sale_rent,
       count: 1, // Start with 1 item added
     };
@@ -63,7 +54,11 @@ const ProductItem: React.FC<ProductItemProps> = ({ item, linkEnabled = true }) =
     // Save updated cart back to local storage
     localStorage.setItem('cartItems', JSON.stringify(existingCart));
 
-    alert(`${item.title} has been added to your cart!`);
+    // Use Snackbar to show the success message
+    enqueueSnackbar(`${item.title} has been added to your cart!`, { variant: 'success' });
+
+    // Add to cart using context
+    addToCart(cartItem);
   };
 
   return (
@@ -73,7 +68,7 @@ const ProductItem: React.FC<ProductItemProps> = ({ item, linkEnabled = true }) =
           <div className={`${styles['box__inner']} ${styles['box--top-bot']}`}>
             <div className="cs_post cs_style_1">
               {linkEnabled ? (
-                <Link href={productLink} className={styles['pb-15']}>
+                <Link href={`/products/${item.slug}`} className={styles['pb-15']}>
                   <img
                     src={item.img}
                     alt={item.title}
@@ -99,8 +94,7 @@ const ProductItem: React.FC<ProductItemProps> = ({ item, linkEnabled = true }) =
                 </h2>
                 <p className="cs_m0">SEK {item.des}</p>
                 <div className={styles['button-section']}>
-                  <button onClick={addToCart}>Add to Cart</button>
-                  {/* <button onClick={toggleModal}>Quick Enquiry</button> */}
+                  <button onClick={handleAddToCart}>Add to Cart</button>
                 </div>
               </div>
             </div>

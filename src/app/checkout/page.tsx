@@ -9,6 +9,16 @@ import Link from 'next/link';
 import { IoChevronDown } from 'react-icons/io5';
 import axios from 'axios';
 // import { useRouter } from 'next/router';
+import { CartProvider, useCart } from '@/context/cart-context'; // Import the useCart hook
+
+const Checkout: React.FC = () => {
+  return (
+    <CartProvider>
+      <RentalConditions />
+    </CartProvider>
+  );
+};
+
 
 
 // Main RentalConditions Component
@@ -121,7 +131,7 @@ const RentalConditions = () => {
   };
 
   // Shipping cost (hardcoded for simplicity, can be dynamic)
-  const shippingCost = 10.00;
+  const shippingCost = 0.00;
 
   // Calculate the grand total (subtotal + shipping)
   const calculateGrandTotal = () => {
@@ -138,16 +148,26 @@ const RentalConditions = () => {
 
  
   const totalAmount = calculateSubtotal();
+  const [storedUser , setStoredUser ] = useState<any | null>(null); // Use 'any' or define a proper type for user
 
-  const storedUser = localStorage.getItem('user');
-      
-  if (!storedUser) {
-    console.error('No user data found in localStorage.');
-    return;
-  }
-  
-  const user = JSON.parse(storedUser);
-  const userId = user.documentId;
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const user = localStorage.getItem('user');
+      if (user) {
+        setStoredUser (JSON.parse(user)); // Parse the user string into an object
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!storedUser ) {
+      console.error('No user data found in localStorage.');
+      // Handle the case where there is no user data
+    }
+  }, [storedUser ]);
+
+  // Ensure storedUser  is defined before accessing its properties
+  const userId = storedUser  ? storedUser .documentId : null;
 
 
   const handlePlaceOrder = async () => {
@@ -752,114 +772,6 @@ const RentalConditions = () => {
                   </div>
                 </div>
               </div>
-              {/* 
-
-              <div className={style["checkout_footer"]}>
-                <div className="container-fluid">
-                  <div className="row">
-                    <div className="col-md-12">
-                      <div className={style["checkout_container"]}>
-                        <form>
-                          <div className={style["checkout_inner_container"]}>
-                            <div className="row">
-                              <div className="col-md-8">
-                                <h4>Select Shipment Type</h4>
-                                <fieldset>
-                                  <div className={style.fieldset_radio}>
-                                    <input
-                                      type="radio"
-                                      className="radio"
-                                      name="serviceAgreement"
-                                      value="yourself"
-                                      id="yourself"
-                                      onChange={handleChange}
-                                      checked={formData.serviceAgreement === 'yourself'}
-                                    />
-                                    <label htmlFor="yourself">&nbsp; Pick up yourself - Jönköping</label>
-                                    <br />
-
-                                    <input
-                                      type="radio"
-                                      className={`radio ${style.radio_input}`}
-                                      name="serviceAgreement"
-                                      value="Platform"
-                                      id="Platform"
-                                      onChange={handleChange}
-                                      checked={formData.serviceAgreement === 'Platform'}
-                                    />
-                                    <label htmlFor="Platform">&nbsp; Platform price Central Sweden - Calculated upon confirmation:SEK 1000.00 </label>
-
-                                    <br />
-
-                                    <input
-                                      type="radio"
-                                      className={`radio ${style.radio_input_two}`}
-                                      name="serviceAgreement"
-                                      value="Download"
-                                      id="Download"
-                                      onChange={handleChange}
-                                      checked={formData.serviceAgreement === 'Download'}
-                                    />
-                                    <label htmlFor="Download">&nbsp; Download yourself - Stockholm</label>
-
-                                    <p><i>Shipping options will be updated at checkout.</i></p>
-                                  </div>
-                                </fieldset>
-                              </div>
-
-                              <div className="col-md-4">
-                                <h6>Calculate Shipping</h6>
-                                <div className={style.formControl}>
-                                  <div className={style.selectWrapper}>
-                                    <select
-                                      id="Country"
-                                      name="Country" // Change to match the state key
-                                      className={`form-control ${style.inputField}`}
-                                      onChange={handleChange}
-                                      value={formData.Country || ''} // Bind value to the correct state key
-                                    >
-                                      <option value="Sweden">Sweden</option>
-                                      <option value="uk">UK</option>
-                                      <option value="uae">UAE</option>
-                                      <option value="us">United States</option>
-                                    </select>
-                                    <IoChevronDown className={style.arrowIcon} />
-                                  </div>
-                                </div>
-
-                                <div className={style.formControl}>
-                                  <input
-                                    type="text"
-                                    id="Place"
-                                    name="Place"
-                                    className={`form-control ${style.inputField}`}
-                                    placeholder="Place"
-                                    onChange={handleChange}
-                                  />
-                                </div>
-
-                                <div className={style.formControl}>
-                                  <input
-                                    type="text"
-                                    id="ZIP-Code"
-                                    name="ZIPCode"
-                                    className={`form-control ${style.inputField}`}
-                                    placeholder="ZIP Code"
-                                    onChange={handleChange}
-                                  />
-                                </div>
-                                <div className={style.formControl}>
-                                  <button type="button" className={style.update_btn}>Update</button>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </form>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div> */}
             </section>
             <LetsTalk />
           </main>
@@ -870,7 +782,7 @@ const RentalConditions = () => {
   );
 };
 
-export default RentalConditions;
+export default Checkout;
 
 
 

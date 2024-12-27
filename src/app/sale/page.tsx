@@ -8,6 +8,15 @@ import HeaderOne from '@/layouts/headers/HeaderOne';
 import Filter from '@/components/sale/filter';
 import ProductItem from '@/components/product-item/product-item';
 import LetsTalk from '@/components/home/lets-talk';
+import { CartProvider, useCart } from '@/context/cart-context'; // Import the useCart hook
+
+const Sale: React.FC = () => {
+  return (
+    <CartProvider>
+      <Page />
+    </CartProvider>
+  );
+};
 
 // Define types for products
 interface Product {
@@ -149,4 +158,4 @@ const Page: React.FC = () => {
     </Wrapper>
   );
 };
-export default Page;
+export default Sale;

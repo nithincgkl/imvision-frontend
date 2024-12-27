@@ -8,6 +8,15 @@ import HeaderOne from "@/layouts/headers/HeaderOne";
 
 import LetsTalk from "@/components/home/lets-talk";
 import EventGallery from "@/components/event-details/event-gallery";
+import { CartProvider, useCart } from '@/context/cart-context'; // Import the useCart hook
+
+const EventDetails: React.FC = () => {
+  return (
+    <CartProvider>
+      <Page />
+    </CartProvider>
+  );
+};
 
 
 interface RecentEvent {
@@ -116,4 +125,4 @@ const Page: React.FC = () => {
   );
 };
 
-export default Page;
+export default EventDetails;

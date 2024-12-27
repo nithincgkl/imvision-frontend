@@ -7,8 +7,17 @@ import styles from "./style.module.css";
 import InstallationBanner from '@/components/common/InstallationBanner';
 import InstallationForm from '@/components/common/InstallationForm';
 import LetsTalk from '@/components/home/lets-talk';
+import { CartProvider, useCart } from '@/context/cart-context'; // Import the useCart hook
 
-const Index: React.FC = () => {
+const Installation: React.FC = () => {
+  return (
+    <CartProvider>
+      <Page />
+    </CartProvider>
+  );
+};
+
+const Page: React.FC = () => {
     return (
         <Wrapper> 
             <HeaderOne />
@@ -70,4 +79,4 @@ const Index: React.FC = () => {
     )
 }
 
-export default Index
+export default Installation

@@ -9,6 +9,16 @@ import { useSnackbar } from 'notistack';
 import axios from 'axios';
 import LetsTalk from '@/components/home/lets-talk';
 import { IoChevronDown } from "react-icons/io5";
+import { CartProvider, useCart } from '@/context/cart-context'; // Import the useCart hook
+
+const Contact: React.FC = () => {
+  return (
+    <CartProvider>
+      <ContactPage />
+    </CartProvider>
+  );
+};
+
 
 // New ContactInfoBoxes Component
 const ContactInfoBoxes = () => {
@@ -459,4 +469,4 @@ const ContactPage = () => {
   );
 };
 
-export default ContactPage;
+export default Contact;

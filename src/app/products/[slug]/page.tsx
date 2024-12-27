@@ -13,6 +13,17 @@ import axios from 'axios';
 import { useParams } from 'next/navigation'; // Use next/navigation to get params
 import Link from 'next/link';
 import { IoMdClose } from 'react-icons/io';
+import { CartProvider, useCart } from '@/context/cart-context'; // Import the useCart hook
+import { useSnackbar } from 'notistack'; // Import useSnackbar hook
+
+
+const ProductSlug: React.FC = () => {
+  return (
+    <CartProvider>
+      <Page />
+    </CartProvider>
+  );
+};
 
 
 interface Product {
@@ -80,6 +91,7 @@ const Page: React.FC = () => {
     const [currentIndex, setCurrentIndex] = useState(0); // Track current image index
     const [isModalVisible, setIsModalVisible] = useState(false); // State for modal visibility
     const modalRef = useRef<HTMLDivElement>(null);
+    const { enqueueSnackbar } = useSnackbar(); // Initialize useSnackbar hook
     const [formData, setFormData] = useState({
       name: '',
       email: '',
@@ -273,12 +285,52 @@ const Page: React.FC = () => {
         setCurrentIndex(index); // Set current index based on clicked dot
     };
 
-    const handleIncrease = () => setCount(count + 1); 
-    const handleDecrease = () => setCount(count > 0 ? count - 1 : 0); 
-
     if (loading) return <div>Loading...</div>; // Show loading state
     if (error) return <div>{error}</div>; // Show error if any
 
+    const { cartItems, removeFromCart, updateCartItemCount ,addToCart} = useCart();
+
+    const handleAddToCart = () => {
+      if (!featured) return; // Ensure featured product is available
+  
+      const cartItem = {
+        id: featured.id,
+        img: featured.thumbnail.formats?.large?.url || featured.thumbnail.url,
+        title: featured.title,
+        des: featured.description,
+        amount: parseFloat(featured.amount), // Assuming amount is a string, convert to number
+        type: featured.sale_rent,
+        count: 1, // Start with 1 item added
+      };
+  
+      addToCart(cartItem); // Use the addToCart function from the context
+      enqueueSnackbar(`${featured.title} has been added to your cart!`, { variant: 'success' });
+
+    };
+  
+    const handleIncrease = (id: number) => {
+      const currentItem = cartItems.find(item => item.id === id);
+      if (currentItem) {
+        updateCartItemCount(id, currentItem.count + 1); // Increase count by 1
+      } else {
+        // If the item is not in the cart, add it
+        handleAddToCart();
+      }
+    };
+  
+    const handleDecrease = (id: number) => {
+      const currentItem = cartItems.find(item => item.id === id);
+      if (currentItem) {
+        const newCount = currentItem.count - 1;
+        if (newCount > 0) {
+          updateCartItemCount(id, newCount); // Decrease count
+        } else {
+          removeFromCart(id); // Remove item if count is 0
+        }
+      }
+    };
+  
+  
     return (  
         <Wrapper>  
             <HeaderOne />  
@@ -326,13 +378,13 @@ const Page: React.FC = () => {
                                             <div className="d-flex">  
                                                 <div className={style["button-section"]}>  
                                                     <div className={style.itemAdjuster}>  
-                                                        <button onClick={handleDecrease}>-</button>  
-                                                        <span className="m-1">{count}</span>  
-                                                        <button onClick={handleIncrease}>+</button>  
+                                                    <button onClick={() => handleDecrease(featured.id)}>-</button>  
+                                                      <span className="m-1">{cartItems.find(item => item.id === featured.id)?.count || 0}</span>  
+                                                    <button onClick={() => handleIncrease(featured.id)}>+</button> 
                                                     </div>  
 
                                                     <div className="d-flex my-md-2">  
-                                                        <button className={`${style.add_to_cart} ms-xl-3 ms-lg-1 ms-md-0 ms-0 me-xxl-1 me-xl-1 me-3 me-md-2 my-2`} > Add to Cart <span> <HiOutlineShoppingBag height={45} width={45} /> </span> </button>  
+                                                        <button className={`${style.add_to_cart} ms-xl-3 ms-lg-1 ms-md-0 ms-0 me-xxl-1 me-xl-1 me-3 me-md-2 my-2`} onClick={handleAddToCart} > Add to Cart <span> <HiOutlineShoppingBag height={45} width={45} /> </span> </button>  
                                                         <button className={`${style.quick_enquiry} fs-5 bg-black border-0 my-md-3`} onClick={toggleModal}> Quick Enquiry </button>  
                                                     </div>  
                                                 </div>  
@@ -576,4 +628,4 @@ const Page: React.FC = () => {
   );
 }
 
-export default Page;
+export default ProductSlug;
