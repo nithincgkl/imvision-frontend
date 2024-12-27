@@ -8,6 +8,15 @@ import { IoIosArrowRoundBack } from "react-icons/io";
 import Link from "next/link";
 import { useSnackbar } from 'notistack';
 import axios, { AxiosError } from 'axios';
+import { CartProvider, useCart } from '@/context/cart-context'; // Import the useCart hook
+
+const SignUp: React.FC = () => {
+  return (
+    <CartProvider>
+      <Page />
+    </CartProvider>
+  );
+};
 
 const Page: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -288,4 +297,4 @@ const Page: React.FC = () => {
   );
 };
 
-export default Page;
+export default SignUp;

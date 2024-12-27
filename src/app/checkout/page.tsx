@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState ,useEffect} from 'react';
 import Wrapper from '@/layouts/wrapper';
 import FooterOne from '@/layouts/footers/FooterOne';
 import HeaderOne from '@/layouts/headers/HeaderOne';
@@ -8,8 +8,16 @@ import LetsTalk from '@/components/home/lets-talk';
 import Link from 'next/link';
 import { IoChevronDown } from 'react-icons/io5';
 import axios from 'axios';
-import { useRouter } from 'next/router';
+// import { useRouter } from 'next/router';
+import { CartProvider, useCart } from '@/context/cart-context'; // Import the useCart hook
 
+const Checkout: React.FC = () => {
+  return (
+    <CartProvider>
+      <RentalConditions />
+    </CartProvider>
+  );
+};
 
 // Main RentalConditions Component
 const RentalConditions = () => {
@@ -18,11 +26,11 @@ const RentalConditions = () => {
     serviceAgreement: '',
     Country: '',
     FirstName: '',
-    Surname: '',
+    LastName: '',
     Email: '',
     Phone: '',
     Street: '',
-    HouseNumber: '',
+    HouseNo: '',
     City: '',
     PostalCode: '',
     State: '',
@@ -30,11 +38,11 @@ const RentalConditions = () => {
     Reference: '',
     Notes: '',
     shippingFirstName: '',
-    shippingSurname: '',
+    shippingLastName: '',
     shippingEmail: '',
     shippingPhone: '',
     shippingStreet: '',
-    shippingHouseNumber: '',
+    shippingHouseNo: '',
     shippingCity: '',
     shippingPostalCode: '',
     shippingState: '',
@@ -42,9 +50,7 @@ const RentalConditions = () => {
     shippingReference: '',
     shippingCountry: '',
   });
-
-
-
+  
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value, type } = e.target;
 
@@ -59,11 +65,11 @@ const RentalConditions = () => {
             ...prevData,
             [name]: checkedValue,
             shippingFirstName: prevData.FirstName,
-            shippingSurname: prevData.Surname,
+            shippingLastName: prevData.LastName,
             shippingEmail: prevData.Email,
             shippingPhone: prevData.Phone,
             shippingStreet: prevData.Street,
-            shippingHouseNumber: prevData.HouseNumber,
+            shippingHouseNo: prevData.HouseNo,
             shippingCity: prevData.City,
             shippingPostalCode: prevData.PostalCode,
             shippingState: prevData.State,
@@ -77,11 +83,11 @@ const RentalConditions = () => {
             ...prevData,
             [name]: checkedValue,
             shippingFirstName: '',
-            shippingSurname: '',
+            shippingLastName: '',
             shippingEmail: '',
             shippingPhone: '',
             shippingStreet: '',
-            shippingHouseNumber: '',
+            shippingHouseNo: '',
             shippingCity: '',
             shippingPostalCode: '',
             shippingState: '',
@@ -104,32 +110,77 @@ const RentalConditions = () => {
       }));
     }
   };
+
+  const [cartItems, setCartItems] = useState<any[]>([]);
+
+  useEffect(() => {
+    // Fetch the cart items from localStorage
+    const storedCartItems = JSON.parse(localStorage.getItem('cartItems') || '[]');
+    setCartItems(storedCartItems);
+  }, []);
+
+  // Calculate the subtotal (sum of all item totals)
+  const calculateSubtotal = () => {
+    return cartItems.reduce((total: number, item: any) => {
+      return total + item.amount * item.count; // Multiply amount by count for each item
+    }, 0).toFixed(2); // Format the subtotal to two decimal places
+  };
+
+  // Shipping cost (hardcoded for simplicity, can be dynamic)
+  const shippingCost = 0.00;
+
+  // Calculate the grand total (subtotal + shipping)
+  const calculateGrandTotal = () => {
+    const subtotal = parseFloat(calculateSubtotal());
+    return (subtotal + shippingCost).toFixed(2); // Add shipping cost to the subtotal
+  };
+
+  const orderDetails = cartItems.map((item: any) => ({
+    product_name: item.title, // Assuming 'title' is the product name
+    qty: item.count,          // Quantity is the 'count'
+    amount: item.amount,      // Amount for each item
+    product_id: item.id.toString(),   
+    product_images:item.img ,
+    sale_rent:item.type,
+    article_code:item.article_code          // Assuming 'id' is the product ID
+  }));
+
+  const totalAmount = parseFloat(calculateSubtotal());
+  const [storedUser , setStoredUser ] = useState<any | null>(null); // Use 'any' or define a proper type for user
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const user = localStorage.getItem('user');
+      if (user) {
+        setStoredUser(JSON.parse(user));
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!storedUser ) {
+      console.error('No user data found in localStorage.');
+      // Handle the case where there is no user data
+    }
+  }, [storedUser ]);
+
+  // Ensure storedUser  is defined before accessing its properties
+  const userId = storedUser  ? storedUser .documentId : null;
+
+
   const handlePlaceOrder = async () => {
-    const router = useRouter();
     const orderData = {
-      userId: "user123",
-      order_details: [
-        {
-          product_name: "Product 1",
-          qty: 2,
-          amount: 29.99,
-          product_id: "prod001"
-        },
-        {
-          product_name: "Product 2",
-          qty: 1,
-          amount: 49.99,
-          product_id: "prod002"
-        }
-      ],
-      total_amount: 109.97,
-      BillingAddress: {
+      userId: userId, // Replace with actual user ID if available
+      order_details: orderDetails,
+      order_note:formData.Notes,
+      total_amount: totalAmount, 
+       BillingAddress: {
         FirstName: formData.FirstName,
-        LastName: formData.Surname,
+        LastName: formData.LastName,
         Email: formData.Email,
         Phone: formData.Phone,
         Street: formData.Street,
-        HouseNo: formData.HouseNumber,
+        HouseNo: formData.HouseNo,
         City: formData.City,
         PostalCode: formData.PostalCode,
         State: formData.State,
@@ -139,11 +190,11 @@ const RentalConditions = () => {
       },
       ShippingAddress: {
         FirstName: formData.shippingFirstName,
-        LastName: formData.shippingSurname,
+        LastName: formData.shippingLastName,
         Email: formData.shippingEmail,
         Phone: formData.shippingPhone,
         Street: formData.shippingStreet,
-        HouseNo: formData.shippingHouseNumber,
+        HouseNo: formData.shippingHouseNo,
         City: formData.shippingCity,
         PostalCode: formData.shippingPostalCode,
         State: formData.shippingState,
@@ -159,7 +210,7 @@ const RentalConditions = () => {
       ]
     };
     try {
-      const API_TOKEN = process.env.NEXT_PUBLIC_API_TOKEN;
+      const token = localStorage.getItem('token');
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_API_URL}orders`,
         {
@@ -168,20 +219,20 @@ const RentalConditions = () => {
         {
           headers: {
             "Content-Type": "application/json",
-            "Authorization": `Bearer ${API_TOKEN}`,
-
+            "Authorization": `Bearer ${token}`,
           },
         }
       );
-
-      if (response.status === 200) {
-        router.push('/order-successful');
-      }
+      if (response.status === 201 || response.status === 200) {
+window.location.href = `/order-successful?id=${response.data.data.id}`;      }
     }
     catch (error) {
-      console.log("error")
-
-    }
+      if (axios.isAxiosError(error)) {
+        console.error("Error response:", error.response?.data);
+        console.error("Error status:", error.response?.status);
+    } else {
+        console.error("Unexpected error:", error);
+    }    }
   };
 
   return (
@@ -229,11 +280,11 @@ const RentalConditions = () => {
                                 <div className={style.formControl}>
                                   <input
                                     type="text"
-                                    id="Surname"
-                                    name="Surname"
+                                    id="LastName"
+                                    name="LastName"
                                     className={`form-control ${style.inputField}`}
                                     placeholder="Surname*"
-                                    value={formData.Surname}
+                                    value={formData.LastName}
                                     onChange={handleChange}
                                   />
                                 </div>
@@ -287,11 +338,11 @@ const RentalConditions = () => {
                                 <div className={style.formControl}>
                                   <input
                                     type="text"
-                                    id="HouseNumber"
-                                    name="HouseNumber"
+                                    id="HouseNo"
+                                    name="HouseNo"
                                     className={`form-control ${style.inputField}`}
                                     placeholder="House Number*"
-                                    value={formData.HouseNumber}
+                                    value={formData.HouseNo}
                                     onChange={handleChange}
                                   />
                                 </div>
@@ -397,8 +448,6 @@ const RentalConditions = () => {
                               </div>
                             </div>
 
-
-
                           </div>
 
                           <div className={`my-4 ${style.checkout_container}`}>
@@ -427,21 +476,24 @@ const RentalConditions = () => {
                         <div className={style["checkout_inner_container"]}>
                           <div className="row">
                             <div className="col-md-12"><h4>Order Summary</h4></div>
+
                             <div className="col-md-12">
                               <div className={style["checkout_table"]}>
                                 <div className={style["single_row"]}>
                                   <h5>Products</h5>
                                 </div>
-                                <div className={style["two_row"]}>
+                                {cartItems.map((item: any) => (
+
+                                <div key={item.id}  className={style["two_row"]}>
                                   <div>
-                                    <p>ABSENnicon Slim 165″ x 2</p>
-                                    <p>IM Series P0.93mm  x 3</p>
+                                  <p>{item.title} x {item.count}</p>
                                   </div>
                                   <div>
-                                    <p>SEK 0.00</p>
-                                    <p>SEK 0.00</p>
+                                  <p>SEK  {(item.amount * item.count).toFixed(2)}</p>
                                   </div>
                                 </div>
+                                                              ) )}
+
                               </div>
                               <div className={style["checkout_table_sec"]}>
                                 <div className={style["two_row"]}>
@@ -450,8 +502,9 @@ const RentalConditions = () => {
                                     <p>Shipping</p>
                                   </div>
                                   <div>
-                                    <p>SEK 10.00</p>
-                                    <p>SEK 10.00 </p>
+                                  <p>SEK {calculateSubtotal()}</p>
+                                  <p>SEK {shippingCost.toFixed(2)}</p>
+
                                   </div>
                                 </div>
                                 <span className={style["im_hr"]}></span>
@@ -462,7 +515,7 @@ const RentalConditions = () => {
                                     <h6>Grant Total</h6>
                                   </div>
                                   <div>
-                                    <h6><span>SEK 10.00</span> </h6>
+                                    <h6><span>SEK {calculateGrandTotal()}</span> </h6>
                                   </div>
                                 </div>
 
@@ -475,8 +528,10 @@ const RentalConditions = () => {
                                 <div className={style["single_row"]}>
                                   <button onClick={handlePlaceOrder}>Place order</button>
                                 </div>
+
                               </div>
                             </div>
+
                           </div>
                         </div>
                       </div>
@@ -510,11 +565,11 @@ const RentalConditions = () => {
                                 <div className={style.formControl}>
                                   <input
                                     type="text"
-                                    id="Surname"
-                                    name="shippingSurname"
+                                    id="LastName"
+                                    name="shippingLastName"
                                     className={`form-control ${style.inputField}`}
-                                    placeholder="Surname*"
-                                    value={formData.shippingSurname}
+                                    placeholder="LastName*"
+                                    value={formData.shippingLastName}
                                     onChange={handleChange}
                                   />
                                 </div>
@@ -568,11 +623,11 @@ const RentalConditions = () => {
                                 <div className={style.formControl}>
                                   <input
                                     type="text"
-                                    id="HouseNumber"
-                                    name="shippingHouseNumber"
+                                    id="HouseNo"
+                                    name="shippingHouseNo"
                                     className={`form-control ${style.inputField}`}
                                     placeholder="House Number*"
-                                    value={formData.shippingHouseNumber}
+                                    value={formData.shippingHouseNo}
                                     onChange={handleChange}
                                   />
                                 </div>
@@ -716,114 +771,6 @@ const RentalConditions = () => {
                   </div>
                 </div>
               </div>
-              {/* 
-
-              <div className={style["checkout_footer"]}>
-                <div className="container-fluid">
-                  <div className="row">
-                    <div className="col-md-12">
-                      <div className={style["checkout_container"]}>
-                        <form>
-                          <div className={style["checkout_inner_container"]}>
-                            <div className="row">
-                              <div className="col-md-8">
-                                <h4>Select Shipment Type</h4>
-                                <fieldset>
-                                  <div className={style.fieldset_radio}>
-                                    <input
-                                      type="radio"
-                                      className="radio"
-                                      name="serviceAgreement"
-                                      value="yourself"
-                                      id="yourself"
-                                      onChange={handleChange}
-                                      checked={formData.serviceAgreement === 'yourself'}
-                                    />
-                                    <label htmlFor="yourself">&nbsp; Pick up yourself - Jönköping</label>
-                                    <br />
-
-                                    <input
-                                      type="radio"
-                                      className={`radio ${style.radio_input}`}
-                                      name="serviceAgreement"
-                                      value="Platform"
-                                      id="Platform"
-                                      onChange={handleChange}
-                                      checked={formData.serviceAgreement === 'Platform'}
-                                    />
-                                    <label htmlFor="Platform">&nbsp; Platform price Central Sweden - Calculated upon confirmation:SEK 1000.00 </label>
-
-                                    <br />
-
-                                    <input
-                                      type="radio"
-                                      className={`radio ${style.radio_input_two}`}
-                                      name="serviceAgreement"
-                                      value="Download"
-                                      id="Download"
-                                      onChange={handleChange}
-                                      checked={formData.serviceAgreement === 'Download'}
-                                    />
-                                    <label htmlFor="Download">&nbsp; Download yourself - Stockholm</label>
-
-                                    <p><i>Shipping options will be updated at checkout.</i></p>
-                                  </div>
-                                </fieldset>
-                              </div>
-
-                              <div className="col-md-4">
-                                <h6>Calculate Shipping</h6>
-                                <div className={style.formControl}>
-                                  <div className={style.selectWrapper}>
-                                    <select
-                                      id="Country"
-                                      name="Country" // Change to match the state key
-                                      className={`form-control ${style.inputField}`}
-                                      onChange={handleChange}
-                                      value={formData.Country || ''} // Bind value to the correct state key
-                                    >
-                                      <option value="Sweden">Sweden</option>
-                                      <option value="uk">UK</option>
-                                      <option value="uae">UAE</option>
-                                      <option value="us">United States</option>
-                                    </select>
-                                    <IoChevronDown className={style.arrowIcon} />
-                                  </div>
-                                </div>
-
-                                <div className={style.formControl}>
-                                  <input
-                                    type="text"
-                                    id="Place"
-                                    name="Place"
-                                    className={`form-control ${style.inputField}`}
-                                    placeholder="Place"
-                                    onChange={handleChange}
-                                  />
-                                </div>
-
-                                <div className={style.formControl}>
-                                  <input
-                                    type="text"
-                                    id="ZIP-Code"
-                                    name="ZIPCode"
-                                    className={`form-control ${style.inputField}`}
-                                    placeholder="ZIP Code"
-                                    onChange={handleChange}
-                                  />
-                                </div>
-                                <div className={style.formControl}>
-                                  <button type="button" className={style.update_btn}>Update</button>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </form>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div> */}
             </section>
             <LetsTalk />
           </main>
@@ -834,7 +781,7 @@ const RentalConditions = () => {
   );
 };
 
-export default RentalConditions;
+export default Checkout;
 
 
 

@@ -7,9 +7,18 @@ import HeaderOne from '@/layouts/headers/HeaderOne';
 import style from "./style.module.css";
 import LetsTalk from '@/components/home/lets-talk';
 import { FiDownload } from "react-icons/fi";
+import { CartProvider, useCart } from '@/context/cart-context'; // Import the useCart hook
+
+const RentalConditions: React.FC = () => {
+  return (
+    <CartProvider>
+      <Page />
+    </CartProvider>
+  );
+};
 
 // Main ContactPage Component
-const RentalConditions = () => {
+const Page = () => {
   return (
     <Wrapper> 
       <HeaderOne />

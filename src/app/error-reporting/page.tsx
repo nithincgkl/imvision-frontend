@@ -7,6 +7,16 @@ import HeaderOne from '@/layouts/headers/HeaderOne';
 import style from "./style.module.css";
 import LetsTalk from '@/components/home/lets-talk';
 import axios from 'axios';
+import { CartProvider, useCart } from '@/context/cart-context'; // Import the useCart hook
+
+const ErrorReporting: React.FC = () => {
+  return (
+    <CartProvider>
+      <ErrorReportings />
+    </CartProvider>
+  );
+};
+
 
 // Define the shape of the form data
 interface FormData {
@@ -34,7 +44,7 @@ interface FormErrors {
   gdprConsent?: string;
 }
 
-const ErrorReporting: React.FC = () => {
+const ErrorReportings: React.FC = () => {
   const [formData, setFormData] = useState<FormData>({
     name: '',
     address: '',
@@ -186,9 +196,7 @@ const ErrorReporting: React.FC = () => {
           document: documentId
         }
       };
-  
-      console.log('Ticket Data:', ticketData); // Log the ticket data
-  
+    
       const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}tickets`, ticketData, {
         headers: {
           'Authorization': `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
@@ -212,7 +220,6 @@ const ErrorReporting: React.FC = () => {
     e.preventDefault();
 
     if (!validateForm()) {
-      console.log('Form has validation errors');
       return;
     }
 

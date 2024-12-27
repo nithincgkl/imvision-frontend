@@ -1,47 +1,58 @@
 'use client';
-import React, { useState, useRef } from 'react';
+import React from 'react';
 import Link from 'next/link';
+import { useSnackbar } from 'notistack'; // Import useSnackbar hook
 import styles from './style.module.css';
-import { IoMdClose } from 'react-icons/io';
+import { useCart } from '@/context/cart-context'; // Import the useCart hook
 
 interface ProductItemProps {
   item: {
-    id: any;
-    img: any; // Use string for dynamic URLs
+    id: string; // Use number for IDs
+    img: string; // Use string for dynamic URLs
     title: string;
-    des: string;
+    des: string; // Assuming this is the price
     slug: string;
     sale_rent: string;
+    article_code:string
   };
   linkEnabled?: boolean; // Add optional boolean prop to control the link
 }
 
 const ProductItem: React.FC<ProductItemProps> = ({ item, linkEnabled = true }) => {
+  const { enqueueSnackbar } = useSnackbar(); // Initialize useSnackbar hook
+  const { addToCart } = useCart(); // Use the cart context
+  const redirectToLogin = () => {
+    window.location.href = '/login'; // Adjust the path to your login page
+};
 
-  const productLink = `/products/${item.slug}`; // Link to product page
+ 
+  const handleAddToCart = () => {
+    const isLoggedIn = !!localStorage.getItem('token'); // Check if the user is logged in
 
-  const addToCart = () => {
-    // Create a cart item object
+    if (!isLoggedIn) {
+        redirectToLogin(); // Redirect to login if not logged in
+        return;
+      }
     const cartItem = {
       id: item.id,
       img: item.img,
       title: item.title,
       des: item.des,
-      amount: item.des, // Assuming 'des' holds the amount; adjust if necessary
+      amount: parseFloat(item.des), // Assuming 'des' holds the amount; convert to number
       type: item.sale_rent,
       count: 1, // Start with 1 item added
+      article_code:item.article_code
     };
-  
     // Retrieve existing cart items from local storage
     const existingCart = JSON.parse(localStorage.getItem('cartItems') || '[]');
-  
+
     // Check if the item already exists in the cart
     const existingItemIndex = existingCart.findIndex((cart: any) => cart.id === item.id);
-  
+
     if (existingItemIndex !== -1) {
       // Item already exists in the cart, so update the count
       existingCart[existingItemIndex].count += 1; // Increment count by 1 (or adjust as needed)
-  
+
       // If the count goes below 1, remove the item from the cart
       if (existingCart[existingItemIndex].count < 1) {
         existingCart.splice(existingItemIndex, 1); // Remove the item
@@ -50,11 +61,15 @@ const ProductItem: React.FC<ProductItemProps> = ({ item, linkEnabled = true }) =
       // If item does not exist, add the new item to the cart
       existingCart.push(cartItem);
     }
-  
+
     // Save updated cart back to local storage
     localStorage.setItem('cartItems', JSON.stringify(existingCart));
-  
-    alert(`${item.title} has been added to your cart!`);
+
+    // Use Snackbar to show the success message
+    enqueueSnackbar(`${item.title} has been added to your cart!`, { variant: 'success' });
+
+    // Add to cart using context
+    addToCart(cartItem);
   };
 
   return (
@@ -64,7 +79,7 @@ const ProductItem: React.FC<ProductItemProps> = ({ item, linkEnabled = true }) =
           <div className={`${styles['box__inner']} ${styles['box--top-bot']}`}>
             <div className="cs_post cs_style_1">
               {linkEnabled ? (
-                <Link href={productLink} className={styles['pb-15']}>
+                <Link href={`/products/${item.slug}`} className={styles['pb-15']}>
                   <img
                     src={item.img}
                     alt={item.title}
@@ -90,15 +105,13 @@ const ProductItem: React.FC<ProductItemProps> = ({ item, linkEnabled = true }) =
                 </h2>
                 <p className="cs_m0">SEK {item.des}</p>
                 <div className={styles['button-section']}>
-                  <button onClick={addToCart}>Add to Cart</button>
-                  {/* <button onClick={toggleModal}>Quick Enquiry</button> */}
+                  <button onClick={handleAddToCart}>Add to Cart</button>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-
     </div>
   );
 };

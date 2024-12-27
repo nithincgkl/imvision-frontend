@@ -8,15 +8,25 @@ import HeaderOne from '@/layouts/headers/HeaderOne';
 import Filter from '@/components/sale/filter';
 import ProductItem from '@/components/product-item/product-item';
 import LetsTalk from '@/components/home/lets-talk';
+import { CartProvider, useCart } from '@/context/cart-context'; // Import the useCart hook
+
+const RentProducts: React.FC = () => {
+  return (
+    <CartProvider>
+      <RentPage />
+    </CartProvider>
+  );
+};
 
 // Define types for products
 interface Product {
-  id: number;
+  id: string;
   img: string;
   title: string;
   des: string;
   sale_rent: string;
   slug: string;
+  article_code: string;
 }
 
 // Page.tsx for Rent Products
@@ -151,4 +161,4 @@ const RentPage: React.FC = () => {
   );
 };
 
-export default RentPage;
+export default RentProducts;

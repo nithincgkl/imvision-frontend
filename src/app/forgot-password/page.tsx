@@ -5,6 +5,16 @@ import axios from 'axios';
 import style from './style.module.css';
 import Wrapper from '@/layouts/wrapper';
 import { IoIosArrowRoundBack } from 'react-icons/io';
+import { CartProvider, useCart } from '@/context/cart-context'; // Import the useCart hook
+
+const ForgetPassword: React.FC = () => {
+  return (
+    <CartProvider>
+      <Page />
+    </CartProvider>
+  );
+};
+
 
 const Page: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -115,4 +125,4 @@ const Page: React.FC = () => {
   );
 };
 
-export default Page;
+export default ForgetPassword;

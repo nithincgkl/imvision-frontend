@@ -9,76 +9,46 @@ import style from './style.module.css';
 import LetsTalk from '@/components/home/lets-talk';
 import { RiDeleteBin6Line } from "react-icons/ri";
 import Link from 'next/link';
-
-interface CartItem {
-  id: number;
-  img: string;
-  title: string;
-  des: string; // Assuming this is the price as a string
-  amount: number;
-  count: number;
-  type: string;
-}
+import { CartProvider, useCart } from '@/context/cart-context'; // Import the useCart hook
 
 const CartPage: React.FC = () => {
+  return (
+    <CartProvider>
+      <CartContent />
+    </CartProvider>
+  );
+};
+
+const CartContent: React.FC = () => {
+  const { cartItems, removeFromCart, updateCartItemCount } = useCart();
   const [startDate, setStartDate] = useState<Date>(new Date());
-  const [endDate, setEndDate] = useState<Date>(new Date(Date.now() + 24 * 60 * 60 * 1000));
-  
-  const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  const [endDate, setEndDate] = useState<Date>(new Date(Date.now() + 24 * 60 * 60 * 1000)); 
 
-  // Load cart items from local storage on component mount
-  useEffect(() => {
-    const storedCartItems = JSON.parse(localStorage.getItem('cartItems') || '[]');
-    if (storedCartItems.length === 0) {
-      // If no items in the cart, clear the local storage
-      localStorage.removeItem('cartItems');
+  const handleIncrease = (id: string) => {
+    const currentItem = cartItems.find(item => item.id === id);
+    if (currentItem) {
+      updateCartItemCount(id, currentItem.count + 1);
     }
-    setCartItems(storedCartItems);
-  }, []);
-
-  const handleIncrease = (id: number) => {
-    setCartItems(prevItems => 
-      prevItems.map(item => 
-        item.id === id ? { ...item, count: item.count + 1 } : item
-      )
-    );
-    updateLocalStorage();
   };
 
-  const handleDecrease = (id: number) => {
-    setCartItems(prevItems => {
-      const updatedItems = prevItems.map(item => {
-        if (item.id === id) {
-          const newCount = item.count - 1;
-          return { ...item, count: newCount };
-        }
-        return item;
-      }).filter(item => item.count > 0); // Move filter here to remove items with count 0
-  
-      localStorage.setItem('cartItems', JSON.stringify(updatedItems));
-      return updatedItems;
-    });
+  const handleDecrease = (id: string) => {
+    const currentItem = cartItems.find(item => item.id === id);
+    if (currentItem) {
+      const newCount = currentItem.count - 1;
+      if (newCount > 0) {
+        updateCartItemCount(id, newCount);
+      } else {
+        removeFromCart(id);
+      }
+    }
   };
 
-  const handleRemoveItem = (id: number) => {
-    setCartItems(prevItems => {
-      const updatedItems = prevItems.filter(item => item.id !== id);
-      localStorage.setItem('cartItems', JSON.stringify(updatedItems));
-      return updatedItems;
-    });
+  const handleRemoveItem = (id: string) => {
+    removeFromCart(id);
   };
 
   const calculateTotal = () => {
     return cartItems.reduce((total, item) => total + (item.amount * item.count), 0).toFixed(2);
-  };
-
-  const updateLocalStorage = () => {
-    if (cartItems.length === 0) {
-      // If cart is empty, remove it from localStorage
-      localStorage.removeItem('cartItems');
-    } else {
-      localStorage.setItem('cartItems', JSON.stringify(cartItems));
-    }
   };
 
   const CalendarInput = React.forwardRef<HTMLInputElement, { value: string; onClick: () => void }>(
@@ -98,6 +68,15 @@ const CartPage: React.FC = () => {
 
   CalendarInput.displayName = "CalendarInput";
 
+  const handleProceedToCheckout = () => {
+    const totalAmount = calculateTotal();
+    const checkoutData = {
+      cartItems,
+      totalAmount
+    };
+    localStorage.setItem('total', JSON.stringify(checkoutData));
+  };
+
   return (
     <Wrapper>
       <HeaderOne />
@@ -109,7 +88,7 @@ const CartPage: React.FC = () => {
                 <div className="container-fluid">
                   <div className="row">
                     <div className="col-md-12">
-                       <h1 className={style.pageTitle}>My Cart [{cartItems.reduce((total, item) => total + item.count, 0)}]</h1>
+                      <h1 className={style.pageTitle}>My Cart [{cartItems.reduce((total, item) => total + item.count, 0)}]</h1>
                     </div>
                   </div>
                 </div>
@@ -121,7 +100,7 @@ const CartPage: React.FC = () => {
                     <div className="col-md-12">
                       {cartItems.length > 0 ? (
                         <>
-                            {cartItems.map((item) => (
+                          {cartItems.map((item) => (
                             <div key={item.id} className={style['cart_box']}>
                               <div className={style['cart_box_header']}>
                                 <div>
@@ -155,13 +134,12 @@ const CartPage: React.FC = () => {
                               </div>
                               <div className={style['cart_box_body']}>
                                 <div className={style['cart_box_img']}>
-                                <img src={item.img} alt={`${item.title} image`} />
-
+                                  <img src={item.img} alt={`${item.title} image`} />
                                 </div>
 
                                 <div className={style['cart_box_right']}>
                                   <div>
-                                    <p>{item.title}</p>
+                                    <p>{item.title} {item.article_code}</p>
                                     <br />
 
                                     <div className={style['cart_box_add_btn']}>
@@ -183,12 +161,13 @@ const CartPage: React.FC = () => {
                             </div>
                           ))}
 
-
                           {/* Grand Total Section */}
                           <div className={style['grand_total']}>
                             <div className={style['grand_total_box']}>
                               <p>Grand Total:<span>SEK {calculateTotal()}</span></p>
-                              <button>Proceed To Checkout</button>
+                              <Link href="/checkout">
+                                <button onClick={handleProceedToCheckout}>Proceed To Checkout</button>
+                              </Link>
                             </div>
                           </div>
 

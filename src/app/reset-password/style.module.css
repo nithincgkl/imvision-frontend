@@ -1,45 +1,21 @@
 .reset_password{
     float: left;
     width: 100%;
-    /* padding: 4rem 0; */
-    min-height: 100vh;
+    padding: 4rem 0;
 }
-.banner-video {
-    position: relative;
-    /* top: 50%; */
-    /* left: 50%; */
-    min-width: 100%;
-    min-height: 100%;
-    width: auto;
-    height: auto;
-    /* transform: translate(-50%, -50%); */
-    -o-object-fit: cover;
-    object-fit: cover;
-    width: 100%;
-  
-}
-.container-fluid{
-    width: 100%;
-}
-.video_container{
-width: 100%;
-padding: 0 0;
-max-width: 100%;
-}
-.video_container_half{
-    min-height: 100vh;
-}
+
 .form_container_half{
-    display: flex
-    ;
-        align-items: center;
-        /* justify-content: center; */
+    display: flex;
+        align-self: center;
+        justify-content: center;
+margin-top: 290px;
 
 }
 .form_container_half form{
     width: 100%;
-    max-width: 410px;
-    margin-left: 100px;
+    max-width: 610px;
+margin-left: auto;
+margin-right: auto;
 }
 
 
@@ -50,11 +26,12 @@ max-width: 100%;
 .formControl {
     position: relative;
     margin-bottom: 1rem;
+    font-size: 20px;
   }
   
   .inputField {
     width: 100%;
-    padding: 0.75rem 1rem;
+    padding: 1rem 1rem;
     border: none;
     border-radius: 0.25rem;
     background-color: #141414;
@@ -62,6 +39,7 @@ max-width: 100%;
     border-radius: 0;
     border-bottom: solid 2px #747474;
     color: #fff;
+    font-size: 20px;
   }
   
   .inputField:focus {
@@ -150,19 +128,12 @@ max-width: 100%;
 
   }
 
-
-
-
-
   @media screen and (max-width: 991px) {
   .form_container_half {
     align-items: center;
-    position: absolute;
-    min-height: 100vh;
     background: #000000d3;
     width: 100%;
-    left: 0;
-    right: 0;
+
 }
 .form_container_half form {
     width: 100%;

@@ -10,8 +10,21 @@ import Displays from '@/components/home/displays';
 import WowMoments from '@/components/home/wow-moments';
 import LetsTalk from '@/components/home/lets-talk';
 import FooterOne from '@/layouts/footers/FooterOne';
+import { CartProvider, useCart } from '@/context/cart-context'; // Import the useCart hook
+
+const Home: React.FC = () => {
+  return (
+    <CartProvider>
+      <Index />
+    </CartProvider>
+  );
+};
+
+
 
 const Index: React.FC = () => {
+
+
   return (
     <Wrapper> 
       <HeaderOne /> 
@@ -35,4 +48,4 @@ const Index: React.FC = () => {
   );
 };
 
-export default Index;
+export default Home;

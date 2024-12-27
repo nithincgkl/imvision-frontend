@@ -11,34 +11,25 @@ import { TbPackage } from "react-icons/tb";
 import { MdOutlineLocalShipping } from "react-icons/md";
 import { CiCircleCheck } from "react-icons/ci";
 import axios from 'axios';
+import { CartProvider, useCart } from '@/context/cart-context'; // Import the useCart hook
 
-interface RelatedProduct {
-  id: number;
-  article_code?: string; // Optional, since it may not always be present
-  // Add other properties if needed
-}
-interface ProductImage {
-  id: number;
-  url: string; // Add the url property
-  related: RelatedProduct[]; // Keep the related products
-}
-
-
-interface ProductImage {
-  id: number;
-  url: string; // Add the url property
-}
+const Profile: React.FC = () => {
+  return (
+    <CartProvider>
+      <Page />
+    </CartProvider>
+  );
+};
 
 interface OrderDetail {
   id: number;
   product_name: string;
   qty: number;
   amount: number;
-  product_images: ProductImage[]; // Update to use the new ProductImage interface
+  product_images: string; // Update to use the new ProductImage interface
   sale_rent: string;
   article_code:string
 }
-
 
 interface DeliveryStatus {
   id: number;
@@ -70,13 +61,24 @@ interface Order {
 }
 
 
-export default function Profilepage() {
+const Page: React.FC = () => {
   const [isOpen, setIsOpen] = useState<number | null>(null); // Track which order is open
   const toggleAccordion = (orderId: number) => setIsOpen(isOpen === orderId ? null : orderId);
   
   const [countries, setCountries] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [activeForm, setActiveForm] = useState<string>('personal');
+  const [windowWidth, setWindowWidth] = useState<number>(typeof window !== 'undefined' ? window.innerWidth : 0);
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
   
   const [formData, setFormData] = useState({
     name: '',
@@ -481,75 +483,71 @@ export default function Profilepage() {
           const displayedArticleCodes = new Set();
 
           return (
-            <div key={order.id} className={`${style.orders_form} ${isOpen === order.id ? style.ordersFormOpen : ''}`}>
+            <div key={order.id} className={`${style.orders_form} ${isOpen === order.id ? style.ordersFormOpen : ''}`}  style={{ background: windowWidth < 766 ? (order.order_details[0]?.sale_rent === 'Rent' ? '#5C553A' : '#3F3A5C') : '#2E2D2D'}}>
              
-             <div className='d-flex col-12'> <p className={`${style.type} mb-0`} style={{backgroundColor: order.order_details[0]?.sale_rent === 'Rent' ? '#5C553A' : '#3F3A5C',}}>{order.order_details[0]?.sale_rent}</p>
-              <p className={`${style.order_num}`}>Order Id : {order.id}</p>
-              <p className={`${style.model} d-md-block d-none`}>{order.order_details[0]?.product_name}</p>
-              <p className='mb-0 pt-2 align-items-center'> 
-                <span className='py-lg-2 px-lg-4 px-md-3 d-md-block d-none'>
-                  {order.DeliveryStatus.length > 0 ? order.DeliveryStatus[0].delivery_status : 'No delivery status available'}
-                </span>
-              </p>
-              <button className='d-md-block d-none'>Cancel Order</button>
-              <h3 className='pt-lg-1 pt-md-3 pt-3' onClick={() => toggleAccordion(order.id)}>
-                <span style={{ position: 'relative', display: 'inline-block' }}>
-                  {isOpen === order.id ? (
-                    <IoChevronUp height={50} width={50} className="pt-lg-2 me-2" />
-                  ) : (
-                    <IoChevronDown height={50} width={50} className="pt-lg-2 me-2" />
-                  )}
-                </span>
-              </h3>
+              <div className='d-flex col-12'> 
+                <p className={`${style.type} mb-0`} style={{background: order.order_details[0]?.sale_rent === 'Rent' ? '#5C553A' : '#3F3A5C',}}>
+                  {order.order_details[0]?.sale_rent}
+                </p>
+                <p className={`${style.order_num}`}>Order Id : {order.id}</p>
+                <p className={`${style.model} d-md-block d-none`}>{order.order_details[0]?.product_name}</p>
+                <p className='mb-0 pt-2 align-items-center'> 
+                  <span className='py-lg-2 px-lg-4 px-md-3 d-md-block d-none'>
+                    {order.DeliveryStatus.length > 0 ? order.DeliveryStatus[0].delivery_status : 'No delivery status available'}
+                  </span>
+                </p>             
 
+                <h3 className='pt-lg-1 pt-md-3 pt-3 '  onClick={() => toggleAccordion(order.id)}>
+                  <span style={{ position: 'relative', display: 'inline-block' }} className=''>
+                    {isOpen === order.id ? (
+                      <IoChevronUp height={50} width={50} className="pt-lg-2 me-2" />
+                    ) : (
+                      <IoChevronDown height={50} width={50} className="pt-lg-2 me-2" />
+                    )}
+                  </span>
+                </h3>
               </div>
 
               {isOpen === order.id && (
                 <div className={`${style.orders_form_open} p-4 d-flex flex-column`}>
-
-         <div className="d-flex flex-column gap-md-4 gap-2">
-  {order.order_details.map((detail: OrderDetail) => (
-    <div key={detail.id} className="d-flex flex-md-row flex-column">
-      {Array.isArray(detail.product_images) && detail.product_images.length > 0 && (
-        <img
-          src={detail.product_images[0]?.url}
-          alt={detail.product_name}
-          className={style.productImage}
-        />
-      )}
-      <div className="d-flex flex-column ">
-      <p className={`${style.model}`}>{detail.product_name}:</p>
-          <p className={`${style.SEK}`}>SEK {detail.amount} NOK</p>
-         <p className={`${style.model}`}>Quantity: {detail.qty} | Article code: {detail.article_code}</p>       
-      </div>
-    </div>
-  ))}
-</div>
+                  <div className="d-flex flex-column gap-md-4 gap-2">
+                    {order.order_details.map((detail: OrderDetail) => (
+                      <div key={detail.id} className="d-flex flex-md-row flex-column">
+                      
+                          <img
+                            src={detail.product_images}
+                            alt={detail.product_name}
+                            className={style.productImage}
+                          />
+                      
+                        <div className="d-flex flex-column ">
+                          <p className={`${style.model}`}>{detail.product_name}:</p>
+                          <p className={`${style.SEK}`}>SEK {detail.amount} NOK</p>
+                          <p className={`${style.model}`}>Quantity: {detail.qty} | Article code: {detail.article_code}</p>       
+                        </div>
+                      </div>
+                    ))}
+                  </div>
 
                   <div className={`${style.status_details} p-3 pb-1 d-flex flex-md-row flex-column-reverse gap-lg-5 gap-4 my-2`}>
                     <div className='d-flex flex-column gap-1 my-2'>
-                      <div className={`${style.order_tracker}`}  style={{
+                      <div className={`${style.order_tracker}`} style={{
                         borderLeft: `3px dashed ${isShipped ? '#0CB60F' : '#505050'}`,
                         color: `${isShipped ? '#0CB60F' : '#505050'}`,
                       }}>
-                        <p><span><TbPackage /></span> Packed
-                        </p>
+                        <p><span><TbPackage /></span> Packed</p>
                       </div>
                       <div className={`${style.order_tracker}`} style={{
                         borderLeft: `3px dashed ${isShipped ? '#0CB60F' : '#505050'}`,
                         color: `${isShipped ? '#0CB60F' : isCancelled ? 'red' : '#505050'}`,
                       }}>
-                        <p><span><MdOutlineLocalShipping /></span> {isCancelled ? 'Cancelled' : 'Shipping'}
-
-                        </p>
-
+                        <p><span><MdOutlineLocalShipping /></span> {isCancelled ? 'Cancelled' : 'Shipping'}</p>
                       </div>
                       <div className={`${style.order_tracker}`} style={{
                         borderLeft: `3px dashed ${isDelivered ? '#0CB60F' : '#505050'}`,
                         color: `${isDelivered ? '#0CB60F' : '#505050'}`,
                       }}>
                         <p><span><CiCircleCheck /></span> Delivered</p>
-
                       </div>
                     </div>
                     <div>
@@ -559,16 +557,13 @@ export default function Profilepage() {
                       </div>
                       <div className={`${style.order_details}`}>
                         <p className={`${style.order_details_heading} ms-3 ms-md-0`}>Shipping Address:</p>
-                        <p className={`${style.order_address}`} >
-
+                        <p className={`${style.order_address}`}>
                           {order.ShippingAddress.Street}, {order.ShippingAddress.City}, {order.ShippingAddress.State}, {order.ShippingAddress.PostalCode}, {order.ShippingAddress.Country}
                         </p>
                       </div>
                       <div className={`${style.order_details}`}>
-
                         <p className={`${style.order_details_heading}`}>Total Amount:</p>
                         <p className={`${style.order_fill}`}>SEK {totalAmount}</p>
-
                       </div>
                     </div>
                   </div>
@@ -664,3 +659,5 @@ export default function Profilepage() {
     </Wrapper>
   );
 }
+
+export default Profile;

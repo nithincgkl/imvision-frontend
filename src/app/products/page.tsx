@@ -9,11 +9,20 @@ import HeaderOne from "@/layouts/headers/HeaderOne";
 import ProductItem from "@/components/product-item/product-item";
 import LetsTalk from '@/components/home/lets-talk';
 import axios from 'axios';
+import { CartProvider, useCart } from '@/context/cart-context'; // Import the useCart hook
+
+const Product: React.FC = () => {
+  return (
+    <CartProvider>
+      <Page />
+    </CartProvider>
+  );
+};
 
 
 
 interface Product {
-  id: number;
+  id: string;
   thumbnail: {
     formats?: {
       large?: { url: string };
@@ -23,7 +32,8 @@ interface Product {
   title: string;
   amount: string;
   slug: string;  // Added slug
-  sale_rent: string
+  sale_rent: string;
+  article_code:string
 }
 
 const Page: React.FC = () => {
@@ -53,6 +63,27 @@ const Page: React.FC = () => {
 
     fetchProducts();
   }, []);
+
+
+  const { cartItems, removeFromCart, updateCartItemCount ,addToCart} = useCart();
+
+  const handleAddToCart = (product: Product) => {
+    const cartItem = {
+      id: product.id,
+      img: product.thumbnail.formats?.large?.url || product.thumbnail.url,
+      title: product.title,
+      des: product.amount,
+      amount: parseFloat(product.amount), // Assuming amount is a string, convert to number
+      type: product.sale_rent,
+      count: 1,
+      article_code:product.article_code, // Start with 1 item added
+    };
+
+    addToCart(cartItem); // Use the addToCart function from the context
+  };
+
+  if (loading) return <div>Loading...</div>; 
+
 
   return (
     <Wrapper>
@@ -87,8 +118,8 @@ const Page: React.FC = () => {
                           title: product.title,
                           des: product.amount,
                           slug: product.slug,
-                          sale_rent: product.sale_rent // Correctly pass the slug
-                          // Pass the slug to ProductItem
+                          sale_rent: product.sale_rent,
+                          article_code:product.article_code
                         }} />
                       </div>
                     ))}
@@ -106,4 +137,4 @@ const Page: React.FC = () => {
   );
 };
 
-export default Page;
+export default Product;

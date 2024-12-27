@@ -11,7 +11,15 @@ import style from "./style.module.css";
 import { IoMdClose } from "react-icons/io";
 import axios from 'axios';
 import { log } from "console";
+import { CartProvider, useCart } from '@/context/cart-context'; // Import the useCart hook
 
+const WorkWithUs: React.FC = () => {
+  return (
+    <CartProvider>
+      <Career />
+    </CartProvider>
+  );
+};
 
     interface Thumbnail {
       url: string;
@@ -37,10 +45,6 @@ import { log } from "console";
       slug: string;
       thumbnail: Thumbnail | null;
     }
-
-
-
- 
 
 
 const CareerBox = ({ job, onApply }: { job: CareerJob; onApply: (job: CareerJob) => void; }) => (
@@ -429,4 +433,4 @@ const careerFormData = {
   );
 };
 
-export default Career;
+export default WorkWithUs;

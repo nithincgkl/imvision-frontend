@@ -13,10 +13,21 @@ import axios from 'axios';
 import { useParams } from 'next/navigation'; // Use next/navigation to get params
 import Link from 'next/link';
 import { IoMdClose } from 'react-icons/io';
+import { CartProvider, useCart } from '@/context/cart-context'; // Import the useCart hook
+import { useSnackbar } from 'notistack'; // Import useSnackbar hook
+
+
+const ProductSlug: React.FC = () => {
+  return (
+    <CartProvider>
+      <Page />
+    </CartProvider>
+  );
+};
 
 
 interface Product {
-    id: number;
+    id: string;
     title: string;
     amount: string;
     slug: string;
@@ -42,17 +53,31 @@ interface SpecificationDetail {
 }
 
 
-interface Thumbnail {
-    formats?: {
-        large?: {
-            url: string;
-        };
-    };
-    url: string;
-}
 
 interface ProductCategory {
     category_name: string;
+}
+
+  // Update the Thumbnail interface to include all format sizes
+interface Thumbnail {
+  formats?: {
+      large?: { url: string };
+      thumbnail?: { url: string };
+      small?: { url: string };
+      medium?: { url: string };
+  };
+  url: string;
+}
+
+// Update the OrderDetails interface
+interface OrderDetails {
+  product_name: string;
+  qty: number;
+  amount: number;
+  product_id: string;
+  sale_rent: string;
+  article_code: string;
+  product_images?: any;
 }
 
 
@@ -66,7 +91,126 @@ const Page: React.FC = () => {
     const [currentIndex, setCurrentIndex] = useState(0); // Track current image index
     const [isModalVisible, setIsModalVisible] = useState(false); // State for modal visibility
     const modalRef = useRef<HTMLDivElement>(null);
+    const { enqueueSnackbar } = useSnackbar(); // Initialize useSnackbar hook
+    const [formData, setFormData] = useState({
+      name: '',
+      email: '',
+      phone: '',
+      house_no: '',
+      street:'',
+      city:'',
+      state:'',
+      country:'',
+      postalCode:'',
+      message: '', // Added message to state
+    });
 
+
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      const { name, value } = e.target;
+      setFormData({
+        ...formData,
+        [name]: value,
+      });
+    };
+  
+
+    const handleSubmit = async (e: React.FormEvent) => {
+      e.preventDefault();
+    
+      const token = localStorage.getItem('token');
+      const storedUser = localStorage.getItem('user');
+    
+      if (!storedUser) {
+        console.error('No user data found in localStorage.');
+        return;
+      }
+    
+      const user = JSON.parse(storedUser);
+      const userId = user.documentId;
+    
+      if (!token || !featured) {
+        console.error('Missing token or featured product data');
+        return;
+      }
+    
+      // Create order details
+      const orderDetails = [{
+        product_name: featured.title,
+        qty: 1,
+        amount: parseFloat(featured.amount),
+        product_id: featured.id.toString(),
+        sale_rent: featured.sale_rent,
+        article_code: featured.article_code,
+        product_images: featured.thumbnail?.url
+      }];
+    
+      // Prepare request data with the correct structure
+      const requestData = {
+        data: {
+          userId,
+          order_details: orderDetails,
+          total_amount: featured.amount,
+          order_note: formData.message || null,
+          BillingAddress: {
+            FirstName: formData.name,
+            LastName: "-", // Added default last name as it's required
+            Email: formData.email,
+            Phone: formData.phone,
+            Street: formData.street,
+            HouseNo: formData.house_no,
+            City: formData.city,
+            PostalCode: formData.postalCode,
+            State: formData.state,
+            Country: formData.country,
+            CompanyName: "-",
+            Reference: `-`
+          },
+          ShippingAddress: {
+            FirstName: formData.name,
+            LastName: "-", // Added default last name as it's required
+            Email: formData.email,
+            Phone: formData.phone,
+            Street: formData.street,
+            HouseNo: formData.house_no,
+            City: formData.city,
+            PostalCode: formData.postalCode,
+            State: formData.state,
+            Country: formData.country,
+            CompanyName: "-",
+            Reference: `-`
+          },
+          DeliveryStatus: [{
+            delivery_status: "PENDING",
+            status_updated_at: new Date().toISOString()
+          }]
+        }
+      };
+      console.log("Request Data:", requestData);
+    
+      try {
+        const response = await axios.post(
+          `${process.env.NEXT_PUBLIC_API_URL}orders`,
+          requestData,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              'Content-Type': 'application/json'
+            }
+          }
+        );
+        
+        console.log('Order submitted successfully:', response.data);
+        toggleModal(); // Close the modal on success
+        // Add success notification here
+      } catch (error) {
+        console.error('Error submitting order:', error);
+        // Add error notification here
+        if (axios.isAxiosError(error) && error.response) {
+          console.error('Server error response:', error.response.data);
+        }
+      }
+    };
 
     const toggleModal = () => {
         setIsModalVisible(!isModalVisible);
@@ -141,12 +285,65 @@ const Page: React.FC = () => {
         setCurrentIndex(index); // Set current index based on clicked dot
     };
 
-    const handleIncrease = () => setCount(count + 1); 
-    const handleDecrease = () => setCount(count > 0 ? count - 1 : 0); 
-
     if (loading) return <div>Loading...</div>; // Show loading state
     if (error) return <div>{error}</div>; // Show error if any
 
+    const { cartItems, removeFromCart, updateCartItemCount ,addToCart} = useCart();
+
+    const redirectToLogin = () => {
+      window.location.href = '/login'; // Adjust the path to your login page
+  };
+
+    const handleAddToCart = () => {
+
+      const isLoggedIn = !!localStorage.getItem('token'); // Check if the user is logged in
+
+      if (!isLoggedIn) {
+          redirectToLogin(); // Redirect to login if not logged in
+          return;
+      }
+
+      if (!featured) return; // Ensure featured product is available
+  
+      const cartItem = {
+        id: featured.id,
+        img: featured.thumbnail.formats?.large?.url || featured.thumbnail.url,
+        title: featured.title,
+        des: featured.description,
+        amount: parseFloat(featured.amount), // Assuming amount is a string, convert to number
+        type: featured.sale_rent,
+        count: 1,
+        article_code:featured.article_code, // Start with 1 item added
+      };
+  
+      addToCart(cartItem); // Use the addToCart function from the context
+      enqueueSnackbar(`${featured.title} has been added to your cart!`, { variant: 'success' });
+
+    };
+  
+    const handleIncrease = (id: string) => {
+      const currentItem = cartItems.find(item => item.id === id);
+      if (currentItem) {
+        updateCartItemCount(id, currentItem.count + 1); // Increase count by 1
+      } else {
+        // If the item is not in the cart, add it
+        handleAddToCart();
+      }
+    };
+  
+    const handleDecrease = (id: string) => {
+      const currentItem = cartItems.find(item => item.id === id);
+      if (currentItem) {
+        const newCount = currentItem.count - 1;
+        if (newCount > 0) {
+          updateCartItemCount(id, newCount); // Decrease count
+        } else {
+          removeFromCart(id); // Remove item if count is 0
+        }
+      }
+    };
+  
+  
     return (  
         <Wrapper>  
             <HeaderOne />  
@@ -194,13 +391,13 @@ const Page: React.FC = () => {
                                             <div className="d-flex">  
                                                 <div className={style["button-section"]}>  
                                                     <div className={style.itemAdjuster}>  
-                                                        <button onClick={handleDecrease}>-</button>  
-                                                        <span className="m-1">{count}</span>  
-                                                        <button onClick={handleIncrease}>+</button>  
+                                                    <button onClick={() => handleDecrease(featured.id)}>-</button>  
+                                                      <span className="m-1">{cartItems.find(item => item.id === featured.id)?.count || 0}</span>  
+                                                    <button onClick={() => handleIncrease(featured.id)}>+</button> 
                                                     </div>  
 
                                                     <div className="d-flex my-md-2">  
-                                                        <button className={`${style.add_to_cart} ms-xl-3 ms-lg-1 ms-md-0 ms-0 me-xxl-1 me-xl-1 me-3 me-md-2 my-2`} > Add to Cart <span> <HiOutlineShoppingBag height={45} width={45} /> </span> </button>  
+                                                        <button className={`${style.add_to_cart} ms-xl-3 ms-lg-1 ms-md-0 ms-0 me-xxl-1 me-xl-1 me-3 me-md-2 my-2`} onClick={handleAddToCart} > Add to Cart <span> <HiOutlineShoppingBag height={45} width={45} /> </span> </button>  
                                                         <button className={`${style.quick_enquiry} fs-5 bg-black border-0 my-md-3`} onClick={toggleModal}> Quick Enquiry </button>  
                                                     </div>  
                                                 </div>  
@@ -233,8 +430,7 @@ const Page: React.FC = () => {
                         <div className='col-md-8 col-12'>
                             {spec.specification_title_desc.map((desc, descIndex) => (
                                 <div key={descIndex}>
-                                    <h6 className='fw-bold'>{desc.title}</h6>
-                                    <p>{desc.description}</p>
+                                    <p className='fw-bold'>{desc.title}<br/> <span className='fw-thin'>{desc.description}</span></p>                                 
                                 </div>
                             ))}
                         </div>
@@ -245,7 +441,7 @@ const Page: React.FC = () => {
     </>
 )}
                 
-                </div> 
+</div> 
 )}   
 
 {isModalVisible && (
@@ -267,6 +463,8 @@ const Page: React.FC = () => {
                     name="name"
                     className={`form-control ${style.inputField}`}
                     placeholder="Name"
+                    value={formData.name}
+                    onChange={handleInputChange}
                   />
                 </div>
                 <div className="col-md-6 mb-3">
@@ -275,6 +473,8 @@ const Page: React.FC = () => {
                     name="email"
                     className={`form-control ${style.inputField}`}
                     placeholder="Email"
+                    value={formData.email}
+                    onChange={handleInputChange}
                   />
                 </div>
               </div>
@@ -286,15 +486,74 @@ const Page: React.FC = () => {
                     name="phone"
                     className={`form-control ${style.inputField}`}
                     placeholder="Phone"
+                    value={formData.phone}
+                    onChange={handleInputChange}
                   />
                 </div>
 
                 <div className="col-md-6 mb-3">
                   <input
-                    type="address/city"
-                    name="address/city"
+                    type="house_no"
+                    name="house_no"
                     className={`form-control ${style.inputField}`}
-                    placeholder="Address & City"
+                    placeholder="House No."
+                    value={formData.house_no}
+                    onChange={handleInputChange}
+                  />
+                </div>
+
+                <div className="col-md-6 mb-3">
+                  <input
+                    type="street"
+                    name="street"
+                    className={`form-control ${style.inputField}`}
+                    placeholder="Street"
+                    value={formData.street}
+                    onChange={handleInputChange}
+                  />
+                </div>
+
+                <div className="col-md-6 mb-3">
+                  <input
+                    type="city"
+                    name="city"
+                    className={`form-control ${style.inputField}`}
+                    placeholder="City"
+                    value={formData.city}
+                    onChange={handleInputChange}
+                  />
+                </div>
+
+                <div className="col-md-6 mb-3">
+                  <input
+                    type="state"
+                    name="state"
+                    className={`form-control ${style.inputField}`}
+                    placeholder="State"
+                    value={formData.state}
+                    onChange={handleInputChange}
+                  />
+                </div>
+
+                <div className="col-md-6 mb-3">
+                  <input
+                    type="country"
+                    name="country"
+                    className={`form-control ${style.inputField}`}
+                    placeholder="Country"
+                    value={formData.country}
+                    onChange={handleInputChange}
+                  />
+                </div>
+
+                <div className="col-md-6 mb-3">
+                  <input
+                    type="postalCode"
+                    name="postalCode"
+                    className={`form-control ${style.inputField}`}
+                    placeholder="Postal Code"
+                    value={formData.postalCode}
+                    onChange={handleInputChange}
                   />
                 </div>
               </div>
@@ -302,16 +561,18 @@ const Page: React.FC = () => {
               <div className="row">
                 <div className="col-md-12 mb-3">
                   <textarea
-                    name="message"
-                    className={`form-control ${style.inputField}`}
-                    placeholder="Message"
+                    name="message" 
+                    className={`form-control ${style.inputField}`} 
+                    placeholder="Message" 
+                    value={formData.message} 
+                    onChange={handleInputChange}
                   />
                 </div>
               </div>
 
               <div className="row">
                 <div className="col-md-12 mb-3">
-                  <button type="submit" className={style.talk_btn}>
+                  <button  onClick={handleSubmit} type="submit" className={style.talk_btn}>
                     Submit
                   </button>
                   <button
@@ -358,7 +619,8 @@ const Page: React.FC = () => {
                 title: product.title,
                 des: product.amount,
                 slug: product.slug, 
-                sale_rent:product.sale_rent // Correctly pass the slug
+                sale_rent:product.sale_rent ,
+                article_code:product.article_code,// Correctly pass the slug
             }}
             linkEnabled={false} // Link is enabled, will navigate to product page
 
@@ -380,4 +642,4 @@ const Page: React.FC = () => {
   );
 }
 
-export default Page;
+export default ProductSlug;
