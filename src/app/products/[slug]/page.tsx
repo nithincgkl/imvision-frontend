@@ -42,17 +42,31 @@ interface SpecificationDetail {
 }
 
 
-interface Thumbnail {
-    formats?: {
-        large?: {
-            url: string;
-        };
-    };
-    url: string;
-}
 
 interface ProductCategory {
     category_name: string;
+}
+
+  // Update the Thumbnail interface to include all format sizes
+interface Thumbnail {
+  formats?: {
+      large?: { url: string };
+      thumbnail?: { url: string };
+      small?: { url: string };
+      medium?: { url: string };
+  };
+  url: string;
+}
+
+// Update the OrderDetails interface
+interface OrderDetails {
+  product_name: string;
+  qty: number;
+  amount: number;
+  product_id: string;
+  sale_rent: string;
+  article_code: string;
+  product_images?: any;
 }
 
 
@@ -70,7 +84,12 @@ const Page: React.FC = () => {
       name: '',
       email: '',
       phone: '',
-      address: '',
+      house_no: '',
+      street:'',
+      city:'',
+      state:'',
+      country:'',
+      postalCode:'',
       message: '', // Added message to state
     });
 
@@ -83,66 +102,80 @@ const Page: React.FC = () => {
       });
     };
   
+
     const handleSubmit = async (e: React.FormEvent) => {
       e.preventDefault();
-  
+    
       const token = localStorage.getItem('token');
       const storedUser = localStorage.getItem('user');
-      
+    
       if (!storedUser) {
         console.error('No user data found in localStorage.');
         return;
       }
-      
+    
       const user = JSON.parse(storedUser);
       const userId = user.documentId;
-  
-      if (!token) {
-        console.error('No token found. User may not be logged in.');
+    
+      if (!token || !featured) {
+        console.error('Missing token or featured product data');
         return;
       }
-  
+    
+      // Create order details
+      const orderDetails = [{
+        product_name: featured.title,
+        qty: 1,
+        amount: parseFloat(featured.amount),
+        product_id: featured.id.toString(),
+        sale_rent: featured.sale_rent,
+        article_code: featured.article_code,
+        product_images: featured.thumbnail?.url
+      }];
+    
+      // Prepare request data with the correct structure
       const requestData = {
-        userId: userId,  // Fill in user ID
-        order_details: [],  // Placeholder for now
-        total_amount: 0,  // Placeholder for now
-        BillingAddress: {
-          FirstName: formData.name || '-',
-          LastName: '-', // Placeholder
-          Email: formData.email || '-',
-          Phone: formData.phone || '-',
-          Street: '-',
-          HouseNo: '-',
-          City: '-',
-          PostalCode: '-',
-          State: '-',
-          Country: '-',
-          CompanyName: '-',
-          Reference: '-', // Placeholder
-        },
-        ShippingAddress: {
-          FirstName: '-',  // Placeholder
-          LastName: '-',  // Placeholder
-          Email: '-',  // Placeholder
-          Phone: '-',  // Placeholder
-          Street: '-',  // Placeholder
-          HouseNo: '-',  // Placeholder
-          City: '-',  // Placeholder
-          PostalCode: '-',  // Placeholder
-          State: '-',  // Placeholder
-          Country: '-',  // Placeholder
-          CompanyName: '-',  // Placeholder
-          Reference: '-',  // Placeholder
-        },
-        DeliveryStatus: [
-          {
-            delivery_status: '-',
-            status_updated_at: new Date().toISOString(),
+        data: {
+          userId,
+          order_details: orderDetails,
+          total_amount: featured.amount,
+          order_note: formData.message || null,
+          BillingAddress: {
+            FirstName: formData.name,
+            LastName: "-", // Added default last name as it's required
+            Email: formData.email,
+            Phone: formData.phone,
+            Street: formData.street,
+            HouseNo: formData.house_no,
+            City: formData.city,
+            PostalCode: formData.postalCode,
+            State: formData.state,
+            Country: formData.country,
+            CompanyName: "-",
+            Reference: `-`
           },
-        ],
-        message: formData.message || '-',  // Add message field
+          ShippingAddress: {
+            FirstName: formData.name,
+            LastName: "-", // Added default last name as it's required
+            Email: formData.email,
+            Phone: formData.phone,
+            Street: formData.street,
+            HouseNo: formData.house_no,
+            City: formData.city,
+            PostalCode: formData.postalCode,
+            State: formData.state,
+            Country: formData.country,
+            CompanyName: "-",
+            Reference: `-`
+          },
+          DeliveryStatus: [{
+            delivery_status: "PENDING",
+            status_updated_at: new Date().toISOString()
+          }]
+        }
       };
-  
+      console.log("Request Data:", requestData);
+    
       try {
         const response = await axios.post(
           `${process.env.NEXT_PUBLIC_API_URL}orders`,
@@ -150,14 +183,20 @@ const Page: React.FC = () => {
           {
             headers: {
               Authorization: `Bearer ${token}`,
-              'Content-Type': 'application/json',
-            },
+              'Content-Type': 'application/json'
+            }
           }
         );
-        console.log('Order submitted:', response.data);
-        toggleModal();  // Close the modal after submission
+        
+        console.log('Order submitted successfully:', response.data);
+        toggleModal(); // Close the modal on success
+        // Add success notification here
       } catch (error) {
         console.error('Error submitting order:', error);
+        // Add error notification here
+        if (axios.isAxiosError(error) && error.response) {
+          console.error('Server error response:', error.response.data);
+        }
       }
     };
 
@@ -389,11 +428,66 @@ const Page: React.FC = () => {
 
                 <div className="col-md-6 mb-3">
                   <input
-                    type="address/city"
-                    name="address/city"
+                    type="house_no"
+                    name="house_no"
                     className={`form-control ${style.inputField}`}
-                    placeholder="Address & City"
-                    value={formData.address}
+                    placeholder="House No."
+                    value={formData.house_no}
+                    onChange={handleInputChange}
+                  />
+                </div>
+
+                <div className="col-md-6 mb-3">
+                  <input
+                    type="street"
+                    name="street"
+                    className={`form-control ${style.inputField}`}
+                    placeholder="Street"
+                    value={formData.street}
+                    onChange={handleInputChange}
+                  />
+                </div>
+
+                <div className="col-md-6 mb-3">
+                  <input
+                    type="city"
+                    name="city"
+                    className={`form-control ${style.inputField}`}
+                    placeholder="City"
+                    value={formData.city}
+                    onChange={handleInputChange}
+                  />
+                </div>
+
+                <div className="col-md-6 mb-3">
+                  <input
+                    type="state"
+                    name="state"
+                    className={`form-control ${style.inputField}`}
+                    placeholder="State"
+                    value={formData.state}
+                    onChange={handleInputChange}
+                  />
+                </div>
+
+                <div className="col-md-6 mb-3">
+                  <input
+                    type="country"
+                    name="country"
+                    className={`form-control ${style.inputField}`}
+                    placeholder="Country"
+                    value={formData.country}
+                    onChange={handleInputChange}
+                  />
+                </div>
+
+                <div className="col-md-6 mb-3">
+                  <input
+                    type="postalCode"
+                    name="postalCode"
+                    className={`form-control ${style.inputField}`}
+                    placeholder="Postal Code"
+                    value={formData.postalCode}
                     onChange={handleInputChange}
                   />
                 </div>
@@ -402,9 +496,11 @@ const Page: React.FC = () => {
               <div className="row">
                 <div className="col-md-12 mb-3">
                   <textarea
-                    name="message"
-                    className={`form-control ${style.inputField}`}
-                    placeholder="Message"
+                    name="message" 
+                    className={`form-control ${style.inputField}`} 
+                    placeholder="Message" 
+                    value={formData.message} 
+                    onChange={handleInputChange}
                   />
                 </div>
               </div>
