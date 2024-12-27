@@ -513,13 +513,13 @@ const Page: React.FC = () => {
                   <div className="d-flex flex-column gap-md-4 gap-2">
                     {order.order_details.map((detail: OrderDetail) => (
                       <div key={detail.id} className="d-flex flex-md-row flex-column">
-                        {Array.isArray(detail.product_images) && detail.product_images.length > 0 && (
+                      
                           <img
-                            src={detail.product_images[0]?.url}
+                            src={detail.product_images}
                             alt={detail.product_name}
                             className={style.productImage}
                           />
-                        )}
+                      
                         <div className="d-flex flex-column ">
                           <p className={`${style.model}`}>{detail.product_name}:</p>
                           <p className={`${style.SEK}`}>SEK {detail.amount} NOK</p>

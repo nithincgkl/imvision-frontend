@@ -1,20 +1,21 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 
 interface CartItem {
-  id: number;
+  id: string;
   img: string;
   title: string;
   des: string;
   amount: number;
   type: string;
   count: number;
+  article_code:string
 }
 
 interface CartContextType {
   cartItems: CartItem[];
   addToCart: (item: CartItem) => void;
-  removeFromCart: (id: number) => void;
-  updateCartItemCount: (id: number, count: number) => void;
+  removeFromCart: (id: string) => void;
+  updateCartItemCount: (id: string, count: number) => void;
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -44,11 +45,11 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
     });
   };
 
-  const removeFromCart = (id: number) => {
+  const removeFromCart = (id: string) => {
     setCartItems(prevItems => prevItems.filter(item => item.id !== id));
   };
 
-  const updateCartItemCount = (id: number, count: number) => {
+  const updateCartItemCount = (id: string, count: number) => {
     setCartItems(prevItems => {
       return prevItems.map(item => item.id === id ? { ...item, count } : item).filter(item => item.count > 0);
     });

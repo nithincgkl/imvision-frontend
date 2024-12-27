@@ -7,12 +7,13 @@ import { useCart } from '@/context/cart-context'; // Import the useCart hook
 
 interface ProductItemProps {
   item: {
-    id: number; // Use number for IDs
+    id: string; // Use number for IDs
     img: string; // Use string for dynamic URLs
     title: string;
     des: string; // Assuming this is the price
     slug: string;
     sale_rent: string;
+    article_code:string
   };
   linkEnabled?: boolean; // Add optional boolean prop to control the link
 }
@@ -30,8 +31,8 @@ const ProductItem: React.FC<ProductItemProps> = ({ item, linkEnabled = true }) =
       amount: parseFloat(item.des), // Assuming 'des' holds the amount; convert to number
       type: item.sale_rent,
       count: 1, // Start with 1 item added
+      article_code:item.article_code
     };
-
     // Retrieve existing cart items from local storage
     const existingCart = JSON.parse(localStorage.getItem('cartItems') || '[]');
 

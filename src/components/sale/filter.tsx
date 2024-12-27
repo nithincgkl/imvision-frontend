@@ -28,12 +28,14 @@ interface Filter {
 }
 
 interface Product {
-  id: number;
+  id: string;
   img: string;
   title: string;
   des: string;
   sale_rent: string;
-  slug:string
+  slug:string;
+  article_code: string;
+
 }
 
 // Define props for the Filter component

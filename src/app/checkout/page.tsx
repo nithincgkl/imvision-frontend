@@ -19,8 +19,6 @@ const Checkout: React.FC = () => {
   );
 };
 
-
-
 // Main RentalConditions Component
 const RentalConditions = () => {
   const [formData, setFormData] = useState({
@@ -28,11 +26,11 @@ const RentalConditions = () => {
     serviceAgreement: '',
     Country: '',
     FirstName: '',
-    Surname: '',
+    LastName: '',
     Email: '',
     Phone: '',
     Street: '',
-    HouseNumber: '',
+    HouseNo: '',
     City: '',
     PostalCode: '',
     State: '',
@@ -40,11 +38,11 @@ const RentalConditions = () => {
     Reference: '',
     Notes: '',
     shippingFirstName: '',
-    shippingSurname: '',
+    shippingLastName: '',
     shippingEmail: '',
     shippingPhone: '',
     shippingStreet: '',
-    shippingHouseNumber: '',
+    shippingHouseNo: '',
     shippingCity: '',
     shippingPostalCode: '',
     shippingState: '',
@@ -52,9 +50,7 @@ const RentalConditions = () => {
     shippingReference: '',
     shippingCountry: '',
   });
-
-
-
+  
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value, type } = e.target;
 
@@ -69,11 +65,11 @@ const RentalConditions = () => {
             ...prevData,
             [name]: checkedValue,
             shippingFirstName: prevData.FirstName,
-            shippingSurname: prevData.Surname,
+            shippingLastName: prevData.LastName,
             shippingEmail: prevData.Email,
             shippingPhone: prevData.Phone,
             shippingStreet: prevData.Street,
-            shippingHouseNumber: prevData.HouseNumber,
+            shippingHouseNo: prevData.HouseNo,
             shippingCity: prevData.City,
             shippingPostalCode: prevData.PostalCode,
             shippingState: prevData.State,
@@ -87,11 +83,11 @@ const RentalConditions = () => {
             ...prevData,
             [name]: checkedValue,
             shippingFirstName: '',
-            shippingSurname: '',
+            shippingLastName: '',
             shippingEmail: '',
             shippingPhone: '',
             shippingStreet: '',
-            shippingHouseNumber: '',
+            shippingHouseNo: '',
             shippingCity: '',
             shippingPostalCode: '',
             shippingState: '',
@@ -143,45 +139,36 @@ const RentalConditions = () => {
     product_name: item.title, // Assuming 'title' is the product name
     qty: item.count,          // Quantity is the 'count'
     amount: item.amount,      // Amount for each item
-    product_id: item.id,      // Assuming 'id' is the product ID
+    product_id: item.id.toString(),   
+    product_images:item.img ,
+    sale_rent:item.type,
+    article_code:item.article_code          // Assuming 'id' is the product ID
   }));
 
- 
-  const totalAmount = calculateSubtotal();
-  const [storedUser , setStoredUser ] = useState<any | null>(null); // Use 'any' or define a proper type for user
-
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const user = localStorage.getItem('user');
-      if (user) {
-        setStoredUser (JSON.parse(user)); // Parse the user string into an object
+  const totalAmount = parseFloat(calculateSubtotal());
+  const storedUser = localStorage.getItem('user');
+    
+      if (!storedUser) {
+        console.error('No user data found in localStorage.');
+        return;
       }
-    }
-  }, []);
-
-  useEffect(() => {
-    if (!storedUser ) {
-      console.error('No user data found in localStorage.');
-      // Handle the case where there is no user data
-    }
-  }, [storedUser ]);
-
-  // Ensure storedUser  is defined before accessing its properties
-  const userId = storedUser  ? storedUser .documentId : null;
-
+    
+      const user = JSON.parse(storedUser);
+      const userId = user.documentId;
 
   const handlePlaceOrder = async () => {
     const orderData = {
       userId: userId, // Replace with actual user ID if available
       order_details: orderDetails,
+      order_note:formData.Notes,
       total_amount: totalAmount, 
        BillingAddress: {
         FirstName: formData.FirstName,
-        LastName: formData.Surname,
+        LastName: formData.LastName,
         Email: formData.Email,
         Phone: formData.Phone,
         Street: formData.Street,
-        HouseNo: formData.HouseNumber,
+        HouseNo: formData.HouseNo,
         City: formData.City,
         PostalCode: formData.PostalCode,
         State: formData.State,
@@ -191,11 +178,11 @@ const RentalConditions = () => {
       },
       ShippingAddress: {
         FirstName: formData.shippingFirstName,
-        LastName: formData.shippingSurname,
+        LastName: formData.shippingLastName,
         Email: formData.shippingEmail,
         Phone: formData.shippingPhone,
         Street: formData.shippingStreet,
-        HouseNo: formData.shippingHouseNumber,
+        HouseNo: formData.shippingHouseNo,
         City: formData.shippingCity,
         PostalCode: formData.shippingPostalCode,
         State: formData.shippingState,
@@ -225,15 +212,17 @@ const RentalConditions = () => {
           },
         }
       );
-
-      if (response.status === 200) {
+      if (response.status === 201) {
         window.location.href = '/order-successful';  // Triggers a full-page redirect
       }
     }
     catch (error) {
-      console.log("error")
-
-    }
+      if (axios.isAxiosError(error)) {
+        console.error("Error response:", error.response?.data);
+        console.error("Error status:", error.response?.status);
+    } else {
+        console.error("Unexpected error:", error);
+    }    }
   };
 
   return (
@@ -281,11 +270,11 @@ const RentalConditions = () => {
                                 <div className={style.formControl}>
                                   <input
                                     type="text"
-                                    id="Surname"
-                                    name="Surname"
+                                    id="LastName"
+                                    name="LastName"
                                     className={`form-control ${style.inputField}`}
                                     placeholder="Surname*"
-                                    value={formData.Surname}
+                                    value={formData.LastName}
                                     onChange={handleChange}
                                   />
                                 </div>
@@ -339,11 +328,11 @@ const RentalConditions = () => {
                                 <div className={style.formControl}>
                                   <input
                                     type="text"
-                                    id="HouseNumber"
-                                    name="HouseNumber"
+                                    id="HouseNo"
+                                    name="HouseNo"
                                     className={`form-control ${style.inputField}`}
                                     placeholder="House Number*"
-                                    value={formData.HouseNumber}
+                                    value={formData.HouseNo}
                                     onChange={handleChange}
                                   />
                                 </div>
@@ -566,11 +555,11 @@ const RentalConditions = () => {
                                 <div className={style.formControl}>
                                   <input
                                     type="text"
-                                    id="Surname"
-                                    name="shippingSurname"
+                                    id="LastName"
+                                    name="shippingLastName"
                                     className={`form-control ${style.inputField}`}
-                                    placeholder="Surname*"
-                                    value={formData.shippingSurname}
+                                    placeholder="LastName*"
+                                    value={formData.shippingLastName}
                                     onChange={handleChange}
                                   />
                                 </div>
@@ -624,11 +613,11 @@ const RentalConditions = () => {
                                 <div className={style.formControl}>
                                   <input
                                     type="text"
-                                    id="HouseNumber"
-                                    name="shippingHouseNumber"
+                                    id="HouseNo"
+                                    name="shippingHouseNo"
                                     className={`form-control ${style.inputField}`}
                                     placeholder="House Number*"
-                                    value={formData.shippingHouseNumber}
+                                    value={formData.shippingHouseNo}
                                     onChange={handleChange}
                                   />
                                 </div>

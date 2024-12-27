@@ -21,7 +21,6 @@ const WorkWithUs: React.FC = () => {
   );
 };
 
-
     interface Thumbnail {
       url: string;
       formats: {

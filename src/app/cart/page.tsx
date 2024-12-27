@@ -24,14 +24,14 @@ const CartContent: React.FC = () => {
   const [startDate, setStartDate] = useState<Date>(new Date());
   const [endDate, setEndDate] = useState<Date>(new Date(Date.now() + 24 * 60 * 60 * 1000)); 
 
-  const handleIncrease = (id: number) => {
+  const handleIncrease = (id: string) => {
     const currentItem = cartItems.find(item => item.id === id);
     if (currentItem) {
       updateCartItemCount(id, currentItem.count + 1);
     }
   };
 
-  const handleDecrease = (id: number) => {
+  const handleDecrease = (id: string) => {
     const currentItem = cartItems.find(item => item.id === id);
     if (currentItem) {
       const newCount = currentItem.count - 1;
@@ -43,7 +43,7 @@ const CartContent: React.FC = () => {
     }
   };
 
-  const handleRemoveItem = (id: number) => {
+  const handleRemoveItem = (id: string) => {
     removeFromCart(id);
   };
 
@@ -74,7 +74,6 @@ const CartContent: React.FC = () => {
       cartItems,
       totalAmount
     };
-    console.log('Checkout Data:', checkoutData);
     localStorage.setItem('total', JSON.stringify(checkoutData));
   };
 
@@ -140,7 +139,7 @@ const CartContent: React.FC = () => {
 
                                 <div className={style['cart_box_right']}>
                                   <div>
-                                    <p>{item.title}</p>
+                                    <p>{item.title} {item.article_code}</p>
                                     <br />
 
                                     <div className={style['cart_box_add_btn']}>

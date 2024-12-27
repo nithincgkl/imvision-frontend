@@ -20,12 +20,13 @@ const Sale: React.FC = () => {
 
 // Define types for products
 interface Product {
-  id: number;
+  id: string;
   img: string;
   title: string;
   des: string;
   sale_rent: string;
   slug:string;
+  article_code: string;
 }
 
 // Page.tsx

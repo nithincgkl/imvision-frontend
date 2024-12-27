@@ -27,7 +27,7 @@ const ProductSlug: React.FC = () => {
 
 
 interface Product {
-    id: number;
+    id: string;
     title: string;
     amount: string;
     slug: string;
@@ -290,7 +290,19 @@ const Page: React.FC = () => {
 
     const { cartItems, removeFromCart, updateCartItemCount ,addToCart} = useCart();
 
+    const redirectToLogin = () => {
+      window.location.href = '/login'; // Adjust the path to your login page
+  };
+
     const handleAddToCart = () => {
+
+      const isLoggedIn = !!localStorage.getItem('token'); // Check if the user is logged in
+
+      if (!isLoggedIn) {
+          redirectToLogin(); // Redirect to login if not logged in
+          return;
+      }
+
       if (!featured) return; // Ensure featured product is available
   
       const cartItem = {
@@ -300,7 +312,8 @@ const Page: React.FC = () => {
         des: featured.description,
         amount: parseFloat(featured.amount), // Assuming amount is a string, convert to number
         type: featured.sale_rent,
-        count: 1, // Start with 1 item added
+        count: 1,
+        article_code:featured.article_code, // Start with 1 item added
       };
   
       addToCart(cartItem); // Use the addToCart function from the context
@@ -308,7 +321,7 @@ const Page: React.FC = () => {
 
     };
   
-    const handleIncrease = (id: number) => {
+    const handleIncrease = (id: string) => {
       const currentItem = cartItems.find(item => item.id === id);
       if (currentItem) {
         updateCartItemCount(id, currentItem.count + 1); // Increase count by 1
@@ -318,7 +331,7 @@ const Page: React.FC = () => {
       }
     };
   
-    const handleDecrease = (id: number) => {
+    const handleDecrease = (id: string) => {
       const currentItem = cartItems.find(item => item.id === id);
       if (currentItem) {
         const newCount = currentItem.count - 1;
@@ -606,7 +619,8 @@ const Page: React.FC = () => {
                 title: product.title,
                 des: product.amount,
                 slug: product.slug, 
-                sale_rent:product.sale_rent // Correctly pass the slug
+                sale_rent:product.sale_rent ,
+                article_code:product.article_code,// Correctly pass the slug
             }}
             linkEnabled={false} // Link is enabled, will navigate to product page
 

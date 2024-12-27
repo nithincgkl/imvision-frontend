@@ -196,9 +196,7 @@ const ErrorReportings: React.FC = () => {
           document: documentId
         }
       };
-  
-      console.log('Ticket Data:', ticketData); // Log the ticket data
-  
+    
       const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}tickets`, ticketData, {
         headers: {
           'Authorization': `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
@@ -222,7 +220,6 @@ const ErrorReportings: React.FC = () => {
     e.preventDefault();
 
     if (!validateForm()) {
-      console.log('Form has validation errors');
       return;
     }
 

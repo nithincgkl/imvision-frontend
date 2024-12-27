@@ -22,7 +22,7 @@ const Product: React.FC = () => {
 
 
 interface Product {
-  id: number;
+  id: string;
   thumbnail: {
     formats?: {
       large?: { url: string };
@@ -32,7 +32,8 @@ interface Product {
   title: string;
   amount: string;
   slug: string;  // Added slug
-  sale_rent: string
+  sale_rent: string;
+  article_code:string
 }
 
 const Page: React.FC = () => {
@@ -74,7 +75,8 @@ const Page: React.FC = () => {
       des: product.amount,
       amount: parseFloat(product.amount), // Assuming amount is a string, convert to number
       type: product.sale_rent,
-      count: 1, // Start with 1 item added
+      count: 1,
+      article_code:product.article_code, // Start with 1 item added
     };
 
     addToCart(cartItem); // Use the addToCart function from the context
@@ -116,8 +118,8 @@ const Page: React.FC = () => {
                           title: product.title,
                           des: product.amount,
                           slug: product.slug,
-                          sale_rent: product.sale_rent // Correctly pass the slug
-                          // Pass the slug to ProductItem
+                          sale_rent: product.sale_rent,
+                          article_code:product.article_code
                         }} />
                       </div>
                     ))}
