@@ -21,8 +21,18 @@ interface ProductItemProps {
 const ProductItem: React.FC<ProductItemProps> = ({ item, linkEnabled = true }) => {
   const { enqueueSnackbar } = useSnackbar(); // Initialize useSnackbar hook
   const { addToCart } = useCart(); // Use the cart context
+  const redirectToLogin = () => {
+    window.location.href = '/login'; // Adjust the path to your login page
+};
 
+ 
   const handleAddToCart = () => {
+    const isLoggedIn = !!localStorage.getItem('token'); // Check if the user is logged in
+
+    if (!isLoggedIn) {
+        redirectToLogin(); // Redirect to login if not logged in
+        return;
+      }
     const cartItem = {
       id: item.id,
       img: item.img,

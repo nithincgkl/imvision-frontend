@@ -24,6 +24,7 @@ const Home: React.FC = () => {
 
 const Index: React.FC = () => {
 
+
   return (
     <Wrapper> 
       <HeaderOne /> 

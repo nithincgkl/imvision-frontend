@@ -146,15 +146,27 @@ const RentalConditions = () => {
   }));
 
   const totalAmount = parseFloat(calculateSubtotal());
-  const storedUser = localStorage.getItem('user');
-    
-      if (!storedUser) {
-        console.error('No user data found in localStorage.');
-        return;
+  const [storedUser , setStoredUser ] = useState<any | null>(null); // Use 'any' or define a proper type for user
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const user = localStorage.getItem('user');
+      if (user) {
+        setStoredUser(JSON.parse(user));
       }
-    
-      const user = JSON.parse(storedUser);
-      const userId = user.documentId;
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!storedUser ) {
+      console.error('No user data found in localStorage.');
+      // Handle the case where there is no user data
+    }
+  }, [storedUser ]);
+
+  // Ensure storedUser  is defined before accessing its properties
+  const userId = storedUser  ? storedUser .documentId : null;
+
 
   const handlePlaceOrder = async () => {
     const orderData = {
@@ -208,14 +220,12 @@ const RentalConditions = () => {
           headers: {
             "Content-Type": "application/json",
             "Authorization": `Bearer ${token}`,
-
           },
         }
       );
       if (response.status === 201 || response.status === 200) {
-        window.location.href = "/order-successful?id=${response.data.id}"
+window.location.href = `/order-successful?id=${response.data.data.id}`;      }
     }
-  }
     catch (error) {
       if (axios.isAxiosError(error)) {
         console.error("Error response:", error.response?.data);
