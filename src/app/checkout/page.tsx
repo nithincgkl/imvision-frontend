@@ -212,9 +212,8 @@ const RentalConditions = () => {
           },
         }
       );
-      if (response.status === 201) {
-        window.location.href = '/order-successful';  // Triggers a full-page redirect
-      }
+      if (response.status === 201 || response.status === 200) {
+        window.location.href = '/order-successful'; 
     }
     catch (error) {
       if (axios.isAxiosError(error)) {

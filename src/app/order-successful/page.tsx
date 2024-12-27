@@ -27,7 +27,7 @@ const Page = () => {
           <main>
             <section className={style.contact_section}>
               
-
+z
               <div className={style["order_successful"]}>
                 <div className="container-fluid">
                   <div className="row">
@@ -36,7 +36,7 @@ const Page = () => {
                         <div>
                         <img src="/assets/images/check.svg" className="w-100" alt="" />   
                         <h5>Thank You for Shopping with Us!</h5> 
-                        <p>Your order ID is #453232. A detailed report has been sent to your registered email address. If you have any questions, feel free to contact our support team.</p>  
+                        <p>Your order ID is . A detailed report has been sent to your registered email address. If you have any questions, feel free to contact our support team.</p>  
                         <button  className="btn-one">Talk to Expert</button>  
                         </div>              
                       </div>
