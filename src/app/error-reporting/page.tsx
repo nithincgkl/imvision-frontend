@@ -1,6 +1,6 @@
 'use client';
 import React, { useState, ChangeEvent, FormEvent } from 'react';
-import Link from 'next/link';
+import Image from 'next/image';
 import Wrapper from '@/layouts/wrapper';
 import FooterOne from '@/layouts/footers/FooterOne';
 import HeaderOne from '@/layouts/headers/HeaderOne';
@@ -60,6 +60,7 @@ const ErrorReportings: React.FC = () => {
   const [errors, setErrors] = useState<FormErrors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
+  const [isSuccess, setIsSuccess] = useState(false);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value, type } = e.target;
@@ -132,7 +133,7 @@ const ErrorReportings: React.FC = () => {
     if (!formData.company.trim()) {
       newErrors.company = 'Company / Business Name is required';
     }
-    
+
     if (!formData.message.trim()) {
       newErrors.message = 'Describe your matter as carefully as possible is required';
     }
@@ -143,7 +144,7 @@ const ErrorReportings: React.FC = () => {
 
     if (!formData.serviceAgreement) {
       newErrors.serviceAgreement = 'Please select an option';
-    } else if (!['Yes', 'No',"Don't know"].includes(formData.serviceAgreement)) {
+    } else if (!['Yes', 'No', "Don't know"].includes(formData.serviceAgreement)) {
       newErrors.serviceAgreement = 'Invalid selection for service agreement';
     }
 
@@ -175,15 +176,15 @@ const ErrorReportings: React.FC = () => {
 
   const createTicket = async (documentId: string) => {
     try {
-       // Transform the service agreement value to match API expectations
-    const transformServiceAgreement = (value: string): string => {
-      switch (value) {
-        case "Don't know":
-          return "Don't Know";  // Transform to match API expectation
-        default:
-          return value;  // Keep Yes and No as is
-      }
-    };
+      // Transform the service agreement value to match API expectations
+      const transformServiceAgreement = (value: string): string => {
+        switch (value) {
+          case "Don't know":
+            return "Don't Know";  // Transform to match API expectation
+          default:
+            return value;  // Keep Yes and No as is
+        }
+      };
       const ticketData = {
         data: {
           name: formData.name,
@@ -196,14 +197,14 @@ const ErrorReportings: React.FC = () => {
           document: documentId
         }
       };
-    
+
       const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}tickets`, ticketData, {
         headers: {
           'Authorization': `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
           'Content-Type': 'application/json'
         },
       });
-  
+
       return response.data; // Assuming the API returns the created ticket data
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
@@ -218,7 +219,6 @@ const ErrorReportings: React.FC = () => {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     if (!validateForm()) {
       return;
     }
@@ -249,8 +249,7 @@ const ErrorReportings: React.FC = () => {
         serviceAgreement: '',
         gdprConsent: false // Reset to boolean
       });
-
-      alert('Error report submitted successfully!');
+      setIsSuccess(true);
     } catch (error) {
       console.error('Submission error:', error);
       setSubmitError('Failed to submit error report. Please try again.');
@@ -258,7 +257,6 @@ const ErrorReportings: React.FC = () => {
       setIsSubmitting(false);
     }
   };
-
   return (
     <Wrapper>
       <HeaderOne />
@@ -287,24 +285,24 @@ const ErrorReportings: React.FC = () => {
                         <form onSubmit={handleSubmit} noValidate>
                           <div className="row">
                             <div className="col-md-5">
-                              <input 
+                              <input
                                 type="text"
                                 name="name"
                                 value={formData.name}
                                 onChange={handleChange}
                                 className={`form-control ${style.inputField} ${errors.name ? 'is-invalid' : ''}`}
-                                placeholder="Your Name*" 
+                                placeholder="Your Name*"
                               />
                               {errors.name && <div className={`text-danger ${style.input_error}`}>{errors.name}</div>}
                             </div>
                             <div className="col -md-7">
-                              <input 
+                              <input
                                 type="text"
                                 name="address"
                                 value={formData.address}
                                 onChange={handleChange}
                                 className={`form-control ${style.inputField} ${errors.address ? 'is-invalid' : ''}`}
-                                placeholder="Address*" 
+                                placeholder="Address*"
                               />
                               {errors.address && <div className={`text-danger ${style.input_error}`}>{errors.address}</div>}
                             </div>
@@ -312,39 +310,39 @@ const ErrorReportings: React.FC = () => {
 
                           <div className="row">
                             <div className="col-md-5">
-                              <input 
+                              <input
                                 type="email"
                                 name="email"
                                 value={formData.email}
                                 onChange={handleChange}
                                 className={`form-control ${style.inputField} ${errors.email ? 'is-invalid' : ''}`}
-                                placeholder="Email*" 
+                                placeholder="Email*"
                               />
                               {errors.email && <div className={`text-danger ${style.input_error}`}>{errors.email}</div>}
 
-                              <input 
+                              <input
                                 type="text"
                                 name="phone"
                                 value={formData.phone}
                                 onChange={handleChange}
                                 className={`form-control ${style.inputField} ${errors.phone ? 'is-invalid' : ''}`}
-                                placeholder="Phone*" 
+                                placeholder="Phone*"
                                 pattern="\d*"
                               />
                               {errors.phone && <div className={`text-danger ${style.input_error}`}>{errors.phone}</div>}
 
-                              <input 
+                              <input
                                 type="text"
                                 name="company"
                                 value={formData.company}
                                 onChange={handleChange}
                                 className={`form-control ${style.inputField} ${errors.company ? 'is-invalid' : ''}`}
-                                placeholder="Company / Business Name*" 
+                                placeholder="Company / Business Name*"
                               />
                               {errors.company && <div className={`text-danger ${style.input_error}`}>{errors.company}</div>}
                             </div>
                             <div className="col-md-7">
-                              <textarea 
+                              <textarea
                                 name="message"
                                 value={formData.message}
                                 onChange={handleChange}
@@ -377,33 +375,33 @@ const ErrorReportings: React.FC = () => {
 
                                 <fieldset>
                                   <div className={style.fieldset_radio}>
-                                    <input 
-                                      type="radio" 
-                                      className="radio" 
-                                      name="serviceAgreement" 
-                                      value="Yes" 
+                                    <input
+                                      type="radio"
+                                      className="radio"
+                                      name="serviceAgreement"
+                                      value="Yes"
                                       id="Yes"
                                       onChange={handleRadioChange}
                                       checked={formData.serviceAgreement === 'Yes'}
                                     />
                                     <label htmlFor="Yes">Yes</label>
 
-                                    <input 
-                                      type="radio" 
-                                      className={`radio ${style.radio_input}`} 
-                                      name="serviceAgreement" 
-                                      value="No" 
+                                    <input
+                                      type="radio"
+                                      className={`radio ${style.radio_input}`}
+                                      name="serviceAgreement"
+                                      value="No"
                                       id="No"
                                       onChange={handleRadioChange}
                                       checked={formData.serviceAgreement === 'No'}
                                     />
                                     <label htmlFor="No">No</label>
 
-                                    <input 
-                                      type="radio" 
-                                      className={`radio ${style.radio_input_two}`}  
-                                      name="serviceAgreement" 
-                                      value="Don't know" 
+                                    <input
+                                      type="radio"
+                                      className={`radio ${style.radio_input_two}`}
+                                      name="serviceAgreement"
+                                      value="Don't know"
                                       id="Don't know"
                                       onChange={handleRadioChange}
                                       checked={formData.serviceAgreement === "Don't know"}
@@ -420,13 +418,13 @@ const ErrorReportings: React.FC = () => {
 
                           < div className={style["error_form_footer"]}>
                             <div className={style["error_form_footer_inner"]}>
-                              <input 
-                                type="checkbox" 
-                                id="GDPR" 
-                                name="gdprConsent" 
+                              <input
+                                type="checkbox"
+                                id="GDPR"
+                                name="gdprConsent"
                                 checked={formData.gdprConsent}
                                 onChange={handleChange}
-                                className={style["custom_checkbox"]} 
+                                className={style["custom_checkbox"]}
                               />
                               <label htmlFor="GDPR">Consent according to GDPR</label>
                               <p>
@@ -455,6 +453,36 @@ const ErrorReportings: React.FC = () => {
           <FooterOne />
         </div>
       </div>
+      {isSuccess && (
+        <div className={style.modal}>
+          <div className={style.modal_content}>
+            <button
+              type="button"
+              className={style.close_btn}
+              onClick={() => setIsSuccess(false)}
+            >
+              <Image
+                src="/assets/images/close.svg"
+                alt="close"
+                width={17}
+                height={17}
+                priority
+              />
+            </button>
+            <div className="thanks-icon">
+              <Image
+                src="/assets/images/thanks.png"
+                alt="Displays"
+                width={120}
+                height={120}
+                priority
+              />
+            </div>
+            <h1 className={style["header-text"]}>Thanks!</h1>
+            <p className={style["sub-text"]}>We have received your error report, and we will get back to you shortly to resolve the issue.</p>
+          </div>
+        </div>
+      )}
     </Wrapper>
   );
 };
