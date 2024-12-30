@@ -31,20 +31,20 @@ const Page: React.FC = () => {
     e.preventDefault();
     setErrorMessage('');
     setSuccessMessage('');
-  
+
     console.log("1. Starting form submission");  // Debug point 1
     console.log("API URL:", `${process.env.NEXT_PUBLIC_API_URL}auth/forgot-password`); // Check API URL
-  
+
     try {
       console.log("2. Making axios request with email:", email);  // Debug point 2
-      
+
       const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}auth/forgot-password`, {
         email: email
       });
-      
+
       console.log("3. Response received:", response); // Debug point 3
       console.log("4. Response data:", response.data); // Original log
-  
+
       if (response.status === 200) {
         setSuccessMessage('Password reset link has been sent to your email.');
       }
@@ -54,6 +54,9 @@ const Page: React.FC = () => {
       setErrorMessage(error.response?.data?.message || 'An error occurred. Please try again.');
     }
   };
+  const handleBack = () => {
+    window.location.href = `/login`;
+  }
 
   return (
     <Wrapper>
@@ -77,7 +80,7 @@ const Page: React.FC = () => {
                   </div>
                   <div className={`col-md-6 ${style.form_container_half}`}>
                     <form className="w-full max-w-md space-y-6 px-8" onSubmit={handleSubmit}>
-                      <div className="col-md-12 mb-3">
+                      <div className="col-md-12 mb-3" onClick={handleBack}>
                         <IoIosArrowRoundBack className={style['form_back_icon']} />
                       </div>
                       <div className="col-md-12 mb-3">
@@ -105,13 +108,13 @@ const Page: React.FC = () => {
                       {errorMessage && <div className="col-md-12 text-danger mb-3">{errorMessage}</div>}
                       {successMessage && <div className="col-md-12 text-success mb-3">{successMessage}</div>}
 
-                      <button 
-                      type="submit" 
-                      className={`mt-2 ${style.form_button}`}
-                      onClick={(e) => console.log("Button clicked")}
-                    >
-                      Submit
-                    </button>
+                      <button
+                        type="submit"
+                        className={`mt-2 ${style.form_button}`}
+                        onClick={(e) => console.log("Button clicked")}
+                      >
+                        Submit
+                      </button>
 
                     </form>
                   </div>
