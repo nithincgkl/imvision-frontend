@@ -58,7 +58,7 @@ const AboutPage = () => {
 
 
             <section className={style.about_section}>
-              
+
               <div className={style["about_banner"]}>
                 <div className="container-fluid my-5" >
                   <div className="row">
@@ -69,8 +69,8 @@ const AboutPage = () => {
                       </h1>
                     </div>
                     <div className="col-md-4">
-                      <p>
-                        IM vision is a professional and reliable partner and we<br className='d-xl-block d-lg-none d-md-none d-none'/>
+                      <p className={style["header-secondary-text"]}>
+                        IM vision is a professional and reliable partner and we<br className='d-xl-block d-lg-none d-md-none d-none' />
                         are with you all the way from order to execution.
                       </p>
                     </div>
@@ -108,11 +108,11 @@ const AboutPage = () => {
                   </div>
                   <div>
                     <h4 className={`${style.about_years_para} my-md-4 my-3 pt-md-3 pt-0`}>
-                      With more than 10 years of 
-                      <br className='d-md-block d-none'/>
-                       experience, we are the market 
-                      <br className='d-md-block d-none'/>
-                       leader in large LED screens.
+                      With more than 10 years of
+                      <br className='d-md-block d-none' />
+                      experience, we are the market
+                      <br className='d-md-block d-none' />
+                      leader in large LED screens.
                     </h4>
                   </div>
                 </div>
@@ -127,9 +127,9 @@ const AboutPage = () => {
                   <h2 className="fw-bold text-black">2400 m²</h2>
                   <p>
                     LED screens in stock for rental, with our flexible
-                    <br className='d-lg-block d-md-none d-none'/>
+                    <br className='d-lg-block d-md-none d-none' />
                     cabinets you can choose the size of your screen
-                    <br className='d-lg-block d-md-none d-none'/>
+                    <br className='d-lg-block d-md-none d-none' />
                     yourself. We deliver according to your wishes.
                   </p>
                 </div>
@@ -138,9 +138,9 @@ const AboutPage = () => {
                   <h2 className="fw-bold">8St</h2>
                   <p>
                     We have mobile screens
-                    <br className='d-lg-block d-md-none d-none'/>
+                    <br className='d-lg-block d-md-none d-none' />
                     in sizes 7-28 sq m for quick
-                    <br className='d-lg-block d-md-none d-none'/>
+                    <br className='d-lg-block d-md-none d-none' />
                     delivery and easy set up.
                   </p>
                 </div>
@@ -149,104 +149,104 @@ const AboutPage = () => {
                   <h2 className="fw-bold">220m²</h2>
                   <p>
                     We always have sales stock
-                    <br className='d-lg-block d-md-none d-none'/>
+                    <br className='d-lg-block d-md-none d-none' />
                     of LEDs for quick installations
                   </p>
                 </div>
               </div>
 
               <div className={`${style.whoVR} container pb-5`}>
-              <div>
-                <h3 className="">Who we are</h3><br />
-                <div className="">
-                  <div className={`line position-relative text-white`}>
-                    <div className={`${style.whoVR_para} pt-3 d-flex flex-row`}>
-                      <div className='d-flex flex-column gap-2'>
-                        <div className={`${style.para_ball}`}></div>
-                        <div className={`${style.para_line}`}></div>
+                <div>
+                  <h3 className="">Who we are</h3><br />
+                  <div className="">
+                    <div className={`line position-relative text-white`}>
+                      <div className={`${style.whoVR_para} pt-3 d-flex flex-row`}>
+                        <div className='d-flex flex-column gap-2'>
+                          <div className={`${style.para_ball}`}></div>
+                          <div className={`${style.para_line}`}></div>
+                        </div>
+                        <p className='pb-3'>
+                          Connection and collaboration without boundaries are essential for progress. At IMvision, we believe that intelligent <br className='d-lg-block d-md-none d-none' />solutions are the
+                          driving force behind both economic and social development.
+                        </p>
                       </div>
-                      <p className='pb-3'>
-                        Connection and collaboration without boundaries are essential for progress. At IMvision, we believe that intelligent <br className='d-lg-block d-md-none d-none'/>solutions are the
-                        driving force behind both economic and social development.
-                      </p>
-                    </div>
 
-                    <div className={`${style.whoVR_para} `}>
-                      <div className='d-flex flex-column gap-2'>
-                        <div className={`${style.para_ball}`} style={{ height: '27px' }}></div>
-                        <div className={`${style.para_line}`}></div>
+                      <div className={`${style.whoVR_para} `}>
+                        <div className='d-flex flex-column gap-2'>
+                          <div className={`${style.para_ball}`} style={{ height: '27px' }}></div>
+                          <div className={`${style.para_line}`}></div>
+                        </div>
+                        <p>
+                          With this in mind, IMvision was created as a platform where information
+                          flows seamlessly, fostering creativity and innovation. Our goal is to<br className='d-lg-block d-md-none d-none' />
+                          empower a space—both physical and virtual—where genuine
+                          connections can be made, and collaboration thrives, whether offline or<br className='d-lg-block d-md-none d-none' />
+                          online.
+                        </p>
                       </div>
-                      <p>
-                        With this in mind, IMvision was created as a platform where information
-                        flows seamlessly, fostering creativity and innovation. Our goal is to<br className='d-lg-block d-md-none d-none'/>
-                        empower a space—both physical and virtual—where genuine
-                        connections can be made, and collaboration thrives, whether offline or<br className='d-lg-block d-md-none d-none'/>
-                        online.
-                      </p>
-                    </div>
 
-                    <div className={`${style.whoVR_para}`}>
-                      <div className='d-flex flex-column gap-2'>
-                        <div className={`${style.para_ball}`} style={{ height: '29px' }}></div>
-                        <div className={`${style.para_line}`}></div>
+                      <div className={`${style.whoVR_para}`}>
+                        <div className='d-flex flex-column gap-2'>
+                          <div className={`${style.para_ball}`} style={{ height: '29px' }}></div>
+                          <div className={`${style.para_line}`}></div>
+                        </div>
+                        <p>
+                          The name IMvision reflects our commitment to intelligent display
+                          solutions that bring people together. <br className='d-lg-block d-md-none d-none' />We aim to provide advanced,
+                          integrated technology to elevate organizational efficiency and enhance<br className='d-lg-block d-md-none d-none' />
+                          communication.
+                        </p>
                       </div>
-                      <p>
-                        The name IMvision reflects our commitment to intelligent display
-                        solutions that bring people together. <br className='d-lg-block d-md-none d-none'/>We aim to provide advanced,
-                        integrated technology to elevate organizational efficiency and enhance<br className='d-lg-block d-md-none d-none'/>
-                        communication.
-                      </p>
-                    </div>
 
-                    <div className={`${style.whoVR_para}`}>
-                      <div className='d-flex flex-column'>
-                        <div className={`${style.para_ball}`} style={{ height: '22px' }}></div>
+                      <div className={`${style.whoVR_para}`}>
+                        <div className='d-flex flex-column'>
+                          <div className={`${style.para_ball}`} style={{ height: '22px' }}></div>
+                        </div>
+                        <p>
+                          By eliminating barriers to connection, we create environments that
+                          inspire innovation, enabling full immersion and sparking new<br className='d-lg-block d-md-none d-none' />
+                          possibilities for growth. At IMvision, we don’t just rent displays—we
+                          help build the future of collaboration.
+                        </p>
                       </div>
-                      <p>
-                        By eliminating barriers to connection, we create environments that
-                        inspire innovation, enabling full immersion and sparking new<br className='d-lg-block d-md-none d-none'/>
-                        possibilities for growth. At IMvision, we don’t just rent displays—we
-                        help build the future of collaboration.
-                      </p>
+                      <div className='line-mask d-lg-block d-md-none d-none position-absolute bg-black z-1' style={{ right: '0', width: '100%', bottom: '-10px', opacity: '0.5' }}></div>
                     </div>
-                    <div className='line-mask d-lg-block d-md-none d-none position-absolute bg-black z-1' style={{right: '0',width:'100%',bottom:'-10px',opacity:'0.5'}}></div>
                   </div>
                 </div>
               </div>
-            </div>
 
-               <div className={`d-flex flex-lg-row flex-md-column flex-column container mx-auto gap-lg-3 gap-md-3 gap-3 pb-2 col-12`}>
+              <div className={`d-flex flex-lg-row flex-md-column flex-column container mx-auto gap-lg-3 gap-md-3 gap-3 pb-2 col-12`}>
                 <div
-                  className={`${style.about_card2} ms-xxl-5 ms-xl-2`}                 
+                  className={`${style.about_card2} ms-xxl-5 ms-xl-2`}
                 >
                   <h2 className="fw-bold">01</h2>
                   <p className=''>
-                  IM Vision, based in Jönköping, has all of Sweden as a workplace. Our journey started 10 years ago and we have since grown and become a leader in LED screens. We are the small company with the big commitment.
+                    IM Vision, based in Jönköping, has all of Sweden as a workplace. Our journey started 10 years ago and we have since grown and become a leader in LED screens. We are the small company with the big commitment.
                   </p>
                 </div>
 
                 <div className={`${style.about_card2}`}>
                   <h2 className="fw-bold">02</h2>
                   <p>
-                  With long and broad experience from LED screens, there are many market-leading companies among our partners, including in the automotive and fitness industry as well as retail chains and arena events.
+                    With long and broad experience from LED screens, there are many market-leading companies among our partners, including in the automotive and fitness industry as well as retail chains and arena events.
                   </p>
                 </div>
 
                 <div className={`${style.about_card2}`}>
                   <h2 className="fw-bold">03</h2>
                   <p>
-                  But we don't want to stop there. We constantly strive to broaden our contact network and to package our offer and delivery in the best way. Maybe you are our new customer?
+                    But we don't want to stop there. We constantly strive to broaden our contact network and to package our offer and delivery in the best way. Maybe you are our new customer?
                   </p>
                 </div>
 
                 <div className={`${style.about_card2}`}>
                   <h2 className="fw-bold">04</h2>
                   <p>
-                  With us, constant development is the only constant and our goal is to be the best solution in large LED screens. Welcome to IM Vision!
+                    With us, constant development is the only constant and our goal is to be the best solution in large LED screens. Welcome to IM Vision!
                   </p>
                 </div>
               </div>
- 
+
 
             </section>
 
