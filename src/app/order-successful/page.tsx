@@ -22,14 +22,14 @@ const OrderSuccess: React.FC = () => {
 
   useEffect(() => {
     window.history.pushState(null, '', window.location.href);
-    
+
     const handleBackButtonClick = (event: PopStateEvent) => {
       console.log("Back button was pressed");
       window.location.replace('/profile');
     };
-  
+
     window.addEventListener('popstate', handleBackButtonClick);
-    
+
     return () => {
       window.removeEventListener('popstate', handleBackButtonClick);
     };
@@ -45,6 +45,9 @@ const OrderSuccess: React.FC = () => {
 
 // Main Page Component
 const Page = ({ orderId }: { orderId: string | null }) => {
+  const handleRedirect = () => {
+    window.location.href = `/contact`
+  }
   return (
     <Wrapper>
       <HeaderOne />
@@ -62,11 +65,11 @@ const Page = ({ orderId }: { orderId: string | null }) => {
                           <h5>Thank You for Shopping with Us!</h5>
                           {/* Display the order ID or fallback message */}
                           <p>
-                            {orderId 
-                              ? `Your order ID is #${orderId}. A detailed report has been sent to your registered email address. If you have any questions, feel free to contact our support team.` 
+                            {orderId
+                              ? `Your order ID is #${orderId}. A detailed report has been sent to your registered email address. If you have any questions, feel free to contact our support team.`
                               : "We could not find your order ID. Please contact support."}
                           </p>
-                          <button className="btn-one">Talk to Expert</button>
+                          <button className="btn-one" onClick={handleRedirect}>Talk to Expert</button>
                         </div>
                       </div>
                     </div>
