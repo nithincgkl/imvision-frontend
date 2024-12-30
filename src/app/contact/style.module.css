@@ -43,7 +43,7 @@
 }
 
 .form_button {
-  width: 100%;
+  width: 200px;
   border: none;
   background-color: #fff;
   color: #000;
@@ -74,19 +74,22 @@
 .card_contact {
   background-color: #1b1b1b;
   padding: 20px 20px;
-    min-height: 230px;
+  min-height: 230px;
   display: flex;
   align-items: center;
 }
+
 .card_contact h3 {
   font-size: 30px;
   margin-bottom: 10px;
 }
+
 .card_contact h4 {
   font-size: 22px;
   font-style: italic;
   margin-bottom: 10px;
 }
+
 .card_contact p {
   color: #9a9a9a;
 }
@@ -113,6 +116,7 @@
   float: left;
   width: 100%;
 }
+
 .contact_map {
   float: left;
   width: 100%;
@@ -140,15 +144,19 @@
   .contact_banner {
     padding: 2rem 0 2rem 0;
   }
+
   .contact_form_container {
     padding: 2rem 0;
   }
+
   .contact_map {
     padding: 2rem 0;
   }
+
   .mb_pt_2 {
     padding-top: 2rem;
   }
+
   .contact_banner h1 {
     font-size: 30px;
   }
@@ -193,23 +201,30 @@
 }
 
 .selectWrapper select {
-  appearance: none; /* Remove default arrow */
-  padding-right: 2rem; /* Add space for the custom arrow */
+  appearance: none;
+  /* Remove default arrow */
+  padding-right: 2rem;
+  /* Add space for the custom arrow */
 }
 
 .arrowIcon {
   position: absolute;
   top: 50%;
-  right: 1rem; /* Adjust as per your design */
+  right: 1rem;
+  /* Adjust as per your design */
   transform: translateY(-50%);
-  pointer-events: none; /* Allow clicks on the select element */
-  font-size: 1.2rem; /* Adjust size as needed */
-  color: #666; /* Adjust color as needed */
+  pointer-events: none;
+  /* Allow clicks on the select element */
+  font-size: 1.2rem;
+  /* Adjust size as needed */
+  color: #666;
+  /* Adjust color as needed */
 }
 
 
 .selectWrapper select option[value=""] {
-  color: #999; /* Grey out the placeholder text */
+  color: #999;
+  /* Grey out the placeholder text */
 }
 
 
@@ -217,11 +232,13 @@
 
 .contact_form input::placeholder {
   color: #fff;
-  opacity: 1; /* Firefox */
+  opacity: 1;
+  /* Firefox */
 }
 
-.contact_form input::-ms-input-placeholder { /* Edge 12-18 */
-  color:  #fff;
+.contact_form input::-ms-input-placeholder {
+  /* Edge 12-18 */
+  color: #fff;
 }
 
 .formControl {
@@ -234,5 +251,6 @@
   top: 50%;
   transform: translateY(-50%);
   pointer-events: none;
-  color: #666; /* Adjust color as needed */
+  color: #666;
+  /* Adjust color as needed */
 }

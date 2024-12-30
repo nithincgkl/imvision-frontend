@@ -217,7 +217,7 @@ const ContactPage = () => {
                       <p>Are you ready to make the leap to the ultimate innovation in LED technology?<br />
                         Leave your contact details and our sales team will help you take the first step to discover the power of LED technology in sales & rental.</p>
                     </div>
-                  </div> 
+                  </div>
                 </div>
               </div>
 
@@ -402,13 +402,15 @@ const ContactPage = () => {
                             </div>
                           </div>
 
-                          <button
-                            type="submit"
-                            className={`mt-2 ${style.form_button}`}
-                            disabled={isLoading}
-                          >
-                            {isLoading ? 'Sending...' : 'Send Message'}
-                          </button>
+                          <div className="text-center">
+                            <button
+                              type="submit"
+                              className={`mt-2 ${style.form_button}`}
+                              disabled={isLoading}
+                            >
+                              {isLoading ? 'Sending...' : 'Send Message'}
+                            </button>
+                          </div>
                         </form>
                       </div>
                     </div>
