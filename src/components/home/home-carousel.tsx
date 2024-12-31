@@ -1,15 +1,17 @@
 'use client';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import Link from 'next/link';
 import axios from 'axios';
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from 'swiper/modules';
 import styles from "./style.module.css";
 import ProductItem from '../product-item/product-item';
+import Image from 'next/image';
+import { FaRegArrowAltCircleLeft, FaRegArrowAltCircleRight } from 'react-icons/fa';
 
 interface Product {
   id: string;
-    thumbnail: {
+  thumbnail: {
     formats?: {
       large?: { url: string };
     };
@@ -19,12 +21,13 @@ interface Product {
   amount: string;
   slug: string;
   sale_rent: string;
-  article_code:string;
+  article_code: string;
 }
 
 const HomeCarousel: React.FC<{ style_2?: boolean; style_3?: boolean }> = ({ style_2, style_3 }) => {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
+  const swiperRef = useRef<any>(null); // Reference for Swiper instance
 
   // Fetch product data
   useEffect(() => {
@@ -58,18 +61,12 @@ const HomeCarousel: React.FC<{ style_2?: boolean; style_3?: boolean }> = ({ styl
       </div>
     );
   }
-  
 
   // Render carousel
   return (
     <section className={`${styles['home-carousel']} ${styles['bg-light-black2']}`}>
       <div className="container-fluid">
-        <div className="cs_section_heading cs_style_1 cs_type_1">
-          <div className="cs_section_heading_text">
-            <h4>Displays</h4>
-            <h3>Next-generation displays</h3>
-          </div>
-          {/* <div className="cs_section_heading_right cs_btn_anim">
+        {/* <div className="cs_section_heading_right cs_btn_anim">
             <Link href="/blog" className="cs_btn cs_style_1">
               <span>View Store</span>
               <svg
@@ -86,6 +83,26 @@ const HomeCarousel: React.FC<{ style_2?: boolean; style_3?: boolean }> = ({ styl
               </svg>
             </Link>
           </div> */}
+        <div className={styles.product_actions}>
+          <div className={styles.headerTexts}>
+            <p className={styles.smallText}>Product</p>
+            <p className={styles.largeText}>Our Screens</p>
+          </div>
+          <div className={styles.action_container_products}>
+            <button onClick={() => window.location.href = '/products'} className={styles["all-products-btn"]}>All Products</button>
+            <div className={styles.arrows}>
+              <FaRegArrowAltCircleLeft
+                onClick={() => swiperRef.current?.slidePrev()}
+                style={{ cursor: 'pointer', height: '40px', width: '40px' }}
+                className={styles.arrowIcon}
+              />
+              <FaRegArrowAltCircleRight
+                onClick={() => swiperRef.current?.slideNext()}
+                style={{ cursor: 'pointer', height: '40px', width: '40px' }}
+                className={styles.arrowIcon}
+              />
+            </div>
+          </div>
         </div>
 
         <Swiper
@@ -98,6 +115,7 @@ const HomeCarousel: React.FC<{ style_2?: boolean; style_3?: boolean }> = ({ styl
             delay: 3000,
             disableOnInteraction: false,
           }}
+          onSwiper={(swiper) => (swiperRef.current = swiper)} // Assign Swiper instance to ref
           pagination={{
             el: ".cs_pagination",
             clickable: true,
@@ -114,7 +132,7 @@ const HomeCarousel: React.FC<{ style_2?: boolean; style_3?: boolean }> = ({ styl
                   des: product.amount,
                   slug: product.slug,
                   sale_rent: product.sale_rent,
-                  article_code:product.article_code,
+                  article_code: product.article_code,
                 }}
               />
             </SwiperSlide>

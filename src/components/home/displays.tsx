@@ -8,9 +8,9 @@ const Displays: React.FC = () => {
       <section className={styles['home-displays']}>
         <div className="container-fluid">
           <div className="row">
-            <div className="col-md-12">
-              <h4>Displays</h4>
-              <h3>Next-generation displays</h3>
+            <div className={styles.headerTexts}>
+              <p className={styles.smallText}>Displays</p>
+              <p className={styles.largeText}>Next-generation displays</p>
             </div>
           </div>
 
@@ -22,9 +22,9 @@ const Displays: React.FC = () => {
                 width={600}
                 height={400}
                 priority
-                style={{ 
-                  width: '100%', 
-                  height: 'auto' 
+                style={{
+                  width: '100%',
+                  height: 'auto'
                 }} // Ensures aspect ratio is maintained
               />
             </div>
@@ -48,10 +48,10 @@ const Displays: React.FC = () => {
                   alt="Displays"
                   width={600}
                   height={400}
-                  style={{ 
-                    width: '100%', 
+                  style={{
+                    width: '100%',
                     height: 'auto',
-                    maxWidth: '100%' 
+                    maxWidth: '100%'
                   }} // Ensures aspect ratio and responsiveness
                 />
               </div>
