@@ -64,11 +64,22 @@ const Page: React.FC = () => {
         const data = response.data;
 
         // Success - display success message
-        enqueueSnackbar('Login successful!', { variant: 'success' });
-
+        try {
+          const addressResponse = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}user-address`, {
+            headers: {
+              Authorization: `Bearer ${data.jwt}`,
+            },
+          });
+          const { user_id, documentId, ...filteredData } = addressResponse.data
+          localStorage.setItem("userData", JSON.stringify(filteredData))
+        }
+        catch (error) {
+          localStorage.setItem("userData", JSON.stringify({}))
+        }
         // Save token and user info to localStorage
         localStorage.setItem('token', data.jwt);
         localStorage.setItem('user', JSON.stringify(data.user));
+        enqueueSnackbar('Login successful!', { variant: 'success' });
         window.location.href = '/';
       } catch (error) {
         if (axios.isAxiosError(error) && error.response) {

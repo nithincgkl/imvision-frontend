@@ -144,6 +144,9 @@ const FooterOne: React.FC = () => {
 
   const handleLogout = () => {
     localStorage.removeItem('token'); // Remove the token from local storage
+    localStorage.removeItem('user')
+    localStorage.removeItem('userData')
+    localStorage.removeItem('cartItems')
     setIsLoggedIn(false); // Update the login state
     enqueueSnackbar('You have been logged out.', { variant: 'info' }); // Notify the user
     window.location.href = '/login'; // Redirect to the login page
@@ -253,28 +256,28 @@ const FooterOne: React.FC = () => {
                 {NAV_ITEMS.map((item: NavItem) => {
                   // Show Profile and Logout if user is logged in
                   if (item.label === 'Profile' && !isLoggedIn) {
-                    return null; 
+                    return null;
                   }
                   // Show Sign In if user is not logged in
                   if (item.label === 'Sign In' && isLoggedIn) {
-                    return null; 
+                    return null;
                   }
                   // Show Logout if user is logged in
                   if (item.label === 'Logout' && !isLoggedIn) {
-                    return null; 
+                    return null;
                   }
                   return (
                     <li key={item.label} className="list-inline-item mx-3">
-                    {item.label === 'Logout' ? (
-                      <Link href="#" className={style.navLink} onClick={handleLogout}>
-                        {item.label}
-                      </Link>
-                    ) : (
-                      <Link href={item.href} className={style.navLink}>
-                        {item.label}
-                      </Link>
-                    )}
-                  </li>
+                      {item.label === 'Logout' ? (
+                        <Link href="#" className={style.navLink} onClick={handleLogout}>
+                          {item.label}
+                        </Link>
+                      ) : (
+                        <Link href={item.href} className={style.navLink}>
+                          {item.label}
+                        </Link>
+                      )}
+                    </li>
                   );
                 })}
               </ul>
@@ -294,8 +297,8 @@ const FooterOne: React.FC = () => {
                 ))}
               </ul>
               <div className={style.disclaimer}>
-                <p className='my-4 col-xxl-8 col-xl-9 col-md-8 col-11 mx-auto'><span className='fw-bold mb-1'>Disclaimer</span><br/> 
-                    The photos and videos displayed on this website are used for representational purposes and remain the property of their respective owners. For any queries, please contact us at <a href="mailto:elliott@imvision.se" className='fw-bold'>elliott@imvision.se</a> 
+                <p className='my-4 col-xxl-8 col-xl-9 col-md-8 col-11 mx-auto'><span className='fw-bold mb-1'>Disclaimer</span><br />
+                  The photos and videos displayed on this website are used for representational purposes and remain the property of their respective owners. For any queries, please contact us at <a href="mailto:elliott@imvision.se" className='fw-bold'>elliott@imvision.se</a>
                 </p>
               </div>
             </nav>

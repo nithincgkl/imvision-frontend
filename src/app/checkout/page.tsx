@@ -225,6 +225,7 @@ const RentalConditions = () => {
       );
       if (response.status === 201 || response.status === 200) {
         window.location.href = `/order-successful?id=${response.data.data.id}`;
+        localStorage.setItem("cartItems", JSON.stringify([]));
       }
     }
     catch (error) {

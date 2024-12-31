@@ -121,6 +121,28 @@ const Page: React.FC = () => {
   const [loadingOrders, setLoadingOrders] = useState<boolean>(false); // Loading state for orders
 
   useEffect(() => {
+    // Simulating fetching the user address from localStorage
+    const userAddressString = localStorage.getItem("userData");
+    if (userAddressString) {
+      const userAddress = JSON.parse(userAddressString);
+
+      // Populate the formData with userAddress
+      setFormData({
+        name: `${userAddress.FirstName || ''} ${userAddress.LastName || ''}`.trim(),
+        email: userAddress.Email || '',
+        phone: userAddress.Phone || '',
+        streetName: userAddress.Street || '',
+        houseNumber: userAddress.HouseNo || '',
+        postalCode: userAddress.PostalCode || '',
+        city: userAddress.City || '',
+        country: userAddress.Country || '',
+        currentPassword: '',
+        newPassword: '',
+        confirmPassword: '',
+      });
+    }
+  }, []);
+  useEffect(() => {
     const fetchCountries = async () => {
       try {
         const response = await axios.get('https://restcountries.com/v3.1/all');
@@ -217,45 +239,81 @@ const Page: React.FC = () => {
     e.preventDefault();
     if (validateForm()) {
       const token = localStorage.getItem('token');
-      const storedUser = localStorage.getItem('user');
+      const storedUser = localStorage.getItem('userData');
       if (storedUser) {
         const user = JSON.parse(storedUser);
-        const userId = user.documentId;
         if (!token) {
           console.error('No token found. User may not be logged in.');
           return;
         }
         const requestData = {
-          user_id: userId,
           FirstName: formData.name,
           Email: formData.email,
-          Phone: formData.phone,
+          Phone: Number(formData.phone),
           Street: formData.streetName,
           HouseNo: formData.houseNumber,
           City: formData.city,
           PostalCode: formData.postalCode,
           Country: formData.country,
+          LastName: user.LastName,
+          State: user.State,
+          CompanyName: user.CompanyName,
+          Reference: user.Reference,
         };
-
+        console.log(requestData)
         try {
-          setIsUpdating(true)
-          await axios.post(`${process.env.NEXT_PUBLIC_API_URL}update-user-address`, requestData, {
-            headers: {
-              Authorization: `Bearer ${token}`,
+          setIsUpdating(true);
+          const response = await axios.post(
+            `${process.env.NEXT_PUBLIC_API_URL}update-user-address`,
+            {
+              FirstName: formData.name,
+              Email: formData.email,
+              Phone: Number(formData.phone),
+              Street: formData.streetName,
+              HouseNo: formData.houseNumber,
+              City: formData.city,
+              PostalCode: formData.postalCode,
+              Country: formData.country,
+              LastName: user.LastName,
+              State: user.State,
+              CompanyName: user.CompanyName,
+              Reference: user.Reference,
             },
-          });
+            {
+              headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
           enqueueSnackbar('Profile Updated successfully!', { variant: 'success' });
+
+          // Update localStorage with new user data
+          if (response) {
+            const updatedUser = {
+              ...user, // Keep existing user data
+              FirstName: formData.name,
+              Email: formData.email,
+              Phone: formData.phone,
+              Street: formData.streetName,
+              HouseNo: formData.houseNumber,
+              City: formData.city,
+              PostalCode: formData.postalCode,
+              Country: formData.country,
+            };
+
+            localStorage.setItem('userData', JSON.stringify(updatedUser));
+          }
         } catch (error) {
-          setIsUpdating(false)
+          setIsUpdating(false);
           if (axios.isAxiosError(error)) {
             console.error('Error submitting form:', error.response?.data || error.message);
             console.error('Error details:', error.response?.data?.error);
           } else {
             console.error('Unexpected error:', error);
           }
-        }
-        finally {
-          setIsUpdating(false)
+        } finally {
+          setIsUpdating(false);
         }
       }
     }
