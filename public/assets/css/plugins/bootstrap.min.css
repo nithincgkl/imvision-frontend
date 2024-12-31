@@ -10455,7 +10455,7 @@ fieldset:disabled .btn {
 }
 
 /* Mobile-specific styles */
-@media (max-width: 991px) {
+@media (max-width: 991px) { 
   #smooth-wrapper,
   #smooth-content {
     overflow: visible;
