@@ -12,6 +12,7 @@ import { MdOutlineLocalShipping } from "react-icons/md";
 import { CiCircleCheck } from "react-icons/ci";
 import axios from 'axios';
 import { CartProvider, useCart } from '@/context/cart-context'; // Import the useCart hook
+import { useSnackbar } from "notistack";
 
 const Profile: React.FC = () => {
   return (
@@ -28,7 +29,7 @@ interface OrderDetail {
   amount: number;
   product_images: string; // Update to use the new ProductImage interface
   sale_rent: string;
-  article_code:string
+  article_code: string
 }
 
 interface DeliveryStatus {
@@ -64,11 +65,13 @@ interface Order {
 const Page: React.FC = () => {
   const [isOpen, setIsOpen] = useState<number | null>(null); // Track which order is open
   const toggleAccordion = (orderId: number) => setIsOpen(isOpen === orderId ? null : orderId);
-  
+
   const [countries, setCountries] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [activeForm, setActiveForm] = useState<string>('personal');
   const [windowWidth, setWindowWidth] = useState<number>(typeof window !== 'undefined' ? window.innerWidth : 0);
+  const { enqueueSnackbar } = useSnackbar();
+
   useEffect(() => {
     const handleResize = () => {
       setWindowWidth(window.innerWidth);
@@ -79,7 +82,7 @@ const Page: React.FC = () => {
       window.removeEventListener('resize', handleResize);
     };
   }, []);
-  
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -111,6 +114,8 @@ const Page: React.FC = () => {
   const [showCurrentPassword, setShowCurrentPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [isUpdating, setIsUpdating] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   const [orders, setOrders] = useState<Order[]>([]); // State to hold orders
   const [loadingOrders, setLoadingOrders] = useState<boolean>(false); // Loading state for orders
@@ -150,7 +155,7 @@ const Page: React.FC = () => {
       console.log('Orders Response:', response.data);
       if (response.data && response.data.data) {
         console.log('Orders data:', response.data.data);
-        setOrders(response.data.data );
+        setOrders(response.data.data);
       } else {
         console.log('No orders data available.');
         setOrders([]);
@@ -212,9 +217,9 @@ const Page: React.FC = () => {
     e.preventDefault();
     if (validateForm()) {
       const token = localStorage.getItem('token');
-      const storedUser  = localStorage.getItem('user');
-      if (storedUser ) {
-        const user = JSON.parse(storedUser );
+      const storedUser = localStorage.getItem('user');
+      if (storedUser) {
+        const user = JSON.parse(storedUser);
         const userId = user.documentId;
         if (!token) {
           console.error('No token found. User may not be logged in.');
@@ -233,18 +238,24 @@ const Page: React.FC = () => {
         };
 
         try {
+          setIsUpdating(true)
           await axios.post(`${process.env.NEXT_PUBLIC_API_URL}update-user-address`, requestData, {
             headers: {
               Authorization: `Bearer ${token}`,
             },
           });
+          enqueueSnackbar('Profile Updated successfully!', { variant: 'success' });
         } catch (error) {
+          setIsUpdating(false)
           if (axios.isAxiosError(error)) {
             console.error('Error submitting form:', error.response?.data || error.message);
             console.error('Error details:', error.response?.data?.error);
           } else {
             console.error('Unexpected error:', error);
           }
+        }
+        finally {
+          setIsUpdating(false)
         }
       }
     }
@@ -275,12 +286,17 @@ const Page: React.FC = () => {
     };
 
     try {
+      setIsSubmitting(true)
       await axios.post(`${process.env.NEXT_PUBLIC_API_URL}auth/change-password`, requestData, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
+      enqueueSnackbar('Password Updated successfully!', { variant: 'success' });
+      setFormData({ ...formData, currentPassword: '', newPassword: '', confirmPassword: '' })
+      setErrors({ ...errors, currentPassword: '', newPassword: '', confirmPassword: '' })
     } catch (error) {
+      setIsSubmitting(false)
       if (axios.isAxiosError(error)) {
         console.error('Error resetting password:', error.response?.data || error.message);
         setErrors((prevErrors) => ({
@@ -290,6 +306,9 @@ const Page: React.FC = () => {
       } else {
         console.error('Unexpected error:', error);
       }
+    }
+    finally {
+      setIsSubmitting(false)
     }
   };
 
@@ -320,7 +339,7 @@ const Page: React.FC = () => {
           <main>
             <section className={style["profile_section"]}>
               <h2 className='my-5 pt-2 d-flex justify-content-center col-12'>Your Profile & Settings</h2>
-              
+
               <div className="container d-flex justify-content-center">
                 <div className={`${style.profile_nav} d-flex flex-row gap-3`}>
                   <button onClick={handlePersonalClick} className={activeForm === 'personal' ? style.focused : ''}>
@@ -413,7 +432,7 @@ const Page: React.FC = () => {
                         value={formData.postalCode}
                         onChange={(e) => setFormData({ ...formData, postalCode: e.target.value })}
                       />
-                      {errors .postalCode && <div className="text-danger">{errors.postalCode}</div>}
+                      {errors.postalCode && <div className="text-danger">{errors.postalCode}</div>}
                     </div>
                   </div>
 
@@ -459,123 +478,123 @@ const Page: React.FC = () => {
 
                   <div className="col-md-12 mb-3 d-flex justify-content-center my-3">
                     <button type="submit" className={style.talk_btn}>
-                      Update Change
+                      {isUpdating ? "Updating..." : "Update Change"}
                     </button>
                   </div>
                 </form>
               )}
 
-{activeForm === 'orders' && (
-  <div className='d-flex flex-column gap-3 container'>
-    <div className={`${style.orders_form_main} gap-5`}>
-      {loadingOrders ? (
-        <p>Loading orders...</p>
-      ) : orders.length === 0 ? (
-        <p>No products found.</p>
-      ) : (
-        orders.map((order) => {
-          const totalAmount = order.order_details.reduce((acc, detail) => acc + detail.amount, 0);
-
-          const isCancelled = order.DeliveryStatus.some(status => status.delivery_status === 'CANCELLED');
-          const isDelivered = order.DeliveryStatus.some(status => status.delivery_status === 'DELIVERED');
-          const isShipped = order.DeliveryStatus.some(status => status.delivery_status === 'SHIPPING');
-
-          const displayedArticleCodes = new Set();
-
-          return (
-            <div key={order.id} className={`${style.orders_form} ${isOpen === order.id ? style.ordersFormOpen : ''}`}  style={{ background: windowWidth < 766 ? (order.order_details[0]?.sale_rent === 'Rent' ? '#5C553A' : '#3F3A5C') : '#2E2D2D'}}>
-             
-              <div className='d-flex col-12'> 
-                <p className={`${style.type} mb-0`} style={{background: order.order_details[0]?.sale_rent === 'Rent' ? '#5C553A' : '#3F3A5C',}}>
-                  {order.order_details[0]?.sale_rent}
-                </p>
-                <p className={`${style.order_num}`}>Order Id : {order.id}</p>
-                <p className={`${style.model} d-md-block d-none`}>{order.order_details[0]?.product_name}</p>
-                <p className='mb-0 pt-2 align-items-center'> 
-                  <span className='py-lg-2 px-lg-4 px-md-3 d-md-block d-none'>
-                    {order.DeliveryStatus.length > 0 ? order.DeliveryStatus[0].delivery_status : 'No delivery status available'}
-                  </span>
-                </p>             
-
-                <h3 className='pt-lg-1 pt-md-3 pt-3 '  onClick={() => toggleAccordion(order.id)}>
-                  <span style={{ position: 'relative', display: 'inline-block' }} className=''>
-                    {isOpen === order.id ? (
-                      <IoChevronUp height={50} width={50} className="pt-lg-2 me-2" />
+              {activeForm === 'orders' && (
+                <div className='d-flex flex-column gap-3 container'>
+                  <div className={`${style.orders_form_main} gap-5`}>
+                    {loadingOrders ? (
+                      <p>Loading orders...</p>
+                    ) : orders.length === 0 ? (
+                      <p>No products found.</p>
                     ) : (
-                      <IoChevronDown height={50} width={50} className="pt-lg-2 me-2" />
+                      orders.map((order) => {
+                        const totalAmount = order.order_details.reduce((acc, detail) => acc + detail.amount, 0);
+
+                        const isCancelled = order.DeliveryStatus.some(status => status.delivery_status === 'CANCELLED');
+                        const isDelivered = order.DeliveryStatus.some(status => status.delivery_status === 'DELIVERED');
+                        const isShipped = order.DeliveryStatus.some(status => status.delivery_status === 'SHIPPING');
+
+                        const displayedArticleCodes = new Set();
+
+                        return (
+                          <div key={order.id} className={`${style.orders_form} ${isOpen === order.id ? style.ordersFormOpen : ''}`} style={{ background: windowWidth < 766 ? (order.order_details[0]?.sale_rent === 'Rent' ? '#5C553A' : '#3F3A5C') : '#2E2D2D' }}>
+
+                            <div className='d-flex col-12'>
+                              <p className={`${style.type} mb-0`} style={{ background: order.order_details[0]?.sale_rent === 'Rent' ? '#5C553A' : '#3F3A5C', }}>
+                                {order.order_details[0]?.sale_rent}
+                              </p>
+                              <p className={`${style.order_num}`}>Order Id : {order.id}</p>
+                              <p className={`${style.model} d-md-block d-none`}>{order.order_details[0]?.product_name}</p>
+                              <p className='mb-0 pt-2 align-items-center'>
+                                <span className='py-lg-2 px-lg-4 px-md-3 d-md-block d-none'>
+                                  {order.DeliveryStatus.length > 0 ? order.DeliveryStatus[0].delivery_status : 'No delivery status available'}
+                                </span>
+                              </p>
+
+                              <h3 className='pt-lg-1 pt-md-3 pt-3 ' onClick={() => toggleAccordion(order.id)}>
+                                <span style={{ position: 'relative', display: 'inline-block' }} className=''>
+                                  {isOpen === order.id ? (
+                                    <IoChevronUp height={50} width={50} className="pt-lg-2 me-2" />
+                                  ) : (
+                                    <IoChevronDown height={50} width={50} className="pt-lg-2 me-2" />
+                                  )}
+                                </span>
+                              </h3>
+                            </div>
+
+                            {isOpen === order.id && (
+                              <div className={`${style.orders_form_open} p-4 d-flex flex-column`}>
+                                <div className="d-flex flex-column gap-md-4 gap-2">
+                                  {order.order_details.map((detail: OrderDetail) => (
+                                    <div key={detail.id} className="d-flex flex-md-row flex-column">
+
+                                      <img
+                                        src={detail.product_images}
+                                        alt={detail.product_name}
+                                        className={style.productImage}
+                                      />
+
+                                      <div className="d-flex flex-column ">
+                                        <p className={`${style.model}`}>{detail.product_name}:</p>
+                                        <p className={`${style.SEK}`}>SEK {detail.amount} NOK</p>
+                                        <p className={`${style.model}`}>Quantity: {detail.qty} | Article code: {detail.article_code}</p>
+                                      </div>
+                                    </div>
+                                  ))}
+                                </div>
+
+                                <div className={`${style.status_details} p-3 pb-1 d-flex flex-md-row flex-column-reverse gap-lg-5 gap-4 my-2`}>
+                                  <div className='d-flex flex-column gap-1 my-2'>
+                                    <div className={`${style.order_tracker}`} style={{
+                                      borderLeft: `3px dashed ${isShipped ? '#0CB60F' : '#505050'}`,
+                                      color: `${isShipped ? '#0CB60F' : '#505050'}`,
+                                    }}>
+                                      <p><span><TbPackage /></span> Packed</p>
+                                    </div>
+                                    <div className={`${style.order_tracker}`} style={{
+                                      borderLeft: `3px dashed ${isShipped ? '#0CB60F' : '#505050'}`,
+                                      color: `${isShipped ? '#0CB60F' : isCancelled ? 'red' : '#505050'}`,
+                                    }}>
+                                      <p><span><MdOutlineLocalShipping /></span> {isCancelled ? 'Cancelled' : 'Shipping'}</p>
+                                    </div>
+                                    <div className={`${style.order_tracker}`} style={{
+                                      borderLeft: `3px dashed ${isDelivered ? '#0CB60F' : '#505050'}`,
+                                      color: `${isDelivered ? '#0CB60F' : '#505050'}`,
+                                    }}>
+                                      <p><span><CiCircleCheck /></span> Delivered</p>
+                                    </div>
+                                  </div>
+                                  <div>
+                                    <div className={`${style.order_details} mb-0`}>
+                                      <p className={`${style.order_details_heading} ms-0`}>Contact no:</p>
+                                      <p className={`${style.order_fill}`}>{order.ShippingAddress.Phone}</p>
+                                    </div>
+                                    <div className={`${style.order_details}`}>
+                                      <p className={`${style.order_details_heading} ms-3 ms-md-0`}>Shipping Address:</p>
+                                      <p className={`${style.order_address}`}>
+                                        {order.ShippingAddress.Street}, {order.ShippingAddress.City}, {order.ShippingAddress.State}, {order.ShippingAddress.PostalCode}, {order.ShippingAddress.Country}
+                                      </p>
+                                    </div>
+                                    <div className={`${style.order_details}`}>
+                                      <p className={`${style.order_details_heading}`}>Total Amount:</p>
+                                      <p className={`${style.order_fill}`}>SEK {totalAmount}</p>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            )}
+                          </div>
+                        );
+                      })
                     )}
-                  </span>
-                </h3>
-              </div>
-
-              {isOpen === order.id && (
-                <div className={`${style.orders_form_open} p-4 d-flex flex-column`}>
-                  <div className="d-flex flex-column gap-md-4 gap-2">
-                    {order.order_details.map((detail: OrderDetail) => (
-                      <div key={detail.id} className="d-flex flex-md-row flex-column">
-                      
-                          <img
-                            src={detail.product_images}
-                            alt={detail.product_name}
-                            className={style.productImage}
-                          />
-                      
-                        <div className="d-flex flex-column ">
-                          <p className={`${style.model}`}>{detail.product_name}:</p>
-                          <p className={`${style.SEK}`}>SEK {detail.amount} NOK</p>
-                          <p className={`${style.model}`}>Quantity: {detail.qty} | Article code: {detail.article_code}</p>       
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-
-                  <div className={`${style.status_details} p-3 pb-1 d-flex flex-md-row flex-column-reverse gap-lg-5 gap-4 my-2`}>
-                    <div className='d-flex flex-column gap-1 my-2'>
-                      <div className={`${style.order_tracker}`} style={{
-                        borderLeft: `3px dashed ${isShipped ? '#0CB60F' : '#505050'}`,
-                        color: `${isShipped ? '#0CB60F' : '#505050'}`,
-                      }}>
-                        <p><span><TbPackage /></span> Packed</p>
-                      </div>
-                      <div className={`${style.order_tracker}`} style={{
-                        borderLeft: `3px dashed ${isShipped ? '#0CB60F' : '#505050'}`,
-                        color: `${isShipped ? '#0CB60F' : isCancelled ? 'red' : '#505050'}`,
-                      }}>
-                        <p><span><MdOutlineLocalShipping /></span> {isCancelled ? 'Cancelled' : 'Shipping'}</p>
-                      </div>
-                      <div className={`${style.order_tracker}`} style={{
-                        borderLeft: `3px dashed ${isDelivered ? '#0CB60F' : '#505050'}`,
-                        color: `${isDelivered ? '#0CB60F' : '#505050'}`,
-                      }}>
-                        <p><span><CiCircleCheck /></span> Delivered</p>
-                      </div>
-                    </div>
-                    <div>
-                      <div className={`${style.order_details} mb-0`}>
-                        <p className={`${style.order_details_heading} ms-0`}>Contact no:</p>
-                        <p className={`${style.order_fill}`}>{order.ShippingAddress.Phone}</p>
-                      </div>
-                      <div className={`${style.order_details}`}>
-                        <p className={`${style.order_details_heading} ms-3 ms-md-0`}>Shipping Address:</p>
-                        <p className={`${style.order_address}`}>
-                          {order.ShippingAddress.Street}, {order.ShippingAddress.City}, {order.ShippingAddress.State}, {order.ShippingAddress.PostalCode}, {order.ShippingAddress.Country}
-                        </p>
-                      </div>
-                      <div className={`${style.order_details}`}>
-                        <p className={`${style.order_details_heading}`}>Total Amount:</p>
-                        <p className={`${style.order_fill}`}>SEK {totalAmount}</p>
-                      </div>
-                    </div>
                   </div>
                 </div>
               )}
-            </div>
-          );
-        })
-      )}
-    </div>
-  </div>
-)}
 
 
 
@@ -645,7 +664,7 @@ const Page: React.FC = () => {
                       {errors.confirmPassword && <div className="text-danger">{errors.confirmPassword}</div>}
                     </div>
                     <div className="col-xl-6 col-lg-8 my-3">
-                      <button type="submit" className={style.submit_btn}>Submit</button>
+                      <button type="submit" className={style.submit_btn}>{isSubmitting ? "Submitting..." : "Submit"}</button>
                     </div>
                   </div>
                 </form>
