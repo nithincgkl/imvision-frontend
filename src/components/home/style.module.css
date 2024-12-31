@@ -120,25 +120,34 @@
   height: calc(100vh - 128px);
 }
 
-.banner-video {
+/* .banner-video {
   position: relative;
-  /* top: 50%; */
-  /* left: 50%; */
   min-width: 100%;
   min-height: 100%;
   width: auto;
   height: auto;
-  /* transform: translate(-50%, -50%); */
+  -o-object-fit: cover;
+  object-fit: cover;
+  width: 100%;
+
+} */
+
+
+.banner-video {
+  position: relative;
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
   -o-object-fit: cover;
   object-fit: cover;
   width: 100%;
 
 }
-
 .banner-content {
   position: absolute;
   top: 50px;
-  left: 60px;
+  left: 50px;
   /* transform: translate(-50%, -50%); */
   text-align: left;
   color: white;
@@ -330,6 +339,7 @@
   padding: 12px 20px;
   font-weight: 700;
   color: #000;
+  border: none;
 }
 
 .center-btn {
@@ -752,7 +762,7 @@
 
 @media (max-width: 1250px) {
   .banner-content {
-    left: 70px;
+    left: 50px !important;
     top: 25px;
   }
 
@@ -768,7 +778,7 @@
 
   .talk-btn {
     bottom: 30px;
-    left: 15px;
+    left: 50px;
     margin-left: 0;
     padding: 5px 5px;
   }
@@ -964,9 +974,28 @@
   .full-video {
     margin-top: 0px;
   }
+  .largeText {
+    font-size: 30px;
+  }
 
 
 }
+
+@media (min-width: 1025px) {
+
+.banner-video {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Ensures the video covers the container */
+  transform: translate(-50%, -50%); /* Centers the video */
+}
+
+}
+
+
 
 .bg-light-black {
   background: #141414;
