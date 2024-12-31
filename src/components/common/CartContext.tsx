@@ -33,7 +33,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
       return [...prevItems, { ...item, count: 1 }];
     });
   };
-
+    
   const getCartCount = () => {
     return cartItems.reduce((total, item) => total + item.count, 0);
   };
