@@ -462,7 +462,7 @@ const ContactPage = () => {
             </section>
 
 
-            <LetsTalk />
+            {/* <LetsTalk /> */}
           </main>
           <FooterOne />
         </div>
