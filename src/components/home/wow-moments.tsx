@@ -24,12 +24,12 @@ const WowMoments: React.FC = () => {
             Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
           },
         });
-  
+
         const data = response.data.data.map((item: any) => {
           const thumbnailUrl = item.thumbnail.url.startsWith('http')
             ? item.thumbnail.url // Use the full URL if it starts with http/https
             : `${process.env.NEXT_PUBLIC_IMAGE_URL}${item.thumbnail.url}`; // Otherwise, prepend the base URL
-  
+
           return {
             id: item.id,
             title: item.title,
@@ -37,7 +37,7 @@ const WowMoments: React.FC = () => {
             thumbnailUrl,
           };
         });
-  
+
         console.log("Fetched Categories:", data);
         setCategories(data);
       } catch (error) {
@@ -46,21 +46,23 @@ const WowMoments: React.FC = () => {
         setLoading(false);
       }
     };
-  
+
     fetchEventCategories();
   }, []);
-  
+
   return (
     <>
-      <section className={styles['home-wow']}>
+      <section className={`${styles['home-wow']} ${styles['bg-light-black-2']}`}>
         <div className="container-fluid">
           <div className="row">
             <div className="col-md-12">
-              <h4>Perfect For</h4>
-              <h3 className="mb-0">Create a WOW Moment</h3>
+              <div className={styles.headerTexts}>
+                <p className={styles.smallText}>Perfect For</p>
+                <p className={styles.largeText}>Create a WOW Moment</p>
+              </div>
               <p className={styles['home-wow-p']}>
                 <span>The result? A face cushion that fits you perfectly.</span><br />
-                Enhanced immersion with no more light leakage, and comfortable to wear for hours.
+                Enhanced immersion with no more light <br /> leakage, and comfortable to wear for hours.
               </p>
             </div>
           </div>
@@ -87,7 +89,7 @@ const WowMoments: React.FC = () => {
               ))
             )}
             <div className="col-md-12 text-center">
-              {/* <button>Know More Details</button> */}
+              <button onClick={() => window.location.href = '/events'}>Know More Details</button>
             </div>
           </div>
         </div>

@@ -22,7 +22,6 @@ const Events: React.FC = () => {
   );
 };
 
- 
 interface RecentEvent {
   id: number;
   image: string;
@@ -77,14 +76,14 @@ const Page: React.FC = () => {
   ];
 
   const handleTalkToExpert = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    // Add your talk to expert logic here
-    console.log('Talk to expert clicked');
+    window.location.href = '/contact'
+    // e.preventDefault();
+
   };
 
   return (
     <Wrapper>
-        <HeaderOne />
+      <HeaderOne />
       <div id="smooth-wrapper">
         <div id="smooth-content">
           <main>
@@ -96,7 +95,7 @@ const Page: React.FC = () => {
                 <div className={style["event-banner-text"]}>
                   <h1>Automotive</h1>
                   <Link href="/contact">
-                  <button onClick={handleTalkToExpert} className="btn-one">Talk to Expert</button>
+                    <button onClick={handleTalkToExpert} className="btn-one">Talk to Expert</button>
                   </Link>
                   <p className="text-center">
                     Rev up your automotive events with vibrant LED screens.
@@ -110,61 +109,61 @@ const Page: React.FC = () => {
               </div>
             </section>
 
-            <EventsCarousel /> 
+            <EventsCarousel />
 
-            
 
-            
+
+
             <section className={`${style['event-corporate']} bg-light-black`}>
 
-            
+
               <div className={style["event-corporate-container"]}>
-              <div className="container-fluid">
+                <div className="container-fluid">
                   <div className="row">
 
-                  <div className="col-md-12">
-                    <img src="/assets/images/events2.jpg" alt="Corporate events" className="w-100" />
-                    <div className={style["event-corporate-text"]}>
-                      <h3 className="text-center">Corporate</h3>
-                      <button onClick={handleTalkToExpert} className="btn-one">Talk to Expert</button>
-                    </div>
-                    <div className="text-center">
-                      Rev up your automotive events with vibrant LED screens.
-                      <br />
-                      Our rentals deliver crystal-clear visuals, engaging audiences
-                      and amplifying your brand.
-                      <br />
-                      Take your car shows, launches, and exhibitions to the next
-                      level.
-                    </div>
+                    <div className="col-md-12">
+                      <img src="/assets/images/events2.jpg" alt="Corporate events" className="w-100" />
+                      <div className={style["event-corporate-text"]}>
+                        <h3 className="text-center">Corporate</h3>
+                        <button onClick={handleTalkToExpert} className="btn-one">Talk to Expert</button>
+                      </div>
+                      <div className="text-center">
+                        Rev up your automotive events with vibrant LED screens.
+                        <br />
+                        Our rentals deliver crystal-clear visuals, engaging audiences
+                        and amplifying your brand.
+                        <br />
+                        Take your car shows, launches, and exhibitions to the next
+                        level.
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </section>
 
-            <EventsCarouselTwo /> 
+            <EventsCarouselTwo />
 
             <section className={style["event-corporate"]}>
               <div className={style["event-corporate-container"]}>
-              <div className="container-fluid">
+                <div className="container-fluid">
                   <div className="row">
 
-                  <div className="col-md-12">
-                    <img src="/assets/images/government.jpg" alt="Government events" className="w-100" />
-                    <div className={style["event-corporate-text"]} >
-                      <h3 className="text-center">Government</h3>
-                      <button onClick={handleTalkToExpert} className="btn-one">Talk to Expert</button>
-                    </div>
-                    <div className="text-center">
-                      Rev up your automotive events with vibrant LED screens.
-                      <br />
-                      Our rentals deliver crystal-clear visuals, engaging audiences
-                      and amplifying your brand.
-                      <br />
-                      Take your car shows, launches, and exhibitions to the next
-                      level.
-                    </div>
+                    <div className="col-md-12">
+                      <img src="/assets/images/government.jpg" alt="Government events" className="w-100" />
+                      <div className={style["event-corporate-text"]} >
+                        <h3 className="text-center">Government</h3>
+                        <button onClick={handleTalkToExpert} className="btn-one">Talk to Expert</button>
+                      </div>
+                      <div className="text-center">
+                        Rev up your automotive events with vibrant LED screens.
+                        <br />
+                        Our rentals deliver crystal-clear visuals, engaging audiences
+                        and amplifying your brand.
+                        <br />
+                        Take your car shows, launches, and exhibitions to the next
+                        level.
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -177,29 +176,29 @@ const Page: React.FC = () => {
               <div className={style["event-corporate-container"]}>
                 <div className="container-fluid">
                   <div className="row">
-                 <div className="col-md-12">
-                    <img src="/assets/images/retail.jpg" alt="Retail events" className="w-100" />
-                    <div className={style["event-corporate-text"]}>
-                      <h3 className="text-center">Retail</h3>
-                      <button onClick={handleTalkToExpert} className="btn-one">Talk to Expert</button>
+                    <div className="col-md-12">
+                      <img src="/assets/images/retail.jpg" alt="Retail events" className="w-100" />
+                      <div className={style["event-corporate-text"]}>
+                        <h3 className="text-center">Retail</h3>
+                        <button onClick={handleTalkToExpert} className="btn-one">Talk to Expert</button>
+                      </div>
+                      <div className="text-center">
+                        Rev up your automotive events with vibrant LED screens.
+                        <br />
+                        Our rentals deliver crystal-clear visuals, engaging audiences
+                        and amplifying your brand.
+                        <br />
+                        Take your car shows, launches, and exhibitions to the next
+                        level.
+                      </div>
                     </div>
-                    <div className="text-center">
-                      Rev up your automotive events with vibrant LED screens.
-                      <br />
-                      Our rentals deliver crystal-clear visuals, engaging audiences
-                      and amplifying your brand.
-                      <br />
-                      Take your car shows, launches, and exhibitions to the next
-                      level.
-                    </div>
-                  </div>
                   </div>
                 </div>
               </div>
             </section>
-            
-            <EventsCarouselFour /> 
-            
+
+            <EventsCarouselFour />
+
             <LetsTalk />
           </main>
           <FooterOne />

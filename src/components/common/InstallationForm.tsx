@@ -8,55 +8,55 @@ const InstallationForm: React.FC = () => {
         event.preventDefault();
         const formErrors: { [key: string]: string } = {};
         const form = event.currentTarget;
-    
+
         const name = (form.elements.namedItem("name") as HTMLInputElement)?.value.trim();
         const email = (form.elements.namedItem("email") as HTMLInputElement)?.value.trim();
         const phone = (form.elements.namedItem("Phone") as HTMLInputElement)?.value.trim();
         const company = (form.elements.namedItem("company") as HTMLInputElement)?.value.trim();
         const address = (form.elements.namedItem("address") as HTMLInputElement)?.value.trim();
         const comments = (form.elements.namedItem("comments") as HTMLInputElement)?.value.trim();
-    
+
         // Validate Name
         if (!name) {
             formErrors.name = "Name is required.";
         }
-    
+
         // Validate Email
         if (!email) {
             formErrors.email = "Email is required.";
         } else if (!/\S+@\S+\.\S+/.test(email)) {
             formErrors.email = "Email is invalid.";
         }
-    
+
         // Validate Phone
         if (!phone) {
             formErrors.phone = "Phone number is required.";
         } else if (!/^\d+$/.test(phone)) {
             formErrors.phone = "Phone number must contain only digits.";
         }
-    
+
         // Validate Company
         if (!company) {
             formErrors.company = "Company/Business Name is required.";
         }
-    
+
         // Validate Address
         if (!address) {
             formErrors.address = "Address & City is required.";
         }
-    
+
         if (!comments) {
             formErrors.comments = "Any Specific Comment?";
         }
-    
+
         if (Object.keys(formErrors).length > 0) {
             setErrors(formErrors);
         } else {
             setErrors({});
-          
+
         }
     };
-    
+
 
     return (
         <>
@@ -103,22 +103,22 @@ const InstallationForm: React.FC = () => {
 
                                     {/* Second Row */}
                                     <div className="col-md-6">
-    <div className={styles.formControl}>
-        <input
-            type="tel"
-            id="Phone"
-            className={`form-control ${styles.inputField}`}
-            placeholder="Phone*"
-            onInput={(e: React.FormEvent<HTMLInputElement>) => {
-                const target = e.target as HTMLInputElement; // Explicitly typing as HTMLInputElement
-                target.value = target.value.replace(/[^0-9]/g, '');
-            }}
-        />
-        {errors.phone && (
-            <span className={styles.error}>{errors.phone}</span>
-        )}
-    </div>
-</div>
+                                        <div className={styles.formControl}>
+                                            <input
+                                                type="tel"
+                                                id="Phone"
+                                                className={`form-control ${styles.inputField}`}
+                                                placeholder="Phone*"
+                                                onInput={(e: React.FormEvent<HTMLInputElement>) => {
+                                                    const target = e.target as HTMLInputElement; // Explicitly typing as HTMLInputElement
+                                                    target.value = target.value.replace(/[^0-9]/g, '');
+                                                }}
+                                            />
+                                            {errors.phone && (
+                                                <span className={styles.error}>{errors.phone}</span>
+                                            )}
+                                        </div>
+                                    </div>
 
 
 
@@ -169,10 +169,10 @@ const InstallationForm: React.FC = () => {
                                     </div>
 
                                     {/* Fourth Row - Submit Button */}
-                                    <div className="col-12">
+                                    <div className="text-center">
                                         <button
                                             type="submit"
-                                            className={styles["submit-button"]}
+                                            className={`${styles["submit-button"]} ${styles["send-button"]}`}
                                         >
                                             Send Message
                                         </button>

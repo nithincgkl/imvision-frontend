@@ -1,5 +1,5 @@
 'use client';
-import React, { useState ,useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import Wrapper from '@/layouts/wrapper';
 import FooterOne from '@/layouts/footers/FooterOne';
 import HeaderOne from '@/layouts/headers/HeaderOne';
@@ -50,7 +50,7 @@ const RentalConditions = () => {
     shippingReference: '',
     shippingCountry: '',
   });
-  
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value, type } = e.target;
 
@@ -139,14 +139,14 @@ const RentalConditions = () => {
     product_name: item.title, // Assuming 'title' is the product name
     qty: item.count,          // Quantity is the 'count'
     amount: item.amount,      // Amount for each item
-    product_id: item.id.toString(),   
-    product_images:item.img ,
-    sale_rent:item.type,
-    article_code:item.article_code          // Assuming 'id' is the product ID
+    product_id: item.id.toString(),
+    product_images: item.img,
+    sale_rent: item.type,
+    article_code: item.article_code          // Assuming 'id' is the product ID
   }));
 
   const totalAmount = parseFloat(calculateSubtotal());
-  const [storedUser , setStoredUser ] = useState<any | null>(null); // Use 'any' or define a proper type for user
+  const [storedUser, setStoredUser] = useState<any | null>(null); // Use 'any' or define a proper type for user
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -158,23 +158,23 @@ const RentalConditions = () => {
   }, []);
 
   useEffect(() => {
-    if (!storedUser ) {
+    if (!storedUser) {
       console.error('No user data found in localStorage.');
       // Handle the case where there is no user data
     }
-  }, [storedUser ]);
+  }, [storedUser]);
 
   // Ensure storedUser  is defined before accessing its properties
-  const userId = storedUser  ? storedUser .documentId : null;
+  const userId = storedUser ? storedUser.documentId : null;
 
 
   const handlePlaceOrder = async () => {
     const orderData = {
       userId: userId, // Replace with actual user ID if available
       order_details: orderDetails,
-      order_note:formData.Notes,
-      total_amount: totalAmount, 
-       BillingAddress: {
+      order_note: formData.Notes,
+      total_amount: totalAmount,
+      BillingAddress: {
         FirstName: formData.FirstName,
         LastName: formData.LastName,
         Email: formData.Email,
@@ -224,15 +224,17 @@ const RentalConditions = () => {
         }
       );
       if (response.status === 201 || response.status === 200) {
-window.location.href = `/order-successful?id=${response.data.data.id}`;      }
+        window.location.href = `/order-successful?id=${response.data.data.id}`;
+      }
     }
     catch (error) {
       if (axios.isAxiosError(error)) {
         console.error("Error response:", error.response?.data);
         console.error("Error status:", error.response?.status);
-    } else {
+      } else {
         console.error("Unexpected error:", error);
-    }    }
+      }
+    }
   };
 
   return (
@@ -484,15 +486,15 @@ window.location.href = `/order-successful?id=${response.data.data.id}`;      }
                                 </div>
                                 {cartItems.map((item: any) => (
 
-                                <div key={item.id}  className={style["two_row"]}>
-                                  <div>
-                                  <p>{item.title} x {item.count}</p>
+                                  <div key={item.id} className={style["two_row"]}>
+                                    <div>
+                                      <p>{item.title} x {item.count}</p>
+                                    </div>
+                                    <div>
+                                      <p>SEK  {(item.amount * item.count).toFixed(2)}</p>
+                                    </div>
                                   </div>
-                                  <div>
-                                  <p>SEK  {(item.amount * item.count).toFixed(2)}</p>
-                                  </div>
-                                </div>
-                                                              ) )}
+                                ))}
 
                               </div>
                               <div className={style["checkout_table_sec"]}>
@@ -502,8 +504,8 @@ window.location.href = `/order-successful?id=${response.data.data.id}`;      }
                                     <p>Shipping</p>
                                   </div>
                                   <div>
-                                  <p>SEK {calculateSubtotal()}</p>
-                                  <p>SEK {shippingCost.toFixed(2)}</p>
+                                    <p>SEK {calculateSubtotal()}</p>
+                                    <p>SEK {shippingCost.toFixed(2)}</p>
 
                                   </div>
                                 </div>
@@ -520,8 +522,12 @@ window.location.href = `/order-successful?id=${response.data.data.id}`;      }
                                 </div>
 
                                 <div className={style["single_row"]}>
-                                  <p>Your personal data will be used to process your order, improve your experience on the website and for other purposes described in our
-                                    &nbsp;<Link href="/privacy-policy" className="cs_hero_btn">privacy policy</Link> .</p>
+                                  <p className={style["order_info_text"]}>
+                                    Your personal data will be used to process your order, improve your experience on the website, and for other purposes described in our{' '}
+                                    <Link href="/privacy-policy" className="cs_hero_btn">
+                                      <span className={style["text_space"]}> </span><span>privacy policy</span>
+                                    </Link>.
+                                  </p>
                                 </div>
                               </div>
                               <div className={style["checkout_table_sec"]}>

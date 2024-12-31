@@ -26,24 +26,24 @@ const Index: React.FC = () => {
 
 
   return (
-    <Wrapper> 
-      <HeaderOne /> 
+    <Wrapper>
+      <HeaderOne />
       <div id="smooth-wrapper">
         <div id="smooth-content" className="smooth-content">
           <main>
             <BannerVideo />
-            <HomeExperience />
             <Displays />
-            {/* <ScreenSizes /> */}
             <HomeCarousel />
             <WowMoments />
+            <HomeExperience />
+            {/* <ScreenSizes /> */}
             <LetsTalk />
             <FooterOne />
-            
+
           </main>
         </div>
       </div>
-      
+
     </Wrapper>
   );
 };

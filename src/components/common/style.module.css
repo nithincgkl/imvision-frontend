@@ -1,114 +1,115 @@
 /* banner */
 
 .banner {
-    position: relative;
-    width: calc(100% - 128px);
-    overflow: hidden;
-    margin: 64px 64px 64px 64px;
-    /* background: red; */
-    height: calc(100vh - 128px);
+  position: relative;
+  width: calc(100% - 128px);
+  overflow: hidden;
+  margin: 64px 64px 64px 64px;
+  /* background: red; */
+  height: calc(100vh - 128px);
 }
 
 .banner-video {
-    position: relative;
-    /* top: 50%; */
-    /* left: 50%; */
-    min-width: 100%;
-    min-height: 100%;
-    width: auto;
-    height: auto;
-    /* transform: translate(-50%, -50%); */
-    -o-object-fit: cover;
-    object-fit: cover;
-    width: 100%;
+  position: relative;
+  /* top: 50%; */
+  /* left: 50%; */
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  /* transform: translate(-50%, -50%); */
+  -o-object-fit: cover;
+  object-fit: cover;
+  width: 100%;
 
 }
 
 .banner-content {
-    position: absolute;
-    top: 50px;
-    left: 60px;
-    /* transform: translate(-50%, -50%); */
-    text-align: left;
-    color: white;
-    z-index: 40;
-    /* position: relative; */
+  position: absolute;
+  top: 50px;
+  left: 60px;
+  /* transform: translate(-50%, -50%); */
+  text-align: left;
+  color: white;
+  z-index: 40;
+  /* position: relative; */
 }
 
 .banner-content h1 {
-    font-size: 73px;
-    margin-bottom: 0;
+  font-size: 73px;
+  margin-bottom: 0;
 }
 
 .banner-content h2 {
-    font-size: 73px;
-    color: #9A9A9A;
+  font-size: 73px;
+  color: #9A9A9A;
 }
 
 .nav-banner-container {
-    background-color: #000;
-    float: left;
-    width: 100%;
+  background-color: #000;
+  float: left;
+  width: 100%;
 }
 
 
 
 @media (max-width: 768px) {
-    .banner-content h1 {
-        font-size: 2rem;
-    }
+  .banner-content h1 {
+    font-size: 2rem;
+  }
 
-    .banner-content p {
-        font-size: 1rem;
-    }
+  .banner-content p {
+    font-size: 1rem;
+  }
 
-    .banner-content {
-        left: 15px;
-    }
+  .banner-content {
+    left: 15px;
+  }
 
-    .banner {
-        width: 100%;
-        margin: 0 0 0 0;
-        height: auto;
-    }
+  .banner {
+    width: 100%;
+    margin: 0 0 0 0;
+    height: auto;
+  }
 
-    .banner-content {
-        left: 15px !important;
-    }
-    .talk-btn{
-      left: 10px !important;
-    }
-   
+  .banner-content {
+    left: 15px !important;
+  }
+
+  .talk-btn {
+    left: 10px !important;
+  }
+
 
 }
 
 
 @media (max-width: 1250px) {
-    .banner-content {
-        left: 70px;
-        top: 25px;
-    }
+  .banner-content {
+    left: 70px;
+    top: 25px;
+  }
 
-    .banner-content h1 {
-        /* font-size: 25px; */
-        margin-bottom: 15px;
-    }
+  .banner-content h1 {
+    /* font-size: 25px; */
+    margin-bottom: 15px;
+  }
 
-    .banner-content h2 {
-        font-size: 25px;
-        margin-top: -16px;
-    }
+  .banner-content h2 {
+    font-size: 25px;
+    margin-top: -16px;
+  }
 
 }
 
 @media screen and (max-width: 1199px) {
 
-    .banner {
-        position: relative;
-        width: 100%;
-        height: auto;
-        margin: 74px 0 0 0;
-    }
+  .banner {
+    position: relative;
+    width: 100%;
+    height: auto;
+    margin: 74px 0 0 0;
+  }
 
 
 }
@@ -126,79 +127,98 @@
 
 
 .instructions_form {
-    padding: 0px 0 4rem 0;
+  padding: 0px 0 4rem 0;
 }
-.instructions_form h2{
-    margin-bottom: 50px;
+
+.instructions_form h2 {
+  margin-bottom: 50px;
 }
 
 .installation-form {
-    max-width: 800px;
-    margin: 0 auto;
+  max-width: 800px;
+  margin: 0 auto;
 }
 
 .form-input {
-    width: 100%;
-    background-color: #222222;
-    color: #ffffff;
-    border: none;
-    height: 60px;
-    padding: 0 15px;
-    margin-bottom: 20px;
-    font-size: 16px;
-    border-radius: 0px;
+  width: 100%;
+  background-color: #222222;
+  color: #ffffff;
+  border: none;
+  height: 60px;
+  padding: 0 15px;
+  margin-bottom: 20px;
+  font-size: 16px;
+  border-radius: 0px;
 }
 
 .form-input::placeholder {
-    color: #bbbbbb;
-    font-size: 14px;
+  color: #bbbbbb;
+  font-size: 14px;
 }
 
 .form-input:focus {
-    outline: none;
-    border: 1px solid #555555;
+  outline: none;
+  border: 1px solid #555555;
 }
 
 .submit-button {
-    width: 100%;
-    background-color: #ffffff;
-    color: #000000;
-    border: none;
-    padding: 0.75rem 1.5rem;
-    font-size: 18px;
-    text-transform: uppercase;
-    border-radius: 5px;
-    cursor: pointer;
-    font-weight: 600;
-    transition: background-color 0.3s;
-    margin-top: 15px;
-    border-radius: 0;
+  width: 100%;
+  background-color: #ffffff;
+  color: #000000;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  font-size: 18px;
+  text-transform: uppercase;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.3s;
+  margin-top: 15px;
+  border-radius: 0;
+}
+
+.submit-button-container {
+  display: flex;
+  width: 200px;
+  text-align: center;
+  justify-content: center;
+}
+
+.send-button {
+  width: 200px;
+}
+
+.flex-class {
+  display: flex;
 }
 
 .submit-button:hover {
-    background-color: #9addbb;
-    color: #fff;
-} 
- 
-.installation-form input::placeholder {
-    color: #fff;
-    opacity: 1; /* Firefox */
-  }
-  .talk-btn {
-    position: absolute;
-    bottom: 50px;
-    background: #fff;
-    font-size: 14px;
-    text-transform: uppercase;
-    padding: 12px 20px;
-    margin-left: 15px;
-    color: #000;
-    border: none;
-    left: 50px;
-    font-weight: 600;
-    letter-spacing: 1px;
-    max-width: 200px;
+  background-color: #9addbb;
+  color: #fff;
 }
+
+.installation-form input::placeholder {
+  color: #fff;
+  opacity: 1;
+  /* Firefox */
+}
+
+.talk-btn {
+  position: absolute;
+  bottom: 50px;
+  background: #fff;
+  font-size: 14px;
+  text-transform: uppercase;
+  padding: 12px 20px;
+  margin-left: 15px;
+  color: #000;
+  border: none;
+  left: 50px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  max-width: 200px;
+}
+
 .talk-btn:hover {
   background-color: #9addbb;
   color: #fff;
@@ -210,120 +230,121 @@
 
 /* input */
 .error {
-    color: red;
-    font-size: 0.875rem;
-    margin-top: 0.5rem;
+  color: red;
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
 }
 
 .formControl {
-    position: relative;
-    margin-bottom: 1rem;
-  }
-  
-  .inputField {
-    width: 100%;
-    padding: 0.75rem 1rem;
-    border: none;
-    border-radius: 0.25rem;
-    background-color: #141414;
-    transition: all 0.2s ease-in-out;
-    border-radius: 0;
-    border-bottom: solid 2px #747474;
-    color: #fff;
-  }
-  
-  .inputField:focus {
-    outline: none;
-    border-color: #86b7fe;
-    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
-  }
-  
-  .inputLabel {
-    position: absolute;
-    left: 1rem;
-    top: 50%;
-    transform: translateY(-50%);
-    background-color: #141414;
-    padding: 0 0.25rem;
-    color: #6c757d;
-    transition: all 0.2s ease-in-out;
-    pointer-events: none;
-  }
-  
-  .inputField:focus+.inputLabel,
-  .inputField:not(:placeholder-shown)+.inputLabel {
-    top: 0;
-    transform: translateY(-50%) scale(0.85);
-    color: #fff;
-  }
-  
-  .textareaLabel {
-    top: 1rem;
-  }
-  
-  .textareaField:focus+.textareaLabel,
-  .textareaField:not(:placeholder-shown)+.textareaLabel {
-    top: 0;
-    transform: translateY(-50%) scale(0.85);
-  }
-  
-  .submitButton {
-    display: inline-flex;
-    align-items: center;
-    padding: 0.75rem 1.5rem;
-    background-color: #ffffff;
-    color: #000;
-    border: none;
-    cursor: pointer;
-    transition: all 0.2s ease-in-out;
-    justify-content: center;
-    width: 100%;
-    border-radius: 0;
-  }
-  
-  .submitButton:hover {
-    background-color: #70aa8d;
-  }
-  
-  .submitButton svg {
-    margin-left: 0.5rem;
-    transition: transform 0.2s ease-in-out;
-  }
-  
-  .submitButton:hover svg {
-    transform: translateX(4px);
-  }
-  
-  .eye_button {
-    float: right;
-    padding: 0.75rem 0rem;
-    margin-top: -60px;
-    border: none;
-    background: none;
-    padding-right: 10px;
-  }
-  
-  .form_button {
-    width: 100%;
-    border: none;
-    background-color: #fff;
-    color: #000;
-    padding: 10px 0;
-    margin-top: 20px !important;
-  
-  }
-  
-  .form_button:hover {
-    width: 100%;
-    border: none;
-    background-color: #9addbb;
-    color: #000;
-    padding: 10px 0;
-  
-  }
+  position: relative;
+  margin-bottom: 1rem;
+}
+
+.inputField {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: none;
+  border-radius: 0.25rem;
+  background-color: #141414;
+  transition: all 0.2s ease-in-out;
+  border-radius: 0;
+  border-bottom: solid 2px #747474;
+  color: #fff;
+}
+
+.inputField:focus {
+  outline: none;
+  border-color: #86b7fe;
+  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+
+.inputLabel {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: #141414;
+  padding: 0 0.25rem;
+  color: #6c757d;
+  transition: all 0.2s ease-in-out;
+  pointer-events: none;
+}
+
+.inputField:focus+.inputLabel,
+.inputField:not(:placeholder-shown)+.inputLabel {
+  top: 0;
+  transform: translateY(-50%) scale(0.85);
+  color: #fff;
+}
+
+.textareaLabel {
+  top: 1rem;
+}
+
+.textareaField:focus+.textareaLabel,
+.textareaField:not(:placeholder-shown)+.textareaLabel {
+  top: 0;
+  transform: translateY(-50%) scale(0.85);
+}
+
+.submitButton {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.75rem 1.5rem;
+  background-color: #ffffff;
+  color: #000;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  justify-content: center;
+  width: 100%;
+  border-radius: 0;
+}
+
+.submitButton:hover {
+  background-color: #70aa8d;
+}
+
+.submitButton svg {
+  margin-left: 0.5rem;
+  transition: transform 0.2s ease-in-out;
+}
+
+.submitButton:hover svg {
+  transform: translateX(4px);
+}
+
+.eye_button {
+  float: right;
+  padding: 0.75rem 0rem;
+  margin-top: -60px;
+  border: none;
+  background: none;
+  padding-right: 10px;
+}
+
+.form_button {
+  width: 100%;
+  border: none;
+  background-color: #fff;
+  color: #000;
+  padding: 10px 0;
+  margin-top: 20px !important;
+
+}
+
+.form_button:hover {
+  width: 100%;
+  border: none;
+  background-color: #9addbb;
+  color: #000;
+  padding: 10px 0;
+
+}
+
 /* input */
 @media screen and (max-width: 991px) {
-.installation_title {
-  font-size: 40px !important;
-}
+  .installation_title {
+    font-size: 40px !important;
+  }
 }
