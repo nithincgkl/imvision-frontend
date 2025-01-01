@@ -12,6 +12,7 @@ import { IoMdClose } from "react-icons/io";
 import axios from 'axios';
 import { log } from "console";
 import { CartProvider, useCart } from '@/context/cart-context'; // Import the useCart hook
+import { useSnackbar } from 'notistack'; // Import useSnackbar hook
 
 const WorkWithUs: React.FC = () => {
   return (
@@ -92,6 +93,7 @@ const Career = () => {
   });
   const modalRef = useRef<HTMLDivElement>(null);
   const [isSubmitting, setIsSubmitting] = useState<Boolean>(false);
+  const { enqueueSnackbar } = useSnackbar();
 
   useEffect(() => {
     const fetchJobs = async () => {
@@ -231,7 +233,7 @@ const Career = () => {
             'Content-Type': 'application/json'
           }
         });
-
+        enqueueSnackbar('Thank you for applying! Your application has been successfully submitted', { variant: 'success' });
         handleCloseModal();
       } catch (error) {
         console.error(error);
