@@ -453,7 +453,7 @@ const ErrorReportings: React.FC = () => {
           <FooterOne />
         </div>
       </div>
-      {true && (
+      {isSuccess && (
         <div className={style.modal}>
           <div className={style.modal_content}>
             <button
