@@ -453,7 +453,7 @@ const ErrorReportings: React.FC = () => {
           <FooterOne />
         </div>
       </div>
-      {isSuccess && (
+      {true && (
         <div className={style.modal}>
           <div className={style.modal_content}>
             <button
@@ -471,7 +471,7 @@ const ErrorReportings: React.FC = () => {
             </button>
             <div className="thanks-icon">
               <Image
-                src="/assets/images/thanks.png"
+                src="/assets/gif/success.gif"
                 alt="Displays"
                 width={120}
                 height={120}
