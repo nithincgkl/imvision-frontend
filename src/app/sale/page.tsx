@@ -25,7 +25,7 @@ interface Product {
   title: string;
   des: string;
   sale_rent: string;
-  slug:string;
+  slug: string;
   article_code: string;
 }
 
@@ -35,6 +35,8 @@ const Page: React.FC = () => {
   const [filteredProductData, setFilteredProductData] = useState<Product[]>([]); // Filtered sale products
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [visibleItems, setVisibleItems] = useState(4); // Number of items to display initially
+
 
   // Function to fetch products
   const fetchProducts = async () => {
@@ -42,7 +44,7 @@ const Page: React.FC = () => {
     setError(null);
     try {
       const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_URL}products?populate=*`, 
+        `${process.env.NEXT_PUBLIC_API_URL}products?populate=*`,
         {
           headers: {
             Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
@@ -59,19 +61,19 @@ const Page: React.FC = () => {
               item.product_images && item.product_images.length > 0
                 ? item.product_images[0].url
                 : item.thumbnail
-                ? item.thumbnail.url
-                : 'No image is available';
+                  ? item.thumbnail.url
+                  : 'No image is available';
 
             return {
               id: item.id,
               img: imageUrl,
               title: item.title,
-              des: item. description || '',
+              des: item.description || '',
               sale_rent: item.sale_rent,
-              slug:item.slug,
+              slug: item.slug,
             };
           });
-          
+
         setProductData(transformedData);
         setFilteredProductData(transformedData);
       } else {
@@ -92,13 +94,15 @@ const Page: React.FC = () => {
 
   // Handle applying filters
   const handleApplyFilters = (filteredProducts: Product[]) => {
-    const finalProducts = filteredProducts.length > 0 
+    const finalProducts = filteredProducts.length > 0
       ? filteredProducts.filter(product => product.sale_rent === 'Sale')
       : productData;
 
     setFilteredProductData(finalProducts);
   };
-
+  const handleLoadMore = () => {
+    setVisibleItems((prev) => prev + 8); // Increment the visible items count by 8
+  };
   return (
     <Wrapper>
       <HeaderOne />
@@ -132,7 +136,7 @@ const Page: React.FC = () => {
                         <p>{error}</p>
                       </div>
                     ) : filteredProductData.length > 0 ? (
-                      filteredProductData.map((item) => (
+                      filteredProductData.slice(0, visibleItems).map((item) => (
                         <div
                           className="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12"
                           key={item.id}
@@ -145,6 +149,16 @@ const Page: React.FC = () => {
                         <p>No sale products found.</p>
                       </div>
                     )}
+                  </div>
+                  <div className={`${style["button_div"]} text-center my-4`}>
+                    {visibleItems < filteredProductData.length && (
+                      <button onClick={handleLoadMore} className={style["load_more_btn"]}>
+                        Load More
+                      </button>
+                    )}
+                    <button onClick={() => window.location.href = '/contact'} className={style["contact_btn"]}>
+                      Contact Us
+                    </button>
                   </div>
                 </div>
               </section>
