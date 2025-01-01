@@ -50,6 +50,7 @@ const RentalConditions = () => {
     shippingReference: '',
     shippingCountry: '',
   });
+  const [isPlacing, setPlacingOrder] = useState(false)
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value, type } = e.target;
@@ -169,6 +170,7 @@ const RentalConditions = () => {
 
 
   const handlePlaceOrder = async () => {
+    setPlacingOrder(true);
     const orderData = {
       userId: userId, // Replace with actual user ID if available
       order_details: orderDetails,
@@ -227,6 +229,7 @@ const RentalConditions = () => {
         window.location.href = `/order-successful?id=${response.data.data.id}`;
         localStorage.setItem("cartItems", JSON.stringify([]));
       }
+      setPlacingOrder(false)
     }
     catch (error) {
       if (axios.isAxiosError(error)) {
@@ -235,6 +238,10 @@ const RentalConditions = () => {
       } else {
         console.error("Unexpected error:", error);
       }
+      setPlacingOrder(false)
+    }
+    finally {
+      setPlacingOrder(false)
     }
   };
 
@@ -533,7 +540,7 @@ const RentalConditions = () => {
                               </div>
                               <div className={style["checkout_table_sec"]}>
                                 <div className={style["single_row"]}>
-                                  <button onClick={handlePlaceOrder}>Place order</button>
+                                  <button onClick={handlePlaceOrder}>{isPlacing ? 'Placing order...' : 'Place Order'}</button>
                                 </div>
 
                               </div>
