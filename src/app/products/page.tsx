@@ -5,11 +5,10 @@ import style from "./style.module.css";
 import Wrapper from "@/layouts/wrapper";
 import FooterOne from "@/layouts/footers/FooterOne";
 import HeaderOne from "@/layouts/headers/HeaderOne";
-// import Filter from "@/components/sale/filter";
 import ProductItem from "@/components/product-item/product-item";
 import LetsTalk from '@/components/home/lets-talk';
 import axios from 'axios';
-import { CartProvider, useCart } from '@/context/cart-context'; // Import the useCart hook
+import { CartProvider, useCart } from '@/context/cart-context';
 
 const Product: React.FC = () => {
   return (
@@ -18,8 +17,6 @@ const Product: React.FC = () => {
     </CartProvider>
   );
 };
-
-
 
 interface Product {
   id: string;
@@ -31,16 +28,16 @@ interface Product {
   };
   title: string;
   amount: string;
-  slug: string;  // Added slug
+  slug: string;
   sale_rent: string;
-  article_code:string
+  article_code: string;
 }
 
 const Page: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
+  const [visibleItems, setVisibleItems] = useState(8); // Number of items to display initially
 
-  // Fetch product data
   useEffect(() => {
     const fetchProducts = async () => {
       try {
@@ -64,8 +61,7 @@ const Page: React.FC = () => {
     fetchProducts();
   }, []);
 
-
-  const { cartItems, removeFromCart, updateCartItemCount ,addToCart} = useCart();
+  const { cartItems, removeFromCart, updateCartItemCount, addToCart } = useCart();
 
   const handleAddToCart = (product: Product) => {
     const cartItem = {
@@ -73,17 +69,20 @@ const Page: React.FC = () => {
       img: product.thumbnail.formats?.large?.url || product.thumbnail.url,
       title: product.title,
       des: product.amount,
-      amount: parseFloat(product.amount), // Assuming amount is a string, convert to number
+      amount: parseFloat(product.amount),
       type: product.sale_rent,
       count: 1,
-      article_code:product.article_code, // Start with 1 item added
+      article_code: product.article_code,
     };
 
-    addToCart(cartItem); // Use the addToCart function from the context
+    addToCart(cartItem);
   };
 
-  if (loading) return <div>Loading...</div>; 
+  const handleLoadMore = () => {
+    setVisibleItems((prev) => prev + 8); // Increment the visible items count by 8
+  };
 
+  if (loading) return <div>Loading...</div>;
 
   return (
     <Wrapper>
@@ -93,37 +92,40 @@ const Page: React.FC = () => {
         <div id="smooth-content">
           <main>
             <div className={style["without-banner"]}>
-              {/* Common Top Section */}
               <div className={style.topSection}>
                 <div className="container-fluid">
                   <div className="row">
                     <div className="col-12">
-                      <h1 className={style.pageTitle}>Products</h1>
+                      <h1 className={style.pageTitle}>Product for Sale/Rent</h1>
                     </div>
                   </div>
                 </div>
               </div>
 
-              {/* <Filter /> */}
-
               <section className={style["product_section"]}>
                 <div className="container-fluid">
                   <div className="row">
-                    {products.map((product) => (
+                    {products.slice(0, visibleItems).map((product) => (
                       <div className="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12" key={product.id}>
                         <ProductItem item={{
-
                           id: product.id,
                           img: product.thumbnail?.formats?.large?.url || product.thumbnail?.url,
                           title: product.title,
                           des: product.amount,
                           slug: product.slug,
                           sale_rent: product.sale_rent,
-                          article_code:product.article_code
+                          article_code: product.article_code
                         }} />
                       </div>
                     ))}
                   </div>
+                  {visibleItems < products.length && (
+                    <div className="text-center mt-4">
+                      <button onClick={handleLoadMore}  className={style["load_more_btn"]}>
+                        Load More
+                      </button>
+                    </div>
+                  )}
                 </div>
               </section>
 
