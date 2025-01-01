@@ -471,7 +471,7 @@ const ErrorReportings: React.FC = () => {
             </button>
             <div className="thanks-icon">
               <Image
-                src="/assets/images/thanks.png"
+                src="/assets/gif/success.gif"
                 alt="Displays"
                 width={120}
                 height={120}
