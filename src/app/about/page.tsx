@@ -70,7 +70,7 @@ const AboutPage = () => {
                     </div>
                     <div className="col-md-4">
                       <p className={style["header-secondary-text"]}>
-                        IM vision is a professional and reliable partner and we<br className='d-xl-block d-lg-none d-md-none d-none' />
+                        IM vision is a professional and reliable partner and we
                         are with you all the way from order to execution.
                       </p>
                     </div>

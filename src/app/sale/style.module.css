@@ -1,28 +1,32 @@
-.without-banner{
-    padding-top: 70px;
-    /* background: red; */
-    margin-top: 65px;  
-}
-.sale_container{
-    float: left;
-    width: 100%;
+.without-banner {
+  padding-top: 70px;
+  /* background: red; */
+  margin-top: 65px;
 }
 
-.sale_filter_container{
-    float: left;
-    width: 100%;
-    
+.sale_container {
+  float: left;
+  width: 100%;
 }
-.sale_filter_right{
-    float: left;
-    width: 100%;   
+
+.sale_filter_container {
+  float: left;
+  width: 100%;
+
 }
-.sale_filter_right button{
-    float: right;   
+
+.sale_filter_right {
+  float: left;
+  width: 100%;
 }
-.sale_filter_right p{
-    float: right;   
-    margin-left: 15;
+
+.sale_filter_right button {
+  float: right;
+}
+
+.sale_filter_right p {
+  float: right;
+  margin-left: 15;
 }
 
 
@@ -34,55 +38,95 @@
 
 
 .filterContent {
-    padding:0 0 20px 0;
-  }
- 
-  .filterInnerContent{
-    background: #222222;
-    border: solid 2px #9FDEBE;
-    padding: 15px;
+  padding: 0 0 20px 0;
 }
-  .filterContent h3 {
-    margin-bottom: 10px;
-  }
-  
-  .filterContent label {
-    margin-left: 5px;
-  }
-  
-  .filterContent div {
-    /* margin-bottom: 10px; */
-  }
-  
-.label_input_div{
-    background-color: #363636;
-    float: left;
-    clear: both;
-    margin-bottom: 10px;
-    padding: 2px 15px;
-    width: 100%;
-    max-width: 210px;
-    text-align: center;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+
+.filterInnerContent {
+  background: #222222;
+  border: solid 2px #9FDEBE;
+  padding: 15px;
 }
-.label_input_div label{ float: left;}
-.label_input_div input{ 
-    float: left;
-    background-color: #222222;
-    border: none;
-    margin-left: 12px;
+
+.filterContent h3 {
+  margin-bottom: 10px;
+}
+
+.filterContent label {
+  margin-left: 5px;
+}
+
+.filterContent div {
+  /* margin-bottom: 10px; */
+}
+
+.label_input_div {
+  background-color: #363636;
+  float: left;
+  clear: both;
+  margin-bottom: 10px;
+  padding: 2px 15px;
+  width: 100%;
+  max-width: 210px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.label_input_div label {
+  float: left;
+}
+
+.label_input_div input {
+  float: left;
+  background-color: #222222;
+  border: none;
+  margin-left: 12px;
 }
 
 
 
 /* product_section */
 
-.product_section{
+.product_section {
   float: left;
   width: 100%;
   margin: 0 0;
-  padding:50px 0 0 0;
+  padding: 50px 0 0 0;
   background-image: radial-gradient(#304239 5%, black 40%);
+}
+
+.load_more_btn {
+  background: #fff;
+  font-size: 14px;
+  text-transform: uppercase;
+  padding: 12px 20px;
+  color: #000;
+  max-width: 200px;
+  margin: 0 auto;
+  margin-top: 25px;
+  border: none;
+  font-weight: 600;
+  min-width: 200px;
+  margin-right: 25px;
+}
+
+.contact_btn {
+  background: #363636;
+  font-size: 14px;
+  text-transform: uppercase;
+  padding: 12px 20px;
+  color: #fff;
+  max-width: 200px;
+  margin: 0 auto;
+  margin-top: 25px;
+  border: none;
+  font-weight: 600;
+  min-width: 200px;
+}
+
+@media(max-width:768px) {
+  .load_more_btn {
+    margin-right: 0;
+  }
 }

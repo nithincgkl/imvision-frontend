@@ -139,7 +139,7 @@ const HomeCarousel: React.FC<{ style_2?: boolean; style_3?: boolean }> = ({ styl
           ))}
         </Swiper>
       </div>
-      {style_2 ? null : style_3 ? null : <div className="cs_height_150 cs_height_lg_60"></div>}
+      {/* {style_2 ? null : style_3 ? null : <div className="cs_height_150 cs_height_lg_60"></div>} */}
     </section>
   );
 };

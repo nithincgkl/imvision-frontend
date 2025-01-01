@@ -95,3 +95,16 @@
   padding: 50px 0 0 0;
   background-image: radial-gradient(#304239 5%, black 40%);
 }
+.load_more_btn{
+  background: #fff;
+  font-size: 14px;
+  text-transform: uppercase;
+  padding: 12px 20px;
+  color: #000;
+  max-width: 200px;
+  margin: 0 auto;
+  margin-top: 25px;
+  border: none;
+  font-weight: 600;
+  min-width: 200px;
+}

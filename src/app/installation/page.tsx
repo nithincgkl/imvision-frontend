@@ -11,7 +11,7 @@ import { CartProvider, useCart } from '@/context/cart-context'; // Import the us
 
 const Installation: React.FC = () => {
   return (
-    <CartProvider>
+    <CartProvider> 
       <Page />
     </CartProvider>
   );

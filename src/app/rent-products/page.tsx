@@ -35,6 +35,8 @@ const RentPage: React.FC = () => {
   const [filteredProductData, setFilteredProductData] = useState<Product[]>([]); // Filtered rent products
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [visibleItems, setVisibleItems] = useState(4); // Number of items to display initially
+
 
   // Function to fetch products
   const fetchProducts = async () => {
@@ -59,8 +61,8 @@ const RentPage: React.FC = () => {
               item.product_images && item.product_images.length > 0
                 ? item.product_images[0].url
                 : item.thumbnail
-                ? item.thumbnail.url
-                : 'No image is available';
+                  ? item.thumbnail.url
+                  : 'No image is available';
 
             return {
               id: item.id,
@@ -68,7 +70,7 @@ const RentPage: React.FC = () => {
               title: item.title,
               des: item.description || '',
               sale_rent: item.sale_rent,
-              slug:item.slug
+              slug: item.slug
             };
           });
 
@@ -98,7 +100,9 @@ const RentPage: React.FC = () => {
 
     setFilteredProductData(finalProducts);
   };
-
+  const handleLoadMore = () => {
+    setVisibleItems((prev) => prev + 8); // Increment the visible items count by 8
+  };
   return (
     <Wrapper>
       <HeaderOne />
@@ -132,12 +136,12 @@ const RentPage: React.FC = () => {
                         <p>{error}</p>
                       </div>
                     ) : filteredProductData.length > 0 ? (
-                      filteredProductData.map((item) => (
+                      filteredProductData.slice(0, visibleItems).map((item) => (
                         <div
                           className="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12"
                           key={item.id}
                         >
-                          <ProductItem item={item} linkEnabled={false}/>
+                          <ProductItem item={item} linkEnabled={false} />
 
                         </div>
                       ))
@@ -146,6 +150,16 @@ const RentPage: React.FC = () => {
                         <p>No rent products found.</p>
                       </div>
                     )}
+                  </div>
+                  <div className={`${style["button_div"]} text-center my-4`}>
+                    {visibleItems < filteredProductData.length && (
+                      <button onClick={handleLoadMore} className={style["load_more_btn"]}>
+                        Load More
+                      </button>
+                    )}
+                    <button onClick={() => window.location.href = '/contact'} className={style["contact_btn"]}>
+                      Contact Us
+                    </button>
                   </div>
                 </div>
               </section>
