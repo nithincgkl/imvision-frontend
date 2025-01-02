@@ -52,7 +52,7 @@
   max-width: 300px;
 }
 .cart_box_body img{
-  max-width: 300px;
+  max-width: 230px;
   border: solid;
 }
 .cart_box_header .float-start{
@@ -253,6 +253,10 @@
 }
 .cart_box_img {
   min-width: 125px;
+}
+.cart_box_body img{
+  max-width: 150px;
+  border: solid;
 }
 .cart_box_right {
   display: block;

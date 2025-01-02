@@ -396,7 +396,7 @@ const Filter: React.FC<FilterProps> = ({ onApplyFilters }) => {
                   <option value="price-low-to-high">Price: Low to High</option>
                   <option value="price-high-to-low">Price: High to Low</option>
                   <option value="newest">Newest</option>
-                  <option value="rating">Rating</option>
+                  {/* <option value="rating">Rating</option> */}
                 </select>
                 <FaAngleDown className={`${style.btn_cat} fs-5 text-white`} />
               </div>

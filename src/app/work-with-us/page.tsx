@@ -52,7 +52,7 @@ const CareerBox = ({ job, onApply }: { job: CareerJob; onApply: (job: CareerJob)
   <div className={style["career_box"]}>
     <div>
       {job.thumbnail ? (
-        <img src={`${process.env.NEXT_PUBLIC_IMAGE_URL}${job.thumbnail.formats.thumbnail.url}`} className="w-100" alt={job.title} loading="lazy" />
+        <img src={`${job.thumbnail.formats.thumbnail.url}`} className="w-100" alt={job.title} loading="lazy" />
       ) : (
         <div className={style["no-thumbnail"]}>No Image Available</div>
       )}
