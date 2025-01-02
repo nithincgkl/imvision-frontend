@@ -1,81 +1,81 @@
-.without-banner{
-    padding-top: 70px;
-    background: red;
-    margin-top: 65px;  
-}
-.sale_container{
-    float: left;
-    width: 100%;
+.without-banner {
+  padding-top: 70px;
+  background: red;
+  margin-top: 65px;
 }
 
-.sale_filter_container{
-    float: left;
-    width: 100%;   
-    padding: 50px 0 0px 0;
-}
-.sale_filter_right{
-    float: left;
-    width: 100%;   
-}
-.sale_filter_right button{
-    float: right;   
-}
-.sale_filter_right p{
-    float: right;   
-    margin-left: 15;
+.sale_container {
+  float: left;
+  width: 100%;
 }
 
+.sale_filter_container {
+  float: left;
+  width: 100%;
+  padding: 50px 0 0px 0;
+}
 
+.sale_filter_right {
+  float: left;
+  width: 100%;
+}
 
+.sale_filter_right button {
+  float: right;
+}
 
-
-
-
-
+.sale_filter_right p {
+  float: right;
+  margin-left: 15;
+}
 
 .filterContent {
-    padding: 15px  0 20px 0;
-  }
- 
-  .filterInnerContent{
-    background: #222222;
-    border: solid 2px #9FDEBE;
-    padding: 15px;
-    position: relative;
-}
-  .filterContent h3 {
-    margin-bottom: 10px;
-  }
-  
-  .filterContent label {
-    margin-left: 5px;
-  }
-  
-  .filterContent div {
-    /* margin-bottom: 10px; */
-  }
-  
-.label_input_div{
-    background-color: #363636;
-    float: left;
-    clear: both;
-    margin-bottom: 10px;
-    padding: 2px 15px;
-    width: 100%;
-    max-width: 210px;
-    text-align: center;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-.label_input_div label{ float: left;}
-.label_input_div input{ 
-    float: left;
-    background-color: #222222;
-    border: none;
-    margin-left: 12px;
+  padding: 15px 0 20px 0;
 }
 
+.filterInnerContent {
+  background: #222222;
+  border: solid 2px #9FDEBE;
+  padding: 15px;
+  position: relative;
+}
+
+.filterContent h3 {
+  margin-bottom: 10px;
+}
+
+.filterContent label {
+  margin-left: 5px;
+}
+
+.filterContent div {
+  /* margin-bottom: 10px; */
+}
+
+.label_input_div {
+  background-color: #363636;
+  float: left;
+  clear: both;
+  margin-bottom: 10px;
+  padding: 2px 15px;
+  width: 100%;
+  max-width: 210px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.label_input_div label {
+  float: left;
+}
+
+.label_input_div input {
+  float: left;
+  background-color: #222222;
+  border: none;
+  margin-left: 12px;
+}
 
 .filter_btn {
   display: inline-flex;
@@ -85,11 +85,12 @@
   text-transform: uppercase;
   font-weight: 300;
   letter-spacing: 0.3px;
-  padding:5px 10px;
+  padding: 10px 25px;
   background-color: #9FDEBE;
   border: none;
   color: #000;
   font-size: 15px;
+  gap: 10px;
 }
 
 .sort_btn {
@@ -100,35 +101,46 @@
   text-transform: uppercase;
   font-weight: 300;
   letter-spacing: 0.3px;
-  padding:5px 10px;
+  padding: 5px 10px;
   background-color: #222222;
   border: none;
   color: #fff;
   margin-left: 15px;
   font-size: 15px;
 }
-.sale_filter_container_right{
+
+.sale_filter_container_right {
   float: left;
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: end;
 }
-.sale_filter_container_right p{
-margin-bottom: 0;
-color: #5D5D5D;
+
+.sale_filter_container_right p {
+  margin-bottom: 0;
+  color: #5D5D5D;
 
 }
 
-.filterInnerContentCategory{
- float: left;
- width: 100%;
- display: flex; 
+.btn_cat {
+  right: 20px;
+  transform: translateX(-160%);
+  pointer-events: none;
+  color: #000000;
 }
-.filterCategoryBox{
+
+.filterInnerContentCategory {
+  float: left;
+  width: 100%;
+  display: flex;
+}
+
+.filterCategoryBox {
   /* margin-bottom: 30px; */
 }
-.filterCheckbox{
+
+.filterCheckbox {
   background-color: #363636;
   display: flex;
   align-items: baseline;
@@ -137,34 +149,27 @@ color: #5D5D5D;
   margin-bottom: 10px;
 
 }
-.filterCheckbox label{
-padding-bottom: 0;
-margin-bottom: 0;
+
+.filterCheckbox label {
+  padding-bottom: 0;
+  margin-bottom: 0;
 }
-.filterCheckbox input{
- margin-left: 15px;
-  }
-.filterSubCategoryBox  {
+
+.filterCheckbox input {
+  margin-left: 15px;
+}
+
+.filterSubCategoryBox {
   border: dashed 1px #9fdebe;
   padding: 25px;
   margin: 50px 0 10px 24px;
-  }
-  .filterSubSubCategoryBox{
-    border: dashed 1px #9fdebe;
-    padding: 25px;
-    margin: 0 0 10px 25px;
 }
 
-
-
-
-
-
-
-
-
-
-
+.filterSubSubCategoryBox {
+  border: dashed 1px #9fdebe;
+  padding: 25px;
+  margin: 0 0 10px 25px;
+}
 
 .filterCheckbox input[type="checkbox"] {
   width: 15px;
@@ -197,12 +202,14 @@ margin-bottom: 0;
 /* style.module.css */
 .sort_dropdown {
   background-color: #222222;
-  padding: 10px;
+  padding: 10px 30px;
+  padding-left: 10px;
   font-size: 14px;
   cursor: pointer;
-  appearance: none; /* To remove the default dropdown arrow */
+  appearance: none;
+  /* To remove the default dropdown arrow */
   -webkit-appearance: none;
-  -moz-appearance: none; 
+  -moz-appearance: none;
   color: #fff;
   border: none;
   text-align: center;
@@ -212,20 +219,32 @@ margin-bottom: 0;
 
 .sort_dropdown:focus {
   outline: none;
-  border-color: #007bff; /* Optional: Highlight the border when focused */
+  border-color: #007bff;
+  /* Optional: Highlight the border when focused */
 }
-.displa_flex{
+
+.displa_flex {
   display: flex;
 }
-.filter_btn_containe{
+
+.filter_btn_containe {
   position: absolute;
   right: 15px;
   bottom: 15px;
-  display: flex  ;
-      flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
-.reset_btn{
-  
+
+.filter_btn_containeee {
+  position: absolute;
+  right: 15px;
+  top: 15px;
+  display: flex;
+  flex-direction: column;
+}
+
+.reset_btn {
+
   display: inline-flex;
   position: relative;
   height: inherit;
@@ -241,7 +260,8 @@ margin-bottom: 0;
   margin-bottom: 15px;
 
 }
-.apply_btn{
+
+.apply_btn {
   display: inline-flex;
   position: relative;
   height: inherit;
@@ -257,31 +277,103 @@ margin-bottom: 0;
 }
 
 
-
-
-
 @media screen and (max-width: 991px) {
   .filter_btn {
     letter-spacing: 0px;
-    padding: 5px 8px;
+    padding: 5px 15px;
     font-size: 13px;
+  }
+
+  .m_none {
+    display: none;
+  }
+
+  .sort_dropdown {
+    padding: 8px;
+    padding-right: 30px;
+
+  }
+
+  .filterInnerContentCategory {
+    display: block;
+  }
+
+  .displa_flex {
+    display: block;
+  }
+
+  .filter_btn_containe {
+    right: auto;
+    bottom: auto;
+    position: relative;
+
+  }
+
+  .btn_cat {
+    transform: translateX(-140%);
+  }
+
+  .reset_btn,
+  .apply_btn {
+    width: 130px;
+    margin-left: auto;
+  }
+
 }
-.m_none{
-  display: none;
+
+@media screen and (max-width: 768px) {
+  .sort_dropdown {
+    margin-top: 10px;
+    margin-left: auto;
+    width: 100%;
+    display: inline-flex;
+    position: relative;
+    height: inherit;
+    align-items: start;
+    justify-content: start;
+    text-align: start;
+  }
+
+  .filter_btn {
+    justify-content: space-between;
+    text-transform: uppercase;
+    font-weight: 300;
+    letter-spacing: 0.3px;
+    padding: 10px 25px;
+    width: 100%;
+  }
+
+  .btn_cat {
+    right: 20px;
+    transform: translateX(-10%);
+    pointer-events: none;
+    color: #000000;
+    margin-left: -20px;
+    margin-top: 10px;
+  }
+
 }
-.sort_dropdown {
-  padding: 8px;
-}
-.filterInnerContentCategory {
-  display: block;
-}
-.displa_flex{
-  display: block;
-}
-.filter_btn_containe {
-  right: auto;
-  bottom: auto;
-  position: relative;
-}
+
+@media screen and (max-width: 520px) {
+  .sort_dropdown {
+    margin-top: 10px;
+    margin-left: auto;
+    width: 100%;
+    display: inline-flex;
+    position: relative;
+    height: inherit;
+    align-items: start;
+    justify-content: start;
+    text-align: start;
+  }
+
+  .btn_cat {
+    right: 15px;
+    transform: translateX(-100%);
+    pointer-events: none;
+    color: #000000;
+    margin-left: -20px;
+    margin-top: 10px;
+  }
 
 }
