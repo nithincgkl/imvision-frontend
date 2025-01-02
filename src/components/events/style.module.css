@@ -33,7 +33,10 @@
    }
 
 
-
+.event-image{
+  height: 250px;
+  width: 800px;
+}
 /* event-corporate  */
 .event-corporate{
     float: left;
@@ -170,9 +173,6 @@
       margin-top: -390px;
       padding-bottom: 100px;
   }
-
-
-  
 
 .item{
   color: #fff; 

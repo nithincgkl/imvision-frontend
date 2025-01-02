@@ -364,7 +364,7 @@ const Page: React.FC = () => {
   // Safely access featured.description using optional chaining
   const description = featured?.description ?? ''; // fallback to empty string if null or undefined
 
-  const truncatedDescription = description.slice(0, 300);
+  const truncatedDescription = description.slice(0, 900);
 
   return (
     <Wrapper>
@@ -439,7 +439,7 @@ const Page: React.FC = () => {
                   <div className={`${style.para_section} my-5 `}>
                     <p>
                       {isExpanded ? description : truncatedDescription}
-                      {description.length > 300 && (
+                      {description.length > 900 && (
                         <span
                           className="text-decoration-underline "
                           style={{ cursor: 'pointer' }}
@@ -448,7 +448,8 @@ const Page: React.FC = () => {
                           {isExpanded ? 'Read less' : 'Read more'}
                         </span>
                       )}
-                    </p>                    </div>
+                    </p>             
+                   </div>
 
 
                   {featured?.specifications && featured.specifications.length > 0 && (
@@ -459,12 +460,15 @@ const Page: React.FC = () => {
                           <div key={spec.id} className={`${style.spec_detail}`}>
                             <h5 className='col-md-4 col-12'>{spec.specification}</h5>
                             {spec.specification_title_desc && spec.specification_title_desc.length > 0 && (
-                              <div className='col-md-8 col-12'>
+                              <div className='col-md-8 col-12' >
+                                <div className="row">
                                 {spec.specification_title_desc.map((desc, descIndex) => (
-                                  <div key={descIndex}>
+                                  <div className='col-6 ' key={descIndex}>
                                     <p className='fw-bold'>{desc.title}<br /> <span className='fw-thin'>{desc.description}</span></p>
                                   </div>
                                 ))}
+                                                                  </div>
+
                               </div>
                             )}
                           </div>

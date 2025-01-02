@@ -147,11 +147,10 @@ const EventsCarouselThree: React.FC<HomeCarouselProps> = ({ style_2, style_3 }) 
                 <div className="cs_post cs_style_1">
                   <Link href={`/events/${event.slug}`} className="cs_post_thumb">
                   {event.thumbnail && (
-                    <Image
+                    <img
                       src={event.thumbnail.formats?.medium?.url || event.thumbnail.url}
                       alt={event.title}
-                      width={500}
-                      height={300}
+  
                       className={styles['event-image']}
                     />
                   )}

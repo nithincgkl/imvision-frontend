@@ -43,7 +43,7 @@ const HomeCarousel: React.FC<{ style_2?: boolean; style_3?: boolean }> = ({ styl
           },
         });
 
-        setProducts(response.data);
+        setProducts(response.data?.products);
         setLoading(false);
       } catch (error) {
         console.error("Error fetching product data:", error);
