@@ -46,7 +46,7 @@ const OrderSuccess: React.FC = () => {
 // Main Page Component
 const Page = ({ orderId }: { orderId: string | null }) => {
   const handleRedirect = () => {
-    window.location.href = `/contact`
+    window.location.href = `/products`
   }
   return (
     <Wrapper>
@@ -69,7 +69,7 @@ const Page = ({ orderId }: { orderId: string | null }) => {
                               ? `Your order ID is #${orderId}. A detailed report has been sent to your registered email address. If you have any questions, feel free to contact our support team.`
                               : "We could not find your order ID. Please contact support."}
                           </p>
-                          <button className="btn-one" onClick={handleRedirect}>Talk to Expert</button>
+                          <button className="btn-one" onClick={handleRedirect}>Continue Shopping</button>
                         </div>
                       </div>
                     </div>
