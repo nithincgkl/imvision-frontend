@@ -69,7 +69,7 @@ const Page: React.FC = () => {
       });
 
       // Transform data to ensure correct image URLs
-      return response.data.map((item: any) => {
+      return response.data.products.map((item: any) => {
         const imageUrl =
           (item.product_images && item.product_images.length > 0 && item.product_images[0].url) ||
           (item.thumbnail && item.thumbnail.url) ||

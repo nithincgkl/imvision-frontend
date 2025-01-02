@@ -56,8 +56,8 @@ const Page: React.FC = () => {
         }
       );
 
-      if (response?.data?.length > 0) {
-        const transformedData = response.data
+      if (response?.data?.products?.length > 0) {
+        const transformedData = response.data.products
           .filter((item: any) => item.sale_rent === 'Sale') // Filter for sale products
           .map((item: any) => {
             const imageUrl =

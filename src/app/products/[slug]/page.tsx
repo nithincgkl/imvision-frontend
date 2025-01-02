@@ -248,7 +248,7 @@ const Page: React.FC = () => {
         const API_URL = `${process.env.NEXT_PUBLIC_API_URL}products`;
         const API_TOKEN = process.env.NEXT_PUBLIC_API_TOKEN;
         const response = await axios.get(API_URL, { headers: { Authorization: `Bearer ${API_TOKEN}` } });
-        setProducts(response.data);
+        setProducts(response?.data?.products);
       } catch (error) {
         setError("Error fetching product data.");
       }
