@@ -116,4 +116,19 @@
   border: none;
   font-weight: 600;
   min-width: 200px;
+  margin-right: 25px;
+}
+
+.contact_btn {
+  background: #363636;
+  font-size: 14px;
+  text-transform: uppercase;
+  padding: 12px 20px;
+  color: #fff;
+  max-width: 200px;
+  margin: 0 auto;
+  margin-top: 25px;
+  border: none;
+  font-weight: 600;
+  min-width: 200px;
 }

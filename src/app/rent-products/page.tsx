@@ -37,7 +37,7 @@ const RentPage: React.FC = () => {
   const [filteredProductData, setFilteredProductData] = useState<Product[]>([]); // Filtered rent products
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const [visibleCount, setVisibleCount] = useState(8); // Number of products to show initially
+  const [visibleCount, setVisibleCount] = useState(4); // Number of products to show initially
   const [load, setLoad] = useState(true)
   // Function to fetch products
   const fetchProducts = async () => {
@@ -85,6 +85,7 @@ const RentPage: React.FC = () => {
     } catch (error) {
       console.error('Error fetching rent products:', error);
       setError('Failed to load rent products.');
+      setLoad(false);
     } finally {
       setIsLoading(false);
       setLoad(false);
@@ -110,7 +111,6 @@ const RentPage: React.FC = () => {
     setVisibleCount((prevCount) => prevCount + 8); // Increase visible count by 4
   };
   if (load && isLoading) return <div>Loading...</div>;
-
   return (
     <Wrapper>
       <HeaderOne />
@@ -158,15 +158,17 @@ const RentPage: React.FC = () => {
                       </div>
                     )}
                   </div>
-                </div>
-
-                {visibleCount < filteredProductData.length && (
-                  <div className='col-12 d-flex justify-content-center text-black'>
-                    <button className={style.apply_btn} onClick={handleLoadMore}>
-                      Load More
+                  <div className={`${style["button_div"]} text-center my-4`}>
+                    {visibleCount < filteredProductData.length && (
+                      <button onClick={handleLoadMore} className={style["load_more_btn"]}>
+                        Load More
+                      </button>
+                    )}
+                    <button onClick={() => window.location.href = '/contact'} className={style["contact_btn"]}>
+                      Contact Us
                     </button>
                   </div>
-                )}
+                </div>
               </section>
 
               <LetsTalk />

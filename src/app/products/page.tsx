@@ -44,7 +44,7 @@ const Page: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const [visibleCount, setVisibleCount] = useState(8); // Number of products to show initially
+  const [visibleCount, setVisibleCount] = useState(4); // Number of products to show initially
 
   useEffect(() => {
     const loadProducts = async () => {
@@ -164,14 +164,17 @@ const Page: React.FC = () => {
                       </div>
                     ))}
                   </div>
-                </div>
-                {visibleCount < filteredProducts.length && (
-                  <div className='col-12 d-flex justify-content-center mb-5'>
-                    <button className={style.apply_btn} onClick={handleLoadMore}>
-                      Load More
+                  <div className={`${style["button_div"]} text-center my-4`}>
+                    {visibleCount < filteredProducts.length && (
+                      <button onClick={handleLoadMore} className={style["load_more_btn"]}>
+                        Load More
+                      </button>
+                    )}
+                    <button onClick={() => window.location.href = '/contact'} className={style["contact_btn"]}>
+                      Contact Us
                     </button>
                   </div>
-                )}
+                </div>
               </section>
 
               <LetsTalk />
