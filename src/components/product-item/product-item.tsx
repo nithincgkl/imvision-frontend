@@ -13,7 +13,9 @@ interface ProductItemProps {
     des: string; // Assuming this is the price
     slug: string;
     sale_rent: string;
-    article_code:string
+    article_code: string,
+    amount: string,
+    createdAt: Date
   };
   linkEnabled?: boolean; // Add optional boolean prop to control the link
 }
@@ -23,25 +25,25 @@ const ProductItem: React.FC<ProductItemProps> = ({ item, linkEnabled = true }) =
   const { addToCart } = useCart(); // Use the cart context
   const redirectToLogin = () => {
     window.location.href = '/login'; // Adjust the path to your login page
-};
+  };
 
- 
+
   const handleAddToCart = () => {
     const isLoggedIn = !!localStorage.getItem('token'); // Check if the user is logged in
 
     if (!isLoggedIn) {
-        redirectToLogin(); // Redirect to login if not logged in
-        return;
-      }
+      redirectToLogin(); // Redirect to login if not logged in
+      return;
+    }
     const cartItem = {
       id: item.id,
       img: item.img,
       title: item.title,
       des: item.des,
-      amount: parseFloat(item.des), // Assuming 'des' holds the amount; convert to number
+      amount: parseFloat(item.amount), // Assuming 'des' holds the amount; convert to number
       type: item.sale_rent,
       count: 1, // Start with 1 item added
-      article_code:item.article_code
+      article_code: item.article_code,
     };
     // Retrieve existing cart items from local storage
     const existingCart = JSON.parse(localStorage.getItem('cartItems') || '[]');
@@ -81,20 +83,18 @@ const ProductItem: React.FC<ProductItemProps> = ({ item, linkEnabled = true }) =
               {linkEnabled ? (
                 <Link href={`/products/${item.slug}`} className={styles['pb-15']}>
                   <img
-                    src={item.img}
+                    src={item.img || 'no image available'}
                     alt={item.title}
-                    width={300}
-                    height={200}
+
                     className={styles['product-image']}
                   />
                 </Link>
               ) : (
                 <div className={styles['pb-15']}>
                   <img
-                    src={item.img}
+                    src={item.img || 'no image available'}
                     alt={item.title}
-                    width={300}
-                    height={200}
+
                     className={styles['product-image']}
                   />
                 </div>
@@ -103,7 +103,7 @@ const ProductItem: React.FC<ProductItemProps> = ({ item, linkEnabled = true }) =
                 <h2 className="cs_post_title" style={{ minHeight: '60px' }}>
                   {item.title}
                 </h2>
-                <p className="cs_m0">SEK {item.des}</p>
+                <p className="cs_m0">SEK {item.amount}</p>
                 <div className={styles['button-section']}>
                   <button onClick={handleAddToCart}>Add to Cart</button>
                 </div>
