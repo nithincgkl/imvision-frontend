@@ -30,12 +30,20 @@
 }
 
 
-
-
-
-
-
-
+.apply_btn {
+  display: inline-flex;
+  position: relative;
+  height: inherit;
+  align-items: center;
+  text-transform: uppercase;
+  font-weight: 300;
+  letter-spacing: 0.3px;
+  font-size: 14px;
+  border: none;
+  padding: 8px 15px;
+  background-color: #fff;
+  color: #000;
+}
 
 .filterContent {
   padding: 0 0 20px 0;
@@ -95,7 +103,8 @@
   padding: 50px 0 0 0;
   background-image: radial-gradient(#304239 5%, black 40%);
 }
-.load_more_btn{
+
+.load_more_btn {
   background: #fff;
   font-size: 14px;
   text-transform: uppercase;
