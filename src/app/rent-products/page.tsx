@@ -8,7 +8,7 @@ import HeaderOne from '@/layouts/headers/HeaderOne';
 import Filter from '@/components/sale/filter';
 import ProductItem from '@/components/product-item/product-item';
 import LetsTalk from '@/components/home/lets-talk';
-import { CartProvider, useCart } from '@/context/cart-context'; // Import the useCart hook
+import { CartProvider } from '@/context/cart-context'; // Import the CartProvider
 
 const RentProducts: React.FC = () => {
   return (
@@ -27,6 +27,8 @@ interface Product {
   sale_rent: string;
   slug: string;
   article_code: string;
+  amount: string;
+  createdAt: Date;
 }
 
 // Page.tsx for Rent Products
@@ -35,9 +37,8 @@ const RentPage: React.FC = () => {
   const [filteredProductData, setFilteredProductData] = useState<Product[]>([]); // Filtered rent products
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const [visibleItems, setVisibleItems] = useState(4); // Number of items to display initially
-
-
+  const [visibleCount, setVisibleCount] = useState(4); // Number of products to show initially
+  const [load, setLoad] = useState(true)
   // Function to fetch products
   const fetchProducts = async () => {
     setIsLoading(true);
@@ -68,9 +69,11 @@ const RentPage: React.FC = () => {
               id: item.id,
               img: imageUrl,
               title: item.title,
-              des: item.description || '',
+              des: item.des || '',
               sale_rent: item.sale_rent,
-              slug: item.slug
+              slug: item.slug,
+              amount: item.amount,
+              createdAt: item.createdAt,
             };
           });
 
@@ -82,8 +85,11 @@ const RentPage: React.FC = () => {
     } catch (error) {
       console.error('Error fetching rent products:', error);
       setError('Failed to load rent products.');
+      setLoad(false);
     } finally {
       setIsLoading(false);
+      setLoad(false);
+
     }
   };
 
@@ -100,9 +106,11 @@ const RentPage: React.FC = () => {
 
     setFilteredProductData(finalProducts);
   };
+
   const handleLoadMore = () => {
-    setVisibleItems((prev) => prev + 8); // Increment the visible items count by 8
+    setVisibleCount((prevCount) => prevCount + 8); // Increase visible count by 4
   };
+  if (load && isLoading) return <div>Loading...</div>;
   return (
     <Wrapper>
       <HeaderOne />
@@ -136,13 +144,12 @@ const RentPage: React.FC = () => {
                         <p>{error}</p>
                       </div>
                     ) : filteredProductData.length > 0 ? (
-                      filteredProductData.slice(0, visibleItems).map((item) => (
+                      filteredProductData.slice(0, visibleCount).map((item) => (
                         <div
                           className="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12"
                           key={item.id}
                         >
-                          <ProductItem item={item} linkEnabled={false} />
-
+                          <ProductItem item={item} linkEnabled={true} />
                         </div>
                       ))
                     ) : (
@@ -152,7 +159,7 @@ const RentPage: React.FC = () => {
                     )}
                   </div>
                   <div className={`${style["button_div"]} text-center my-4`}>
-                    {visibleItems < filteredProductData.length && (
+                    {visibleCount < filteredProductData.length && (
                       <button onClick={handleLoadMore} className={style["load_more_btn"]}>
                         Load More
                       </button>

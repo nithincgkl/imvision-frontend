@@ -27,6 +27,8 @@ interface Product {
   sale_rent: string;
   slug: string;
   article_code: string;
+  amount: string;
+  createdAt: Date;
 }
 
 // Page.tsx
@@ -36,6 +38,7 @@ const Page: React.FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [visibleItems, setVisibleItems] = useState(4); // Number of items to display initially
+  const [load, setLoad] = useState(true)
 
 
   // Function to fetch products
@@ -68,9 +71,11 @@ const Page: React.FC = () => {
               id: item.id,
               img: imageUrl,
               title: item.title,
-              des: item.description || '',
+              des: item.des || '',
               sale_rent: item.sale_rent,
               slug: item.slug,
+              amount: item.amount,
+              createdAt: item.createdAt
             };
           });
 
@@ -84,6 +89,8 @@ const Page: React.FC = () => {
       setError('Failed to load sale products.');
     } finally {
       setIsLoading(false);
+      setLoad(false);
+
     }
   };
 
@@ -103,6 +110,9 @@ const Page: React.FC = () => {
   const handleLoadMore = () => {
     setVisibleItems((prev) => prev + 8); // Increment the visible items count by 8
   };
+
+  if (load && isLoading) return <div>Loading...</div>;
+
   return (
     <Wrapper>
       <HeaderOne />
@@ -141,7 +151,7 @@ const Page: React.FC = () => {
                           className="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12"
                           key={item.id}
                         >
-                          <ProductItem item={item} />
+                          <ProductItem item={item} linkEnabled={false} />
                         </div>
                       ))
                     ) : (

@@ -1,5 +1,5 @@
 'use client';
-import React, { useState, ChangeEvent, FormEvent } from 'react';
+import React, { useState, ChangeEvent, FormEvent, useRef } from 'react';
 import Image from 'next/image';
 import Wrapper from '@/layouts/wrapper';
 import FooterOne from '@/layouts/footers/FooterOne';
@@ -45,6 +45,7 @@ interface FormErrors {
 }
 
 const ErrorReportings: React.FC = () => {
+  const fileInputRef = useRef<HTMLInputElement>(null); // Add a ref for the file input
   const [formData, setFormData] = useState<FormData>({
     name: '',
     address: '',
@@ -69,7 +70,29 @@ const ErrorReportings: React.FC = () => {
 
     if (type === 'file') {
       const fileInput = e.target as HTMLInputElement;
-      processedValue = fileInput.files ? fileInput.files[0] : null;
+      const file = fileInput.files ? fileInput.files[0] : null;
+
+      if (file) {
+        const maxFileSize = 2 * 1024 * 1024; // 2 MB in bytes
+        if (file.size > maxFileSize) {
+          setErrors(prevErrors => ({
+            ...prevErrors,
+            file: 'File size must be less than 2 MB',
+          }));
+          setFormData(prev => ({
+            ...prev,
+            file: null,
+          }));
+          fileInput.value = ''; // Clear the file input
+          return; // Stop further processing if the file is too large
+        } else {
+          setErrors(prevErrors => ({
+            ...prevErrors,
+            file: '',
+          }));
+        }
+      }
+      processedValue = file;
     } else if (type === 'checkbox') {
       const checkboxInput = e.target as HTMLInputElement;
       processedValue = checkboxInput.checked; // This should be a boolean
@@ -79,14 +102,14 @@ const ErrorReportings: React.FC = () => {
 
     setFormData(prevState => ({
       ...prevState,
-      [name]: processedValue
+      [name]: processedValue,
     }));
 
     // Clear specific field error when user starts typing
     if (errors[name as keyof FormErrors]) {
       setErrors(prevErrors => ({
         ...prevErrors,
-        [name]: ''
+        [name]: '',
       }));
     }
   };
@@ -245,10 +268,16 @@ const ErrorReportings: React.FC = () => {
         phone: '',
         company: '',
         message: '',
-        file: null,
+        file: null, // Reset file field to null
         serviceAgreement: '',
-        gdprConsent: false // Reset to boolean
+        gdprConsent: false, // Reset to boolean
       });
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+      }
+
+      // Clear errors and set success state
+      setErrors({});
       setIsSuccess(true);
     } catch (error) {
       console.error('Submission error:', error);
@@ -361,6 +390,7 @@ const ErrorReportings: React.FC = () => {
                                   type="file"
                                   name="file"
                                   onChange={handleChange}
+                                  ref={fileInputRef}
                                   className={`form-control ${style.inputField} ${errors.file ? 'is-invalid' : ''}`}
                                   placeholder="Upload Documents"
                                 />
