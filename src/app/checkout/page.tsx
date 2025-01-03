@@ -18,6 +18,35 @@ const Checkout: React.FC = () => {
     </CartProvider>
   );
 };
+interface FormData {
+  gdprConsent: boolean;
+  serviceAgreement: string;
+  Country: string;
+  FirstName: string;
+  LastName: string;
+  Email: string;
+  Phone: string;
+  Street: string;
+  HouseNo: string;
+  City: string;
+  PostalCode: string;
+  State: string;
+  CompanyName: string;
+  Reference: string;
+  Notes: string;
+  shippingFirstName: string;
+  shippingLastName: string;
+  shippingEmail: string;
+  shippingPhone: string;
+  shippingStreet: string;
+  shippingHouseNo: string;
+  shippingCity: string;
+  shippingPostalCode: string;
+  shippingState: string;
+  shippingCompanyName: string;
+  shippingReference: string;
+  shippingCountry: string;
+}
 
 // Main RentalConditions Component
 const RentalConditions = () => {
@@ -51,10 +80,19 @@ const RentalConditions = () => {
     shippingCountry: '',
   });
   const [isPlacing, setPlacingOrder] = useState(false)
+  const [errors, setErrors] = useState<FormErrors>({});
 
+  interface FormErrors {
+    [key: string]: string | undefined; // Each key can be a string or undefined
+  }
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value, type } = e.target;
 
+    setErrors((prevErrors: FormErrors) => ({
+      ...prevErrors,
+      [name]: undefined, // Clear the error for the specific field
+    }));
+  
     // Handle checkbox separately
     if (type === 'checkbox') {
       const checkedValue = (e.target as HTMLInputElement).checked;
@@ -111,6 +149,54 @@ const RentalConditions = () => {
       }));
     }
   };
+
+  const validateForm = () => {
+    const newErrors: FormErrors = {};
+
+    function formatFieldName(field: string): string {
+      return field.replace(/([a-z0-9])([A-Z])/g, '$1 $2').replace(/([A-Z])([A-Z])/g, '$1 $2')  .replace(/Last Name/, 'Surname');               ;
+    }
+
+    const requiredFields = [
+      'FirstName', 'LastName', 'Email', 'Phone', 'Street', 'HouseNo',
+      'City', 'PostalCode', 'State', 'Country'
+    ];
+  
+    requiredFields.forEach(field => {
+     if (!formData[field as keyof FormData]) {
+      newErrors[field] = `${formatFieldName(field)} is required.`;
+    }
+    });
+  
+    // Email validation
+    if (formData.Email && !/\S+@\S+\.\S+/.test(formData.Email)) {
+      newErrors.Email = 'Email is invalid.';
+    }
+  
+    // Phone validation (optional: you can customize this regex)
+    if (formData.Phone && !/^\d+$/.test(formData.Phone)) {
+      newErrors.Phone = 'Phone number is invalid.';
+    }
+  
+    // Shipping address validation if checkbox is checked
+    if (!formData.gdprConsent) {
+      const shippingRequiredFields = [
+        'shippingFirstName', 'shippingLastName', 'shippingEmail', 
+        'shippingPhone', 'shippingStreet', 'shippingHouseNo',
+        'shippingCity', 'shippingPostalCode', 'shippingState', 'shippingCountry'
+      ];
+  
+      shippingRequiredFields.forEach(field => {
+     if (!formData[field as keyof FormData]) {
+      newErrors[field] = `${formatFieldName((field).replace(/^shipping/, '').trim())} is required.`;
+    }
+      });
+    }
+  
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0; // Return true if no errors
+  };
+
 
   const [cartItems, setCartItems] = useState<any[]>([]);
 
@@ -171,6 +257,11 @@ const RentalConditions = () => {
 
   const handlePlaceOrder = async () => {
     setPlacingOrder(true);
+    if (!validateForm()) {
+      setPlacingOrder(false)
+
+      return; // Prevent submission if validation fails
+   }
     const orderData = {
       userId: userId, // Replace with actual user ID if available
       order_details: orderDetails,
@@ -284,6 +375,8 @@ const RentalConditions = () => {
                                     value={formData.FirstName}
                                     onChange={handleChange}
                                   />
+                                       {errors.FirstName && <span className={style.error}>{errors.FirstName}</span>}
+
                                 </div>
                               </div>
                               <div className="col-md-6">
@@ -297,6 +390,8 @@ const RentalConditions = () => {
                                     value={formData.LastName}
                                     onChange={handleChange}
                                   />
+                                   {errors.LastName && <span className={style.error}>{errors.LastName}</span>}
+
                                 </div>
                               </div>
                             </div>
@@ -313,6 +408,7 @@ const RentalConditions = () => {
                                     value={formData.Email}
                                     onChange={handleChange}
                                   />
+                                     {errors.Email && <span className={style.error}>{errors.Email}</span>}
                                 </div>
                               </div>
                               <div className="col-md-6">
@@ -326,6 +422,8 @@ const RentalConditions = () => {
                                     value={formData.Phone}
                                     onChange={handleChange}
                                   />
+                                  {errors.Phone && <span className={style.error}>{errors.Phone}</span>}
+
                                 </div>
                               </div>
                             </div>
@@ -342,6 +440,8 @@ const RentalConditions = () => {
                                     value={formData.Street}
                                     onChange={handleChange}
                                   />
+                                  {errors.Street && <span className={style.error}>{errors.Street}</span>}
+
                                 </div>
                               </div>
                               <div className="col-md-6">
@@ -355,6 +455,7 @@ const RentalConditions = () => {
                                     value={formData.HouseNo}
                                     onChange={handleChange}
                                   />
+                              {errors.HouseNo && <span className={style.error}>{errors.HouseNo}</span>}
                                 </div>
                               </div>
                             </div>
@@ -371,6 +472,8 @@ const RentalConditions = () => {
                                     value={formData.City}
                                     onChange={handleChange}
                                   />
+                                     {errors.City && <span className={style.error}>{errors.City}</span>}
+
                                 </div>
                               </div>
                               <div className="col-md-6">
@@ -384,6 +487,8 @@ const RentalConditions = () => {
                                     value={formData.PostalCode}
                                     onChange={handleChange}
                                   />
+                                    {errors.PostalCode && <span className={style.error}>{errors.PostalCode}</span>}
+
                                 </div>
                               </div>
                             </div>
@@ -400,6 +505,7 @@ const RentalConditions = () => {
                                     value={formData.State}
                                     onChange={handleChange}
                                   />
+                               {errors.State && <span className={style.error}>{errors.State}</span>}
                                 </div>
                               </div>
 
@@ -424,6 +530,7 @@ const RentalConditions = () => {
                                     </select>
                                     <IoChevronDown className={style.arrowIcon} />
                                   </div>
+                                  {errors.Country && <span className={style.error}>{errors.Country}</span>}
                                 </div>
                               </div>
                             </div>
@@ -573,6 +680,7 @@ const RentalConditions = () => {
                                     value={formData.shippingFirstName}
                                     onChange={handleChange}
                                   />
+                                {errors.shippingFirstName && <span className={style.error}>{errors.shippingFirstName}</span>}
                                 </div>
                               </div>
                               <div className="col-md-6">
@@ -582,10 +690,12 @@ const RentalConditions = () => {
                                     id="LastName"
                                     name="shippingLastName"
                                     className={`form-control ${style.inputField}`}
-                                    placeholder="LastName*"
+                                    placeholder="Surname*"
                                     value={formData.shippingLastName}
                                     onChange={handleChange}
                                   />
+                                  {errors.shippingLastName && <span className={style.error}>{errors.shippingLastName}</span>}
+
                                 </div>
                               </div>
                             </div>
@@ -602,6 +712,8 @@ const RentalConditions = () => {
                                     value={formData.shippingEmail}
                                     onChange={handleChange}
                                   />
+                                  {errors.shippingEmail && <span className={style.error}>{errors.shippingEmail}</span>}
+
                                 </div>
                               </div>
                               <div className="col-md-6">
@@ -615,11 +727,12 @@ const RentalConditions = () => {
                                     value={formData.shippingPhone}
                                     onChange={handleChange}
                                   />
+                                     {errors.shippingPhone && <span className={style.error}>{errors.shippingPhone}</span>}
                                 </div>
                               </div>
                             </div>
 
-                            <div className="row">
+                          <div className="row">
                               <div className="col-md-6">
                                 <div className={style.formControl}>
                                   <input
@@ -631,6 +744,7 @@ const RentalConditions = () => {
                                     value={formData.shippingStreet}
                                     onChange={handleChange}
                                   />
+                                   {errors.shippingStreet && <span className={style.error}>{errors.shippingStreet}</span>}
                                 </div>
                               </div>
                               <div className="col-md-6">
@@ -644,6 +758,7 @@ const RentalConditions = () => {
                                     value={formData.shippingHouseNo}
                                     onChange={handleChange}
                                   />
+                                   {errors.shippingHouseNo && <span className={style.error}>{errors.shippingHouseNo}</span>}
                                 </div>
                               </div>
                             </div>
@@ -661,6 +776,7 @@ const RentalConditions = () => {
 
                                     onChange={handleChange}
                                   />
+                                     {errors.shippingCity && <span className={style.error}>{errors.shippingCity}</span>}
                                 </div>
                               </div>
                               <div className="col-md-6">
@@ -676,87 +792,82 @@ const RentalConditions = () => {
 
                                     onChange={handleChange}
                                   />
+                                      {errors.shippingPostalCode && <span className={style.error}>{errors.shippingPostalCode}</span>}
+
                                 </div>
                               </div>
                             </div>
-
-                            <div className="row">
-                              <div className="col-md-6">
-                                <div className={style.formControl}>
-                                  <input
-                                    type="text"
-                                    id="State"
-                                    name="shippingState"
-                                    className={`form-control ${style.inputField}`}
-                                    placeholder="State*"
-                                    value={formData.shippingState}
-
-                                    onChange={handleChange}
-                                  />
-                                </div>
-                              </div>
-
-                              <div className="col-md-6">
-                                <div className={style.formControl}>
-                                  <div className={style.selectWrapper}>
-                                    <select
-                                      id="Country"
-
-                                      name="shippingCountry"
-                                      className={`form-control ${style.inputField}`}
-                                      onChange={handleChange}
-                                      value={formData.shippingCountry || ''} // Bind value to state
-
-                                    >
-                                      <option value="">Select Country / Region*</option>
-                                      <option value="Sweden">Sweden</option>
-                                      <option value="USA">United States</option>
-                                      <option value="Canada">Canada</option>
-                                      <option value="Germany">Germany</option>
-                                      <option value="France">France</option>
-                                      <option value="UK">United Kingdom</option>
-                                      <option value="Australia">Australia</option>
-                                    </select>
-                                    <IoChevronDown className={style.arrowIcon} />
-                                  </div>
-                                </div>
-                              </div>
+                        <div className="row">
+                          <div className="col-md-6">
+                            <div className={style.formControl}>
+                              <input
+                                type="text"
+                                id="State"
+                                name="shippingState"
+                                className={`form-control ${style.inputField}`}
+                                placeholder="State*"
+                                value={formData.shippingState}
+                                onChange={handleChange}
+                              />
+                              {errors.shippingState && <span className={style.error}>{errors.shippingState}</span>}
                             </div>
+                          </div>
 
-
-                            <div className="row">
-                              <div className="col-md-6">
-                                <div className={style.formControl}>
-                                  <input
-                                    type="text"
-                                    id="Company-Name"
-
-                                    name="shippingCompanyName"
-                                    className={`form-control ${style.inputField}`}
-                                    placeholder="Company Name (optional)"
-                                    value={formData.shippingCompanyName}
-
-                                    onChange={handleChange}
-                                  />
-                                </div>
+                          <div className="col-md-6">
+                            <div className={style.formControl}>
+                              <div className={style.selectWrapper}>
+                                <select
+                                  id="Country"
+                                  name="shippingCountry"
+                                  className={`form-control ${style.inputField}`}
+                                  onChange={handleChange}
+                                  value={formData.shippingCountry || ''}
+                                >
+                                  <option value="">Select Country / Region*</option>
+                                  <option value="Sweden">Sweden</option>
+                                  <option value="USA">United States</option>
+                                  <option value="Canada">Canada</option>
+                                  <option value="Germany">Germany</option>
+                                  <option value="France">France</option>
+                                  <option value="UK">United Kingdom</option>
+                                  <option value="Australia">Australia</option>
+                                </select>
+                                <IoChevronDown className={style.arrowIcon} />
                               </div>
-                              <div className="col-md-6">
-                                <div className={style.formControl}>
-                                  <input
-                                    type="text"
-                                    id="Reference"
-
-                                    name="shippingReference"
-                                    className={`form-control ${style.inputField}`}
-                                    placeholder="Reference (optional)"
-                                    value={formData.shippingReference}
-
-                                    onChange={handleChange}
-                                  />
-                                </div>
-                              </div>
-
+                              {errors.shippingCountry && <span className={style.error}>{errors.shippingCountry}</span>}
                             </div>
+                          </div>
+                        </div>
+
+
+                        <div className="row">
+                          <div className="col-md-6">
+                            <div className={style.formControl}>
+                              <input
+                                type="text"
+                                id="Company-Name"
+                                name="shippingCompanyName"
+                                className={`form-control ${style.inputField}`}
+                                placeholder="Company Name (optional)"
+                                value={formData.shippingCompanyName}
+                                onChange={handleChange}
+                              />
+                            </div>
+                          </div>
+                          <div className="col-md-6">
+                            <div className={style.formControl}>
+                              <input
+                                type="text"
+                                id="Reference"
+                                name="shippingReference"
+                                className={`form-control ${style.inputField}`}
+                                placeholder="Reference (optional)"
+                                value={formData.shippingReference}
+                                onChange={handleChange}
+                              />
+                            </div>
+                          </div>
+                        </div>
                           </div>
                           <div className={`my-4 ${style.checkout_container}`}>
                           </div>
