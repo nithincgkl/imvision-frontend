@@ -275,6 +275,7 @@ const Filter: React.FC<FilterProps> = ({ onApplyFilters }) => {
 
       const uniqueProducts = removeDuplicates(transformedData);
       onApplyFilters(uniqueProducts);
+      setShowFilter(!showFilter)
     } catch (error) {
       console.error("Error applying filters:", error);
       setError("Failed to apply filters. Please try again later.");

@@ -161,7 +161,7 @@
 .modal_content {
   background: #131313;
   padding: 20px;
-  max-width: 800px; /* Set a max-width for modal content */
+  max-width: 1100px; /* Set a max-width for modal content */
   width: 100%;
   border: solid 2px #434343;
   border-radius: 8px;
@@ -174,10 +174,10 @@
   border: none;
   background: none;
   position: absolute;
-  right: 15px;
-  top: 10px;
+  right: 30px;
+  top: 20px;
   color: #fff;
-  font-size: 20px;
+  font-size: 25px;
   cursor: pointer;
 }
 
@@ -185,7 +185,8 @@
 .form {
   display: flex;
   flex-direction: column;
-  gap: 15px; /* Spacing between form elements */
+  gap: 15px;
+  padding: 50px; /* Spacing between form elements */
 }
 
 .inputField {
@@ -224,7 +225,7 @@
   background: #fff;
   font-size: 14px;
   text-transform: uppercase;
-  padding: 12px 20px;
+  padding: 12px 40px;
   color: #000;
   border: none;
   letter-spacing: 1px;
@@ -234,17 +235,17 @@
 
 .cancel_btn {
   position: relative;
-  background: #fff;
+  background: transparent;
   font-size: 14px;
   text-transform: uppercase;
-  padding: 12px 20px;
-  color: #000;
+  padding: 12px 5px;
+  color: #ffffff;
   border: none;
   letter-spacing: 1px;
   font-weight: 600;
   border-radius: 0;
-  margin-left: 15px;
-  min-width: 150px;
+  margin-left: 0px;
+  min-width: 140px;
   margin-top: 30px;
 }
 
@@ -429,6 +430,20 @@
   .carousel_container {
     margin-left: 0px;
   }
+
+  .form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px; /* Spacing between form elements */
+  }
+
+  .modal_content {
+    padding: 0px;
+    max-width: 1100px; /* Set a max-width for modal content */
+    width: 90%;
+    
+  }
 }
 
 @media (max-width: 520px) {
@@ -507,6 +522,30 @@
     font-weight: 600;
     display: flex;
     justify-content: center;
+  }
+
+  .form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px; /* Spacing between form elements */
+  }
+
+  .modal_content {
+    padding: 0px;
+    max-width: 1100px; /* Set a max-width for modal content */
+    width: 90%;
+    
+  }
+
+  .talk_btn {
+    padding: 12px 20px;
+  }
+
+  .cancel_btn {
+    padding: 12px 5px;
+    min-width: 120px;  
+    text-align: center;
   }
 }
 

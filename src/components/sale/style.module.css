@@ -202,7 +202,7 @@
 /* style.module.css */
 .sort_dropdown {
   background-color: #222222;
-  padding: 10px 30px;
+  padding: 10px 38px;
   padding-left: 10px;
   font-size: 14px;
   cursor: pointer;
@@ -352,6 +352,17 @@
     margin-top: 10px;
   }
 
+  .filterContent {
+    margin-top: -70px;
+    margin-left: auto;
+    width: 100%;
+    display: inline-flex;
+    position: relative;
+    height: inherit;
+    align-items: start;
+    justify-content: start;
+    text-align: start;}
+
 }
 
 @media screen and (max-width: 520px) {
@@ -375,5 +386,6 @@
     margin-left: -20px;
     margin-top: 10px;
   }
+
 
 }

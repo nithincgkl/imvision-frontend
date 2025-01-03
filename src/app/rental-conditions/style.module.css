@@ -63,3 +63,11 @@
 .rental_conditions_container ol{
     background-image: radial-gradient(#304239 5%, #131313  40%);
 }
+
+@media(max-width:520px){
+  .download_btn_container{
+    display: flex;
+    float: none;
+    border: solid 1px #999999;
+}
+}

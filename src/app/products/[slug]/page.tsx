@@ -127,9 +127,24 @@ const Page: React.FC = () => {
     });
   };
 
+  const resetForm = () => {
+    setFormData({
+      name: '',
+      email: '',
+      phone: '',
+      house_no: '',
+      street: '',
+      city: '',
+      state: '',
+      country: '',
+      postalCode: '',
+      message: ''
+    });
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsLoading(true);
 
     const token = localStorage.getItem('token');
     const storedUser = localStorage.getItem('user');
@@ -213,15 +228,24 @@ const Page: React.FC = () => {
         }
       );
 
-      console.log('Order submitted successfully:', response.data);
+      // console.log('Order submitted successfully:', response.data);
+      enqueueSnackbar('Enquiry submitted successfully', { variant: 'success' });
+      resetForm();
+
       toggleModal(); // Close the modal on success
       // Add success notification here
     } catch (error) {
       console.error('Error submitting order:', error);
+      enqueueSnackbar('Error submitting Enquiry:', { variant: 'error' });
+
       // Add error notification here
       if (axios.isAxiosError(error) && error.response) {
         console.error('Server error response:', error.response.data);
+
       }
+    }
+    finally {
+      setIsLoading(false);
     }
   };
 
@@ -235,8 +259,6 @@ const Page: React.FC = () => {
       setIsModalVisible(false);
     }
   };
-
-
   // Image sources array
   const images = featured?.product_images?.map(
     (image) => image.formats?.large?.url || image.url
@@ -293,6 +315,9 @@ const Page: React.FC = () => {
       setCurrentIndex(images.length - 1); // Loop back to last image if we're at the beginning
     }
   };
+
+  const [isLoading, setIsLoading] = useState(false);
+
 
   const handleDotClick = (index: number) => {
     setCurrentIndex(index); // Set current index based on clicked dot
@@ -356,14 +381,12 @@ const Page: React.FC = () => {
     }
   };
 
-
   const handleReadMore = () => {
     setIsExpanded(!isExpanded);
   };
 
   // Safely access featured.description using optional chaining
   const description = featured?.description ?? ''; // fallback to empty string if null or undefined
-
   const truncatedDescription = description.slice(0, 900);
 
   return (
@@ -483,7 +506,6 @@ const Page: React.FC = () => {
               {isModalVisible && (
                 <div className={style.modal} onClick={handleOutsideClick}>
                   <div ref={modalRef} className={style.modal_content}>
-                    <h4>Quick Enquiry</h4>
                     <button
                       type="button"
                       className={style.close_btn}
@@ -492,6 +514,7 @@ const Page: React.FC = () => {
                       <IoMdClose />
                     </button>
                     <form className={style.form}>
+                    <h4>Quick Enquiry</h4>
                       <div className="row">
                         <div className="col-md-6 mb-3">
                           <input
@@ -532,7 +555,7 @@ const Page: React.FC = () => {
                             type="house_no"
                             name="house_no"
                             className={`form-control ${style.inputField}`}
-                            placeholder="House No."
+                            placeholder="Building No."
                             value={formData.house_no}
                             onChange={handleInputChange}
                           />
@@ -608,8 +631,9 @@ const Page: React.FC = () => {
 
                       <div className="row">
                         <div className="col-md-12 mb-3">
-                          <button onClick={handleSubmit} type="submit" className={style.talk_btn}>
-                            Submit
+                          <button onClick={handleSubmit} type="submit" className={style.talk_btn}  
+                          disabled={isLoading}>
+                              {isLoading ? 'Sending...' : 'Send Message'}
                           </button>
                           <button
                             type="button"

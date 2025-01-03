@@ -62,7 +62,7 @@ const Page = () => {
                             download
                             className={style["download-link"]}
                           >
-                            <h4>Download Lease Agreement</h4>
+                            <h4>Download<br className='d-md-none d-block'/> Lease Agreement</h4>
                             <div className={style["download_btn"]}>
                               <span>PDF</span>
                               <span><FiDownload /></span>
