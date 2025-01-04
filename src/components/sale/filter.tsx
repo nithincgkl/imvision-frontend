@@ -45,14 +45,22 @@ interface Product {
     url: string;
   };
   createdAt: Date;
+  queryString: string;
 }
-
+interface FilterParameters {
+  sort: object;
+  filters: Filter;
+  sortOption: string;
+  reset: boolean
+}
 // Define props for the Filter component
 interface FilterProps {
-  onApplyFilters: (products: Product[]) => void;
+  onFilterChange: (params: FilterParameters) => void;
+  totalItems?: number
+  totalLength?: number
 }
 
-const Filter: React.FC<FilterProps> = ({ onApplyFilters }) => {
+const Filter: React.FC<FilterProps> = ({ onFilterChange, totalItems, totalLength }) => {
   const [showFilter, setShowFilter] = useState<boolean>(false);
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [selectedSubCategories, setSelectedSubCategories] = useState<string[]>([]);
@@ -62,21 +70,30 @@ const Filter: React.FC<FilterProps> = ({ onApplyFilters }) => {
   const [subSubCategories, setSubSubCategories] = useState<SubSubCategory[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [sortOption, setSortOption] = useState<string>("");
-  const getSortParameter = (sortOption: string): string => {
+  const [loader, setLoader] = useState(true);
+  const getSortParameter = (sortOption: string): object => {
     switch (sortOption) {
       case "price-low-to-high":
-        return "amount:asc"; // Changed from amount:asc
+        return {
+          key: "amt",
+          value: "desc"
+        }; // Changed from amount:asc
       case "price-high-to-low":
-        return "amount:desc"; // Changed from amount:desc
+        return {
+          key: "amt",
+          value: "asc"
+        };  // Changed from amount:desc
       case "newest":
-        return "createdAt:desc"; // Added specific sort parameter
+        return {
+          key: "createdAt",
+          value: "asc"
+        };  // Added specific sort parameter
       case "rating":
-        return ""; // Added specific sort parameter
+        return {}; // Added specific sort parameter
       default:
-        return "";
+        return {};
     }
   };
-
   useEffect(() => {
     // Fetch Categories
     const fetchCategories = async () => {
@@ -180,7 +197,6 @@ const Filter: React.FC<FilterProps> = ({ onApplyFilters }) => {
 
     fetchSubSubCategories();
   }, [selectedSubCategories]);
-
   const toggleSelection = (
     selectedItems: string[],
     item: string,
@@ -193,108 +209,42 @@ const Filter: React.FC<FilterProps> = ({ onApplyFilters }) => {
     );
   };
 
-  const fetchAllProducts = async () => {
-    try {
-      const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}products`, {
-        headers: {
-          Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
-        },
-      });
-
-      const transformedData = response.data.map((item: any) => {
-        const imageUrl =
-          (item.product_images && item.product_images.length > 0 && item.product_images[0].url) ||
-          (item.thumbnail && item.thumbnail.url) ||
-          'No image is available';
-
-        return {
-          id: item.id,
-          img: imageUrl,
-          title: item.title,
-          des: item.des || '',
-          sale_rent: item.sale_rent,
-          amount: item.amount,
-        };
-      });
-
-      const uniqueProducts = removeDuplicates(transformedData);
-      onApplyFilters(uniqueProducts);
-    } catch (error) {
-      console.error("Error fetching all products:", error);
-      setError("Failed to load products. Please try again later.");
-    }
-  };
-
   const resetFilters = () => {
+    const sort = {};
     setSelectedCategories([]);
     setSelectedSubCategories([]);
     setSelectedSubSubCategories([]);
     setSubCategories([]);
     setSubSubCategories([]);
-    fetchAllProducts();
+    const filters: Filter = {
+      categoryIds: [],
+      subCategoryIds: [],
+      subSubCategoryIds: [],
+    };
+    onFilterChange({
+      sort,
+      filters,
+      sortOption,
+      reset: false
+    });
   };
 
   const applyFilters = async () => {
     const sort = getSortParameter(sortOption);
-    const queryString = sort ? `?sort=${sort}` : '';
-
     const filters: Filter = {
       categoryIds: selectedCategories.map((category) => parseInt(category)),
       subCategoryIds: selectedSubCategories.map((subCategory) => parseInt(subCategory)),
       subSubCategoryIds: selectedSubSubCategories.map((subSubCategory) => parseInt(subSubCategory)),
     };
+    onFilterChange({
+      sort,
+      filters,
+      sortOption,
+      reset: false
+    });
 
-    try {
-      const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}products/filter${queryString}`,
-        filters,
-        {
-          headers: {
-            Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
-            'Content-Type': 'application/json',
-          },
-        }
-      );
-
-      const transformedData = response.data.map((item: any) => {
-        const imageUrl =
-          (item.product_images && item.product_images.length > 0 && item.product_images[0].url) ||
-          (item.thumbnail && item.thumbnail.url) ||
-          'No image is available';
-        return {
-          id: item.id,
-          img: imageUrl,
-          title: item.title,
-          des: item.des || '',
-          sale_rent: item.sale_rent,
-          amount: item.amount,
-          slug: item.slug,
-          article_code: item.article_code,
-        };
-      });
-
-      const uniqueProducts = removeDuplicates(transformedData);
-      onApplyFilters(uniqueProducts);
-    } catch (error) {
-      console.error("Error applying filters:", error);
-      setError("Failed to apply filters. Please try again later.");
-    }
   };
 
-  const removeDuplicates = (products: Product[]) => {
-    const uniqueProducts: Product[] = [];
-    const seen = new Set();
-
-    for (let product of products) {
-      const productKey = `${product.title}-${product.amount}-${product.sale_rent}`;
-      if (!seen.has(productKey)) {
-        seen.add(productKey);
-        uniqueProducts.push(product);
-      }
-    }
-
-    return uniqueProducts;
-  };
   const handleSortChange = async (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedValue = e.target.value;
     setSortOption(selectedValue);
@@ -307,63 +257,13 @@ const Filter: React.FC<FilterProps> = ({ onApplyFilters }) => {
       };
 
       const sort = getSortParameter(selectedValue);
-      const queryString = sort ? `?sort=${sort}` : '';
 
-      const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}products/filter${queryString}`,
+      onFilterChange({
+        sort,
         filters,
-        {
-          headers: {
-            Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
-            'Content-Type': 'application/json',
-          },
-        }
-      );
-
-      const transformedData = response.data.map((item: any) => {
-        const imageUrl =
-          (item.product_images && item.product_images.length > 0 && item.product_images[0].url) ||
-          (item.thumbnail && item.thumbnail.url) ||
-          'No image is available';
-
-        return {
-          id: item.id,
-          img: imageUrl,
-          title: item.title,
-          des: item.des || '',
-          sale_rent: item.sale_rent,
-          amount: item.amount.toString(), // Ensure amount is a string
-          slug: item.slug,
-          article_code: item.article_code,
-          createdAt: new Date(item.createdAt)
-        };
+        sortOption,
+        reset: false
       });
-
-      const uniqueProducts = removeDuplicates(transformedData);
-
-      if (selectedValue === "price-high-to-low") {
-        uniqueProducts.sort((a, b) => {
-          const priceA = parseFloat(a.amount.replace(/[^0-9.-]+/g, ""));
-          const priceB = parseFloat(b.amount.replace(/[^0-9.-]+/g, ""));
-          return priceB - priceA; // Descending order
-        });
-      } else if (selectedValue === "price-low-to-high") {
-        uniqueProducts.sort((a, b) => {
-          const priceA = parseFloat(a.amount.replace(/[^0-9.-]+/g, ""));
-          const priceB = parseFloat(b.amount.replace(/[^0-9.-]+/g, ""));
-          return priceA - priceB; // Ascending order
-        });
-      } else if (selectedValue === "newest") {
-        uniqueProducts.sort((a, b) => {
-          const dateA = a.createdAt ? a.createdAt.getTime() : 0; // Default to 0 if null
-          const dateB = b.createdAt ? b.createdAt.getTime() : 0; // Default to 0 if null
-          return dateB - dateA; // Descending order
-        });
-
-
-      }
-
-      onApplyFilters(uniqueProducts);
     } catch (error) {
       console.error("Error fetching sorted and filtered products:", error);
       setError("Failed to load products. Please try again later.");
@@ -389,7 +289,7 @@ const Filter: React.FC<FilterProps> = ({ onApplyFilters }) => {
             <div className="col-12 col-md-6">
               <div className={style.sale_filter_container_right}>
                 <p className={style.m_none}>
-                  Showing 1-12 of 92 results
+                  ${`Showing 1-${totalLength} of ${totalItems} results`}
                 </p>
                 <select className={style.sort_dropdown} value={sortOption} onChange={handleSortChange}>
                   <option value="">Default Sorting</option>

@@ -10,6 +10,7 @@ import ProductItem from "@/components/product-item/product-item";
 import LetsTalk from '@/components/home/lets-talk';
 import axios from 'axios';
 import { CartProvider, useCart } from '@/context/cart-context';
+import Loader from '@/components/common/Loader';
 
 const Product: React.FC = () => {
   return (
@@ -37,37 +38,80 @@ interface Product {
   };
   createdAt: Date;
 }
-
+interface Sort {
+  key?: string,
+  value?: string
+}
+interface FilterParameters {
+  sort: Sort;
+  filters: Filter;
+  sortOption: string;
+  reset: boolean
+}
+interface Filters {
+  categoryId?: number[];
+  subCategoryIds?: number[];
+  subSubCategoryIds?: number[];
+}
 const Page: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
+  const [productLoading, setProductLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [totalItems, setTotalItems] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
+  const [pageNumber, setPageNumber] = useState(1);
+  const [filterAmount, setAmount] = useState<string>();
+  const [filterCreatedAt, setCreatedAt] = useState<string>();
+  const [filters, setFilters] = useState<Filter>();
+  const [filterLoader, setFilterLoader] = useState<Boolean>(false);
 
-  const [visibleCount, setVisibleCount] = useState(4); // Number of products to show initially
-
+  const loadProducts = async () => {
+    setLoading(true);
+    const allProducts = await fetchProducts();
+    setProducts(allProducts);
+    setFilteredProducts(allProducts); // Initialize filtered products
+    setProductLoading(false);
+    setLoading(false);
+  };
   useEffect(() => {
-    const loadProducts = async () => {
-      const allProducts = await fetchProducts();
-      setProducts(allProducts);
-      setFilteredProducts(allProducts); // Initialize filtered products
-      setLoading(false);
-    };
-
     loadProducts();
   }, []);
 
-  const fetchProducts = async () => {
+  const fetchProducts = async (
+    page: number = 1,
+    amount?: string,
+    createdAt?: string,
+    data?: Filters
+  ) => {
+    setProductLoading(true);
     try {
-      const API_URL = `${process.env.NEXT_PUBLIC_API_URL}products?populate=*`;
+      const requestData = {
+        categoryIds: data?.categoryId?.length === 0 ? [] : data?.categoryId,
+        subCategoryIds: data?.subCategoryIds?.length === 0 ? [] : data?.subCategoryIds,
+        subSubCategoryIds: data?.subSubCategoryIds?.length === 0 ? [] : data?.subSubCategoryIds,
+      };
+      let queryParams = `pageNumber=${page}&limit=4`;
+      if (amount) {
+        queryParams += `&amt=${amount}`;
+      }
+      if (createdAt) {
+        queryParams += `&createdAt=${createdAt}`;
+      }
+      const API_URL = `${process.env.NEXT_PUBLIC_API_URL}products?${queryParams}`;
       const API_TOKEN = process.env.NEXT_PUBLIC_API_TOKEN;
 
-      const response = await axios.get(API_URL, {
-        headers: {
-          Authorization: `Bearer ${API_TOKEN}`,
-        },
-      });
-
+      const response = await axios.post(API_URL,
+        requestData,
+        {
+          headers: {
+            Authorization: `Bearer ${API_TOKEN}`,
+          },
+        });
+      setTotalItems(response.data.totalNumberOfProducts)
+      setTotalPages(response.data.numberOfPages)
+      setPageNumber(page)
       // Transform data to ensure correct image URLs
       return response.data.products.map((item: any) => {
         const imageUrl =
@@ -88,7 +132,6 @@ const Page: React.FC = () => {
           createdAt: item.createdAt,
         };
       });
-
     } catch (error) {
       console.error("Error fetching product data:", error);
       setError("Failed to load products. Please try again later.");
@@ -96,8 +139,33 @@ const Page: React.FC = () => {
     }
   };
 
-  const handleLoadMore = () => {
-    setVisibleCount((prevCount) => prevCount + 8); // Increase visible count by 4
+  const handleLoadMore = async () => {
+    const nextPage = pageNumber + 1;
+    try {
+      const newProducts = await fetchProducts(nextPage, filterAmount, filterCreatedAt, filters);
+      await new Promise(resolve => setTimeout(resolve, 500));
+
+      // Merge new products into the existing filteredProducts
+      const updatedProducts = [...filteredProducts, ...newProducts];
+
+      // Sort the merged array
+      const sortedProducts = updatedProducts.sort((a, b) => {
+        if (filterAmount === "asc") {
+          return parseFloat(b.amount) - parseFloat(a.amount);
+        } else if (filterAmount === "desc") {
+          return parseFloat(a.amount) - parseFloat(b.amount);
+        }
+        return 0; // No sorting if filterAmount is not set
+      });
+
+      // Update state with sorted products
+      setProducts(sortedProducts); // Assuming products should also reflect the sorted data
+      setFilteredProducts(sortedProducts);
+    } catch (error) {
+      console.error("Error loading more products:", error);
+    } finally {
+      setProductLoading(false);
+    }
   };
 
   const { addToCart } = useCart();
@@ -117,12 +185,48 @@ const Page: React.FC = () => {
     addToCart(cartItem);
   };
 
-  const handleApplyFilters = (filtered: Product[]) => {
-    setFilteredProducts(filtered);
-    console.log("Filtered products:", filtered); // Debug filtered data
+  const handleApplyFilters = async (params: FilterParameters) => {
+    setFilterLoader(true)
+    const page = 1;
+    const { sort, filters: newFilters, reset } = params;
+
+    let amount;
+    let createdAt;
+
+    if (sort.key === "amt") {
+      amount = sort.value;
+    }
+    if (sort.key === "createdAt") {
+      createdAt = sort.value;
+    }
+
+    // Directly use the parameters for fetchProducts instead of relying on the state
+    if (reset) {
+      const newProducts = await fetchProducts(page);
+      setProducts(newProducts);
+      setFilteredProducts(newProducts);
+    } else {
+      const newProducts = await fetchProducts(page, amount, createdAt, newFilters);
+      setProducts(newProducts);
+      setFilteredProducts(newProducts);
+    }
+
+    // Update the state afterward to reflect the current filter configuration
+    setFilters(newFilters);
+    setAmount(amount);
+    setCreatedAt(createdAt);
+    setFilterLoader(false)
+    setProductLoading(false);
   };
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return (
+    <div
+      className="w-100 h-100 d-flex align-items-center justify-content-center"
+      style={{ minHeight: '100vh' }}
+    >
+      <Loader size={300}></Loader>
+    </div>
+  )
   if (error) return <div>{error}</div>;
 
   return (
@@ -142,40 +246,49 @@ const Page: React.FC = () => {
                 </div>
               </div>
 
-              <Filter onApplyFilters={handleApplyFilters} />
+              <Filter onFilterChange={handleApplyFilters} totalItems={totalItems} totalLength={filteredProducts.length} />
 
-              <section className={style["product_section"]}>
-                <div className="container-fluid">
-                  <div className="row">
-                    {filteredProducts.slice(0, visibleCount).map((product) => (
-                      <div className="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12" key={product.id}>
-                        <ProductItem item={{
-                          id: product.id,
-                          img: product.img, // Pass transformed img URL
-                          title: product.title,
-                          des: product.amount,
-                          slug: product.slug,
-                          sale_rent: product.sale_rent,
-                          article_code: product.article_code,
-                          amount: product.amount,
-                          createdAt: product.createdAt
-                        }}
-                          linkEnabled={true} />
-                      </div>
-                    ))}
-                  </div>
-                  <div className={`${style["button_div"]} text-center my-4`}>
-                    {visibleCount < filteredProducts.length && (
-                      <button onClick={handleLoadMore} className={style["load_more_btn"]}>
-                        Load More
-                      </button>
-                    )}
-                    <button onClick={() => window.location.href = '/contact'} className={style["contact_btn"]}>
-                      Contact Us
-                    </button>
-                  </div>
+              {filterLoader ? (
+                <div className="text-center my-4">
+                  <Loader size={200} />
                 </div>
-              </section>
+              ) : (
+                <section className={style["product_section"]}>
+                  <div className="container-fluid">
+                    <div className="row">
+                      {filteredProducts.map((product) => (
+                        <div className="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12" key={product.id}>
+                          <ProductItem item={{
+                            id: product.id,
+                            img: product.img,
+                            title: product.title,
+                            des: product.amount,
+                            slug: product.slug,
+                            sale_rent: product.sale_rent,
+                            article_code: product.article_code,
+                            amount: product.amount,
+                            createdAt: product.createdAt
+                          }}
+                            linkEnabled={true} />
+                        </div>
+                      ))}
+                    </div>
+
+                    {productLoading && <div><Loader /></div>}
+
+                    <div className={`${style["button_div"]} text-center my-4`}>
+                      {!productLoading && filteredProducts.length < totalItems && (
+                        <button onClick={handleLoadMore} className={style["load_more_btn"]}>
+                          Load More
+                        </button>
+                      )}
+                      <button onClick={() => window.location.href = '/contact'} className={style["contact_btn"]}>
+                        Contact Us
+                      </button>
+                    </div>
+                  </div>
+                </section>
+              )}
 
               <LetsTalk />
             </div>
