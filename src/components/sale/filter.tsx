@@ -75,13 +75,13 @@ const Filter: React.FC<FilterProps> = ({ onFilterChange, totalItems, totalLength
     switch (sortOption) {
       case "price-low-to-high":
         return {
-          key: "amt",
-          value: "desc"
+          key: "amount",
+          value: "asc"
         }; // Changed from amount:asc
       case "price-high-to-low":
         return {
-          key: "amt",
-          value: "asc"
+          key: "amount",
+          value: "desc"
         };  // Changed from amount:desc
       case "newest":
         return {
@@ -290,7 +290,7 @@ const Filter: React.FC<FilterProps> = ({ onFilterChange, totalItems, totalLength
             <div className="col-12 col-md-6">
               <div className={style.sale_filter_container_right}>
                 <p className={style.m_none}>
-                  ${`Showing 1-${totalLength} of ${totalItems} results`}
+                  {`Showing 1-${totalLength} of ${totalItems} results`}
                 </p>
                 <select className={style.sort_dropdown} value={sortOption} onChange={handleSortChange}>
                   <option value="">Default Sorting</option>
