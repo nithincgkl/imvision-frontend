@@ -227,6 +227,7 @@ const Filter: React.FC<FilterProps> = ({ onFilterChange, totalItems, totalLength
       sortOption,
       reset: false
     });
+    setShowFilter(!showFilter)
   };
 
   const applyFilters = async () => {
@@ -242,7 +243,7 @@ const Filter: React.FC<FilterProps> = ({ onFilterChange, totalItems, totalLength
       sortOption,
       reset: false
     });
-
+    setShowFilter(!showFilter)
   };
 
   const handleSortChange = async (e: React.ChangeEvent<HTMLSelectElement>) => {
