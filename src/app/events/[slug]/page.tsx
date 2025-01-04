@@ -156,14 +156,25 @@ const Page: React.FC = () => {
         }
     }
 
-    if (loading) return (
-        <div
-            className="w-100 h-100 d-flex align-items-center justify-content-center"
-            style={{ minHeight: '100vh' }}
-        >
-            <Loader size={300}></Loader>
-        </div>
-    )
+    if (loading) {
+        return (
+            <div
+                style={{
+                    position: 'fixed',
+                    top: 0,
+                    left: 0,
+                    width: '100%',
+                    height: '100vh',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    zIndex: 9999
+                }}
+            >
+                <Loader size={300} />
+            </div>
+        );
+    }
     if (error) return <div>Error loading events: {error}</div>;
     return (
         <Wrapper>

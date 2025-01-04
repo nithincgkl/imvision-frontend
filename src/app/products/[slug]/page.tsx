@@ -106,6 +106,9 @@ const Page: React.FC = () => {
   const { enqueueSnackbar } = useSnackbar(); // Initialize useSnackbar hook
   const [isExpanded, setIsExpanded] = useState(false);
   const swiperRef = useRef<any>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [pageLoading, setPageLoading] = useState(true);  // Add this new state
+
 
 
   const [formData, setFormData] = useState({
@@ -275,9 +278,11 @@ const Page: React.FC = () => {
         const requestData = {
           categoryIds: [],
           subCategoryIds: [],
-          subSubCategoryIds: []
+          subSubCategoryIds: [],
         };
-        const response = await axios.post(API_URL, requestData, { headers: { Authorization: `Bearer ${API_TOKEN}` } });
+        const response = await axios.post(API_URL, requestData, {
+          headers: { Authorization: `Bearer ${API_TOKEN}` }
+        });
         setProducts(response?.data?.products);
       } catch (error) {
         setError("Error fetching product data.");
@@ -287,26 +292,39 @@ const Page: React.FC = () => {
     const fetchProductDetails = async () => {
       if (!slug) {
         setError("Product slug is undefined.");
-        setLoading(false);
         return;
       }
 
       try {
         const API_URL = `${process.env.NEXT_PUBLIC_API_URL}products/${slug}`;
         const API_TOKEN = process.env.NEXT_PUBLIC_API_TOKEN;
-        const response = await axios.get(API_URL, { headers: { Authorization: `Bearer ${API_TOKEN}` } });
+        const response = await axios.get(API_URL, {
+          headers: { Authorization: `Bearer ${API_TOKEN}` }
+        });
         setFeatured(response.data);
       } catch (error) {
         setError("Error fetching product details.");
-      } finally {
-        setLoading(false);
       }
     };
 
-    fetchProducts();
-    fetchProductDetails();
+    const fetchAllData = async () => {
+      setPageLoading(true); // Start with page loading
+      setLoading(true);
+      try {
+        await Promise.all([fetchProducts(), fetchProductDetails()]);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      } finally {
+        setLoading(false);
+        // Add a small delay before hiding the page loader to ensure smooth transition
+        setTimeout(() => {
+          setPageLoading(false);
+        }, 300);
+      }
+    };
 
-  }, [slug]);
+    fetchAllData();
+  }, [slug]); // Dependencies array includes slug
 
   const handleNext = () => {
     if (currentIndex < images.length - 1) {
@@ -323,24 +341,9 @@ const Page: React.FC = () => {
       setCurrentIndex(images.length - 1); // Loop back to last image if we're at the beginning
     }
   };
-
-  const [isLoading, setIsLoading] = useState(false);
-
-
   const handleDotClick = (index: number) => {
     setCurrentIndex(index); // Set current index based on clicked dot
   };
-
-  if (loading) return (
-    <div
-      className="w-100 h-100 d-flex align-items-center justify-content-center"
-      style={{ minHeight: '100vh' }}
-    >
-      <Loader size={300}></Loader>
-    </div>
-  )
-  if (error) return <div>{error}</div>; // Show error if any
-
   const { cartItems, removeFromCart, updateCartItemCount, addToCart } = useCart();
 
   const redirectToLogin = () => {
@@ -403,7 +406,26 @@ const Page: React.FC = () => {
   // Safely access featured.description using optional chaining
   const description = featured?.description ?? ''; // fallback to empty string if null or undefined
   const truncatedDescription = description.slice(0, 900);
-
+  if (pageLoading) {
+    return (
+      <div
+        style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100vh',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          zIndex: 9999
+        }}
+      >
+        <Loader size={300} />
+      </div>
+    );
+  }
+  if (error) return <div>{error}</div>; // Show error if any
   return (
     <Wrapper>
       <HeaderOne />
@@ -529,7 +551,7 @@ const Page: React.FC = () => {
                       <IoMdClose />
                     </button>
                     <form className={style.form}>
-                    <h4>Quick Enquiry</h4>
+                      <h4>Quick Enquiry</h4>
                       <div className="row">
                         <div className="col-md-6 mb-3">
                           <input
@@ -646,9 +668,9 @@ const Page: React.FC = () => {
 
                       <div className="row">
                         <div className="col-md-12 mb-3">
-                          <button onClick={handleSubmit} type="submit" className={style.talk_btn}  
-                          disabled={isLoading}>
-                              {isLoading ? 'Sending...' : 'Send Message'}
+                          <button onClick={handleSubmit} type="submit" className={style.talk_btn}
+                            disabled={isLoading}>
+                            {isLoading ? 'Sending...' : 'Send Message'}
                           </button>
                           <button
                             type="button"

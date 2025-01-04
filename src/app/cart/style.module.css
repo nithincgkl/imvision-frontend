@@ -1,63 +1,76 @@
 .contact_section {
-    float: left;
-    width: 100%;
-    padding: 4rem 0;
-  }
-  
-  .contact_banner {
-    float: left;
-    width: 100%;
-    padding: 4rem 0 3rem 0;
-  } 
-  
-  .cart_conditions{
-    float: left;
-    width: 100%;
-    padding:0 0 0 0;
-  }
-  .cart_box{
-    float: left;
-    width: 100%;
-    margin-bottom: 15px;
+  float: left;
+  width: 100%;
+  padding: 4rem 0;
+}
 
-  }
-  .cart_box li{
-    margin-bottom: 15px;
-  }
+.contact_banner {
+  float: left;
+  width: 100%;
+  padding: 4rem 0 3rem 0;
+}
+
+.cart_conditions {
+  float: left;
+  width: 100%;
+  padding: 0 0 0 0;
+}
+
+.cart_box {
+  float: left;
+  width: 100%;
+  margin-bottom: 15px;
+
+}
+
+.cart_box li {
+  margin-bottom: 15px;
+}
+
 .cart_box:nth-child(odd) .cart_box_header {
-    background-color: #5C553A;
-  }
-  .cart_box:nth-child(even) .cart_box_header{
-    background: #3F3A5C;
-  }
-  .cart_box_header{
-    float: left;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 15px;
-  }
+  background-color: #5C553A;
+}
 
-.cart_box_body{
+.cart_box:nth-child(even) .cart_box_header {
+  background: #3F3A5C;
+}
+
+.cart_box_header {
+  float: left;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px;
+}
+
+.cart_box_body {
   float: left;
   width: 100%;
   display: flex;
   align-items: center;
   padding: 30px;
-    background: #222;
+  background: #222;
 }
+
 .cart_box_img {
+  flex: 0 0 150px;
+  width: 150px;
+  height: 100px;
+  overflow: hidden;
+}
+
+.cart_box_img img {
   width: 100%;
-  max-width: 300px;
+  height: 100%;
+  object-fit: cover;
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
-.cart_box_body img{
-  max-width: 230px;
-  border: solid;
-}
-.cart_box_header .float-start{
+
+.cart_box_header .float-start {
   margin-top: 10px;
 }
+
 .cart_box_right {
   display: flex;
   text-align: center;
@@ -66,25 +79,26 @@
   width: 100%;
   padding: 0 0 0 30px;
 }
-.cart_box_right p{
+
+.cart_box_right p {
   margin-bottom: 0;
   float: left;
   width: 100%;
 }
 
-.cart_box_add_btn{
+.cart_box_add_btn {
   display: flex;
   margin-top: 20px;
 }
 
-.cart_box_add_btn p{
+.cart_box_add_btn p {
   color: #9FDEBE;
   font-weight: 600;
   text-align: left;
   padding-left: 15px;
 }
 
-.cart_box_right button{
+.cart_box_right button {
   padding: 10px 35px;
   display: inline-flex;
   position: relative;
@@ -96,7 +110,7 @@
   border: none;
 }
 
-  .datePickers {
+.datePickers {
   display: flex;
   gap: 20px;
   padding-left: 15px;
@@ -118,15 +132,18 @@
   display: flex;
   align-items: center;
 }
-.from_text{
+
+.from_text {
   position: relative;
   z-index: 100;
 }
-.to_text{
+
+.to_text {
   position: relative;
   z-index: 100;
   font-weight: 100;
 }
+
 .dateInput {
   padding: 10px;
   /* border: 1px solid #ccc; */
@@ -155,7 +172,7 @@
   gap: 10px;
 }
 
-.itemAdjuster button  {
+.itemAdjuster button {
   background-color: #141414;
   color: #fff;
   border: none;
@@ -168,70 +185,81 @@
   font-size: 16px;
   font-weight: bold;
 }
-.grand_total{
+
+.grand_total {
   float: left;
   width: 100%;
   border-top: solid 1px #cccccc78;
   margin-top: 50px;
   padding-top: 50px;
 }
-.grand_total_box{
+
+.grand_total_box {
   float: right;
 }
-.grand_total_box p{
+
+.grand_total_box p {
   font-size: 20px;
 
 }
-.grand_total_box p span{
+
+.grand_total_box p span {
   color: #9FDEBE;
   font-weight: 600;
   margin-left: 15px;
 
 }
-.grand_total_box button{
+
+.grand_total_box button {
   padding: 10px 35px;
-    display: inline-flex;
-    position: relative;
-    height: inherit;
-    align-items: center;
-    font-weight: 300;
-    letter-spacing: 0.3px;
-    background-color: #fff;
-    border: none;
-    color: #000;
+  display: inline-flex;
+  position: relative;
+  height: inherit;
+  align-items: center;
+  font-weight: 300;
+  letter-spacing: 0.3px;
+  background-color: #fff;
+  border: none;
+  color: #000;
 
 }
 
 
-  /* Responsive Styles */
-  @media screen and (max-width: 991px) {
-    .contact_banner {
-      padding: 2rem 0 2rem 0;
-    }
-  
-    .contact_banner h1 {
-      font-size: 30px;
-    }
-
-    .cart_box {
-        padding: 10px !important;
-        text-align: justify;
-    }
-    .cart_conditions {
-        padding-bottom: 0 !important;
-    }
-    .cart_box_header{
-      text-align: center;
-      display: block;
-    }
-    .cart_box_header p{
-      margin-bottom: 0;
-    }
-    .cart_box_header p{
-      float: left;
-      width: 100%;
-      margin-bottom: 10px;
+/* Responsive Styles */
+@media screen and (max-width: 991px) {
+  .contact_banner {
+    padding: 2rem 0 2rem 0;
   }
+
+  .contact_banner h1 {
+    font-size: 30px;
+  }
+
+  .cart_box {
+    padding: 10px !important;
+    text-align: justify;
+
+  }
+
+  .cart_conditions {
+    padding-bottom: 0 !important;
+  }
+
+  .cart_box_header {
+    text-align: center;
+    display: block;
+  }
+
+  .cart_box_header p {
+    margin-bottom: 0;
+  }
+
+  .cart_box_header p {
+    float: left;
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
   .datePickers {
     /* display: block; */
     gap: 20px;
@@ -241,45 +269,60 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-}
-.mobile_ml{
-  margin-left: 30px !important;
-}
-.datePickerLabel {
-  margin-left: 15px;
-}
-.cart_box_body {
-  padding: 10px;
-}
-.cart_box_img {
-  min-width: 125px;
-}
-.cart_box_body img{
-  max-width: 150px;
-  border: solid;
-}
-.cart_box_right {
-  display: block;
-}
-.cart_box_add_btn {
-  display: block;
-}
-.itemAdjuster {
-  display: block;
-}
-.dateInput {
-  padding-left: 10px;
-  margin-left: 5px;
-}
-.cart_box button {
-  padding: 4px 10px;
-}
-.grand_total{
-  margin-top: 10px;
-  padding-top: 15px;
-}
+  }
 
+  .mobile_ml {
+    margin-left: 30px !important;
+  }
 
+  .datePickerLabel {
+    margin-left: 15px;
+  }
+
+  .cart_box_body {
+    padding: 10px;
+  }
+
+  .cart_box_img {
+    min-width: 125px;
+  }
+
+  .cart_box_body img {
+    max-width: 150px;
+    border: solid;
+  }
+
+  .cart_box_right {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .cart_box_add_btn {
+    display: block;
+  }
+
+  .cart_box_add_btn p {
+    text-align: center;
+  }
+
+  .itemAdjuster {
+    display: block;
+  }
+
+  .dateInput {
+    padding-left: 10px;
+    margin-left: 5px;
+  }
+
+  .cart_box button {
+    padding: 4px 10px;
+  }
+
+  .grand_total {
+    margin-top: 10px;
+    padding-top: 15px;
   }
 
 
+}
