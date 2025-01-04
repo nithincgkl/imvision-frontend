@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import styles from "./style.module.css";
+import Loader from '../common/Loader';
 
 interface EventCategory {
   id: number;
@@ -70,7 +71,7 @@ const WowMoments: React.FC = () => {
             {/* Show loading indicator */}
             {loading ? (
               <div className="col-md-12 text-center">
-                <p>Loading...</p>
+                <Loader size={100}></Loader>
               </div>
             ) : (
               // Map categories into UI elements
