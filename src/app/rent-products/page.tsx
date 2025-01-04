@@ -9,6 +9,7 @@ import Filter from '@/components/sale/filter';
 import ProductItem from '@/components/product-item/product-item';
 import LetsTalk from '@/components/home/lets-talk';
 import { CartProvider } from '@/context/cart-context'; // Import the CartProvider
+import Loader from '@/components/common/Loader';
 
 const RentProducts: React.FC = () => {
   return (
@@ -30,87 +31,180 @@ interface Product {
   amount: string;
   createdAt: Date;
 }
-
+interface Sort {
+  key?: string,
+  value?: string
+}
+interface FilterParameters {
+  sort: Sort;
+  filters: Filter;
+  sortOption: string;
+  reset: boolean
+}
+interface Filters {
+  categoryId?: number[];
+  subCategoryIds?: number[];
+  subSubCategoryIds?: number[];
+}
 // Page.tsx for Rent Products
 const RentPage: React.FC = () => {
-  const [productData, setProductData] = useState<Product[]>([]); // Original rent products
-  const [filteredProductData, setFilteredProductData] = useState<Product[]>([]); // Filtered rent products
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [products, setProducts] = useState<Product[]>([]);
+  const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [productLoading, setProductLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [visibleCount, setVisibleCount] = useState(4); // Number of products to show initially
-  const [load, setLoad] = useState(true)
+  const [totalItems, setTotalItems] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
+  const [pageNumber, setPageNumber] = useState(1);
+  const [filterAmount, setAmount] = useState<string>();
+  const [filterCreatedAt, setCreatedAt] = useState<string>();
+  const [filters, setFilters] = useState<Filter>();
+  const [filterLoader, setFilterLoader] = useState<Boolean>(false);
   // Function to fetch products
-  const fetchProducts = async () => {
-    setIsLoading(true);
-    setError(null);
+  const fetchProducts = async (
+    page: number = 1,
+    amount?: string,
+    createdAt?: string,
+    data?: Filters
+  ) => {
+    setProductLoading(true);
     try {
-      const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_URL}products?populate=*`,
+      const requestData = {
+        categoryIds: data?.categoryId?.length === 0 ? [] : data?.categoryId,
+        subCategoryIds: data?.subCategoryIds?.length === 0 ? [] : data?.subCategoryIds,
+        subSubCategoryIds: data?.subSubCategoryIds?.length === 0 ? [] : data?.subSubCategoryIds,
+      };
+      let queryParams = `pageNumber=${page}&limit=4`;
+      if (amount) {
+        queryParams += `&amt=${amount}`;
+      }
+      if (createdAt) {
+        queryParams += `&createdAt=${createdAt}`;
+      }
+      const API_URL = `${process.env.NEXT_PUBLIC_API_URL}products?${queryParams}&sale_rent=Rent`;
+      const API_TOKEN = process.env.NEXT_PUBLIC_API_TOKEN;
+
+      const response = await axios.post(API_URL,
+        requestData,
         {
           headers: {
-            Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
-            'Content-Type': 'application/json',
+            Authorization: `Bearer ${API_TOKEN}`,
           },
-        }
-      );
-      if (response?.data?.products?.length > 0) {
-        const transformedData = response.data.products
-          .filter((item: any) => item.sale_rent === 'Rent') // Filter for rent products
-          .map((item: any) => {
-            const imageUrl =
-              item.product_images && item.product_images.length > 0
-                ? item.product_images[0].url
-                : item.thumbnail
-                  ? item.thumbnail.url
-                  : 'No image is available';
+        });
+      setTotalItems(response.data.totalNumberOfProducts)
+      setTotalPages(response.data.numberOfPages)
+      setPageNumber(page)
+      // Transform data to ensure correct image URLs
+      return response.data.products.map((item: any) => {
+        const imageUrl =
+          (item.product_images && item.product_images.length > 0 && item.product_images[0].url) ||
+          (item.thumbnail && item.thumbnail.url) ||
+          'No image is available'; // Default image if none exists
 
-            return {
-              id: item.id,
-              img: imageUrl,
-              title: item.title,
-              des: item.des || '',
-              sale_rent: item.sale_rent,
-              slug: item.slug,
-              amount: item.amount,
-              createdAt: item.createdAt,
-            };
-          });
-
-        setProductData(transformedData);
-        setFilteredProductData(transformedData);
-      } else {
-        setError('No rent products found.');
-      }
+        return {
+          id: item.id,
+          img: imageUrl,
+          title: item.title,
+          des: item.des || '',
+          sale_rent: item.sale_rent,
+          amount: item.amount,
+          article_code: item.article_code,
+          slug: item.slug,
+          thumbnail: item.thumbnail,
+          createdAt: item.createdAt,
+        };
+      });
     } catch (error) {
-      console.error('Error fetching rent products:', error);
-      setError('Failed to load rent products.');
-      setLoad(false);
-    } finally {
-      setIsLoading(false);
-      setLoad(false);
-
+      console.error("Error fetching product data:", error);
+      setError("Failed to load products. Please try again later.");
+      return []; // Return an empty array on error
     }
   };
-
+  const loadProducts = async () => {
+    setLoading(true);
+    const allProducts = await fetchProducts();
+    setProducts(allProducts);
+    setFilteredProducts(allProducts); // Initialize filtered products
+    setProductLoading(false);
+    setLoading(false);
+  };
   // Fetch products when component mounts
   useEffect(() => {
-    fetchProducts();
+    loadProducts();
   }, []);
 
   // Handle applying filters
-  const handleApplyFilters = (filteredProducts: Product[]) => {
-    const finalProducts = filteredProducts.length > 0
-      ? filteredProducts.filter((product) => product.sale_rent === 'Rent')
-      : productData;
+  const handleApplyFilters = async (params: FilterParameters) => {
+    setFilterLoader(true)
+    const page = 1;
+    const { sort, filters: newFilters, reset } = params;
 
-    setFilteredProductData(finalProducts);
+    let amount;
+    let createdAt;
+
+    if (sort.key === "amt") {
+      amount = sort.value;
+    }
+    if (sort.key === "createdAt") {
+      createdAt = sort.value;
+    }
+
+    // Directly use the parameters for fetchProducts instead of relying on the state
+    if (reset) {
+      const newProducts = await fetchProducts(page);
+      setProducts(newProducts);
+      setFilteredProducts(newProducts);
+    } else {
+      const newProducts = await fetchProducts(page, amount, createdAt, newFilters);
+      setProducts(newProducts);
+      setFilteredProducts(newProducts);
+    }
+
+    // Update the state afterward to reflect the current filter configuration
+    setFilters(newFilters);
+    setAmount(amount);
+    setCreatedAt(createdAt);
+    setFilterLoader(false)
+    setProductLoading(false);
   };
 
-  const handleLoadMore = () => {
-    setVisibleCount((prevCount) => prevCount + 8); // Increase visible count by 4
+  const handleLoadMore = async () => {
+    const nextPage = pageNumber + 1;
+    try {
+      const newProducts = await fetchProducts(nextPage, filterAmount, filterCreatedAt, filters);
+      await new Promise(resolve => setTimeout(resolve, 500));
+
+      // Merge new products into the existing filteredProducts
+      const updatedProducts = [...filteredProducts, ...newProducts];
+      console.log(filterAmount)
+      // Sort the merged array
+      const sortedProducts = updatedProducts.sort((a, b) => {
+        if (filterAmount === "asc") {
+          return parseFloat(b.amount) - parseFloat(a.amount);
+        } else if (filterAmount === "desc") {
+          return parseFloat(a.amount) - parseFloat(b.amount);
+        }
+        return 0; // No sorting if filterAmount is not set
+      });
+
+      // Update state with sorted products
+      setProducts(sortedProducts); // Assuming products should also reflect the sorted data
+      setFilteredProducts(sortedProducts);
+    } catch (error) {
+      console.error("Error loading more products:", error);
+    } finally {
+      setProductLoading(false);
+    }
   };
-  if (load && isLoading) return <div>Loading...</div>;
-  return (
+  if (loading) return (
+    <div
+      className="w-100 h-100 d-flex align-items-center justify-content-center"
+      style={{ minHeight: '100vh' }}
+    >
+      <Loader size={300}></Loader>
+    </div>
+  )
+  if (error) return <div>{error}</div>; return (
     <Wrapper>
       <HeaderOne />
       <div id="smooth-wrapper">
@@ -128,47 +222,50 @@ const RentPage: React.FC = () => {
               </div>
 
               {/* Filter Component */}
-              <Filter onApplyFilters={handleApplyFilters} />
+              <Filter onFilterChange={handleApplyFilters} totalItems={totalItems} totalLength={filteredProducts.length} />
 
               {/* Product Section */}
-              <section className={style['product_section']}>
-                <div className="container-fluid">
-                  <div className="row">
-                    {isLoading ? (
-                      <div className="col-12 text-center">
-                        <p>Loading products...</p>
-                      </div>
-                    ) : error ? (
-                      <div className="col-12 text-center">
-                        <p>{error}</p>
-                      </div>
-                    ) : filteredProductData.length > 0 ? (
-                      filteredProductData.slice(0, visibleCount).map((item) => (
-                        <div
-                          className="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12"
-                          key={item.id}
-                        >
-                          <ProductItem item={item} linkEnabled={true} />
-                        </div>
-                      ))
-                    ) : (
-                      <div className="col-12 text-center">
-                        <p>No rent products found.</p>
-                      </div>
-                    )}
-                  </div>
-                  <div className={`${style["button_div"]} text-center my-4`}>
-                    {visibleCount < filteredProductData.length && (
-                      <button onClick={handleLoadMore} className={style["load_more_btn"]}>
-                        Load More
-                      </button>
-                    )}
-                    <button onClick={() => window.location.href = '/contact'} className={style["contact_btn"]}>
-                      Contact Us
-                    </button>
-                  </div>
+              {filterLoader ? (
+                <div className="text-center my-4">
+                  <Loader size={200} />
                 </div>
-              </section>
+              ) : (
+                <section className={style["product_section"]}>
+                  <div className="container-fluid">
+                    <div className="row">
+                      {filteredProducts.map((product) => (
+                        <div className="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12" key={product.id}>
+                          <ProductItem item={{
+                            id: product.id,
+                            img: product.img,
+                            title: product.title,
+                            des: product.amount,
+                            slug: product.slug,
+                            sale_rent: product.sale_rent,
+                            article_code: product.article_code,
+                            amount: product.amount,
+                            createdAt: product.createdAt
+                          }}
+                            linkEnabled={true} />
+                        </div>
+                      ))}
+                    </div>
+
+                    {productLoading && <div><Loader /></div>}
+
+                    <div className={`${style["button_div"]} text-center my-4`}>
+                      {!productLoading && filteredProducts.length < totalItems && (
+                        <button onClick={handleLoadMore} className={style["load_more_btn"]}>
+                          Load More
+                        </button>
+                      )}
+                      <button onClick={() => window.location.href = '/contact'} className={style["contact_btn"]}>
+                        Contact Us
+                      </button>
+                    </div>
+                  </div>
+                </section>
+              )}
 
               <LetsTalk />
             </div>

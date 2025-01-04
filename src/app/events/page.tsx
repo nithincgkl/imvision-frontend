@@ -107,12 +107,10 @@ const Page: React.FC = () => {
                   </p>
                 </div>
               </div>
+              <div>
+                <EventsCarousel />
+              </div>
             </section>
-
-            <EventsCarousel />
-
-
-
 
             <section className={`${style['event-corporate']} bg-light-black`}>
 
@@ -140,9 +138,9 @@ const Page: React.FC = () => {
                   </div>
                 </div>
               </div>
+              <EventsCarouselTwo />
             </section>
 
-            <EventsCarouselTwo />
 
             <section className={style["event-corporate"]}>
               <div className={style["event-corporate-container"]}>
@@ -168,9 +166,9 @@ const Page: React.FC = () => {
                   </div>
                 </div>
               </div>
+              <EventsCarouselThree />
             </section>
 
-            <EventsCarouselThree />
 
             <section className={`${style['event-corporate']} bg-light-black`}>
               <div className={style["event-corporate-container"]}>
@@ -195,10 +193,8 @@ const Page: React.FC = () => {
                   </div>
                 </div>
               </div>
+              <EventsCarouselFour />
             </section>
-
-            <EventsCarouselFour />
-
             <LetsTalk />
           </main>
           <FooterOne />

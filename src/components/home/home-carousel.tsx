@@ -8,6 +8,7 @@ import styles from "./style.module.css";
 import ProductItem from '../product-item/product-item';
 import Image from 'next/image';
 import { FaRegArrowAltCircleLeft, FaRegArrowAltCircleRight } from 'react-icons/fa';
+import Loader from '../common/Loader';
 
 interface Product {
   id: string;
@@ -34,10 +35,14 @@ const HomeCarousel: React.FC<{ style_2?: boolean; style_3?: boolean }> = ({ styl
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const API_URL = process.env.NEXT_PUBLIC_API_URL + "products";
+        const API_URL = `${process.env.NEXT_PUBLIC_API_URL}products?&page=1&limit=8`;
         const API_TOKEN = process.env.NEXT_PUBLIC_API_TOKEN;
-
-        const response = await axios.get(API_URL, {
+        const requestData = {
+          categoryIds: [],
+          subCategoryIds: [],
+          subSubCategoryIds: [],
+        };
+        const response = await axios.post(API_URL, requestData, {
           headers: {
             Authorization: `Bearer ${API_TOKEN}`,
           },
@@ -53,15 +58,6 @@ const HomeCarousel: React.FC<{ style_2?: boolean; style_3?: boolean }> = ({ styl
 
     fetchProducts();
   }, []);
-
-  // Render loading state
-  if (loading) {
-    return (
-      <div className={styles['home-carousel']}>
-        <p>Loading products...</p>
-      </div>
-    );
-  }
 
   // Render carousel
   return (
@@ -90,7 +86,12 @@ const HomeCarousel: React.FC<{ style_2?: boolean; style_3?: boolean }> = ({ styl
             <p className={styles.largeText}>Our Screens</p>
           </div>
           <div className={styles.action_container_products}>
-            <button onClick={() => window.location.href = '/products'} className={styles["all-products-btn"]}>All Products</button>
+            <button
+              onClick={() => window.location.href = '/products'}
+              className={styles["all-products-btn"]}
+            >
+              All Products
+            </button>
             <div className={styles.arrows}>
               <FaRegArrowAltCircleLeft
                 onClick={() => swiperRef.current?.slidePrev()}
@@ -106,43 +107,52 @@ const HomeCarousel: React.FC<{ style_2?: boolean; style_3?: boolean }> = ({ styl
           </div>
         </div>
 
-        <Swiper
-          modules={[Autoplay]}
-          loop={true}
-          speed={1000}
-          spaceBetween={30}
-          slidesPerView="auto"
-          autoplay={{
-            delay: 3000,
-            disableOnInteraction: false,
-          }}
-          onSwiper={(swiper) => (swiperRef.current = swiper)} // Assign Swiper instance to ref
-          pagination={{
-            el: ".cs_pagination",
-            clickable: true,
-          }}
-          className={`cs_slider pt-5 cs_slider_3 anim_blog ${style_2 ? '' : 'style_slider'}`}
-        >
-          {products.map((product) => (
-            <SwiperSlide key={product.id} className="swiper-slide">
-              <ProductItem
-                item={{
-                  id: product.id,
-                  img: product.thumbnail?.formats?.large?.url || product.thumbnail?.url,
-                  title: product.title,
-                  des: product.amount,
-                  slug: product.slug,
-                  sale_rent: product.sale_rent,
-                  article_code: product.article_code,
-                  amount: product.amount,
-                  createdAt: product.createdAt
-                }}
-              />
-            </SwiperSlide>
-          ))}
-        </Swiper>
+        {/* Loader or Carousel */}
+        {loading ? (
+          <div
+            className="w-100 h-100 d-flex align-items-center justify-content-center"
+            style={{ minHeight: '300px' }}
+          >
+            <Loader size={100} />
+          </div>
+        ) : (
+          <Swiper
+            modules={[Autoplay]}
+            loop={true}
+            speed={1000}
+            spaceBetween={30}
+            slidesPerView="auto"
+            autoplay={{
+              delay: 3000,
+              disableOnInteraction: false,
+            }}
+            onSwiper={(swiper) => (swiperRef.current = swiper)} // Assign Swiper instance to ref
+            pagination={{
+              el: ".cs_pagination",
+              clickable: true,
+            }}
+            className={`cs_slider pt-5 cs_slider_3 anim_blog ${style_2 ? '' : 'style_slider'}`}
+          >
+            {products.map((product) => (
+              <SwiperSlide key={product.id} className="swiper-slide">
+                <ProductItem
+                  item={{
+                    id: product.id,
+                    img: product.thumbnail?.formats?.large?.url || product.thumbnail?.url,
+                    title: product.title,
+                    des: product.amount,
+                    slug: product.slug,
+                    sale_rent: product.sale_rent,
+                    article_code: product.article_code,
+                    amount: product.amount,
+                    createdAt: product.createdAt,
+                  }}
+                />
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        )}
       </div>
-      {/* {style_2 ? null : style_3 ? null : <div className="cs_height_150 cs_height_lg_60"></div>} */}
     </section>
   );
 };

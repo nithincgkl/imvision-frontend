@@ -13,6 +13,7 @@ import axios from 'axios';
 import { log } from "console";
 import { CartProvider, useCart } from '@/context/cart-context'; // Import the useCart hook
 import { useSnackbar } from 'notistack'; // Import useSnackbar hook
+import Loader from "@/components/common/Loader";
 
 const WorkWithUs: React.FC = () => {
   return (
@@ -52,7 +53,7 @@ const CareerBox = ({ job, onApply }: { job: CareerJob; onApply: (job: CareerJob)
   <div className={style["career_box"]}>
     <div>
       {job.thumbnail ? (
-        <img src={`${job.thumbnail.formats.thumbnail.url}`} className="w-100" alt={job.title} loading="lazy" />
+        <img src={`${job.thumbnail.formats.thumbnail.url}`} className="w-100 h-100" alt={job.title} loading="lazy" />
       ) : (
         <div className={style["no-thumbnail"]}>No Image Available</div>
       )}
@@ -83,6 +84,7 @@ const Career = () => {
   const [careerOpenings, setCareerOpenings] = useState<CareerJob[]>([]);
   const [displayedJobs, setDisplayedJobs] = useState(3);
   const [selectedJob, setSelectedJob] = useState<CareerJob | null>(null);
+  const [openingsLoader, setOpeningsLoader] = useState<Boolean>(false);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -97,6 +99,7 @@ const Career = () => {
 
   useEffect(() => {
     const fetchJobs = async () => {
+      setOpeningsLoader(true);
       try {
         const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}careers?populate=*`, {
           headers: {
@@ -114,8 +117,10 @@ const Career = () => {
         } else {
           console.error("Fetched data is not an array:", jobsArray);
         }
+        setOpeningsLoader(false);
       } catch (error) {
         console.error("Error fetching job data:", error);
+        setOpeningsLoader(false);
       }
     };
     fetchJobs();
@@ -311,15 +316,21 @@ const Career = () => {
                       <h3>Current Openings</h3>
                     </div>
                     <div className="col-12">
-                      {careerOpenings.slice(0, displayedJobs).map((job) => (
-                        <CareerBox
-                          key={job.id}
-                          job={job}
-                          onApply={handleApply}
-                        />
-                      ))}
+                      {openingsLoader ? (
+                        <div className={style.loaderContainer}>
+                          <Loader /> {/* Ensure Loader component is imported and styled */}
+                        </div>
+                      ) : (
+                        careerOpenings.slice(0, displayedJobs).map((job) => (
+                          <CareerBox
+                            key={job.id}
+                            job={job}
+                            onApply={handleApply}
+                          />
+                        ))
+                      )}
                     </div>
-                    {displayedJobs < careerOpenings.length && (
+                    {!openingsLoader && displayedJobs < careerOpenings.length && (
                       <div className="col-md-12 text-center">
                         <button
                           className={style["load_more"]}

@@ -15,6 +15,8 @@ import Link from 'next/link';
 import { IoMdClose } from 'react-icons/io';
 import { CartProvider, useCart } from '@/context/cart-context'; // Import the useCart hook
 import { useSnackbar } from 'notistack'; // Import useSnackbar hook
+import { FaRegArrowAltCircleLeft, FaRegArrowAltCircleRight } from 'react-icons/fa';
+import Loader from '@/components/common/Loader';
 
 
 const ProductSlug: React.FC = () => {
@@ -103,6 +105,7 @@ const Page: React.FC = () => {
   const modalRef = useRef<HTMLDivElement>(null);
   const { enqueueSnackbar } = useSnackbar(); // Initialize useSnackbar hook
   const [isExpanded, setIsExpanded] = useState(false);
+  const swiperRef = useRef<any>(null);
 
 
   const [formData, setFormData] = useState({
@@ -267,9 +270,14 @@ const Page: React.FC = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const API_URL = `${process.env.NEXT_PUBLIC_API_URL}products`;
+        const API_URL = `${process.env.NEXT_PUBLIC_API_URL}products?page=1&limit=8`;
         const API_TOKEN = process.env.NEXT_PUBLIC_API_TOKEN;
-        const response = await axios.get(API_URL, { headers: { Authorization: `Bearer ${API_TOKEN}` } });
+        const requestData = {
+          categoryIds: [],
+          subCategoryIds: [],
+          subSubCategoryIds: []
+        };
+        const response = await axios.post(API_URL, requestData, { headers: { Authorization: `Bearer ${API_TOKEN}` } });
         setProducts(response?.data?.products);
       } catch (error) {
         setError("Error fetching product data.");
@@ -323,7 +331,14 @@ const Page: React.FC = () => {
     setCurrentIndex(index); // Set current index based on clicked dot
   };
 
-  if (loading) return <div>Loading...</div>; // Show loading state
+  if (loading) return (
+    <div
+      className="w-100 h-100 d-flex align-items-center justify-content-center"
+      style={{ minHeight: '100vh' }}
+    >
+      <Loader size={300}></Loader>
+    </div>
+  )
   if (error) return <div>{error}</div>; // Show error if any
 
   const { cartItems, removeFromCart, updateCartItemCount, addToCart } = useCart();
@@ -471,8 +486,8 @@ const Page: React.FC = () => {
                           {isExpanded ? 'Read less' : 'Read more'}
                         </span>
                       )}
-                    </p>             
-                   </div>
+                    </p>
+                  </div>
 
 
                   {featured?.specifications && featured.specifications.length > 0 && (
@@ -485,12 +500,12 @@ const Page: React.FC = () => {
                             {spec.specification_title_desc && spec.specification_title_desc.length > 0 && (
                               <div className='col-md-8 col-12' >
                                 <div className="row">
-                                {spec.specification_title_desc.map((desc, descIndex) => (
-                                  <div className='col-6 ' key={descIndex}>
-                                    <p className='fw-bold'>{desc.title}<br /> <span className='fw-thin'>{desc.description}</span></p>
-                                  </div>
-                                ))}
-                                                                  </div>
+                                  {spec.specification_title_desc.map((desc, descIndex) => (
+                                    <div className='col-6 ' key={descIndex}>
+                                      <p className='fw-bold'>{desc.title}<br /> <span className='fw-thin'>{desc.description}</span></p>
+                                    </div>
+                                  ))}
+                                </div>
 
                               </div>
                             )}
@@ -649,8 +664,21 @@ const Page: React.FC = () => {
                 </div>
               )}
               <div className='my-5 container-fluid'>
-                <h3 className='mb-4 my-5'> Related Products</h3>
-
+                <div className={style.action_container_products}>
+                  <h3> Related Products</h3>
+                  <div className={style.arrows}>
+                    <FaRegArrowAltCircleLeft
+                      onClick={() => swiperRef.current?.slidePrev()}
+                      style={{ cursor: 'pointer', height: '40px', width: '40px' }}
+                      className={style.arrowIcon}
+                    />
+                    <FaRegArrowAltCircleRight
+                      onClick={() => swiperRef.current?.slideNext()}
+                      style={{ cursor: 'pointer', height: '40px', width: '40px' }}
+                      className={style.arrowIcon}
+                    />
+                  </div>
+                </div>
                 <div className="d-flex">
 
                   <Swiper
@@ -667,6 +695,7 @@ const Page: React.FC = () => {
                       el: ".cs_pagination",
                       clickable: true,
                     }}
+                    onSwiper={(swiper) => (swiperRef.current = swiper)} // Assign Swiper instance to ref
                     className={`cs_slider pt-5 cs_slider_3 anim_blog ${style ? '' : 'style_slider'}`}
                   >
                     {products.map((product) => (
