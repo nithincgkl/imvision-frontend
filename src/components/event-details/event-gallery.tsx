@@ -3,6 +3,7 @@ import { useState, useEffect, useCallback } from "react";
 import axios from "axios"; // Import axios
 import style from "./style.module.css";
 import ImagePopup from "../modals/ImagePopup";
+import Loader from "../common/Loader";
 
 interface Image {
   id: number;
@@ -10,8 +11,10 @@ interface Image {
   title: string;
   height?: number;
 }
-
-const EventGallery: NextPage = () => {
+interface EventGalleryProps {
+  slug?: string;
+}
+const EventGallery: NextPage<EventGalleryProps> = ({ slug }) => {
   const [photoIndex, setPhotoIndex] = useState<number | null>(null);
   const [isOpen, setIsOpen] = useState(false);
   const [images, setImages] = useState<Image[]>([]);
@@ -21,14 +24,14 @@ const EventGallery: NextPage = () => {
   useEffect(() => {
     const fetchImages = async () => {
       try {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}events?populate=*`, {
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}events?title=${slug}&limit=10`, {
           headers: {
             Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
           },
         });
 
         // Assuming the images are in response.data.data and you want to extract the images
-        const fetchedImages = response.data.data.map((event: any) => ({
+        const fetchedImages = response.data.products.map((event: any) => ({
           id: event.id,
           url: event.thumbnail?.url || event.images[0]?.url || "assets/images/fallback.jpg", // Fallback if no image
           title: event.title,
@@ -62,7 +65,11 @@ const EventGallery: NextPage = () => {
 
   const imageUrls = images.map((image) => image.url);
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <div
+    className="w-100 h-100 d-flex align-items-center justify-content-center"
+  >
+    <Loader size={100} />
+  </div>;
   if (error) return <div>Error loading images: {error}</div>;
 
   return (
@@ -88,8 +95,8 @@ const EventGallery: NextPage = () => {
                       handleImageLoad(image.id, img.naturalHeight);
                     }}
                     onError={(e) =>
-                      ((e.target as HTMLImageElement).src =
-                        "assets/images/fallback.jpg")
+                    ((e.target as HTMLImageElement).src =
+                      "assets/images/fallback.jpg")
                     }
                   />
                   <div className={style.overlay}>
