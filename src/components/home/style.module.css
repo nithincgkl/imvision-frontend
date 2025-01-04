@@ -1070,3 +1070,20 @@
   padding-bottom: 15px;
   float: left;
 }
+
+@media(max-width:520px){
+
+.action_container_products {
+  display: flex;
+width: 100%;  align-items: center;
+  justify-content: space-between;
+}
+
+.product_actions {
+  display: flex;
+  justify-content: start;
+  flex-direction: column;
+  gap: 0px;
+  align-items: start;
+}
+}
