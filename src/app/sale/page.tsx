@@ -77,7 +77,7 @@ const Page: React.FC = () => {
       };
       let queryParams = `pageNumber=${page}&limit=4`;
       if (amount) {
-        queryParams += `&amt=${amount}`;
+        queryParams += `&amount=${amount}`;
       }
       if (createdAt) {
         queryParams += `&createdAt=${createdAt}`;
@@ -140,10 +140,10 @@ const Page: React.FC = () => {
     const page = 1;
     const { sort, filters: newFilters, reset } = params;
 
-    let amount;
-    let createdAt;
+    let amount = undefined;  // Initialize with undefined to reset values
+    let createdAt = undefined;  // Initialize with undefined to reset values
 
-    if (sort.key === "amt") {
+    if (sort.key === "amount") {
       amount = sort.value;
     }
     if (sort.key === "createdAt") {
@@ -177,12 +177,11 @@ const Page: React.FC = () => {
       // Merge new products into the existing filteredProducts
       const updatedProducts = [...filteredProducts, ...newProducts];
 
-      // Sort the merged array
       const sortedProducts = updatedProducts.sort((a, b) => {
         if (filterAmount === "asc") {
-          return parseFloat(b.amount) - parseFloat(a.amount);
-        } else if (filterAmount === "desc") {
           return parseFloat(a.amount) - parseFloat(b.amount);
+        } else if (filterAmount === "desc") {
+          return parseFloat(b.amount) - parseFloat(a.amount);
         }
         return 0; // No sorting if filterAmount is not set
       });
