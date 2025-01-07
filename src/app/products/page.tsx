@@ -251,7 +251,7 @@ const Page: React.FC = () => {
                 <div className="container-fluid">
                   <div className="row">
                     <div className="col-12">
-                      <h1 className={style.pageTitle}>Product for Sale/Rent</h1>
+                      <h1 className={style.pageTitle}>Products for Sale/Rent</h1>
                     </div>
                   </div>
                 </div>

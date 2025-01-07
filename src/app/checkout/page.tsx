@@ -10,6 +10,7 @@ import { IoChevronDown } from 'react-icons/io5';
 import axios from 'axios';
 // import { useRouter } from 'next/router';
 import { CartProvider, useCart } from '@/context/cart-context'; // Import the useCart hook
+import { useSnackbar } from 'notistack';
 
 const Checkout: React.FC = () => {
   return (
@@ -81,6 +82,8 @@ const RentalConditions = () => {
   });
   const [isPlacing, setPlacingOrder] = useState(false)
   const [errors, setErrors] = useState<FormErrors>({});
+  const { enqueueSnackbar } = useSnackbar();
+
 
   interface FormErrors {
     [key: string]: string | undefined; // Each key can be a string or undefined
@@ -319,6 +322,9 @@ const RentalConditions = () => {
       if (response.status === 201 || response.status === 200) {
         window.location.href = `/order-successful?id=${response.data.data.id}`;
         localStorage.setItem("cartItems", JSON.stringify([]));
+
+        enqueueSnackbar('Order Placed successfully!', { variant: 'success' });
+
       }
       setPlacingOrder(false)
     }
@@ -326,6 +332,8 @@ const RentalConditions = () => {
       if (axios.isAxiosError(error)) {
         console.error("Error response:", error.response?.data);
         console.error("Error status:", error.response?.status);
+        enqueueSnackbar('Error Placing order!', { variant: 'error' });
+
       } else {
         console.error("Unexpected error:", error);
       }
@@ -602,10 +610,12 @@ const RentalConditions = () => {
                                 {cartItems.map((item: any) => (
 
                                   <div key={item.id} className={style["two_row"]}>
-                                    <div>
-                                      <p>{item.title} x {item.count}</p>
+                                    <div className='d-flex flex-row col-md-12 col-lg-6 col-12'>
+                                      <p style={{textOverflow: 'ellipsis',}} className='d-md-none d-sm-none d-block'> {item.title.length > 8 ? `${item.title.substring(0, 8)}...` : item.title} x {item.count}  </p>
+                                      <p  className='d-md-block d-sm-block d-none'>  {item.title} x {item.count}  </p>
+                                      <h6 className='d-md-block d-lg-none d-block ms-auto'>SEK {(item.amount * item.count).toFixed(2)}</h6>
                                     </div>
-                                    <div>
+                                    <div className='d-md-none d-lg-block d-none'>
                                       <p>SEK  {(item.amount * item.count).toFixed(2)}</p>
                                     </div>
                                   </div>

@@ -134,6 +134,10 @@
   transform: translateX(4px);
 }
 
+.inputField:focus::placeholder {
+  color: #585454; /* Placeholder color */
+}
+
 .eye_button {
   float: right;
   padding: 0.75rem 0rem;

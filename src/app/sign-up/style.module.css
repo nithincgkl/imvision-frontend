@@ -91,6 +91,10 @@ max-width: 100%;
     transform: translateY(-50%) scale(0.85);
     color: #fff;
   }
+
+  .inputField:focus::placeholder {
+    color: #585454; /* Placeholder color */
+  }
   
   .textareaLabel {
     top: 1rem;

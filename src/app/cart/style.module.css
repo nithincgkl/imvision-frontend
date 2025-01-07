@@ -307,7 +307,12 @@
   }
 
   .itemAdjuster {
-    display: block;
+display: block;
+    gap: 10px;
+  }
+  
+  .itemAdjuster button {
+    margin: 10px;
   }
 
   .dateInput {

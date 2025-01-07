@@ -122,8 +122,8 @@ const Page: React.FC = () => {
                     <div className="col-md-12">
                       <img src="/assets/images/events2.jpg" alt="Corporate events" className="w-100" />
                       <div className={style["event-corporate-text"]}>
-                        <h3 className="text-center">Corporate</h3>
-                        <button onClick={handleTalkToExpert} className="btn-one">Talk to Expert</button>
+                      <h1>Corporate</h1>
+                      <button onClick={handleTalkToExpert} className="btn-one">Talk to Expert</button>
                       </div>
                       <div className="text-center">
                         Rev up your automotive events with vibrant LED screens.
@@ -150,8 +150,8 @@ const Page: React.FC = () => {
                     <div className="col-md-12">
                       <img src="/assets/images/government.jpg" alt="Government events" className="w-100" />
                       <div className={style["event-corporate-text"]} >
-                        <h3 className="text-center">Government</h3>
-                        <button onClick={handleTalkToExpert} className="btn-one">Talk to Expert</button>
+                      <h1>Government</h1>
+                      <button onClick={handleTalkToExpert} className="btn-one">Talk to Expert</button>
                       </div>
                       <div className="text-center">
                         Rev up your automotive events with vibrant LED screens.
@@ -177,8 +177,8 @@ const Page: React.FC = () => {
                     <div className="col-md-12">
                       <img src="/assets/images/retail.jpg" alt="Retail events" className="w-100" />
                       <div className={style["event-corporate-text"]}>
-                        <h3 className="text-center">Retail</h3>
-                        <button onClick={handleTalkToExpert} className="btn-one">Talk to Expert</button>
+                      <h1>Retail</h1>
+                      <button onClick={handleTalkToExpert} className="btn-one">Talk to Expert</button>
                       </div>
                       <div className="text-center">
                         Rev up your automotive events with vibrant LED screens.
