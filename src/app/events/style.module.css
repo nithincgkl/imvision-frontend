@@ -46,11 +46,17 @@
     /* margin-top: -150px; */
 }
 .event-corporate-text {
-  margin-top: -150px;
+  margin-top: -190px;
   float: left;
   width: 100%;
   text-align: center;
 }
+
+.event-corporate-text h1{ 
+  font-size: 90px;
+  text-align: center;
+}
+
 .event-corporate img{
     float: left;
     width: 100%;
@@ -169,17 +175,16 @@
 
 @media (max-width: 1250px) {
 
-  .event-banner-text h1 {
+  .event-banner-text h1 ,.event-corporate-text h1 {
     font-size: 35px !important;
   }
-  .event-banner-text {
+  .event-banner-text ,.event-corporate-text {
     margin-top: -50px;
 }
 .event-banner img {
   margin-top: 20px;
 }
-
-  
+ 
   }
 
 

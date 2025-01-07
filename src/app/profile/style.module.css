@@ -80,6 +80,9 @@ height: 69px;
     color: white;
   }
 
+  .inputField:focus::placeholder {
+    color: #585454; /* Placeholder color */
+  }
 
   .talk_btn{
     width: 20%;

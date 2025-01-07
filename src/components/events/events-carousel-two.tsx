@@ -54,13 +54,11 @@ interface Event {
   publishedAt: string;
 }
 
-
 const EventsCarouselTwo: React.FC<HomeCarouselProps> = ({ style_2, style_3 }) => {
   const [events, setEvents] = useState<Event[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const swiperRef = useRef<any>(null);
-
 
   useEffect(() => {
     const fetchEvents = async () => {
@@ -102,6 +100,13 @@ const EventsCarouselTwo: React.FC<HomeCarouselProps> = ({ style_2, style_3 }) =>
     }
   };
 
+  // Function to truncate description to 300 words
+  const truncateDescription = (description: string, wordLimit: number) => {
+    const words = description.split(" ");
+    const truncated = words.slice(0, wordLimit).join(" ");
+    return words.length > wordLimit ? `${truncated}...` : truncated;
+  };
+
   return (
     <section className={`${styles['home-carousel']} ${styles['bg-light-black']}`}>
       <div className="container-fluid">
@@ -120,9 +125,7 @@ const EventsCarouselTwo: React.FC<HomeCarouselProps> = ({ style_2, style_3 }) =>
 
         {/* Loader or Swiper */}
         {loading ? (
-          <div
-            className="w-100 h-100 d-flex align-items-center justify-content-center"
-          >
+          <div className="w-100 h-100 d-flex align-items-center justify-content-center">
             <Loader size={100} />
           </div>
         ) : error ? (
@@ -145,12 +148,11 @@ const EventsCarouselTwo: React.FC<HomeCarouselProps> = ({ style_2, style_3 }) =>
               el: ".cs_pagination",
               clickable: true,
             }}
-            className={`cs_slider pt-5 cs_slider_3 anim_blog ${style_2 ? '' : 'style_slider'}`}
-          >
+            className={`cs_slider pt-5 cs_slider_3 anim_blog ${style_2 ? '' : 'style_slider'}`} >
             {events.map((event) => (
               <SwiperSlide key={event.id}>
                 <div className={styles['our-screen-box']}>
-                  <div className="cs_post cs_style_1">
+                  <div className="cs_post cs_style_1" style={{paddingTop:'5px'}}>
                     <Link href={`/events/${event.slug}`} className="cs_post_thumb">
                       {event.thumbnail && (
                         <Image
@@ -163,11 +165,18 @@ const EventsCarouselTwo: React.FC<HomeCarouselProps> = ({ style_2, style_3 }) =>
                       )}
                     </Link>
                     <div className="cs_post_info">
-                      <h2 className="cs_post_title">
+                      <h2 className="cs_post_title" style={{paddingTop:'25px'}}>
                         <Link href={`/events/${event.slug}`}>{event.title}</Link>
                       </h2>
                       <div>
-                        <p className="col-12">SEK {event.description}</p>
+                      <p className="col-12 mb-xl-0 mb-lg-3 mb-md-3">
+                          {truncateDescription(event.description, 20)}
+                          {/* Custom tooltip on hover */}                 
+                        </p>
+                               <Link href={`/events/${event.slug}`} > <span className={styles.tooltip}>
+                              Read More
+                            </span>
+                            </Link> 
                       </div>
                     </div>
                   </div>
