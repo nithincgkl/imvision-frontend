@@ -67,9 +67,9 @@ const HeaderOne: React.FC = () => {
               </div>
               <div className="cs_main_header_right">
                 <div className="cs_nav cs_medium">
-                <MobileMenu active={active} navTitle={navTitle} openMobileMenu={openMobileMenu} cartItemCount={cartItemCount} />
-                <span 
-                    className={`cs_munu_toggle ${active ? "cs_toggle_active" : ""}`} 
+                  <MobileMenu active={active} navTitle={navTitle} openMobileMenu={openMobileMenu} cartItemCount={cartItemCount} />
+                  <span
+                    className={`cs_munu_toggle ${active ? "cs_toggle_active" : ""}`}
                     onClick={handleActive}
                   >
                     <span></span>

@@ -3,33 +3,36 @@ import style from './style.module.css';
 import Link from 'next/link';
 import axios from 'axios';
 import { useSnackbar } from 'notistack';
+import { useTranslations } from 'next-intl';
 
 interface NavItem {
   label: string;
   href: string;
 }
 
-const NAV_ITEMS: NavItem[] = [
-  { label: 'Rent products', href: '/rent-products' },
-  { label: 'Sale', href: '/sale' },
-  { label: 'About IM Vision', href: '/about' },
-  { label: 'Contact Us', href: '/contact' },
-  { label: 'Error reporting', href: '/error-reporting' },
-  { label: 'Work With us', href: '/work-with-us' },
-  { label: 'Rental conditions', href: '/rental-conditions' },
-  { label: 'Profile', href: '/profile' }, // Profile link
-  { label: 'Sign In', href: '/login' },  // Sign In link
-  { label: 'Logout', href: '/login' } // Logout link
-];
-
-const LEGAL_LINKS: NavItem[] = [
-  { label: 'Privacy Policy', href: '/privacy' },
-  { label: 'Terms and Conditions', href: '/terms' },
-  { label: 'Cookie Policy', href: '/cookies' },
-];
-
 const FooterOne: React.FC = () => {
-  const { enqueueSnackbar } = useSnackbar(); // Notification hook
+  const t = useTranslations('home.footer');
+  const { enqueueSnackbar } = useSnackbar();
+
+  const NAV_ITEMS: NavItem[] = [
+    { label: t('navItems.rentProducts'), href: '/rent-products' },
+    { label: t('navItems.sale'), href: '/sale' },
+    { label: t('navItems.about'), href: '/about' },
+    { label: t('navItems.contact'), href: '/contact' },
+    { label: t('navItems.errorReporting'), href: '/error-reporting' },
+    { label: t('navItems.workWithUs'), href: '/work-with-us' },
+    { label: t('navItems.rentalConditions'), href: '/rental-conditions' },
+    { label: t('navItems.profile'), href: '/profile' },
+    { label: t('navItems.signIn'), href: '/login' },
+    { label: t('navItems.logout'), href: '/login' }
+  ];
+
+  const LEGAL_LINKS: NavItem[] = [
+    { label: t('legalLinks.privacyPolicy'), href: '/privacy' },
+    { label: t('legalLinks.termsAndConditions'), href: '/terms' },
+    { label: t('legalLinks.cookiePolicy'), href: '/cookies' },
+  ];
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -44,13 +47,12 @@ const FooterOne: React.FC = () => {
     companyName: '',
   });
 
-  const [isSubmitting, setIsSubmitting] = useState(false); // State to track submission status
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // State for login status
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  // Check if the user is logged in (can be improved based on your authentication method)
   useEffect(() => {
-    const token = localStorage.getItem('token'); // Example: check if an auth token is in localStorage
-    setIsLoggedIn(!!token); // Set isLoggedIn based on the presence of the token
+    const token = localStorage.getItem('token');
+    setIsLoggedIn(!!token);
   }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -59,7 +61,6 @@ const FooterOne: React.FC = () => {
       [e.target.id]: e.target.value,
     });
 
-    // Clear the error for the field being modified
     setErrors({
       ...errors,
       [e.target.id]: '',
@@ -76,25 +77,25 @@ const FooterOne: React.FC = () => {
     };
 
     if (!formData.name.trim()) {
-      newErrors.name = 'Name is required.';
+      newErrors.name = t('validation.nameRequired');
       valid = false;
     }
 
     if (!formData.email.trim()) {
-      newErrors.email = 'Email is required.';
+      newErrors.email = t('validation.emailRequired');
       valid = false;
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = 'Please enter a valid email address.';
+      newErrors.email = t('validation.emailInvalid');
       valid = false;
     }
 
     if (!formData.helpTopic.trim()) {
-      newErrors.helpTopic = 'Please select a topic.';
+      newErrors.helpTopic = t('validation.topicRequired');
       valid = false;
     }
 
     if (!formData.companyName.trim()) {
-      newErrors.companyName = 'Company Name is required.';
+      newErrors.companyName = t('validation.companyRequired');
       valid = false;
     }
 
@@ -105,12 +106,11 @@ const FooterOne: React.FC = () => {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (validateForm()) {
-      setIsSubmitting(true); // Set isSubmitting to true when form is being submitted
+      setIsSubmitting(true);
       try {
-        const apiUrl = process.env.NEXT_PUBLIC_API_URL; // Use environment variable for API URL
-        const apiToken = process.env.NEXT_PUBLIC_API_TOKEN; // Use environment variable for API Token
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+        const apiToken = process.env.NEXT_PUBLIC_API_TOKEN;
 
-        // Make API call to send the form data
         const response = await axios.post(
           `${apiUrl}leads`,
           {
@@ -123,47 +123,42 @@ const FooterOne: React.FC = () => {
           },
           {
             headers: {
-              Authorization: `Bearer ${apiToken}`, // Include Bearer token in the request headers
+              Authorization: `Bearer ${apiToken}`,
             },
           }
         );
 
-        // Success notification
-        enqueueSnackbar('Your message has been sent successfully!', { variant: 'success' });
-        console.log('Form submitted:', response.data);
-        setFormData({ name: '', email: '', helpTopic: '', companyName: '' }); // Clear the form after submission
+        enqueueSnackbar(t('notifications.success'), { variant: 'success' });
+        setFormData({ name: '', email: '', helpTopic: '', companyName: '' });
       } catch (error) {
-        // Error notification
-        enqueueSnackbar('There was an error submitting the form. Please try again.', { variant: 'error' });
+        enqueueSnackbar(t('notifications.error'), { variant: 'error' });
         console.error('Error submitting form:', error);
       } finally {
-        setIsSubmitting(false); // Reset isSubmitting to false after submission or error
+        setIsSubmitting(false);
       }
     }
   };
 
   const handleLogout = () => {
-    localStorage.removeItem('token'); // Remove the token from local storage
-    localStorage.removeItem('user')
-    localStorage.removeItem('userData')
-    localStorage.removeItem('cartItems')
-    setIsLoggedIn(false); // Update the login state
-    enqueueSnackbar('You have been logged out.', { variant: 'info' }); // Notify the user
-    window.location.href = '/login'; // Redirect to the login page
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    localStorage.removeItem('userData');
+    localStorage.removeItem('cartItems');
+    setIsLoggedIn(false);
+    enqueueSnackbar(t('notifications.logout'), { variant: 'info' });
+    window.location.href = '/login';
   };
 
   return (
     <footer className={style['footer-container']}>
       <div className="container">
         <div className="row">
-          {/* Logo Section */}
           <div className="col-md-4 mb-4">
             <img src="/assets/images/footer-logo.png" alt="Company Logo" className={style.logo} />
           </div>
 
-          {/* Contact Form Section */}
           <div className="col-md-8 mb-4">
-            <h2>Get in touch today</h2>
+            <h2>{t('getInTouch')}</h2>
             <form onSubmit={handleSubmit} className="mb-4">
               <div className="row">
                 <div className="col-md-6 mb-3">
@@ -172,7 +167,7 @@ const FooterOne: React.FC = () => {
                       type="text"
                       id="name"
                       className={`form-control ${style.inputField}`}
-                      placeholder="Name*"
+                      placeholder={t('formPlaceholders.name')}
                       value={formData.name}
                       onChange={handleChange}
                     />
@@ -186,7 +181,7 @@ const FooterOne: React.FC = () => {
                       type="email"
                       id="email"
                       className={`form-control ${style.inputField}`}
-                      placeholder="Email Address*"
+                      placeholder={t('formPlaceholders.email')}
                       value={formData.email}
                       onChange={handleChange}
                     />
@@ -203,12 +198,12 @@ const FooterOne: React.FC = () => {
                       onChange={handleChange}
                     >
                       <option value="" className={style.firstFieldColor}>
-                        What can we help you with?
+                        {t('formPlaceholders.helpTopic')}
                       </option>
-                      <option value="Sale">Sale</option>
-                      <option value="Rent">Rent</option>
-                      <option value="Career">Career</option>
-                      <option value="Other">Other</option>
+                      <option value="Sale">{t('helpTopics.sale')}</option>
+                      <option value="Rent">{t('helpTopics.rent')}</option>
+                      <option value="Career">{t('helpTopics.career')}</option>
+                      <option value="Other">{t('helpTopics.other')}</option>
                     </select>
                     {errors.helpTopic && <small className={style.errorText}>{errors.helpTopic}</small>}
                   </div>
@@ -220,7 +215,7 @@ const FooterOne: React.FC = () => {
                       type="text"
                       id="companyName"
                       className={`form-control ${style.inputField}`}
-                      placeholder="Company Name*"
+                      placeholder={t('formPlaceholders.companyName')}
                       value={formData.companyName}
                       onChange={handleChange}
                     />
@@ -230,45 +225,21 @@ const FooterOne: React.FC = () => {
               </div>
 
               <button type="submit" className={`${style.submitButton}`} disabled={isSubmitting}>
-                {isSubmitting ? 'Sending...' : 'Let\'s Talk'}
-                {isSubmitting && (
-                  <svg
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <path d=" M5 12h14m-7-7 7 7 -7" />
-                  </svg>
-                )}
+                {isSubmitting ? t('submitButton.sending') : t('submitButton.default')}
               </button>
             </form>
           </div>
 
-          {/* Navigation */}
           <div className="col-12 mb-4">
             <nav className="text-center">
               <ul className="list-inline mb-0">
                 {NAV_ITEMS.map((item: NavItem) => {
-                  // Show Profile and Logout if user is logged in
-                  if (item.label === 'Profile' && !isLoggedIn) {
-                    return null;
-                  }
-                  // Show Sign In if user is not logged in
-                  if (item.label === 'Sign In' && isLoggedIn) {
-                    return null;
-                  }
-                  // Show Logout if user is logged in
-                  if (item.label === 'Logout' && !isLoggedIn) {
-                    return null;
-                  }
+                  if (item.label === t('navItems.profile') && !isLoggedIn) return null;
+                  if (item.label === t('navItems.signIn') && isLoggedIn) return null;
+                  if (item.label === t('navItems.logout') && !isLoggedIn) return null;
                   return (
                     <li key={item.label} className="list-inline-item mx-3">
-                      {item.label === 'Logout' ? (
+                      {item.label === t('navItems.logout') ? (
                         <Link href="#" className={style.navLink} onClick={handleLogout}>
                           {item.label}
                         </Link>
@@ -284,7 +255,6 @@ const FooterOne: React.FC = () => {
             </nav>
           </div>
 
-          {/* Legal Links */}
           <div className="col-12">
             <nav className="text-center">
               <ul className="list-inline mb-0">
@@ -297,8 +267,12 @@ const FooterOne: React.FC = () => {
                 ))}
               </ul>
               <div className={style.disclaimer}>
-                <p className='my-4 col-xxl-8 col-xl-9 col-md-8 col-11 mx-auto'><span className='fw-bold mb-1'>Disclaimer</span><br />
-                  The photos and videos displayed on this website are used for representational purposes and remain the property of their respective owners. For any queries, please contact us at <a href="mailto:elliott@imvision.se" className='fw-bold'>elliott@imvision.se</a>
+                <p className='my-4 col-xxl-8 col-xl-9 col-md-8 col-11 mx-auto'>
+                  <span className='fw-bold mb-1'>{t('disclaimer.title')}</span><br />
+                  {t('disclaimer.text')}{' '}
+                  <a href="mailto:elliott@imvision.se" className='fw-bold'>
+                    elliott@imvision.se
+                  </a>
                 </p>
               </div>
             </nav>

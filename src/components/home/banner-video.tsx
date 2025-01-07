@@ -2,8 +2,10 @@ import React from "react";
 import styles from "./style.module.css";
 import Link from "next/link";
 import { FaWhatsapp } from "react-icons/fa";
+import { useTranslations } from 'next-intl';
 
 const BannerVideo: React.FC = () => {
+  const t = useTranslations('home.bannerVideo');
   return (
     <>
       <section className={styles["nav-banner-container"]}>
@@ -18,15 +20,15 @@ const BannerVideo: React.FC = () => {
                 className={styles["banner-video"]}
               >
                 <source src="/assets/videos/banner.mp4" type="video/mp4" />
-                Your browser does not support the video tag.
+                {t("heading")}
               </video>
             </div>
             <div className={styles["banner-content"]}>
-              <h1>Bigscreen Beyond</h1>
-              <h2>Your display partner</h2>
+              <h1>{t("subHeading1")}</h1>
+              <h2>{t("subHeading2")}</h2>
             </div>
             <Link href="/contact">
-            <button className={styles["talk-btn"]}>Talk to Expert</button>
+              <button className={styles["talk-btn"]}>{t("buttonText")}</button>
             </Link>
           </div>
         </div>

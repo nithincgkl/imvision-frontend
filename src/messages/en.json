@@ -1,0 +1,125 @@
+{
+    "navigation": {
+        "events": "Event",
+        "expo": "Expo",
+        "products": "Products",
+        "installation": "installation",
+        "contact": "Cart",
+        "support": "Login",
+        "cart": "Sign Up"
+    },
+    "home": {
+        "bannerVideo": {
+            "heading": "Your browser does not support the video tag.",
+            "subHeading1": "Bigscreen Beyond",
+            "subHeading2": "Your display partner",
+            "buttonText": "Talk to Expert"
+        },
+        "displays": {
+            "smallHeading": "Displays",
+            "heading": "Next-generation displays",
+            "heading2": "90 Degree",
+            "description1": "90° connection cabinets cut 45° In the left or right side of your cabinet and then can't connect with normal cabinet from that side anymore.",
+            "description2": "90° Connection",
+            "description3": "Make your corner & cube"
+        },
+        "homeCarousel": {
+            "smallHeading": "Product",
+            "heading": "Our Screens",
+            "buttonText": "All Products"
+        },
+        "wowMoments": {
+            "smallHeading": "Perfect For",
+            "heading": "Create a WOW Moment",
+            "description1": "The result? A face cushion that fits you perfectly.",
+            "description2": "Enhanced immersion with no more light",
+            "description3": "leakage, and comfortable to wear for hours.",
+            "buttonText": "Know More Details"
+        },
+        "homeExperience": {
+            "heading": "Experience",
+            "energyEfficiency": {
+                "title": "Energy Efficiency",
+                "description": "Low power consumption compared to other display technologies."
+            },
+            "durabilityReliability": {
+                "title": "Durability and Reliability",
+                "description": "Built to withstand different environmental conditions, including extreme temperatures."
+            },
+            "wideViewingAngles": {
+                "title": "Wide Viewing Angles",
+                "description": "Consistent image quality and color accuracy even when viewed from off-center angles."
+            },
+            "fastRefreshRate": {
+                "title": "Fast Refresh Rate",
+                "description": "High refresh rates provide smooth motion, making them ideal for video playback."
+            },
+            "thinLightweight": {
+                "title": "Thin and Lightweight",
+                "description": "Slim profiles and lightweight panels are easier to install and integrate into various settings."
+            },
+            "scalability": {
+                "title": "Scalability",
+                "description": "Can be scaled to create large displays by combining multiple panels."
+            }
+        },
+        "letsTalk": {
+            "heading": "Have a project for us?",
+            "heading2": "Let's talk.",
+            "buttonText": "Talk to expert",
+            "videoError": "Your browser does not support the video tag."
+        },
+        "footer": {
+            "getInTouch": "Get in touch today",
+            "formPlaceholders": {
+                "name": "Name*",
+                "email": "Email Address*",
+                "helpTopic": "What can we help you with?",
+                "companyName": "Company Name*"
+            },
+            "helpTopics": {
+                "sale": "Sale",
+                "rent": "Rent",
+                "career": "Career",
+                "other": "Other"
+            },
+            "submitButton": {
+                "default": "Let's Talk",
+                "sending": "Sending..."
+            },
+            "navItems": {
+                "rentProducts": "Rent products",
+                "sale": "Sale",
+                "about": "About IM Vision",
+                "contact": "Contact Us",
+                "errorReporting": "Error reporting",
+                "workWithUs": "Work With us",
+                "rentalConditions": "Rental conditions",
+                "profile": "Profile",
+                "signIn": "Sign In",
+                "logout": "Logout"
+            },
+            "legalLinks": {
+                "privacyPolicy": "Privacy Policy",
+                "termsAndConditions": "Terms and Conditions",
+                "cookiePolicy": "Cookie Policy"
+            },
+            "disclaimer": {
+                "title": "Disclaimer",
+                "text": "The photos and videos displayed on this website are used for representational purposes and remain the property of their respective owners. For any queries, please contact us at"
+            },
+            "notifications": {
+                "success": "Your message has been sent successfully!",
+                "error": "There was an error submitting the form. Please try again.",
+                "logout": "You have been logged out."
+            },
+            "validation": {
+                "nameRequired": "Name is required.",
+                "emailRequired": "Email is required.",
+                "emailInvalid": "Please enter a valid email address.",
+                "topicRequired": "Please select a topic.",
+                "companyRequired": "Company Name is required."
+            }
+        }
+    }
+}

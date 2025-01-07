@@ -3,38 +3,34 @@ import Image from "next/image";
 import styles from "./style.module.css";
 import Link from "next/link";
 import Logo_white from "@/assets/img/Logo_white.png";
+import { useTranslations } from 'next-intl';
 
 const HomeExperience: React.FC = () => {
+  const t = useTranslations('home.homeExperience');
   const experienceData = [
     {
-      title: "Energy Efficiency",
-      description:
-        "Low power consumption compared to other display technologies.",
+      title: t('energyEfficiency.title'),
+      description: t('energyEfficiency.description'),
     },
     {
-      title: "Durability and Reliability",
-      description:
-        "Built to withstand different environmental conditions, including extreme temperatures.",
+      title: t('durabilityReliability.title'),
+      description: t('durabilityReliability.description'),
     },
     {
-      title: "Wide Viewing Angles",
-      description:
-        "Consistent image quality and color accuracy even when viewed from off-center angles.",
+      title: t('wideViewingAngles.title'),
+      description: t('wideViewingAngles.description'),
     },
     {
-      title: "Fast Refresh Rate",
-      description:
-        "High refresh rates provide smooth motion, making them ideal for video playback ",
+      title: t('fastRefreshRate.title'),
+      description: t('fastRefreshRate.description'),
     },
     {
-      title: "Thin and Lightweight",
-      description:
-        "Slim profiles and lightweight panels are easier to install and integrate into various settings.",
+      title: t('thinLightweight.title'),
+      description: t('thinLightweight.description'),
     },
     {
-      title: "Scalability",
-      description:
-        "Can be scaled to create large displays by combining multiple panels.",
+      title: t('scalability.title'),
+      description: t('scalability.description'),
     },
   ];
 
@@ -44,9 +40,9 @@ const HomeExperience: React.FC = () => {
         <div className="container-fluid">
           <div className="col-md-12 d-flex justify-content-center gap-3">
             <div className="text-right">
-              <h3 className="text-3xl font-bold">Experience</h3>
+              <h3 className="text-3xl font-bold">{t('heading')}</h3>
             </div>
-            <div> 
+            <div>
               <Image src={Logo_white} alt="Company Logo" />
             </div>
           </div>

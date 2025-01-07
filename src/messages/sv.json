@@ -1,0 +1,146 @@
+{
+    "navigation": {
+        "events": "Evenemang",
+        "expo": "Om oss",
+        "products": "Kontakt",
+        "installation": "Produkter",
+        "contact": "Kundvagn",
+        "support": "Logga in",
+        "cart": "Skapa konto"
+    },
+    "home": {
+        "bannerVideo": {
+            "heading": "Din webbläsare stöder inte videotaggen.",
+            "subHeading1": "Bigscreen Beyond",
+            "subHeading2": "Din skärmpartner",
+            "buttonText": "Prata med en expert"
+        },
+        "displays": {
+            "smallHeading": "Skärmar",
+            "heading": "Nästa generations skärmar",
+            "heading2": "90 grader",
+            "description1": "90° anslutningsskåp skär 45° på vänster eller höger sida av ditt skåp och kan sedan inte längre ansluta till ett normalt skåp från den sidan.",
+            "description2": "90° anslutning",
+            "description3": "Skapa dina hörn & kub"
+        },
+        "homeCarousel": {
+            "smallHeading": "Produkt",
+            "heading": "Våra skärmar",
+            "buttonText": "Alla produkter"
+        },
+        "wowMoments": {
+            "smallHeading": "Perfekt för",
+            "heading": "Skapa ett WOW-ögonblick",
+            "description1": "Resultatet? En ansiktsdyna som passar dig perfekt.",
+            "description2": "Förbättrad uppslukande upplevelse utan ljus",
+            "description3": "läckage, och bekväm att bära i timmar.",
+            "buttonText": "Läs mer detaljer"
+        },
+        "homeExperience": {
+            "heading": "Upplevelse",
+            "energyEfficiency": {
+                "title": "Energieffektivitet",
+                "description": "Låg strömförbrukning jämfört med andra bildskärmsteknologier."
+            },
+            "durabilityReliability": {
+                "title": "Hållbarhet och Tillförlitlighet",
+                "description": "Byggd för att tåla olika miljöförhållanden, inklusive extrema temperaturer."
+            },
+            "wideViewingAngles": {
+                "title": "Breda Betraktningsvinklar",
+                "description": "Konsekvent bildkvalitet och färgprecision även från sneda vinklar."
+            },
+            "fastRefreshRate": {
+                "title": "Snabb Uppdateringsfrekvens",
+                "description": "Höga uppdateringsfrekvenser ger jämna rörelser, idealiska för videouppspelning."
+            },
+            "thinLightweight": {
+                "title": "Tunn och Lättviktig",
+                "description": "Smala profiler och lätta paneler är enklare att installera och integrera i olika miljöer."
+            },
+            "scalability": {
+                "title": "Skalbarhet",
+                "description": "Kan skalas för att skapa stora skärmar genom att kombinera flera paneler."
+            }
+        },
+        "letsTalk": {
+            "heading": "Har du ett projekt för oss?",
+            "heading2": "Låt oss prata.",
+            "buttonText": "Prata med en expert",
+            "videoError": "Din webbläsare stöder inte videotaggen."
+        },
+        "footer": {
+            "heading": "Kom i kontakt idag",
+            "logoAltText": "Företagslogotyp",
+            "formPlaceholders": {
+                "name": "Namn*",
+                "email": "E-postadress*",
+                "helpTopic": "Vad kan vi hjälpa dig med?",
+                "companyName": "Företagsnamn*"
+            },
+            "helpTopics": {
+                "sale": "Försäljning",
+                "rent": "Hyra",
+                "career": "Karriär",
+                "other": "Annat"
+            },
+            "buttonText": "Låt oss prata",
+            "buttonSending": "Skickar...",
+            "formSuccess": "Ditt meddelande har skickats!",
+            "formError": "Ett fel uppstod när formuläret skickades. Försök igen.",
+            "logoutMessage": "Du har loggats ut."
+        },
+        "footer": {
+            "getInTouch": "Kontakta oss idag",
+            "formPlaceholders": {
+                "name": "Namn*",
+                "email": "E-postadress*",
+                "helpTopic": "Vad kan vi hjälpa dig med?",
+                "companyName": "Företagsnamn*"
+            },
+            "helpTopics": {
+                "sale": "Försäljning",
+                "rent": "Hyra",
+                "career": "Karriär",
+                "other": "Övrigt"
+            },
+            "submitButton": {
+                "default": "Låt oss prata",
+                "sending": "Skickar..."
+            },
+            "navItems": {
+                "rentProducts": "Hyr produkter",
+                "sale": "Försäljning",
+                "about": "Om IM Vision",
+                "contact": "Kontakta oss",
+                "errorReporting": "Felrapportering",
+                "workWithUs": "Jobba hos oss",
+                "rentalConditions": "Hyresvillkor",
+                "profile": "Profil",
+                "signIn": "Logga in",
+                "logout": "Logga ut"
+            },
+            "legalLinks": {
+                "privacyPolicy": "Integritetspolicy",
+                "termsAndConditions": "Villkor",
+                "cookiePolicy": "Cookie-policy"
+            },
+            "disclaimer": {
+                "title": "Ansvarsfriskrivning",
+                "text": "Foton och videor som visas på denna webbplats används i representativt syfte och förblir respektive ägares egendom. För eventuella frågor, kontakta oss på"
+            },
+            "notifications": {
+                "success": "Ditt meddelande har skickats!",
+                "error": "Det uppstod ett fel när formuläret skulle skickas. Försök igen.",
+                "logout": "Du har loggat ut."
+            },
+            "validation": {
+                "nameRequired": "Namn krävs.",
+                "emailRequired": "E-postadress krävs.",
+                "emailInvalid": "Ange en giltig e-postadress.",
+                "topicRequired": "Välj ett ämne.",
+                "companyRequired": "Företagsnamn krävs."
+            }
+        }
+    }
+}
