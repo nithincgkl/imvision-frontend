@@ -228,9 +228,38 @@ const Filter: React.FC<FilterProps> = ({ onFilterChange, totalItems, totalLength
       reset: false
     });
     setShowFilter(!showFilter)
+
   };
 
+  const [showScroll, setShowScroll] = useState(false);
+
+  const checkScrollTop = () => {
+    if (!showScroll && window.pageYOffset > 400) {
+      setShowScroll(true);
+    } else if (showScroll && window.pageYOffset <= 400) {
+      setShowScroll(false);
+    }
+  };
+
+  const scrollTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", checkScrollTop);
+    return () => window.removeEventListener("scroll", checkScrollTop);
+  }, []);
+
+
   const applyFilters = async () => {
+    await new Promise(resolve => setTimeout(resolve, 100));
+    setShowFilter(false);
+    if (window.innerWidth <= 1000) {
+      document.body.scrollTop = 0;
+      document.documentElement.scrollTop = 0;
+    } else {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
     const sort = getSortParameter(sortOption);
     const filters: Filter = {
       categoryIds: selectedCategories.map((category) => parseInt(category)),
@@ -243,7 +272,6 @@ const Filter: React.FC<FilterProps> = ({ onFilterChange, totalItems, totalLength
       sortOption,
       reset: false
     });
-    setShowFilter(!showFilter)
   };
 
   const handleSortChange = async (e: React.ChangeEvent<HTMLSelectElement>) => {
