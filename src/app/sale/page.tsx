@@ -241,6 +241,10 @@ const Page: React.FC = () => {
                 <div className="text-center my-4">
                   <Loader size={200} />
                 </div>
+              ) : filteredProducts.length === 0 ? (
+                <div className="w-100 h-100 d-flex justify-content-center align-items-center align-content-center py-4">
+                  <p>No products found</p>
+                </div>
               ) : (
                 <section className={style["product_section"]}>
                   <div className="container-fluid">

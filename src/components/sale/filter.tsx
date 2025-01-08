@@ -71,6 +71,8 @@ const Filter: React.FC<FilterProps> = ({ onFilterChange, totalItems, totalLength
   const [error, setError] = useState<string | null>(null);
   const [sortOption, setSortOption] = useState<string>("");
   const [loader, setLoader] = useState(true);
+  const [loading, setLoading] = useState(true);
+
   const getSortParameter = (sortOption: string): object => {
     switch (sortOption) {
       case "price-low-to-high":
@@ -96,6 +98,8 @@ const Filter: React.FC<FilterProps> = ({ onFilterChange, totalItems, totalLength
   };
   useEffect(() => {
     // Fetch Categories
+    setLoading(true);
+
     const fetchCategories = async () => {
       try {
         const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}product-categories`, {
@@ -110,13 +114,21 @@ const Filter: React.FC<FilterProps> = ({ onFilterChange, totalItems, totalLength
           console.error("Unexpected response format:", response.data);
           setError("Failed to load categories. Please try again later.");
         }
+        setLoading(false);
+
       } catch (error) {
         console.error("Error fetching categories:", error);
         setError("Failed to load categories. Please try again later.");
+        setLoading(false);
+
+      }
+      finally{
+        setLoading(false);
       }
     };
 
     fetchCategories();
+
   }, []);
 
   useEffect(() => {
@@ -413,14 +425,17 @@ const Filter: React.FC<FilterProps> = ({ onFilterChange, totalItems, totalLength
                   </div>
                 </div>
               </div>
+              {!loading && (
               <div className={style.filter_btn_containeee}>
-                <button onClick={() => setShowFilter(!showFilter)} className="bg-transparent border-0 d-lg-block d-md-none d-none"><IoMdClose /></button>
-
+             <button onClick={() => setShowFilter(!showFilter)} className="bg-transparent border-0 d-lg-block d-md-none d-none"><IoMdClose /></button>
               </div>
-              <div className={style.filter_btn_containe}>
-                <button className={style.reset_btn} onClick={resetFilters}>Reset Filter</button>
-                <button className={style.apply_btn} onClick={applyFilters}>Apply Filter</button>
-              </div>
+              )}
+              {!loading && (
+                <div className={style.filter_btn_containe}>
+                  <button className={style.reset_btn} onClick={resetFilters}>Reset Filter</button>
+                  <button className={style.apply_btn} onClick={applyFilters}>Apply Filter</button>
+                </div>
+              )}
             </div>
           </div>
         </section>
