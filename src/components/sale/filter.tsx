@@ -221,7 +221,15 @@ const Filter: React.FC<FilterProps> = ({ onFilterChange, totalItems, totalLength
     );
   };
 
-  const resetFilters = () => {
+  const resetFilters = async () => {
+    await new Promise(resolve => setTimeout(resolve, 100));
+    setShowFilter(false);
+    if (window.innerWidth <= 1000) {
+      document.body.scrollTop = 0;
+      document.documentElement.scrollTop = 0;
+    } else {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
     const sort = {};
     setSelectedCategories([]);
     setSelectedSubCategories([]);
