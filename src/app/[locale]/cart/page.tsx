@@ -10,6 +10,7 @@ import LetsTalk from '@/components/home/lets-talk';
 import { RiDeleteBin6Line } from "react-icons/ri";
 import Link from 'next/link';
 import { CartProvider, useCart } from '@/context/cart-context'; // Import the useCart hook
+import { useTranslations } from 'next-intl';
 
 const CartPage: React.FC = () => {
   return (
@@ -20,9 +21,10 @@ const CartPage: React.FC = () => {
 };
 
 const CartContent: React.FC = () => {
+  const t = useTranslations('cart');
   const { cartItems, removeFromCart, updateCartItemCount } = useCart();
   const [startDate, setStartDate] = useState<Date>(new Date());
-  const [endDate, setEndDate] = useState<Date>(new Date(Date.now() + 24 * 60 * 60 * 1000)); 
+  const [endDate, setEndDate] = useState<Date>(new Date(Date.now() + 24 * 60 * 60 * 1000));
 
   const handleIncrease = (id: string) => {
     const currentItem = cartItems.find(item => item.id === id);
@@ -88,7 +90,7 @@ const CartContent: React.FC = () => {
                 <div className="container-fluid">
                   <div className="row">
                     <div className="col-md-12">
-                      <h1 className={style.pageTitle}>My Cart [{cartItems.reduce((total, item) => total + item.count, 0)}]</h1>
+                      <h1 className={style.pageTitle}>{t("heading")} [{cartItems.reduce((total, item) => total + item.count, 0)}]</h1>
                     </div>
                   </div>
                 </div>
@@ -108,10 +110,10 @@ const CartContent: React.FC = () => {
                                 </div>
                                 {item.type === "Rent" && (
                                   <div className='float-left'>
-                                    <p className='float-start pt-2'>Select Rental Period:</p>
+                                    <p className='float-start pt-2'>{t("rental")}</p>
                                     <div className={style.datePickers}>
                                       <div className={style.datePickerLabel}>
-                                        <span className={style['from_text']}>From:</span>
+                                        <span className={style['from_text']}>{t("from")}</span>
                                         <DatePicker
                                           selected={startDate}
                                           onChange={(date) => setStartDate(date || new Date())}
@@ -120,7 +122,7 @@ const CartContent: React.FC = () => {
                                         />
                                       </div>
                                       <div className={`${style.datePickerLabel} ${style.mobile_ml}`}>
-                                        <span className={style['to_text']}>To:</span>
+                                        <span className={style['to_text']}>{t("to")}</span>
                                         <DatePicker
                                           selected={endDate}
                                           onChange={(date) => setEndDate(date || new Date())}
@@ -153,7 +155,7 @@ const CartContent: React.FC = () => {
                                   </div>
                                   <div>
                                     <button onClick={() => handleRemoveItem(item.id)}>
-                                      Remove &nbsp; <RiDeleteBin6Line />
+                                      {t("remove")} &nbsp; <RiDeleteBin6Line />
                                     </button>
                                   </div>
                                 </div>
@@ -164,9 +166,9 @@ const CartContent: React.FC = () => {
                           {/* Grand Total Section */}
                           <div className={style['grand_total']}>
                             <div className={style['grand_total_box']}>
-                              <p>Grand Total:<span>SEK {calculateTotal()}</span></p>
+                              <p>{t("total")}<span>SEK {calculateTotal()}</span></p>
                               <Link href="/checkout">
-                                <button onClick={handleProceedToCheckout}>Proceed To Checkout</button>
+                                <button onClick={handleProceedToCheckout}>{t("checkout")}</button>
                               </Link>
                             </div>
                           </div>
@@ -174,7 +176,7 @@ const CartContent: React.FC = () => {
                         </>
                       ) : (
                         // Message when cart is empty
-                        <p>Cart is empty</p>
+                        <p>{t("empty")}</p>
                       )}
                     </div>
                   </div>

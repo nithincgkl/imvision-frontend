@@ -58,9 +58,6 @@ const HeaderOne: React.FC = () => {
           <div className="container">
             <div className="cs_main_header_in">
               <div className="cs_main_header_left">
-                <Link className="cs_site_branding logo-dark" href="/">
-                  <Image src={logo} alt="Logo" />
-                </Link>
                 <Link className="cs_site_branding logo-white" href="/">
                   <Image src={Logo_white} alt="Logo" />
                 </Link>

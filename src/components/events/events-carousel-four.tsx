@@ -8,6 +8,7 @@ import axios from 'axios';
 import Image from 'next/image';
 import { FaRegArrowAltCircleRight, FaRegArrowAltCircleLeft } from "react-icons/fa";
 import Loader from '../common/Loader';
+import { useTranslations } from 'next-intl';
 
 // Updated interfaces to match the API response structure
 interface HomeCarouselProps {
@@ -56,6 +57,7 @@ interface Event {
 
 
 const EventsCarouselFour: React.FC<HomeCarouselProps> = ({ style_2, style_3 }) => {
+  const t = useTranslations('events');
   const [events, setEvents] = useState<Event[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -108,7 +110,7 @@ const EventsCarouselFour: React.FC<HomeCarouselProps> = ({ style_2, style_3 }) =
         {/* Section header */}
         <div className="cs_section_heading cs_style_1 cs_type_1 m-same-line">
           <div className="cs_section_heading_text">
-            <h3>Recent Events</h3>
+            <h3>{t("eventCarousel.title")}</h3>
           </div>
           <div className="cs_section_heading_right cs_btn_anim">
             <div>
@@ -126,9 +128,9 @@ const EventsCarouselFour: React.FC<HomeCarouselProps> = ({ style_2, style_3 }) =
             <Loader size={100} />
           </div>
         ) : error ? (
-          <div>Error loading events: {error}</div>
+          <div>{t("eventCarousel.error")} {error}</div>
         ) : events.length === 0 ? (
-          <div>No events found</div>
+          <div>{t("eventCarousel.empty")}</div>
         ) : (
           <Swiper
             ref={swiperRef}

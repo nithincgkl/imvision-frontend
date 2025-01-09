@@ -10,6 +10,7 @@ import ProductItem from '@/components/product-item/product-item';
 import LetsTalk from '@/components/home/lets-talk';
 import { CartProvider, useCart } from '@/context/cart-context'; // Import the useCart hook
 import Loader from '@/components/common/Loader';
+import { useTranslations } from 'next-intl';
 
 const Sale: React.FC = () => {
   return (
@@ -48,6 +49,7 @@ interface Filters {
 }
 // Page.tsx
 const Page: React.FC = () => {
+  const t = useTranslations('productPage.allProducts');
   const [products, setProducts] = useState<Product[]>([]);
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
@@ -117,7 +119,7 @@ const Page: React.FC = () => {
       });
     } catch (error) {
       console.error("Error fetching product data:", error);
-      setError("Failed to load products. Please try again later.");
+      setError(t("error"));
       return []; // Return an empty array on error
     }
   };
@@ -191,6 +193,7 @@ const Page: React.FC = () => {
       setFilteredProducts(sortedProducts);
     } catch (error) {
       console.error("Error loading more products:", error);
+      setError(t("error"));
     } finally {
       setProductLoading(false);
     }
@@ -227,7 +230,7 @@ const Page: React.FC = () => {
                 <div className="container-fluid">
                   <div className="row">
                     <div className="col-12">
-                      <h1 className={style.pageTitle}>Sale Products</h1>
+                      <h1 className={style.pageTitle}>{t("saleHeading")}</h1>
                     </div>
                   </div>
                 </div>
@@ -268,11 +271,11 @@ const Page: React.FC = () => {
                     <div className={`${style["button_div"]} text-center my-4`}>
                       {!productLoading && filteredProducts.length < totalItems && (
                         <button onClick={handleLoadMore} className={style["load_more_btn"]}>
-                          Load More
+                          {t("loadMore")}
                         </button>
                       )}
                       <button onClick={() => window.location.href = '/contact'} className={style["contact_btn"]}>
-                        Contact Us
+                        {t("contactUs")}
                       </button>
                     </div>
                   </div>

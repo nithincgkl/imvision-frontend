@@ -8,6 +8,7 @@ import style from "./style.module.css";
 import LetsTalk from '@/components/home/lets-talk';
 import axios from 'axios';
 import { CartProvider, useCart } from '@/context/cart-context'; // Import the useCart hook
+import { useTranslations } from 'next-intl';
 
 const ErrorReporting: React.FC = () => {
   return (
@@ -45,6 +46,7 @@ interface FormErrors {
 }
 
 const ErrorReportings: React.FC = () => {
+  const t = useTranslations('errorReporting');
   const fileInputRef = useRef<HTMLInputElement>(null); // Add a ref for the file input
   const [formData, setFormData] = useState<FormData>({
     name: '',
@@ -77,7 +79,7 @@ const ErrorReportings: React.FC = () => {
         if (file.size > maxFileSize) {
           setErrors(prevErrors => ({
             ...prevErrors,
-            file: 'File size must be less than 2 MB',
+            file: `${t("fileSize")}`,
           }));
           setFormData(prev => ({
             ...prev,
@@ -134,45 +136,45 @@ const ErrorReportings: React.FC = () => {
     const newErrors: FormErrors = {};
 
     if (!formData.name.trim()) {
-      newErrors.name = 'Name is required';
+      newErrors.name = `${t("form.validation.nameRequired")}`;
     } else if (!/^[a-zA-Z\s]+$/.test(formData.name)) {
-      newErrors.name = 'Name should contain only letters';
+      newErrors.name = `${t("form.validation.invalidName")}`;
     }
 
     if (!formData.address.trim()) {
-      newErrors.address = 'Address is required';
+      newErrors.address = `${t("form.validation.addressRequired")}`;
     }
 
     if (!formData.email.trim()) {
-      newErrors.email = 'Email is required';
+      newErrors.email = `${t("form.validation.emailRequired")}`;
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = 'Email is invalid';
+      newErrors.email = `${t("form.validation.emailInvalid")}`;
     }
 
     if (!formData.phone.trim()) {
-      newErrors.phone = 'Phone is required';
+      newErrors.phone = `${t("form.validation.phoneRequired")}`;
     }
 
     if (!formData.company.trim()) {
-      newErrors.company = 'Company / Business Name is required';
+      newErrors.company = `${t("form.validation.companyRequired")}`;
     }
 
     if (!formData.message.trim()) {
-      newErrors.message = 'Describe your matter as carefully as possible is required';
+      newErrors.message = `${t("form.validation.messageRequired")}`;
     }
 
     if (!formData.file) {
-      newErrors.file = 'Please upload a document';
+      newErrors.file = `${t("form.validation.file")}`;
     }
 
     if (!formData.serviceAgreement) {
-      newErrors.serviceAgreement = 'Please select an option';
+      newErrors.serviceAgreement = `${t("form.validation.serviceAgreement")}`;
     } else if (!['Yes', 'No', "Don't know"].includes(formData.serviceAgreement)) {
-      newErrors.serviceAgreement = 'Invalid selection for service agreement';
+      newErrors.serviceAgreement = `${t("form.validation.invalidServiceAgreement")}`;
     }
 
     if (!formData.gdprConsent) {
-      newErrors.gdprConsent = 'You must agree to GDPR consent';
+      newErrors.gdprConsent = `${t("form.validation.gdprConsent")}`;
     }
 
     setErrors(newErrors);
@@ -281,7 +283,7 @@ const ErrorReportings: React.FC = () => {
       setIsSuccess(true);
     } catch (error) {
       console.error('Submission error:', error);
-      setSubmitError('Failed to submit error report. Please try again.');
+      setSubmitError(`${t("error")}`);
     } finally {
       setIsSubmitting(false);
     }
@@ -297,10 +299,10 @@ const ErrorReportings: React.FC = () => {
                 <div className="container-fluid">
                   <div className="row">
                     <div className="col-md-8">
-                      <h1 className={style.pageTitle}>Error Reporting</h1>
+                      <h1 className={style.pageTitle}>{t("heading")}</h1>
                     </div>
                     <div className="col-md-4">
-                      <p>We're here to help you resolve any issues. Please review the details below and follow the provided steps, or contact support for further assistance.</p>
+                      <p>{t("para1")}</p>
                     </div>
                   </div>
                 </div>
@@ -320,7 +322,7 @@ const ErrorReportings: React.FC = () => {
                                 value={formData.name}
                                 onChange={handleChange}
                                 className={`form-control ${style.inputField} ${errors.name ? 'is-invalid' : ''}`}
-                                placeholder="Your Name*"
+                                placeholder={t("form.placeHolders.name")}
                               />
                               {errors.name && <div className={`text-danger ${style.input_error}`}>{errors.name}</div>}
                             </div>
@@ -331,7 +333,7 @@ const ErrorReportings: React.FC = () => {
                                 value={formData.address}
                                 onChange={handleChange}
                                 className={`form-control ${style.inputField} ${errors.address ? 'is-invalid' : ''}`}
-                                placeholder="Address*"
+                                placeholder={t("form.placeHolders.address")}
                               />
                               {errors.address && <div className={`text-danger ${style.input_error}`}>{errors.address}</div>}
                             </div>
@@ -345,7 +347,7 @@ const ErrorReportings: React.FC = () => {
                                 value={formData.email}
                                 onChange={handleChange}
                                 className={`form-control ${style.inputField} ${errors.email ? 'is-invalid' : ''}`}
-                                placeholder="Email*"
+                                placeholder={t("form.placeHolders.email")}
                               />
                               {errors.email && <div className={`text-danger ${style.input_error}`}>{errors.email}</div>}
 
@@ -355,7 +357,7 @@ const ErrorReportings: React.FC = () => {
                                 value={formData.phone}
                                 onChange={handleChange}
                                 className={`form-control ${style.inputField} ${errors.phone ? 'is-invalid' : ''}`}
-                                placeholder="Phone*"
+                                placeholder={t("form.placeHolders.phone")}
                                 pattern="\d*"
                               />
                               {errors.phone && <div className={`text-danger ${style.input_error}`}>{errors.phone}</div>}
@@ -366,7 +368,7 @@ const ErrorReportings: React.FC = () => {
                                 value={formData.company}
                                 onChange={handleChange}
                                 className={`form-control ${style.inputField} ${errors.company ? 'is-invalid' : ''}`}
-                                placeholder="Company / Business Name*"
+                                placeholder={t("form.placeHolders.company")}
                               />
                               {errors.company && <div className={`text-danger ${style.input_error}`}>{errors.company}</div>}
                             </div>
@@ -376,7 +378,7 @@ const ErrorReportings: React.FC = () => {
                                 value={formData.message}
                                 onChange={handleChange}
                                 className={`form-control ${style.textareaField} ${errors.message ? 'is-invalid' : ''}`}
-                                placeholder='Describe your matter as carefully as possible, enter room number or similar*'
+                                placeholder={t("form.placeHolders.description")}
                               />
                               {errors.message && <div className={`text-danger ${style.textarea_error}`}>{errors.message}</div>}
                             </div>
@@ -385,23 +387,23 @@ const ErrorReportings: React.FC = () => {
                           <div className="row">
                             <div className="col-md-5">
                               <div className={style["dot_box"]}>
-                                <p>Please attach any relevant documents</p>
+                                <p>{t("form.placeHolders.docHeading")}</p>
                                 <input
                                   type="file"
                                   name="file"
                                   onChange={handleChange}
                                   ref={fileInputRef}
                                   className={`form-control ${style.inputField} ${errors.file ? 'is-invalid' : ''}`}
-                                  placeholder="Upload Documents"
+                                  placeholder={t("form.placeHolders.upload")}
                                 />
                                 {errors.file && <div className={`text-danger ${style.input_error}`}>{errors.file}</div>}
-                                <p><span>(Images or files that may help us better understand and resolve the issue.)</span></p>
+                                <p><span>{t("form.placeHolders.docDesc")}</span></p>
                               </div>
                             </div>
 
                             <div className="col-md-7">
                               <div className={style["dot_box"]}>
-                                <p>Do you have a service agreement with IMPROD AB?</p>
+                                <p>{t("form.placeHolders.serviceHeading")}</p>
 
                                 <fieldset>
                                   <div className={style.fieldset_radio}>
@@ -414,7 +416,7 @@ const ErrorReportings: React.FC = () => {
                                       onChange={handleRadioChange}
                                       checked={formData.serviceAgreement === 'Yes'}
                                     />
-                                    <label htmlFor="Yes">Yes</label>
+                                    <label htmlFor="Yes">{t("form.placeHolders.yes")}</label>
 
                                     <input
                                       type="radio"
@@ -425,7 +427,7 @@ const ErrorReportings: React.FC = () => {
                                       onChange={handleRadioChange}
                                       checked={formData.serviceAgreement === 'No'}
                                     />
-                                    <label htmlFor="No">No</label>
+                                    <label htmlFor="No">{t("form.placeHolders.no")}</label>
 
                                     <input
                                       type="radio"
@@ -436,12 +438,12 @@ const ErrorReportings: React.FC = () => {
                                       onChange={handleRadioChange}
                                       checked={formData.serviceAgreement === "Don't know"}
                                     />
-                                    <label htmlFor="Don't know">Don't know</label>
+                                    <label htmlFor="Don't know">{t("form.placeHolders.dontKnow")}</label>
                                   </div>
                                 </fieldset>
                                 {errors.serviceAgreement && <div className={`text-danger ${style.input_error}`}>{errors.serviceAgreement}</div>}
 
-                                <p><span>(If you do not have a service agreement with IMPROD AB, a cost of SEK 795 per hour will be added for technical support and repair as well as transport.)</span></p>
+                                <p><span>{t("form.placeHolders.agreementDesc")}</span></p>
                               </div>
                             </div>
                           </div>
@@ -456,17 +458,16 @@ const ErrorReportings: React.FC = () => {
                                 onChange={handleChange}
                                 className={style["custom_checkbox"]}
                               />
-                              <label htmlFor="GDPR">Consent according to GDPR</label>
+                              <label htmlFor="GDPR">{t("form.placeHolders.consent")}</label>
                               <p>
                                 <span>
-                                  By using the website/submitting the form, you agree to us<br /> using your
-                                  personal data.
+                                  {t("form.placeHolders.consentDesc")}<br /> {t("form.placeHolders.consentDesc2")}
                                 </span>
                               </p>
                               {errors.gdprConsent && <div className={`text-danger ${style.input_error}`}>{errors.gdprConsent}</div>}
                               {submitError && <div className={`text-danger ${style.submit_error}`}>{submitError}</div>}
                               <button type="submit" disabled={isSubmitting}>
-                                {isSubmitting ? 'Sending...' : 'Send Error Report'}
+                                {isSubmitting ? `${t("form.placeHolders.sending")}` : `${t("form.placeHolders.send")}`}
                               </button>
                             </div>
                           </div>
@@ -508,8 +509,8 @@ const ErrorReportings: React.FC = () => {
                 priority
               />
             </div>
-            <h1 className={style["header-text"]}>Thanks!</h1>
-            <p className={style["sub-text"]}>We have received your error report, and we will get back to you shortly to resolve the issue.</p>
+            <h1 className={style["header-text"]}>{t("thanks")}</h1>
+            <p className={style["sub-text"]}>{t("subtext")}</p>
           </div>
         </div>
       )}

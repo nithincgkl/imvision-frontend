@@ -14,6 +14,7 @@ import { log } from "console";
 import { CartProvider, useCart } from '@/context/cart-context'; // Import the useCart hook
 import { useSnackbar } from 'notistack'; // Import useSnackbar hook
 import Loader from "@/components/common/Loader";
+import { useTranslations } from 'next-intl';
 
 const WorkWithUs: React.FC = () => {
   return (
@@ -48,39 +49,38 @@ interface CareerJob {
   thumbnail: Thumbnail | null;
 }
 
+const Career = () => {
+  const CareerBox = ({ job, onApply }: { job: CareerJob; onApply: (job: CareerJob) => void; }) => (
+    <div className={style["career_box"]}>
+      <div>
+        {job.thumbnail ? (
+          <img src={`${job.thumbnail.formats.thumbnail.url}`} className="w-100 h-100" alt={job.title} loading="lazy" />
+        ) : (
+          <div className={style["no-thumbnail"]}>{t("imageError")}</div>
+        )}
+      </div>
 
-const CareerBox = ({ job, onApply }: { job: CareerJob; onApply: (job: CareerJob) => void; }) => (
-  <div className={style["career_box"]}>
-    <div>
-      {job.thumbnail ? (
-        <img src={`${job.thumbnail.formats.thumbnail.url}`} className="w-100 h-100" alt={job.title} loading="lazy" />
-      ) : (
-        <div className={style["no-thumbnail"]}>No Image Available</div>
-      )}
-    </div>
 
 
-
-    <div>
-      <h4>{job.title}</h4>
-      <p dangerouslySetInnerHTML={{ __html: job.description || "No description available." }} />            {/* <p><span>{`Posted on: ${new Date(job.publishedAt).toLocaleDateString()}`}</span></p> */}
-      <p><IoLocationOutline /> Location: {job.location}</p>
-      <p><PiSuitcaseSimpleLight /> Expert in: {job.expert_in}</p>
-      <div className={style["career_box_btn"]}>
-        <span>
-          <a href="mailto:career@imvision.se" className="d-inline-flex align-items-center">
-            Send mail to career@imvision.se <LuMoveUpRight />
-          </a>
-        </span>
-        <span>
-          <button className={style["apply_btn"]} onClick={() => onApply(job)}>Apply Now</button>
-        </span>
+      <div>
+        <h4>{job.title}</h4>
+        <p dangerouslySetInnerHTML={{ __html: job.description || `${t("noDesc")}` }} />            {/* <p><span>{`Posted on: ${new Date(job.publishedAt).toLocaleDateString()}`}</span></p> */}
+        <p><IoLocationOutline /> {t("location")} {job.location}</p>
+        <p><PiSuitcaseSimpleLight /> {t("expertIn")}  {job.expert_in}</p>
+        <div className={style["career_box_btn"]}>
+          <span>
+            <a href="mailto:career@imvision.se" className="d-inline-flex align-items-center">
+              {t("mail")}  <LuMoveUpRight />
+            </a>
+          </span>
+          <span>
+            <button className={style["apply_btn"]} onClick={() => onApply(job)}>{t("apply")} </button>
+          </span>
+        </div>
       </div>
     </div>
-  </div>
-);
-
-const Career = () => {
+  );
+  const t = useTranslations('workWithUs');
   const [careerOpenings, setCareerOpenings] = useState<CareerJob[]>([]);
   const [displayedJobs, setDisplayedJobs] = useState(3);
   const [selectedJob, setSelectedJob] = useState<CareerJob | null>(null);
@@ -268,13 +268,13 @@ const Career = () => {
                   <div className="row">
                     <div className="col-md-6">
                       <h1 className={style.pageTitle}>
-                        Let Our Team <br />
-                        Be Your New Team
+                        {t("heading")}  <br />
+                        {t("heading2")}
                       </h1>
                     </div>
                     <div className={`col-md-6 ${style.secondary_text_container}`}>
                       <p className={style.secondary_header_text}>
-                        Glad you are interested in working with us at IM Vision!<br />Below you see a couple of the positions we are currently looking for, we are always looking for new talent and even if the position you are looking for is not currently available, do not hesitate to contact us!
+                        {t("para1")} <br />{t("para2")}
                       </p>
                     </div>
                   </div>
@@ -296,13 +296,13 @@ const Career = () => {
                           src="/assets/videos/career.mp4"
                           type="video/mp4"
                         />
-                        Your browser does not support the video tag.
+                        {t("videoError")}
                       </video>
                     </div>
 
                     <div className="col-md-12 text-center">
                       <button className={style["talk-btn"]} onClick={() => window.location.href = '/contact'}>
-                        Talk to Expert
+                        {t("talk")}
                       </button>
                     </div>
                   </div>
@@ -313,7 +313,7 @@ const Career = () => {
                 <div className="container-fluid">
                   <div className="row">
                     <div className="col-12">
-                      <h3>Current Openings</h3>
+                      <h3>{t("currentOpenings")} </h3>
                     </div>
                     <div className="col-12">
                       {openingsLoader ? (
@@ -336,7 +336,7 @@ const Career = () => {
                           className={style["load_more"]}
                           onClick={handleLoadMore}
                         >
-                          Load More
+                          {t("loadMore")}
                         </button>
                       </div>
                     )}
@@ -349,7 +349,7 @@ const Career = () => {
               {selectedJob && (
                 <div className={style.modal}>
                   <div ref={modalRef} className={style.modal_content}>
-                    <h4>Connect With Us</h4>
+                    <h4>{t("form.heading")} </h4>
                     <button
                       type="button"
                       onClick={handleCloseModal}
@@ -364,7 +364,7 @@ const Career = () => {
                             type="text"
                             name="name"
                             className={`form-control ${style.inputField}`}
-                            placeholder="Name"
+                            placeholder={t("form.name")}
                             value={formData.name}
                             onChange={handleInputChange}
                           />
@@ -374,7 +374,7 @@ const Career = () => {
                             type="email"
                             name="email"
                             className={`form-control ${style.inputField}`}
-                            placeholder="Email"
+                            placeholder={t("form.email")}
                             value={formData.email}
                             onChange={handleInputChange}
                           />
@@ -386,7 +386,7 @@ const Career = () => {
                             type="text"
                             name="phone"
                             className={`form-control ${style.inputField}`}
-                            placeholder="Phone"
+                            placeholder={t("form.phone")}
                             value={formData.phone}
                             onChange={handleInputChange}
                           />
@@ -409,7 +409,7 @@ const Career = () => {
                             type="file"
                             name="resume"
                             className={`form-control ${style.inputField}`}
-                            placeholder="Upload Resume"
+                            placeholder={t("form.upload")}
                             onChange={handleFileChange}
                           />
                         </div>
@@ -418,7 +418,7 @@ const Career = () => {
                             type="text"
                             name="message"
                             className={`form-control ${style.inputField}`}
-                            placeholder="Message"
+                            placeholder={t("form.message")}
                             value={formData.message}
                             onChange={handleInputChange}
                           />
@@ -427,14 +427,14 @@ const Career = () => {
                       <div className="row">
                         <div className="col-md-12 mb-3">
                           <button type="submit" className={style.talk_btn} onClick={handleFormSubmit}>
-                            {isSubmitting ? "Submitting..." : "Submit"}
+                            {isSubmitting ? `${t("form.submitting")}` : `${t("form.submit")}`}
                           </button>
                           <button
                             type="button"
                             onClick={handleCloseModal}
                             className={style.cancel_btn}
                           >
-                            Cancel
+                            {t("form.cancel")}
                           </button>
                         </div>
                       </div>

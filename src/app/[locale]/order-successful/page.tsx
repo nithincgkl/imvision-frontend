@@ -6,6 +6,7 @@ import FooterOne from '@/layouts/footers/FooterOne';
 import HeaderOne from '@/layouts/headers/HeaderOne';
 import style from "./style.module.css";
 import { CartProvider } from '@/context/cart-context'; // Import the useCart hook
+import { useTranslations } from 'next-intl';
 
 const OrderSuccess: React.FC = () => {
   const [orderId, setOrderId] = useState<string | null>(null);
@@ -45,6 +46,7 @@ const OrderSuccess: React.FC = () => {
 
 // Main Page Component
 const Page = ({ orderId }: { orderId: string | null }) => {
+  const t = useTranslations('orderSuccessfull');
   const handleRedirect = () => {
     window.location.href = `/products`
   }
@@ -62,14 +64,14 @@ const Page = ({ orderId }: { orderId: string | null }) => {
                       <div className={style["order_successful_container"]}>
                         <div>
                           <img src="/assets/images/check.svg" className="w-100" alt="" />
-                          <h5>Thank You for Shopping with Us!</h5>
+                          <h5>{t("heading")}</h5>
                           {/* Display the order ID or fallback message */}
                           <p>
                             {orderId
-                              ? `Your order ID is #${orderId}. A detailed report has been sent to your registered email address. If you have any questions, feel free to contact our support team.`
-                              : "We could not find your order ID. Please contact support."}
+                              ? `${t("para1")}${orderId}${t("para2")}`
+                              : `${t("para3")}`}
                           </p>
-                          <button className="btn-one" onClick={handleRedirect}>Continue Shopping</button>
+                          <button className="btn-one" onClick={handleRedirect}>{t("button")}</button>
                         </div>
                       </div>
                     </div>

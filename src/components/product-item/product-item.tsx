@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useSnackbar } from 'notistack'; // Import useSnackbar hook
 import styles from './style.module.css';
 import { useCart } from '@/context/cart-context'; // Import the useCart hook
+import { useTranslations } from 'next-intl';
 
 interface ProductItemProps {
   item: {
@@ -21,6 +22,7 @@ interface ProductItemProps {
 }
 
 const ProductItem: React.FC<ProductItemProps> = ({ item, linkEnabled = true }) => {
+  const t = useTranslations('productPage.productItemComponent');
   const { enqueueSnackbar } = useSnackbar(); // Initialize useSnackbar hook
   const { addToCart } = useCart(); // Use the cart context
   const redirectToLogin = () => {
@@ -68,7 +70,7 @@ const ProductItem: React.FC<ProductItemProps> = ({ item, linkEnabled = true }) =
     localStorage.setItem('cartItems', JSON.stringify(existingCart));
 
     // Use Snackbar to show the success message
-    enqueueSnackbar(`${item.title} has been added to your cart!`, { variant: 'success' });
+    enqueueSnackbar(`${item.title} ${t("toast")}`, { variant: 'success' });
 
     // Add to cart using context
     addToCart(cartItem);
@@ -105,7 +107,7 @@ const ProductItem: React.FC<ProductItemProps> = ({ item, linkEnabled = true }) =
                 </h2>
                 <p className="cs_m0">SEK {item.amount}</p>
                 <div className={styles['button-section']}>
-                  <button onClick={handleAddToCart}>Add to Cart</button>
+                  <button onClick={handleAddToCart}>{t("addToCart")}</button>
                 </div>
               </div>
             </div>

@@ -12,6 +12,8 @@ import { CartProvider, useCart } from '@/context/cart-context'; // Import the us
 import axios from "axios";
 import { useParams } from 'next/navigation';
 import Loader from "@/components/common/Loader";
+import { useTranslations } from 'next-intl';
+
 const EventDetails: React.FC = () => {
     return (
         <CartProvider>
@@ -65,6 +67,8 @@ const Page: React.FC = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const { slug } = useParams();
+    const t = useTranslations('events');
+
     const recentEvents: RecentEvent[] = [
         {
             id: 1,
@@ -175,7 +179,7 @@ const Page: React.FC = () => {
             </div>
         );
     }
-    if (error) return <div>Error loading events: {error}</div>;
+    if (error) return <div>{t("eventCarousel.error")} {error}</div>;
     return (
         <Wrapper>
             <HeaderOne />
@@ -189,7 +193,7 @@ const Page: React.FC = () => {
                                 </div>
                                 <div className={style["event-banner-text"]}>
                                     <h1>{events?.title}</h1>
-                                    <button onClick={handleTalkToExpert} className="btn-one">Talk to Expert</button>
+                                    <button onClick={handleTalkToExpert} className="btn-one">{t("eventCarousel.buttonText")}</button>
                                     <p className="text-center">{events?.description}</p>
                                 </div>
                             </div>

@@ -9,6 +9,7 @@ import Link from "next/link";
 import { useSnackbar } from 'notistack';
 import axios, { AxiosError } from 'axios';
 import { CartProvider, useCart } from '@/context/cart-context'; // Import the useCart hook
+import { useTranslations } from 'next-intl';
 
 const SignUp: React.FC = () => {
   return (
@@ -19,6 +20,7 @@ const SignUp: React.FC = () => {
 };
 
 const Page: React.FC = () => {
+  const t = useTranslations('signup');
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -47,20 +49,20 @@ const Page: React.FC = () => {
 
   const validate = () => {
     const newErrors: Partial<typeof formData> = {};
-    if (!formData.name.trim()) newErrors.name = "Name is required.";
-    if (!formData.email.trim()) newErrors.email = "Email is required.";
+    if (!formData.name.trim()) newErrors.name = `${t("form.validation.nameRequired")}`
+    if (!formData.email.trim()) newErrors.email = `${t("form.validation.emailRequired")}`
     else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email))
-      newErrors.email = "Invalid email format.";
-    if (!formData.phone.trim()) newErrors.phone = "Phone number is required.";
-    if (!formData.password.trim()) newErrors.password = "Password is required.";
+      newErrors.email = `${t("form.validation.emailInvalid")}`
+    if (!formData.phone.trim()) newErrors.phone = `${t("form.validation.phoneRequired")}`
+    if (!formData.password.trim()) newErrors.password = `${t("form.validation.passwordRequired")}`
     else if (formData.password.length < 8) // Changed from 6 to 8
-      newErrors.password = "Password must be at least 8 characters.";
-  
+      newErrors.password = `${t("form.validation.passwordLength")}`
+
     if (!formData.confirmPassword.trim())
-      newErrors.confirmPassword = "Confirm Password is required.";
+      newErrors.confirmPassword = `${t("form.validation.confirmPassword")}`
     else if (formData.confirmPassword !== formData.password)
-      newErrors.confirmPassword = "Passwords do not match.";
-  
+      newErrors.confirmPassword = `${t("form.validation.noMatch")}`
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -107,9 +109,9 @@ const Page: React.FC = () => {
             }
           );
 
-          handleResponse(updateResponse, 'Profile update failed.');
+          handleResponse(updateResponse, `${t("error")}`);
         } else {
-          enqueueSnackbar(registerResponse.data.message || 'Registration failed.', { variant: 'error' });
+          enqueueSnackbar(registerResponse.data.message || `${t("error2")}`, { variant: 'error' });
         }
       } catch (error) {
         handleError(error);
@@ -121,7 +123,7 @@ const Page: React.FC = () => {
 
   const handleResponse = (response: any, errorMessage: string) => {
     if (response.status === 200) {
-      enqueueSnackbar('Account registered successfully!', { variant: 'success' });
+      enqueueSnackbar(`${t("success")}`, { variant: 'success' });
       window.location.href = '/';
     } else {
       enqueueSnackbar(errorMessage, { variant: 'error' });
@@ -130,10 +132,10 @@ const Page: React.FC = () => {
 
   const handleError = (error: unknown) => {
     if (error instanceof AxiosError && error.response) {
-      const errorMessage = error.response.data?.error?.message || 'Something went wrong. Please try again.';
+      const errorMessage = error.response.data?.error?.message || `${t("error3")}`;
       enqueueSnackbar(errorMessage, { variant: 'error' });
     } else {
-      enqueueSnackbar('Something went wrong. Please try again.', { variant: 'error' });
+      enqueueSnackbar(`${t("success")}`, { variant: 'error' });
     }
   };
 
@@ -154,7 +156,7 @@ const Page: React.FC = () => {
                       className={style["banner-video"]}
                     >
                       <source src="/assets/videos/sign-up.mp4" type="video/mp4" />
-                      Your browser does not support the video tag.
+                      {t("videoError")}
                     </video>
                   </div>
                   <div className={`col-md-6 ${style.form_container_half}`}>
@@ -163,12 +165,12 @@ const Page: React.FC = () => {
                       onSubmit={handleSubmit}
                     >
                       <div className="col-md-12 mb-3">
-                      <Link href="/"><IoIosArrowRoundBack className={style["form_back_icon"]} /> Back to Home</Link>
+                        <Link href="/"><IoIosArrowRoundBack className={style["form_back_icon"]} />{t("home")}</Link>
                       </div>
                       <div className="col-md-12 mb-3">
-                        <h2 className="mb-0">Create account</h2>
+                        <h2 className="mb-0">{t("heading")}</h2>
                         <p className="mb-4 pb-2">
-                          Sign up now and start your journey with us!
+                          {t("desc")}
                         </p>
                       </div>
 
@@ -179,7 +181,7 @@ const Page: React.FC = () => {
                             type="text"
                             id="name"
                             className={`form-control ${style.inputField}`}
-                            placeholder="Name"
+                            placeholder={t("form.placeHolders.name")}
                             value={formData.name}
                             onChange={handleInputChange}
                           />
@@ -196,7 +198,7 @@ const Page: React.FC = () => {
                             type="email"
                             id="email"
                             className={`form-control ${style.inputField}`}
-                            placeholder="Email*"
+                            placeholder={t("form.placeHolders.email")}
                             value={formData.email}
                             onChange={handleInputChange}
                           />
@@ -213,7 +215,7 @@ const Page: React.FC = () => {
                             type="text"
                             id="phone"
                             className={`form-control ${style.inputField}`}
-                            placeholder="Phone*"
+                            placeholder={t("form.placeHolders.phone")}
                             value={formData.phone}
                             onChange={handleInputChange}
                           />
@@ -230,7 +232,7 @@ const Page: React.FC = () => {
                             type={showPassword ? "text" : "password"}
                             id="password"
                             className={`form-control ${style.inputField}`}
-                            placeholder="Password*"
+                            placeholder={t("form.placeHolders.password")}
                             value={formData.password}
                             onChange={handleInputChange}
                           />
@@ -254,7 +256,7 @@ const Page: React.FC = () => {
                             type={showConfirmPassword ? "text" : "password"}
                             id="confirmPassword"
                             className={`form-control ${style.inputField}`}
-                            placeholder="Confirm Password*"
+                            placeholder={t("form.placeHolders.confirmPassword")}
                             value={formData.confirmPassword}
                             onChange={handleInputChange}
                           />
@@ -278,16 +280,16 @@ const Page: React.FC = () => {
                         className={`mt-2 ${style.form_button}`}
                         disabled={loading}
                       >
-                        {loading ? "Creating Account..." : "Create Account"}
+                        {loading ? `${t("creating")}` : `${t("create")}`}
                       </button>
 
                       <p className="pt-3">
-                        Already have an account?{" "}
-                        <Link href="/login">Login</Link>
+                        {t("existing")}{" "}
+                        <Link href="/login">{t("login")}</Link>
                       </p>
                     </form>
                   </div>
-                </div> 
+                </div>
               </div>
             </section>
           </main>

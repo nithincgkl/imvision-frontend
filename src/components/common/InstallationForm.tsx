@@ -3,8 +3,10 @@ import { useSnackbar } from 'notistack';
 import axios from 'axios';
 import style from "./style.module.css";
 import { IoChevronDown } from "react-icons/io5";
+import { useTranslations } from 'next-intl';
 
 const InstallationForm: React.FC = () => {
+    const t = useTranslations('installation.form');
     const [Name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [Phone, setPhone] = useState('');
@@ -34,34 +36,34 @@ const InstallationForm: React.FC = () => {
 
         // Name validation
         if (!Name) {
-            newErrors.Name = 'Name is required';
+            newErrors.Name = `${t("validation.nameRequired")}`;
         }
 
         // Email validation
         if (!email) {
-            newErrors.email = 'Email is required';
+            newErrors.email = `${t("validation.emailRequired")}`;
         } else if (!/\S+@\S+\.\S+/.test(email)) {
-            newErrors.email = 'Email is invalid';
+            newErrors.email = `${t("validation.emailInvalid")}`;
         }
 
         // Phone validation
         if (!Phone) {
-            newErrors.Phone = 'Phone number is required';
+            newErrors.Phone = `${t("validation.phoneRequired")}`;
         }
 
         // Comment validation
         if (!comment) {
-            newErrors.comment = 'Comment is required';
+            newErrors.comment = `${t("validation.commentRequired")}`;
         }
 
         // Service validation
         if (!service) {
-            newErrors.service = 'Please select a service';
+            newErrors.service = `${t("validation.serviceRequired")}`;
         }
 
         // Industry Type validation
         if (!industryType) {
-            newErrors.industryType = 'Please select an industry type';
+            newErrors.industryType = `${t("validation.industryRequired")}`;
         }
 
         setErrors(newErrors);
@@ -98,7 +100,7 @@ const InstallationForm: React.FC = () => {
                 }
             );
 
-            enqueueSnackbar('Message sent successfully!', { variant: 'success' });
+            enqueueSnackbar(`${t("validation.successToast")}`, { variant: 'success' });
 
             // Reset form fields
             setName('');
@@ -113,10 +115,10 @@ const InstallationForm: React.FC = () => {
             if (axios.isAxiosError(error)) {
                 const errorMessage =
                     error.response?.data?.message ||
-                    'Failed to send the message. Please try again.';
+                    `${t("validation.errorToast")}`;
                 enqueueSnackbar(errorMessage, { variant: 'error' });
             } else {
-                enqueueSnackbar('An unexpected error occurred. Please try again.', {
+                enqueueSnackbar(`${t("validation.errorToast2")}`, {
                     variant: 'error',
                 });
             }
@@ -136,7 +138,7 @@ const InstallationForm: React.FC = () => {
                                 <form onSubmit={handleSubmit} className="w-full max-w-md space-y-6 px-8">
                                     <div className="row">
                                         <div className="col-md-12 mb-3">
-                                            <h2 className='text-center'>Send a Message</h2>
+                                            <h2 className='text-center'>{t("heading")}</h2>
                                         </div>
                                     </div>
 
@@ -147,7 +149,7 @@ const InstallationForm: React.FC = () => {
                                                     type="text"
                                                     id="Name"
                                                     className={`form-control ${style.inputField} ${errors.Name ? style.errorInput : ''}`}
-                                                    placeholder="Name*"
+                                                    placeholder={t("placeHolders.name")}
                                                     value={Name}
                                                     onChange={(e) => setName(e.target.value)}
                                                     aria-invalid={errors.Name ? "true" : "false"}
@@ -170,7 +172,7 @@ const InstallationForm: React.FC = () => {
                                                     type="text" // Changed from "email" to "text"
                                                     id="Email"
                                                     className={`form-control ${style.inputField} ${errors.email ? style.errorInput : ''}`}
-                                                    placeholder="Email*"
+                                                    placeholder={t("placeHolders.email")}
                                                     value={email}
                                                     onChange={(e) => setEmail(e.target.value)}
                                                     aria-invalid={errors.email ? "true" : "false"}
@@ -193,7 +195,7 @@ const InstallationForm: React.FC = () => {
                                                     type="text" // Still using "text" for complete control
                                                     id="Phone"
                                                     className={`form-control ${style.inputField} ${errors.Phone ? style.errorInput : ''}`}
-                                                    placeholder="Phone*"
+                                                    placeholder={t("placeHolders.phone")}
                                                     value={Phone}
                                                     onChange={(e) => setPhone(e.target.value.replace(/[^0-9]/g, ''))} // Only allow numbers
                                                     onKeyPress={(e) => {
@@ -222,11 +224,11 @@ const InstallationForm: React.FC = () => {
                                                         aria-invalid={errors.service ? "true" : "false"}
                                                         aria-describedby="service-error"
                                                     >
-                                                        <option value="">Select Service *</option>
-                                                        <option value="Sale">Sale</option>
-                                                        <option value="Rent">Rent</option>
-                                                        <option value="Career">Career</option>
-                                                        <option value="Other">Other</option>
+                                                        <option value="">{t("placeHolders.service.default")}</option>
+                                                        <option value="Sale">{t("placeHolders.service.sale")}</option>
+                                                        <option value="Rent">{t("placeHolders.service.rent")}</option>
+                                                        <option value="Career">{t("placeHolders.service.career")}</option>
+                                                        <option value="Other">{t("placeHolders.service.other")}</option>
                                                     </select>
                                                     <IoChevronDown className={style.selectIcon} />
                                                 </div>
@@ -253,11 +255,11 @@ const InstallationForm: React.FC = () => {
                                                         aria-invalid={errors.industryType ? "true" : "false"}
                                                         aria-describedby="industry-error"
                                                     >
-                                                        <option value="">Industry Type *</option>
-                                                        <option value="Automotive">Automotive</option>
-                                                        <option value="Retail">Retail</option>
-                                                        <option value="Government">Government</option>
-                                                        <option value="Cooperate">Cooperate</option>
+                                                        <option value="">{t("placeHolders.industry.default")}</option>
+                                                        <option value="Automotive">{t("placeHolders.industry.automotive")}</option>
+                                                        <option value="Retail">{t("placeHolders.industry.retail")}</option>
+                                                        <option value="Government">{t("placeHolders.industry.government")}</option>
+                                                        <option value="Cooperate">{t("placeHolders.industry.corporate")}</option>
                                                     </select>
                                                     <IoChevronDown className={style.selectIcon} />
                                                 </div>
@@ -302,7 +304,7 @@ const InstallationForm: React.FC = () => {
                                             className={`mt-2 ${style.form_button}`}
                                             disabled={isLoading}
                                         >
-                                            {isLoading ? 'Sending...' : 'Send Message'}
+                                            {isLoading ? `${t("sending")}` : `${t("send")}`}
                                         </button>
                                     </div>
                                 </form>

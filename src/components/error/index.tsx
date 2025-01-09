@@ -1,11 +1,13 @@
 
-
+'use client';
 import React from 'react';
 import Link from 'next/link';
 import HeaderOne from '@/layouts/headers/HeaderOne';
 import FooterOne from '@/layouts/footers/FooterOne';
+import { useTranslations } from 'next-intl';
 
 const Error = () => {
+  const t = useTranslations('errorPage');
   return (
     <>
       <HeaderOne />
@@ -20,19 +22,16 @@ const Error = () => {
                 </div>
                 <div className="cs_height_30 cs_height_lg_0"></div>
                 <h3 className="cs_line_height_54 text-center cs_font_20_sm">
-                  Sorry! The page isn't found here
+                  {t("heading")}
                 </h3>
                 <div className="cs_height_10 cs_height_lg_10"></div>
                 <p className="cs_font_16 text-center cs_m0">
-                  Fortunately, since it is mainly a client-side issue, it is relatively easy for website
-                  owners to fix the 404 error. This article will explain the possible causes of error 404 and
-                  show four effective methods to resolve it.Fortunately, since it is mainly
-                  a client-side issue, it is relatively easy for website owners to fix the 404 error.
+                  {t("desc")}
                 </p>
                 <div className="cs_height_50 cs_height_lg_50"></div>
                 <div className="cs_center">
                   <Link href="/" className="cs_btn cs_style_1">
-                    <span>Back To Home</span>
+                    <span>{t("home")}</span>
                     <svg width="19" height="13" viewBox="0 0 19 13" fill="none"
                       xmlns="http://www.w3.org/2000/svg">
                       <path

@@ -20,7 +20,7 @@ const LetsTalk: React.FC = () => {
                 className={styles['full-video']}
               >
                 <source src="/assets/videos/videos.mp4" type="video/mp4" />
-                {t('letsTalk')}
+                {t('videoError')}
               </video>
             </div>
           </div>

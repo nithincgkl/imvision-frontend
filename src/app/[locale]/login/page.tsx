@@ -9,6 +9,7 @@ import Link from 'next/link';
 import { useSnackbar } from 'notistack';
 import axios from 'axios';
 import { CartProvider, useCart } from '@/context/cart-context'; // Import the useCart hook
+import { useTranslations } from 'next-intl';
 
 const Login: React.FC = () => {
   return (
@@ -19,6 +20,7 @@ const Login: React.FC = () => {
 };
 
 const Page: React.FC = () => {
+  const t = useTranslations('login');
   const { enqueueSnackbar } = useSnackbar();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -33,14 +35,14 @@ const Page: React.FC = () => {
   const validate = () => {
     const newErrors: { email?: string; password?: string } = {};
     if (!email) {
-      newErrors.email = 'Email is required';
+      newErrors.email = `${t("validation.emailRequired")}`;
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      newErrors.email = 'Enter a valid email';
+      newErrors.email = `${t("validation.emailInvalid")}`;
     }
     if (!password) {
-      newErrors.password = 'Password is required';
+      newErrors.password = `${t("validation.passwordRequired")}`;
     } else if (password.length < 6) {
-      newErrors.password = 'Password must be at least 6 characters';
+      newErrors.password = `${t("validation.passwordLength")}`;
     }
     return newErrors;
   };
@@ -79,15 +81,15 @@ const Page: React.FC = () => {
         // Save token and user info to localStorage
         localStorage.setItem('token', data.jwt);
         localStorage.setItem('user', JSON.stringify(data.user));
-        enqueueSnackbar('Login successful!', { variant: 'success' });
+        enqueueSnackbar(`${t("success")}`, { variant: 'success' });
         window.location.href = '/';
       } catch (error) {
         if (axios.isAxiosError(error) && error.response) {
           // API error response
-          enqueueSnackbar(error.response.data.message || 'Invalid email or password', { variant: 'error' });
+          enqueueSnackbar(error.response.data.message || `${t("error")}`, { variant: 'error' });
         } else {
           // Other errors
-          enqueueSnackbar('An error occurred. Please try again.', { variant: 'error' });
+          enqueueSnackbar(`${t("error2")}`, { variant: 'error' });
         }
       } finally {
         setLoading(false);
@@ -114,17 +116,17 @@ const Page: React.FC = () => {
                       className={style["banner-video"]}
                     >
                       <source src="/assets/videos/login.mp4" type="video/mp4" />
-                      Your browser does not support the video tag.
+                      {t("videoError")}
                     </video>
                   </div>
                   <div className={`col-md-6 ${style.form_container_half}`}>
                     <form onSubmit={handleSubmit} className="w-full max-w-md space-y-6 px-8">
                       <div className="col-md-12 mb-3">
-                        <Link href="/"><IoIosArrowRoundBack className={style["form_back_icon"]} /> Back to Home</Link>
+                        <Link href="/"><IoIosArrowRoundBack className={style["form_back_icon"]} />{t("home")}</Link>
                       </div>
                       <div className="col-md-12 mb-3">
-                        <h2 className="mb-0">Hello,<br />Welcome Back</h2>
-                        <p>We’re excited to see you again!</p>
+                        <h2 className="mb-0">Hello,<br />{t("heading1")}</h2>
+                        <p>{t("heading2")}</p>
                       </div>
 
                       <div className="col-md-12 mb-3">
@@ -133,7 +135,7 @@ const Page: React.FC = () => {
                             type="text"
                             id="Email"
                             className={`form-control ${style.inputField}`}
-                            placeholder="Email*"
+                            placeholder={t("placeHolders.email")}
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                           />
@@ -147,7 +149,7 @@ const Page: React.FC = () => {
                             type={showPassword ? 'text' : 'password'}
                             id="Password"
                             className={`form-control ${style.inputField}`}
-                            placeholder="Password*"
+                            placeholder={t("placeHolders.password")}
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                           />
@@ -164,7 +166,7 @@ const Page: React.FC = () => {
 
                       <div className="col-md-12 mb-3">
                         <div className={style.formControl}>
-                          <Link href="/forgot-password" className={style["float_right"]}>Forgot password?</Link>
+                          <Link href="/forgot-password" className={style["float_right"]}>{t("forgotPassword")}</Link>
                         </div>
                       </div>
 
@@ -173,9 +175,9 @@ const Page: React.FC = () => {
                         className={`mt-2 ${style.form_button}`}
                         disabled={loading}
                       >
-                        {loading ? 'Logging in...' : 'Login'}
+                        {loading ? `${t("logging")}` : `${t("login")}`}
                       </button>
-                      <p className="pt-3">Don’t have an account? <Link href="/sign-up">Sign up</Link></p>
+                      <p className="pt-3">{t("noAccount")} <Link href="/sign-up">{t("signUp")}</Link></p>
                     </form>
                   </div>
                 </div>

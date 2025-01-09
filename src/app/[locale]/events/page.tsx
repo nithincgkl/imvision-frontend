@@ -5,7 +5,6 @@ import style from "./style.module.css";
 import Wrapper from "@/layouts/wrapper";
 import FooterOne from "@/layouts/footers/FooterOne";
 import HeaderOne from "@/layouts/headers/HeaderOne";
-
 import EventsCarousel from "@/components/events/events-carousel";
 import EventsCarouselTwo from "@/components/events/events-carousel-two";
 import EventsCarouselThree from "@/components/events/events-carousel-three";
@@ -31,57 +30,49 @@ interface RecentEvent {
 }
 
 const Page: React.FC = () => {
+    const t = useTranslations('events');
     const recentEvents: RecentEvent[] = [
         {
             id: 1,
             image: "/images/recent-events/01.jpg",
-            title: "Transform Your Dealership",
-            description:
-                "Showcase vehicle design and performance in stunning visual clarity and scale that compels customers to get behind the wheel today.",
+            title: t('recentEvents.transformDealership.title'),
+            description: t('recentEvents.transformDealership.description'),
         },
         {
             id: 2,
             image: "/images/recent-events/02.jpg",
-            title: "Rev Up Your Events",
-            description:
-                "Elevate your car dealership's visibility with our stunning LED screens.Rent cutting-edge displays that capture attention and drive sales.Transform your showroom into a modern retail experience.",
+            title: t('recentEvents.revUpEvents.title'),
+            description: t('recentEvents.revUpEvents.description'),
         },
         {
             id: 3,
             image: "/images/recent-events/03.jpg",
-            title: "Automotive",
-            description:
-                "Rev up your automotive events with vibrant LED screens.Our rentals deliver crystal-clear visuals, engaging audiences and amplifying your brand.",
+            title: t('recentEvents.automotive.title'),
+            description: t('recentEvents.automotive.description'),
         },
         {
             id: 4,
             image: "/images/recent-events/01.jpg",
-            title: "Transform Your Dealership",
-            description:
-                "Showcase vehicle design and performance in stunning visual clarity and scale that compels customers to get behind the wheel today.",
+            title: t('recentEvents.transformDealership.title'),
+            description: t('recentEvents.transformDealership.description'),
         },
         {
             id: 5,
             image: "/images/recent-events/02.jpg",
-            title: "Rev Up Your Events",
-            description:
-                "Elevate your car dealership's visibility with our stunning LED screens.Rent cutting-edge displays that capture attention and drive sales.Transform your showroom into a modern retail experience.",
+            title: t('recentEvents.revUpEvents.title'),
+            description: t('recentEvents.revUpEvents.description'),
         },
         {
             id: 6,
             image: "/images/recent-events/03.jpg",
-            title: "Automotive",
-            description:
-                "Rev up your automotive events with vibrant LED screens.Our rentals deliver crystal-clear visuals, engaging audiences and amplifying your brand.",
+            title: t('recentEvents.automotive.title'),
+            description: t('recentEvents.automotive.description'),
         },
     ];
 
     const handleTalkToExpert = (e: React.MouseEvent<HTMLButtonElement>) => {
-        window.location.href = '/contact'
-        // e.preventDefault();
-
+        window.location.href = '/contact';
     };
-    const t = useTranslations('navigation');
 
     return (
         <Wrapper>
@@ -95,17 +86,16 @@ const Page: React.FC = () => {
                                     <img src="/assets/images/events.jpg" className="w-100" alt="Events banner" />
                                 </div>
                                 <div className={style["event-banner-text"]}>
-                                    <h1>{t('home')}</h1>
+                                    <h1>{t("sections.automotive.title")}</h1>
                                     <Link href="/contact">
-                                        <button onClick={handleTalkToExpert} className="btn-one">Talk to Expert</button>
+                                        <button onClick={handleTalkToExpert} className="btn-one">
+                                            {t('talkToExpert')}
+                                        </button>
                                     </Link>
                                     <p className="text-center">
-                                        Rev up your automotive events with vibrant LED screens.
-                                        <br />
-                                        Our rentals deliver crystal-clear visuals, engaging audiences and
-                                        amplifying your brand.
-                                        <br />
-                                        Take your car shows, launches, and exhibitions to the next level.
+                                        {t('bannerDescription.line1')}<br />
+                                        {t('bannerDescription.line2')}<br />
+                                        {t('bannerDescription.line3')}
                                     </p>
                                 </div>
                             </div>
@@ -115,26 +105,21 @@ const Page: React.FC = () => {
                         </section>
 
                         <section className={`${style['event-corporate']} bg-light-black`}>
-
-
                             <div className={style["event-corporate-container"]}>
                                 <div className="container-fluid">
                                     <div className="row">
-
                                         <div className="col-md-12">
                                             <img src="/assets/images/events2.jpg" alt="Corporate events" className="w-100" />
                                             <div className={style["event-corporate-text"]}>
-                                                <h3 className="text-center">Corporate</h3>
-                                                <button onClick={handleTalkToExpert} className="btn-one">Talk to Expert</button>
+                                                <h3 className="text-center">{t('sections.corporate.title')}</h3>
+                                                <button onClick={handleTalkToExpert} className="btn-one">
+                                                    {t('talkToExpert')}
+                                                </button>
                                             </div>
                                             <div className="text-center">
-                                                Rev up your automotive events with vibrant LED screens.
-                                                <br />
-                                                Our rentals deliver crystal-clear visuals, engaging audiences
-                                                and amplifying your brand.
-                                                <br />
-                                                Take your car shows, launches, and exhibitions to the next
-                                                level.
+                                                {t('sections.corporate.description.line1')}<br />
+                                                {t('sections.corporate.description.line2')}<br />
+                                                {t('sections.corporate.description.line3')}
                                             </div>
                                         </div>
                                     </div>
@@ -143,26 +128,22 @@ const Page: React.FC = () => {
                             <EventsCarouselTwo />
                         </section>
 
-
                         <section className={style["event-corporate"]}>
                             <div className={style["event-corporate-container"]}>
                                 <div className="container-fluid">
                                     <div className="row">
-
                                         <div className="col-md-12">
                                             <img src="/assets/images/government.jpg" alt="Government events" className="w-100" />
                                             <div className={style["event-corporate-text"]} >
-                                                <h3 className="text-center">Government</h3>
-                                                <button onClick={handleTalkToExpert} className="btn-one">Talk to Expert</button>
+                                                <h3 className="text-center">{t('sections.government.title')}</h3>
+                                                <button onClick={handleTalkToExpert} className="btn-one">
+                                                    {t('talkToExpert')}
+                                                </button>
                                             </div>
                                             <div className="text-center">
-                                                Rev up your automotive events with vibrant LED screens.
-                                                <br />
-                                                Our rentals deliver crystal-clear visuals, engaging audiences
-                                                and amplifying your brand.
-                                                <br />
-                                                Take your car shows, launches, and exhibitions to the next
-                                                level.
+                                                {t('sections.government.description.line1')}<br />
+                                                {t('sections.government.description.line2')}<br />
+                                                {t('sections.government.description.line3')}
                                             </div>
                                         </div>
                                     </div>
@@ -171,7 +152,6 @@ const Page: React.FC = () => {
                             <EventsCarouselThree />
                         </section>
 
-
                         <section className={`${style['event-corporate']} bg-light-black`}>
                             <div className={style["event-corporate-container"]}>
                                 <div className="container-fluid">
@@ -179,17 +159,15 @@ const Page: React.FC = () => {
                                         <div className="col-md-12">
                                             <img src="/assets/images/retail.jpg" alt="Retail events" className="w-100" />
                                             <div className={style["event-corporate-text"]}>
-                                                <h3 className="text-center">Retail</h3>
-                                                <button onClick={handleTalkToExpert} className="btn-one">Talk to Expert</button>
+                                                <h3 className="text-center">{t('sections.retail.title')}</h3>
+                                                <button onClick={handleTalkToExpert} className="btn-one">
+                                                    {t('talkToExpert')}
+                                                </button>
                                             </div>
                                             <div className="text-center">
-                                                Rev up your automotive events with vibrant LED screens.
-                                                <br />
-                                                Our rentals deliver crystal-clear visuals, engaging audiences
-                                                and amplifying your brand.
-                                                <br />
-                                                Take your car shows, launches, and exhibitions to the next
-                                                level.
+                                                {t('sections.retail.description.line1')}<br />
+                                                {t('sections.retail.description.line2')}<br />
+                                                {t('sections.retail.description.line3')}
                                             </div>
                                         </div>
                                     </div>

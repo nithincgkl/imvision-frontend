@@ -10,6 +10,7 @@ import axios from 'axios';
 import LetsTalk from '@/components/home/lets-talk';
 import { IoChevronDown } from "react-icons/io5";
 import { CartProvider, useCart } from '@/context/cart-context'; // Import the useCart hook
+import { useTranslations } from 'next-intl';
 
 const Contact: React.FC = () => {
   return (
@@ -22,36 +23,35 @@ const Contact: React.FC = () => {
 
 // New ContactInfoBoxes Component
 const ContactInfoBoxes = () => {
-
-
+  const t = useTranslations('contactUs');
   const boxData = [
     {
-      title: "CEO",
+      title: `${t("boxData.title1")}`,
       subtitle: "Ivan Martic",
       description: "ivan@imvision.se <br /> +46 73 913 01 29 <br />+46 10 330 46 36"
     },
     {
-      title: "Sales",
+      title: `${t("boxData.title2")}`,
       subtitle: "Ivan Martic",
       description: "ivan@imvision.se <br /> 076 -307 22 25"
     },
     {
-      title: "Rental",
+      title: `${t("boxData.title3")}`,
       subtitle: "Jonas Möller - Salesperson",
       description: "jonas@imvision.se <br /> 073 -97 77 614"
     },
     {
-      title: "Warehouse",
+      title: `${t("boxData.title4")}`,
       subtitle: "Jönköping Dragan Martic - Logistik",
       description: "dragan@imvision.se <br /> 010-330 46 36"
     },
     {
-      title: "Support",
+      title: `${t("boxData.title5")}`,
       subtitle: "Simon Ljunggren - Service manager",
       description: "simon@imvision.se <br /> 010-330 46 36"
     },
     {
-      title: "Finance",
+      title: `${t("boxData.title6")}`,
       subtitle: "Ivan Martic",
       description: "info@imvision.se"
     },
@@ -78,6 +78,7 @@ const ContactInfoBoxes = () => {
 
 // Main ContactPage Component
 const ContactPage = () => {
+  const t = useTranslations('contactUs');
   const [Name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [Phone, setPhone] = useState('');
@@ -107,34 +108,34 @@ const ContactPage = () => {
 
     // Name validation
     if (!Name) {
-      newErrors.Name = 'Name is required';
+      newErrors.Name = `${t("form.validation.nameRequired")}`;
     }
 
     // Email validation
     if (!email) {
-      newErrors.email = 'Email is required';
+      newErrors.email = `${t("form.validation.emailRequired")}`;
     } else if (!/\S+@\S+\.\S+/.test(email)) {
-      newErrors.email = 'Email is invalid';
+      newErrors.email = `${t("form.validation.emailInvalid")}`;
     }
 
     // Phone validation
     if (!Phone) {
-      newErrors.Phone = 'Phone number is required';
+      newErrors.Phone = `${t("form.validation.phoneRequired")}`;
     }
 
     // Comment validation
     if (!comment) {
-      newErrors.comment = 'Comment is required';
+      newErrors.comment = `${t("form.validation.commentRequired")}`;
     }
 
     // Service validation
     if (!service) {
-      newErrors.service = 'Please select a service';
+      newErrors.service = `${t("form.validation.serviceRequired")}`;
     }
 
     // Industry Type validation
     if (!industryType) {
-      newErrors.industryType = 'Please select an industry type';
+      newErrors.industryType = `${t("form.validation.industryRequired")}`;
     }
 
     setErrors(newErrors);
@@ -171,7 +172,7 @@ const ContactPage = () => {
         }
       );
 
-      enqueueSnackbar('Message sent successfully!', { variant: 'success' });
+      enqueueSnackbar(`${t("successToast")}`, { variant: 'success' });
 
       // Reset form fields
       setName('');
@@ -186,10 +187,10 @@ const ContactPage = () => {
       if (axios.isAxiosError(error)) {
         const errorMessage =
           error.response?.data?.message ||
-          'Failed to send the message. Please try again.';
+          `${t("errorToast")}`;
         enqueueSnackbar(errorMessage, { variant: 'error' });
       } else {
-        enqueueSnackbar('An unexpected error occurred. Please try again.', {
+        enqueueSnackbar(`${t("errorToast2")}`, {
           variant: 'error',
         });
       }
@@ -210,12 +211,12 @@ const ContactPage = () => {
                 <div className="container-fluid">
                   <div className="row">
                     <div className="col-md-8">
-                      <h1 className={style.pageTitle}>Get in Touch<br />
-                        With Us</h1>
+                      <h1 className={style.pageTitle}>{t("heading")}<br />
+                        {t("heading2")}</h1>
                     </div>
                     <div className="col-md-4">
-                      <p>Are you ready to make the leap to the ultimate innovation in LED technology?<br />
-                        Leave your contact details and our sales team will help you take the first step to discover the power of LED technology in sales & rental.</p>
+                      <p>{t("para1")}<br />
+                        {t("para2")}</p>
                     </div>
                   </div>
                 </div>
@@ -227,7 +228,7 @@ const ContactPage = () => {
                     <div className="col-12">
                       <video autoPlay loop muted playsInline className={style["contact-video"]} >
                         <source src="/assets/videos/contact.mp4" type="video/mp4" />
-                        Your browser does not support the video tag.
+                        {t("videoError")}
                       </video>
                     </div>
                   </div>
@@ -242,7 +243,7 @@ const ContactPage = () => {
                         <form onSubmit={handleSubmit} className="w-full max-w-md space-y-6 px-8">
                           <div className="row">
                             <div className="col-md-12 mb-3">
-                              <h2 className='text-center'>Send a Message</h2>
+                              <h2 className='text-center'>{t("form.heading")}</h2>
                             </div>
                           </div>
 
@@ -253,7 +254,7 @@ const ContactPage = () => {
                                   type="text"
                                   id="Name"
                                   className={`form-control ${style.inputField} ${errors.Name ? style.errorInput : ''}`}
-                                  placeholder="Name*"
+                                  placeholder={t("form.placeHolders.name")}
                                   value={Name}
                                   onChange={(e) => setName(e.target.value)}
                                   aria-invalid={errors.Name ? "true" : "false"}
@@ -276,7 +277,7 @@ const ContactPage = () => {
                                   type="text" // Changed from "email" to "text"
                                   id="Email"
                                   className={`form-control ${style.inputField} ${errors.email ? style.errorInput : ''}`}
-                                  placeholder="Email*"
+                                  placeholder={t("form.placeHolders.email")}
                                   value={email}
                                   onChange={(e) => setEmail(e.target.value)}
                                   aria-invalid={errors.email ? "true" : "false"}
@@ -297,9 +298,9 @@ const ContactPage = () => {
                               <div className={style.formControl}>
                                 <input
                                   type="text" // Still using "text" for complete control
-                                  id="Phone"
+                                  id={t("form.placeHolders.phone")}
                                   className={`form-control ${style.inputField} ${errors.Phone ? style.errorInput : ''}`}
-                                  placeholder="Phone*"
+                                  placeholder={t("form.placeHolders.phone")}
                                   value={Phone}
                                   onChange={(e) => setPhone(e.target.value.replace(/[^0-9]/g, ''))} // Only allow numbers
                                   onKeyPress={(e) => {
@@ -328,11 +329,11 @@ const ContactPage = () => {
                                     aria-invalid={errors.service ? "true" : "false"}
                                     aria-describedby="service-error"
                                   >
-                                    <option value="">Select Service *</option>
-                                    <option value="Sale">Sale</option>
-                                    <option value="Rent">Rent</option>
-                                    <option value="Career">Career</option>
-                                    <option value="Other">Other</option>
+                                    <option value="">{t("form.placeHolders.service.default")}</option>
+                                    <option value="Sale">{t("form.placeHolders.service.sale")}</option>
+                                    <option value="Rent">{t("form.placeHolders.service.rent")}</option>
+                                    <option value="Career">{t("form.placeHolders.service.career")}</option>
+                                    <option value="Other">{t("form.placeHolders.service.other")}</option>
                                   </select>
                                   <IoChevronDown className={style.selectIcon} />
                                 </div>
@@ -359,11 +360,11 @@ const ContactPage = () => {
                                     aria-invalid={errors.industryType ? "true" : "false"}
                                     aria-describedby="industry-error"
                                   >
-                                    <option value="">Industry Type *</option>
-                                    <option value="Automotive">Automotive</option>
-                                    <option value="Retail">Retail</option>
-                                    <option value="Government">Government</option>
-                                    <option value="Cooperate">Cooperate</option>
+                                    <option value="">{t("form.placeHolders.industry.default")}</option>
+                                    <option value="Automotive">{t("form.placeHolders.industry.automotive")}</option>
+                                    <option value="Retail">{t("form.placeHolders.industry.retail")}</option>
+                                    <option value="Government">{t("form.placeHolders.industry.government")}</option>
+                                    <option value="Cooperate">{t("form.placeHolders.industry.corporate")}</option>
                                   </select>
                                   <IoChevronDown className={style.selectIcon} />
                                 </div>
@@ -384,7 +385,7 @@ const ContactPage = () => {
                                   type="text"
                                   id="comment"
                                   className={`form-control ${style.inputField} ${errors.comment ? style.errorInput : ''}`}
-                                  placeholder="Comment*"
+                                  placeholder={t("form.placeHolders.comment")}
                                   value={comment}
                                   onChange={(e) => setComment(e.target.value)}
                                   aria-invalid={errors.comment ? "true" : "false"}
@@ -408,7 +409,7 @@ const ContactPage = () => {
                               className={`mt-2 ${style.form_button}`}
                               disabled={isLoading}
                             >
-                              {isLoading ? 'Sending...' : 'Send Message'}
+                              {isLoading ? `${t("form.sending")}` : `${t("form.send")}`}
                             </button>
                           </div>
                         </form>

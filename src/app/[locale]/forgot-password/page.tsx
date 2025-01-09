@@ -6,6 +6,7 @@ import style from './style.module.css';
 import Wrapper from '@/layouts/wrapper';
 import { IoIosArrowRoundBack } from 'react-icons/io';
 import { CartProvider, useCart } from '@/context/cart-context'; // Import the useCart hook
+import { useTranslations } from 'next-intl';
 
 const ForgetPassword: React.FC = () => {
   return (
@@ -17,9 +18,11 @@ const ForgetPassword: React.FC = () => {
 
 
 const Page: React.FC = () => {
+  const t = useTranslations('forgotPassword');
   const [email, setEmail] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
+  const [loading, setLoading] = useState(false);
 
   // Handle input change
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -36,6 +39,7 @@ const Page: React.FC = () => {
     console.log("API URL:", `${process.env.NEXT_PUBLIC_API_URL}auth/forgot-password`); // Check API URL
 
     try {
+      setLoading(true);
       console.log("2. Making axios request with email:", email);  // Debug point 2
 
       const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}auth/forgot-password`, {
@@ -46,12 +50,22 @@ const Page: React.FC = () => {
       console.log("4. Response data:", response.data); // Original log
 
       if (response.status === 200) {
-        setSuccessMessage('Password reset link has been sent to your email.');
+        setSuccessMessage(`${t("success")}`);
       }
+      setLoading(false);
     } catch (error: any) {
       console.log("5. Error caught:", error); // Debug point 4
       console.log("6. Error response:", error.response); // Debug error details
-      setErrorMessage(error.response?.data?.message || 'An error occurred. Please try again.');
+      if (error.response?.data?.error?.message === "user.not.found") {
+        setErrorMessage(`${t("error")}`);
+      }
+      else {
+        setErrorMessage(error.response?.data?.error?.message || `${t("error2")}`);
+      }
+      setLoading(false);
+    }
+    finally {
+      setLoading(false);
     }
   };
   const handleBack = () => {
@@ -75,7 +89,7 @@ const Page: React.FC = () => {
                       className={style['banner-video']}
                     >
                       <source src="/assets/videos/sign-up.mp4" type="video/mp4" />
-                      Your browser does not support the video tag.
+                      {t("videoError")}
                     </video>
                   </div>
                   <div className={`col-md-6 ${style.form_container_half}`}>
@@ -84,8 +98,8 @@ const Page: React.FC = () => {
                         <IoIosArrowRoundBack className={style['form_back_icon']} />
                       </div>
                       <div className="col-md-12 mb-3">
-                        <h2 className="mb-0">Hello,<br />Forgot password ?</h2>
-                        <p>We’re excited to see you again!</p>
+                        <h2 className="mb-0">{t("heading2")}<br />{t("heading")}</h2>
+                        <p>{t("subHeading")}</p>
                       </div>
 
                       <div className="col-md-12 mb-3">
@@ -94,14 +108,11 @@ const Page: React.FC = () => {
                             type="email"
                             id="Email"
                             className={`form-control ${style.inputField}`}
-                            placeholder="Email*"
+                            placeholder={t("email")}
                             value={email}
                             onChange={handleInputChange}
                             required
                           />
-                          <label htmlFor="Email" className={style.inputLabel}>
-                            Email*
-                          </label>
                         </div>
                       </div>
 
@@ -113,7 +124,7 @@ const Page: React.FC = () => {
                         className={`mt-2 ${style.form_button}`}
                         onClick={(e) => console.log("Button clicked")}
                       >
-                        Submit
+                        {loading ? `${t("submitting")}` : `${t("submit")}`}
                       </button>
 
                     </form>
