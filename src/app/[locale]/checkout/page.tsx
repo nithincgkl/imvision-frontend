@@ -10,6 +10,7 @@ import { IoChevronDown } from 'react-icons/io5';
 import axios from 'axios';
 // import { useRouter } from 'next/router';
 import { CartProvider, useCart } from '@/context/cart-context'; // Import the useCart hook
+import { useTranslations } from 'next-intl';
 
 const Checkout: React.FC = () => {
   return (
@@ -50,6 +51,7 @@ interface FormData {
 
 // Main RentalConditions Component
 const RentalConditions = () => {
+  const t = useTranslations('checkout');
   const [formData, setFormData] = useState({
     gdprConsent: false,
     serviceAgreement: '',
@@ -92,7 +94,7 @@ const RentalConditions = () => {
       ...prevErrors,
       [name]: undefined, // Clear the error for the specific field
     }));
-  
+
     // Handle checkbox separately
     if (type === 'checkbox') {
       const checkedValue = (e.target as HTMLInputElement).checked;
@@ -154,45 +156,45 @@ const RentalConditions = () => {
     const newErrors: FormErrors = {};
 
     function formatFieldName(field: string): string {
-      return field.replace(/([a-z0-9])([A-Z])/g, '$1 $2').replace(/([A-Z])([A-Z])/g, '$1 $2')  .replace(/Last Name/, 'Surname');               ;
+      return field.replace(/([a-z0-9])([A-Z])/g, '$1 $2').replace(/([A-Z])([A-Z])/g, '$1 $2').replace(/Last Name/, 'Surname');;
     }
 
     const requiredFields = [
       'FirstName', 'LastName', 'Email', 'Phone', 'Street', 'HouseNo',
       'City', 'PostalCode', 'State', 'Country'
     ];
-  
+
     requiredFields.forEach(field => {
-     if (!formData[field as keyof FormData]) {
-      newErrors[field] = `${formatFieldName(field)} is required.`;
-    }
+      if (!formData[field as keyof FormData]) {
+        newErrors[field] = `${formatFieldName(field)} ${t("isRequired")}`;
+      }
     });
-  
+
     // Email validation
     if (formData.Email && !/\S+@\S+\.\S+/.test(formData.Email)) {
-      newErrors.Email = 'Email is invalid.';
+      newErrors.Email = `${t("invalidEmail")}`;
     }
-  
+
     // Phone validation (optional: you can customize this regex)
     if (formData.Phone && !/^\d+$/.test(formData.Phone)) {
-      newErrors.Phone = 'Phone number is invalid.';
+      newErrors.Phone = `${t("invalidPhone")}`;
     }
-  
+
     // Shipping address validation if checkbox is checked
     if (!formData.gdprConsent) {
       const shippingRequiredFields = [
-        'shippingFirstName', 'shippingLastName', 'shippingEmail', 
+        'shippingFirstName', 'shippingLastName', 'shippingEmail',
         'shippingPhone', 'shippingStreet', 'shippingHouseNo',
         'shippingCity', 'shippingPostalCode', 'shippingState', 'shippingCountry'
       ];
-  
+
       shippingRequiredFields.forEach(field => {
-     if (!formData[field as keyof FormData]) {
-      newErrors[field] = `${formatFieldName((field).replace(/^shipping/, '').trim())} is required.`;
-    }
+        if (!formData[field as keyof FormData]) {
+          newErrors[field] = `${formatFieldName((field).replace(/^shipping/, '').trim())} ${t("isRequired")}`;
+        }
       });
     }
-  
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0; // Return true if no errors
   };
@@ -261,7 +263,7 @@ const RentalConditions = () => {
       setPlacingOrder(false)
 
       return; // Prevent submission if validation fails
-   }
+    }
     const orderData = {
       userId: userId, // Replace with actual user ID if available
       order_details: orderDetails,
@@ -348,7 +350,7 @@ const RentalConditions = () => {
                   <div className="row">
                     <div className="col-md-12">
                       <div className='text-center'>
-                        <h1 className={style.pageTitle}>Checkout</h1>
+                        <h1 className={style.pageTitle}>{t("heading")}</h1>
                       </div>
                     </div>
                   </div>
@@ -363,7 +365,7 @@ const RentalConditions = () => {
                         <form>
                           <div className={style["checkout_inner_container"]}>
                             <div className="row">
-                              <div className="col-md-12"><h4>Billing Address</h4></div>
+                              <div className="col-md-12"><h4>{t("bAddress")}</h4></div>
                               <div className="col-md-6">
                                 <div className={style.formControl}>
                                   <input
@@ -375,7 +377,7 @@ const RentalConditions = () => {
                                     value={formData.FirstName}
                                     onChange={handleChange}
                                   />
-                                       {errors.FirstName && <span className={style.error}>{errors.FirstName}</span>}
+                                  {errors.FirstName && <span className={style.error}>{errors.FirstName}</span>}
 
                                 </div>
                               </div>
@@ -390,7 +392,7 @@ const RentalConditions = () => {
                                     value={formData.LastName}
                                     onChange={handleChange}
                                   />
-                                   {errors.LastName && <span className={style.error}>{errors.LastName}</span>}
+                                  {errors.LastName && <span className={style.error}>{errors.LastName}</span>}
 
                                 </div>
                               </div>
@@ -408,7 +410,7 @@ const RentalConditions = () => {
                                     value={formData.Email}
                                     onChange={handleChange}
                                   />
-                                     {errors.Email && <span className={style.error}>{errors.Email}</span>}
+                                  {errors.Email && <span className={style.error}>{errors.Email}</span>}
                                 </div>
                               </div>
                               <div className="col-md-6">
@@ -455,7 +457,7 @@ const RentalConditions = () => {
                                     value={formData.HouseNo}
                                     onChange={handleChange}
                                   />
-                              {errors.HouseNo && <span className={style.error}>{errors.HouseNo}</span>}
+                                  {errors.HouseNo && <span className={style.error}>{errors.HouseNo}</span>}
                                 </div>
                               </div>
                             </div>
@@ -472,7 +474,7 @@ const RentalConditions = () => {
                                     value={formData.City}
                                     onChange={handleChange}
                                   />
-                                     {errors.City && <span className={style.error}>{errors.City}</span>}
+                                  {errors.City && <span className={style.error}>{errors.City}</span>}
 
                                 </div>
                               </div>
@@ -487,7 +489,7 @@ const RentalConditions = () => {
                                     value={formData.PostalCode}
                                     onChange={handleChange}
                                   />
-                                    {errors.PostalCode && <span className={style.error}>{errors.PostalCode}</span>}
+                                  {errors.PostalCode && <span className={style.error}>{errors.PostalCode}</span>}
 
                                 </div>
                               </div>
@@ -505,7 +507,7 @@ const RentalConditions = () => {
                                     value={formData.State}
                                     onChange={handleChange}
                                   />
-                               {errors.State && <span className={style.error}>{errors.State}</span>}
+                                  {errors.State && <span className={style.error}>{errors.State}</span>}
                                 </div>
                               </div>
 
@@ -579,7 +581,7 @@ const RentalConditions = () => {
                                     onChange={handleChange}
                                     className={style["custom_checkbox"]}
                                   />
-                                  <label htmlFor="GDPR" className='mb-0'>Deliver to Billing Address</label>
+                                  <label htmlFor="GDPR" className='mb-0'>{t("deliver")}</label>
                                 </div>
                               </div>
                             </div>
@@ -592,12 +594,12 @@ const RentalConditions = () => {
                       <div className={style["checkout_container"]}>
                         <div className={style["checkout_inner_container"]}>
                           <div className="row">
-                            <div className="col-md-12"><h4>Order Summary</h4></div>
+                            <div className="col-md-12"><h4>{t("summary")}</h4></div>
 
                             <div className="col-md-12">
                               <div className={style["checkout_table"]}>
                                 <div className={style["single_row"]}>
-                                  <h5>Products</h5>
+                                  <h5>{t("products")}</h5>
                                 </div>
                                 {cartItems.map((item: any) => (
 
@@ -615,8 +617,8 @@ const RentalConditions = () => {
                               <div className={style["checkout_table_sec"]}>
                                 <div className={style["two_row"]}>
                                   <div>
-                                    <p>Subtotal</p>
-                                    <p>Shipping</p>
+                                    <p>{t("subtotal")}</p>
+                                    <p>{t("shipping")}</p>
                                   </div>
                                   <div>
                                     <p>SEK {calculateSubtotal()}</p>
@@ -629,7 +631,7 @@ const RentalConditions = () => {
                               <div className={style["checkout_table_sec"]}>
                                 <div className={style["two_row"]}>
                                   <div>
-                                    <h6>Grant Total</h6>
+                                    <h6>{t("total")}</h6>
                                   </div>
                                   <div>
                                     <h6><span>SEK {calculateGrandTotal()}</span> </h6>
@@ -638,16 +640,16 @@ const RentalConditions = () => {
 
                                 <div className={style["single_row"]}>
                                   <p className={style["order_info_text"]}>
-                                    Your personal data will be used to process your order, improve your experience on the website, and for other purposes described in our{' '}
+                                    {t("desc")}{' '}
                                     <Link href="/privacy-policy" className="cs_hero_btn">
-                                      <span className={style["text_space"]}> </span><span>privacy policy</span>
+                                      <span className={style["text_space"]}> </span><span>{t("privacy")}</span>
                                     </Link>.
                                   </p>
                                 </div>
                               </div>
                               <div className={style["checkout_table_sec"]}>
                                 <div className={style["single_row"]}>
-                                  <button onClick={handlePlaceOrder}>{isPlacing ? 'Placing order...' : 'Place Order'}</button>
+                                  <button onClick={handlePlaceOrder}>{isPlacing ? `${t("placing")}` : `${t("place")}`}</button>
                                 </div>
 
                               </div>
@@ -668,7 +670,7 @@ const RentalConditions = () => {
                         <form>
                           <div className={style["checkout_inner_container"]}>
                             <div className="row">
-                              <div className="col-md-12"><h4>Shipping Address</h4></div>
+                              <div className="col-md-12"><h4>{t("sAddress")}</h4></div>
                               <div className="col-md-6">
                                 <div className={style.formControl}>
                                   <input
@@ -680,7 +682,7 @@ const RentalConditions = () => {
                                     value={formData.shippingFirstName}
                                     onChange={handleChange}
                                   />
-                                {errors.shippingFirstName && <span className={style.error}>{errors.shippingFirstName}</span>}
+                                  {errors.shippingFirstName && <span className={style.error}>{errors.shippingFirstName}</span>}
                                 </div>
                               </div>
                               <div className="col-md-6">
@@ -727,12 +729,12 @@ const RentalConditions = () => {
                                     value={formData.shippingPhone}
                                     onChange={handleChange}
                                   />
-                                     {errors.shippingPhone && <span className={style.error}>{errors.shippingPhone}</span>}
+                                  {errors.shippingPhone && <span className={style.error}>{errors.shippingPhone}</span>}
                                 </div>
                               </div>
                             </div>
 
-                          <div className="row">
+                            <div className="row">
                               <div className="col-md-6">
                                 <div className={style.formControl}>
                                   <input
@@ -744,7 +746,7 @@ const RentalConditions = () => {
                                     value={formData.shippingStreet}
                                     onChange={handleChange}
                                   />
-                                   {errors.shippingStreet && <span className={style.error}>{errors.shippingStreet}</span>}
+                                  {errors.shippingStreet && <span className={style.error}>{errors.shippingStreet}</span>}
                                 </div>
                               </div>
                               <div className="col-md-6">
@@ -758,7 +760,7 @@ const RentalConditions = () => {
                                     value={formData.shippingHouseNo}
                                     onChange={handleChange}
                                   />
-                                   {errors.shippingHouseNo && <span className={style.error}>{errors.shippingHouseNo}</span>}
+                                  {errors.shippingHouseNo && <span className={style.error}>{errors.shippingHouseNo}</span>}
                                 </div>
                               </div>
                             </div>
@@ -776,7 +778,7 @@ const RentalConditions = () => {
 
                                     onChange={handleChange}
                                   />
-                                     {errors.shippingCity && <span className={style.error}>{errors.shippingCity}</span>}
+                                  {errors.shippingCity && <span className={style.error}>{errors.shippingCity}</span>}
                                 </div>
                               </div>
                               <div className="col-md-6">
@@ -792,82 +794,82 @@ const RentalConditions = () => {
 
                                     onChange={handleChange}
                                   />
-                                      {errors.shippingPostalCode && <span className={style.error}>{errors.shippingPostalCode}</span>}
+                                  {errors.shippingPostalCode && <span className={style.error}>{errors.shippingPostalCode}</span>}
 
                                 </div>
                               </div>
                             </div>
-                        <div className="row">
-                          <div className="col-md-6">
-                            <div className={style.formControl}>
-                              <input
-                                type="text"
-                                id="State"
-                                name="shippingState"
-                                className={`form-control ${style.inputField}`}
-                                placeholder="State*"
-                                value={formData.shippingState}
-                                onChange={handleChange}
-                              />
-                              {errors.shippingState && <span className={style.error}>{errors.shippingState}</span>}
-                            </div>
-                          </div>
-
-                          <div className="col-md-6">
-                            <div className={style.formControl}>
-                              <div className={style.selectWrapper}>
-                                <select
-                                  id="Country"
-                                  name="shippingCountry"
-                                  className={`form-control ${style.inputField}`}
-                                  onChange={handleChange}
-                                  value={formData.shippingCountry || ''}
-                                >
-                                  <option value="">Select Country / Region*</option>
-                                  <option value="Sweden">Sweden</option>
-                                  <option value="USA">United States</option>
-                                  <option value="Canada">Canada</option>
-                                  <option value="Germany">Germany</option>
-                                  <option value="France">France</option>
-                                  <option value="UK">United Kingdom</option>
-                                  <option value="Australia">Australia</option>
-                                </select>
-                                <IoChevronDown className={style.arrowIcon} />
+                            <div className="row">
+                              <div className="col-md-6">
+                                <div className={style.formControl}>
+                                  <input
+                                    type="text"
+                                    id="State"
+                                    name="shippingState"
+                                    className={`form-control ${style.inputField}`}
+                                    placeholder="State*"
+                                    value={formData.shippingState}
+                                    onChange={handleChange}
+                                  />
+                                  {errors.shippingState && <span className={style.error}>{errors.shippingState}</span>}
+                                </div>
                               </div>
-                              {errors.shippingCountry && <span className={style.error}>{errors.shippingCountry}</span>}
+
+                              <div className="col-md-6">
+                                <div className={style.formControl}>
+                                  <div className={style.selectWrapper}>
+                                    <select
+                                      id="Country"
+                                      name="shippingCountry"
+                                      className={`form-control ${style.inputField}`}
+                                      onChange={handleChange}
+                                      value={formData.shippingCountry || ''}
+                                    >
+                                      <option value="">Select Country / Region*</option>
+                                      <option value="Sweden">Sweden</option>
+                                      <option value="USA">United States</option>
+                                      <option value="Canada">Canada</option>
+                                      <option value="Germany">Germany</option>
+                                      <option value="France">France</option>
+                                      <option value="UK">United Kingdom</option>
+                                      <option value="Australia">Australia</option>
+                                    </select>
+                                    <IoChevronDown className={style.arrowIcon} />
+                                  </div>
+                                  {errors.shippingCountry && <span className={style.error}>{errors.shippingCountry}</span>}
+                                </div>
+                              </div>
                             </div>
-                          </div>
-                        </div>
 
 
-                        <div className="row">
-                          <div className="col-md-6">
-                            <div className={style.formControl}>
-                              <input
-                                type="text"
-                                id="Company-Name"
-                                name="shippingCompanyName"
-                                className={`form-control ${style.inputField}`}
-                                placeholder="Company Name (optional)"
-                                value={formData.shippingCompanyName}
-                                onChange={handleChange}
-                              />
+                            <div className="row">
+                              <div className="col-md-6">
+                                <div className={style.formControl}>
+                                  <input
+                                    type="text"
+                                    id="Company-Name"
+                                    name="shippingCompanyName"
+                                    className={`form-control ${style.inputField}`}
+                                    placeholder="Company Name (optional)"
+                                    value={formData.shippingCompanyName}
+                                    onChange={handleChange}
+                                  />
+                                </div>
+                              </div>
+                              <div className="col-md-6">
+                                <div className={style.formControl}>
+                                  <input
+                                    type="text"
+                                    id="Reference"
+                                    name="shippingReference"
+                                    className={`form-control ${style.inputField}`}
+                                    placeholder="Reference (optional)"
+                                    value={formData.shippingReference}
+                                    onChange={handleChange}
+                                  />
+                                </div>
+                              </div>
                             </div>
-                          </div>
-                          <div className="col-md-6">
-                            <div className={style.formControl}>
-                              <input
-                                type="text"
-                                id="Reference"
-                                name="shippingReference"
-                                className={`form-control ${style.inputField}`}
-                                placeholder="Reference (optional)"
-                                value={formData.shippingReference}
-                                onChange={handleChange}
-                              />
-                            </div>
-                          </div>
-                        </div>
                           </div>
                           <div className={`my-4 ${style.checkout_container}`}>
                           </div>

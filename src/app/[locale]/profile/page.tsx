@@ -13,6 +13,7 @@ import { CiCircleCheck } from "react-icons/ci";
 import axios from 'axios';
 import { CartProvider, useCart } from '@/context/cart-context'; // Import the useCart hook
 import { useSnackbar } from "notistack";
+import { useTranslations } from 'next-intl';
 
 const Profile: React.FC = () => {
   return (
@@ -63,6 +64,7 @@ interface Order {
 
 
 const Page: React.FC = () => {
+  const t = useTranslations('profile');
   const [isOpen, setIsOpen] = useState<number | null>(null); // Track which order is open
   const toggleAccordion = (orderId: number) => setIsOpen(isOpen === orderId ? null : orderId);
 
@@ -196,38 +198,38 @@ const Page: React.FC = () => {
 
     // Personal info validation
     if (!formData.name) {
-      newErrors.name = 'Name is required.';
+      newErrors.name = `${t("update.validation.nameRequired")}`;
       isValid = false;
     }
     if (!formData.email) {
-      newErrors.email = 'Email is required.';
+      newErrors.email = `${t("update.validation.emailRequired")}`;
       isValid = false;
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = 'Email is invalid.';
+      newErrors.email = `${t("update.validation.emailInvalid")}`;
       isValid = false;
     }
     if (!formData.phone) {
-      newErrors.phone = 'Phone is required.';
+      newErrors.phone = `${t("update.validation.phoneRequired")}`;
       isValid = false;
     }
     if (!formData.streetName) {
-      newErrors.streetName = 'Street name is required.';
+      newErrors.streetName = `${t("update.validation.streetRequired")}`;
       isValid = false;
     }
     if (!formData.houseNumber) {
-      newErrors.houseNumber = 'House number is required.';
+      newErrors.houseNumber = `${t("update.validation.houseRequired")}`;
       isValid = false;
     }
     if (!formData.postalCode) {
-      newErrors.postalCode = 'Postal code is required.';
+      newErrors.postalCode = `${t("update.validation.postalRequired")}`;
       isValid = false;
     }
     if (!formData.city) {
-      newErrors.city = 'City/Town is required.';
+      newErrors.city = `${t("update.validation.cityRequired")}`;
       isValid = false;
     }
     if (!formData.country) {
-      newErrors.country = 'Country/Region is required.';
+      newErrors.country = `${t("update.validation.countryRequired")}`;
       isValid = false;
     }
 
@@ -286,7 +288,7 @@ const Page: React.FC = () => {
               },
             }
           );
-          enqueueSnackbar('Profile Updated successfully!', { variant: 'success' });
+          enqueueSnackbar(`${t("success")}`, { variant: 'success' });
 
           // Update localStorage with new user data
           if (response) {
@@ -326,7 +328,7 @@ const Page: React.FC = () => {
     if (formData.newPassword !== formData.confirmPassword) {
       setErrors((prevErrors) => ({
         ...prevErrors,
-        confirmPassword: 'Passwords do not match.',
+        confirmPassword: `${t("error")}`,
       }));
       return;
     }
@@ -350,7 +352,7 @@ const Page: React.FC = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-      enqueueSnackbar('Password Updated successfully!', { variant: 'success' });
+      enqueueSnackbar(`${t("success2")}`, { variant: 'success' });
       setFormData({ ...formData, currentPassword: '', newPassword: '', confirmPassword: '' })
       setErrors({ ...errors, currentPassword: '', newPassword: '', confirmPassword: '' })
     } catch (error) {
@@ -359,7 +361,7 @@ const Page: React.FC = () => {
         console.error('Error resetting password:', error.response?.data || error.message);
         setErrors((prevErrors) => ({
           ...prevErrors,
-          newPassword: 'Failed to reset password. Please try again.',
+          newPassword: `${t("error2")}`,
         }));
       } else {
         console.error('Unexpected error:', error);
@@ -396,18 +398,18 @@ const Page: React.FC = () => {
         <div id="smooth-content">
           <main>
             <section className={style["profile_section"]}>
-              <h2 className='my-5 pt-2 d-flex justify-content-center col-12'>Your Profile & Settings</h2>
+              <h2 className='my-5 pt-2 d-flex justify-content-center col-12'>{t("heading")}</h2>
 
               <div className="container d-flex justify-content-center">
                 <div className={`${style.profile_nav} d-flex flex-row gap-3`}>
                   <button onClick={handlePersonalClick} className={activeForm === 'personal' ? style.focused : ''}>
-                    Personal
+                    {t("personal")}
                   </button>
                   <button onClick={handleOrdersClick} className={activeForm === 'orders' ? style.focused : ''}>
-                    Orders
+                    {t("order")}
                   </button>
                   <button onClick={handleAccountClick} className={activeForm === 'account' ? style.focused : ''}>
-                    Account
+                    {t("account")}
                   </button>
                 </div>
               </div>
@@ -415,24 +417,24 @@ const Page: React.FC = () => {
                 <form onSubmit={handleSubmit} className={`${style.personal_form} justify-content-center container-sm my-5`}>
                   <div className="row">
                     <div className="col-md-6 mb-3">
-                      <label>Name <span className='text-danger'>*</span></label>
+                      <label>{t("update.placeholder.name")} <span className='text-danger'>*</span></label>
                       <input
                         type="text"
                         name="name"
                         className={`form-control ${style.inputField}`}
-                        placeholder="Name"
+                        placeholder={t("update.placeholder.name")}
                         value={formData.name}
                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                       />
                       {errors.name && <div className="text-danger">{errors.name}</div>}
                     </div>
                     <div className="col-md-6 mb-3">
-                      <label>Email <span className='text-danger'>*</span></label>
+                      <label>{t("update.placeholder.email")} <span className='text-danger'>*</span></label>
                       <input
                         type="email"
                         name="email"
                         className={`form-control ${style.inputField}`}
-                        placeholder="Email"
+                        placeholder={t("update.placeholder.email")}
                         value={formData.email}
                         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                       />
@@ -442,24 +444,24 @@ const Page: React.FC = () => {
 
                   <div className="row">
                     <div className="col-md-6 mb-3">
-                      <label>Phone <span className='text-danger'>*</span></label>
+                      <label>{t("update.placeholder.phone")} <span className='text-danger'>*</span></label>
                       <input
                         type="text"
                         name="phone"
                         className={`form-control ${style.inputField}`}
-                        placeholder="Phone"
+                        placeholder={t("update.placeholder.phone")}
                         value={formData.phone}
                         onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                       />
                       {errors.phone && <div className="text-danger">{errors.phone}</div>}
                     </div>
                     <div className="col-md-6 mb-3">
-                      <label>Street Name <span className='text-danger'>*</span></label>
+                      <label>{t("update.placeholder.street")} <span className='text-danger'>*</span></label>
                       <input
                         type="text"
                         name="streetName"
                         className={`form-control ${style.inputField}`}
-                        placeholder="Street Name"
+                        placeholder={t("update.placeholder.street")}
                         value={formData.streetName}
                         onChange={(e) => setFormData({ ...formData, streetName: e.target.value })}
                       />
@@ -469,24 +471,24 @@ const Page: React.FC = () => {
 
                   <div className="row">
                     <div className="col-md-6 mb-3">
-                      <label>House Number<span className='text-danger'>*</span></label>
+                      <label>{t("update.placeholder.house")}<span className='text-danger'>*</span></label>
                       <input
                         type="text"
                         name="houseNumber"
                         className={`form-control ${style.inputField}`}
-                        placeholder="House Number"
+                        placeholder={t("update.placeholder.house")}
                         value={formData.houseNumber}
                         onChange={(e) => setFormData({ ...formData, houseNumber: e.target.value })}
                       />
                       {errors.houseNumber && <div className="text-danger">{errors.houseNumber}</div>}
                     </div>
                     <div className="col-md-6 mb-3">
-                      <label>Postal Code <span className='text-danger'>*</span></label>
+                      <label>{t("update.placeholder.postalCode")} <span className='text-danger'>*</span></label>
                       <input
                         type="text"
                         name="postalCode"
                         className={`form-control ${style.inputField}`}
-                        placeholder="Postal Code"
+                        placeholder={t("update.placeholder.postalCode")}
                         value={formData.postalCode}
                         onChange={(e) => setFormData({ ...formData, postalCode: e.target.value })}
                       />
@@ -496,12 +498,12 @@ const Page: React.FC = () => {
 
                   <div className="row">
                     <div className="col-md-6 mb-3">
-                      <label>City/Town <span className='text-danger'>*</span></label>
+                      <label>{t("update.placeholder.city")} <span className='text-danger'>*</span></label>
                       <input
                         type="text"
                         name="city"
                         className={`form-control ${style.inputField}`}
-                        placeholder="City/Town"
+                        placeholder={t("update.placeholder.city")}
                         value={formData.city}
                         onChange={(e) => setFormData({ ...formData, city: e.target.value })}
                       />
@@ -509,10 +511,10 @@ const Page: React.FC = () => {
                     </div>
 
                     <div className="col-md-6 mb-3">
-                      <label>Country/Region <span className='text-danger'>*</span></label>
+                      <label>{t("update.placeholder.country")} <span className='text-danger'>*</span></label>
                       <div className="position-relative">
                         {loading ? (
-                          <p>Loading countries...</p>
+                          <p>{t("update.validation.countryLoading")}</p>
                         ) : (
                           <select
                             name="country"
@@ -520,7 +522,7 @@ const Page: React.FC = () => {
                             value={formData.country}
                             onChange={(e) => setFormData({ ...formData, country: e.target.value })}
                           >
-                            <option value="">Select Country</option>
+                            <option value="">{t("update.validation.selectCountry")}</option>
                             {countries.map((country, index) => (
                               <option key={index} value={country.code}>
                                 {country.name}
@@ -536,7 +538,7 @@ const Page: React.FC = () => {
 
                   <div className="col-md-12 mb-3 d-flex justify-content-center my-3">
                     <button type="submit" className={style.talk_btn}>
-                      {isUpdating ? "Updating..." : "Update Change"}
+                      {isUpdating ? `${t("orders.updating")}` : `${t("orders.update")}`}
                     </button>
                   </div>
                 </form>
@@ -546,9 +548,9 @@ const Page: React.FC = () => {
                 <div className='d-flex flex-column gap-3 container'>
                   <div className={`${style.orders_form_main} gap-5`}>
                     {loadingOrders ? (
-                      <p>Loading orders...</p>
+                      <p>{t("orders.loading")}</p>
                     ) : orders.length === 0 ? (
-                      <p>No products found.</p>
+                      <p>{t("orders.noProducts")}</p>
                     ) : (
                       orders.map((order) => {
                         const totalAmount = order.order_details.reduce((acc, detail) => acc + detail.amount, 0);
@@ -566,11 +568,11 @@ const Page: React.FC = () => {
                               <p className={`${style.type} mb-0`} style={{ background: order.order_details[0]?.sale_rent === 'Rent' ? '#5C553A' : '#3F3A5C', }}>
                                 {order.order_details[0]?.sale_rent}
                               </p>
-                              <p className={`${style.order_num}`}>Order Id : {order.id}</p>
+                              <p className={`${style.order_num}`}>{t("orders.orderId")} {order.id}</p>
                               <p className={`${style.model} d-md-block d-none`}>{order.order_details[0]?.product_name}</p>
                               <p className='mb-0 pt-2 align-items-center'>
                                 <span className='py-lg-2 px-lg-4 px-md-3 d-md-block d-none'>
-                                  {order.DeliveryStatus.length > 0 ? order.DeliveryStatus[0].delivery_status : 'No delivery status available'}
+                                  {order.DeliveryStatus.length > 0 ? order.DeliveryStatus[0].delivery_status : `${t("orders.noStatus")}`}
                                 </span>
                               </p>
 
@@ -600,7 +602,7 @@ const Page: React.FC = () => {
                                       <div className="d-flex flex-column ">
                                         <p className={`${style.model}`}>{detail.product_name}:</p>
                                         <p className={`${style.SEK}`}>SEK {detail.amount} NOK</p>
-                                        <p className={`${style.model}`}>Quantity: {detail.qty} | Article code: {detail.article_code}</p>
+                                        <p className={`${style.model}`}>{t("orders.quantity")} {detail.qty} | {t("orders.articleCode")} {detail.article_code}</p>
                                       </div>
                                     </div>
                                   ))}
@@ -612,7 +614,7 @@ const Page: React.FC = () => {
                                       borderLeft: `3px dashed ${isShipped ? '#0CB60F' : '#505050'}`,
                                       color: `${isShipped ? '#0CB60F' : '#505050'}`,
                                     }}>
-                                      <p><span><TbPackage /></span> Packed</p>
+                                      <p><span><TbPackage /></span> {t("orders.packed")}</p>
                                     </div>
                                     <div className={`${style.order_tracker}`} style={{
                                       borderLeft: `3px dashed ${isShipped ? '#0CB60F' : '#505050'}`,
@@ -624,22 +626,22 @@ const Page: React.FC = () => {
                                       borderLeft: `3px dashed ${isDelivered ? '#0CB60F' : '#505050'}`,
                                       color: `${isDelivered ? '#0CB60F' : '#505050'}`,
                                     }}>
-                                      <p><span><CiCircleCheck /></span> Delivered</p>
+                                      <p><span><CiCircleCheck /></span> {t("orders.delivered")}</p>
                                     </div>
                                   </div>
                                   <div>
                                     <div className={`${style.order_details} mb-0`}>
-                                      <p className={`${style.order_details_heading} ms-0`}>Contact no:</p>
+                                      <p className={`${style.order_details_heading} ms-0`}>{t("orders.contact")}</p>
                                       <p className={`${style.order_fill}`}>{order.ShippingAddress.Phone}</p>
                                     </div>
                                     <div className={`${style.order_details}`}>
-                                      <p className={`${style.order_details_heading} ms-3 ms-md-0`}>Shipping Address:</p>
+                                      <p className={`${style.order_details_heading} ms-3 ms-md-0`}>{t("orders.shipping")}</p>
                                       <p className={`${style.order_address}`}>
                                         {order.ShippingAddress.Street}, {order.ShippingAddress.City}, {order.ShippingAddress.State}, {order.ShippingAddress.PostalCode}, {order.ShippingAddress.Country}
                                       </p>
                                     </div>
                                     <div className={`${style.order_details}`}>
-                                      <p className={`${style.order_details_heading}`}>Total Amount:</p>
+                                      <p className={`${style.order_details_heading}`}>{t("orders.total")}</p>
                                       <p className={`${style.order_fill}`}>SEK {totalAmount}</p>
                                     </div>
                                   </div>
@@ -660,14 +662,14 @@ const Page: React.FC = () => {
                 <form onSubmit={handleAccountSubmit} className={`${style.accounts_form} justify-content-center container-sm my-5`}>
 
                   <div className={`${style.form_align}`}>
-                    <h4>Change Password</h4>
+                    <h4>{t("password.change")}</h4>
                     {/* Current Password */}
                     <div className="col-xl-6 col-lg-8 mb-3">
                       <div className={style.formControl}>
                         <input
                           type={showCurrentPassword ? 'text' : 'password'}
                           className={`form-control ${style.inputField}`}
-                          placeholder="Current Password"
+                          placeholder={t("password.currentPassword")}
                           value={formData.currentPassword}
                           onChange={(e) => setFormData({ ...formData, currentPassword: e.target.value })}
                         />
@@ -687,7 +689,7 @@ const Page: React.FC = () => {
                         <input
                           type={showNewPassword ? 'text' : 'password'}
                           className={`form-control ${style.inputField}`}
-                          placeholder="New Password"
+                          placeholder={t("password.newPassword")}
                           value={formData.newPassword}
                           onChange={(e) => setFormData({ ...formData, newPassword: e.target.value })}
                         />
@@ -707,7 +709,7 @@ const Page: React.FC = () => {
                         <input
                           type={showConfirmPassword ? 'text' : 'password'}
                           className={`form-control ${style.inputField}`}
-                          placeholder="Confirm New Password"
+                          placeholder={t("password.confirmPassword")}
                           value={formData.confirmPassword}
                           onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
                         />
@@ -722,7 +724,7 @@ const Page: React.FC = () => {
                       {errors.confirmPassword && <div className="text-danger">{errors.confirmPassword}</div>}
                     </div>
                     <div className="col-xl-6 col-lg-8 my-3">
-                      <button type="submit" className={style.submit_btn}>{isSubmitting ? "Submitting..." : "Submit"}</button>
+                      <button type="submit" className={style.submit_btn}>{isSubmitting ? `${t("password.submitting")}` : `${t("password.submit")}`}</button>
                     </div>
                   </div>
                 </form>

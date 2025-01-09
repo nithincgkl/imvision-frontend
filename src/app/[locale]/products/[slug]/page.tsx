@@ -17,6 +17,7 @@ import { CartProvider, useCart } from '@/context/cart-context'; // Import the us
 import { useSnackbar } from 'notistack'; // Import useSnackbar hook
 import { FaRegArrowAltCircleLeft, FaRegArrowAltCircleRight } from 'react-icons/fa';
 import Loader from '@/components/common/Loader';
+import { useTranslations } from 'next-intl';
 
 
 const ProductSlug: React.FC = () => {
@@ -94,6 +95,7 @@ interface OrderDetails {
 
 
 const Page: React.FC = () => {
+  const t = useTranslations('productDetail');
   const { slug } = useParams(); // Get the slug from the URL
   const [count, setCount] = useState(0);
   const [products, setProducts] = useState<Product[]>([]);
@@ -235,14 +237,14 @@ const Page: React.FC = () => {
       );
 
       // console.log('Order submitted successfully:', response.data);
-      enqueueSnackbar('Enquiry submitted successfully', { variant: 'success' });
+      enqueueSnackbar(`${t("success")}`, { variant: 'success' });
       resetForm();
 
       toggleModal(); // Close the modal on success
       // Add success notification here
     } catch (error) {
       console.error('Error submitting order:', error);
-      enqueueSnackbar('Error submitting Enquiry:', { variant: 'error' });
+      enqueueSnackbar(`${t("error")}`, { variant: 'error' });
 
       // Add error notification here
       if (axios.isAxiosError(error) && error.response) {
@@ -285,13 +287,13 @@ const Page: React.FC = () => {
         });
         setProducts(response?.data?.products);
       } catch (error) {
-        setError("Error fetching product data.");
+        setError(`${t("error2")}`);
       }
     };
 
     const fetchProductDetails = async () => {
       if (!slug) {
-        setError("Product slug is undefined.");
+        setError(`${t("error3")}`);
         return;
       }
 
@@ -303,7 +305,7 @@ const Page: React.FC = () => {
         });
         setFeatured(response.data);
       } catch (error) {
-        setError("Error fetching product details.");
+        setError(`${t("error4")}`);
       }
     };
 
@@ -373,7 +375,7 @@ const Page: React.FC = () => {
     };
 
     addToCart(cartItem); // Use the addToCart function from the context
-    enqueueSnackbar(`${featured.title} has been added to your cart!`, { variant: 'success' });
+    enqueueSnackbar(`${featured.title} ${t("success2")}`, { variant: 'success' });
 
   };
 
@@ -479,8 +481,16 @@ const Page: React.FC = () => {
                           </div>
 
                           <div className="d-flex my-md-2">
-                            <button className={`${style.add_to_cart} ms-xl-3 ms-lg-1 ms-md-0 ms-0 me-xxl-1 me-xl-1 me-3 me-md-2 my-2`} onClick={handleAddToCart} > Add to Cart <span> <HiOutlineShoppingBag height={45} width={45} /> </span> </button>
-                            <button className={`${style.quick_enquiry} fs-5 bg-black border-0 my-md-3`} onClick={toggleModal}> Quick Enquiry </button>
+                            <button
+                              className={`${style.add_to_cart} ms-xl-3 ms-lg-1 ms-md-0 ms-0 me-xxl-1 me-xl-1 me-3 me-md-2 my-2`}
+                              onClick={handleAddToCart}
+                            >
+                              {t("add")}
+                              <span>
+                                <HiOutlineShoppingBag style={{ height: '20px', width: '20px' }} />
+                              </span>
+                            </button>
+                            <button className={`${style.quick_enquiry} fs-5 bg-black border-0 my-md-3`} onClick={toggleModal}> {t("enquiry")} </button>
                           </div>
                         </div>
                       </div>
@@ -489,9 +499,9 @@ const Page: React.FC = () => {
                       <div className={`${style.sale_section} my-lg-3 my-md-0`}>
                         <h6 className="ps-4 p-2" style={{ backgroundColor: featured.sale_rent === 'Rent' ? '#5C553A' : '#3F3A5C', }}>{featured.sale_rent}</h6>
                         <div className="p-lg-3 p-md-4 p-4 ps-4 pt-lg-1 pt-md-0 pt-0">
-                          <p className="text-success fw-bold">Available In Stock</p>
-                          <p> <span className="fw-bold text-white">Article Code:</span> {featured.article_code} </p>{" "} {/* Display article code */}
-                          <p><span className='fw-bold text-white'>Category:</span> {featured.product_category?.category_name}</p>
+                          <p className="text-success fw-bold">{t("stock")}</p>
+                          <p> <span className="fw-bold text-white">{t("code")}</span> {featured.article_code} </p>{" "} {/* Display article code */}
+                          <p><span className='fw-bold text-white'>{t("category")}</span> {featured.product_category?.category_name}</p>
                         </div>
                       </div>
                     </div>
@@ -505,7 +515,7 @@ const Page: React.FC = () => {
                           style={{ cursor: 'pointer' }}
                           onClick={handleReadMore}
                         >
-                          {isExpanded ? 'Read less' : 'Read more'}
+                          {isExpanded ? `${t("less")}` : `${t("more")}`}
                         </span>
                       )}
                     </p>
@@ -514,7 +524,7 @@ const Page: React.FC = () => {
 
                   {featured?.specifications && featured.specifications.length > 0 && (
                     <>
-                      <h3 className='mb-4'>Product Specifications</h3>
+                      <h3 className='mb-4'>{t("productSpecification")}</h3>
                       <div className={`${style.product_spec}`}>
                         {featured.specifications.map((spec, index) => (
                           <div key={spec.id} className={`${style.spec_detail}`}>
@@ -551,14 +561,14 @@ const Page: React.FC = () => {
                       <IoMdClose />
                     </button>
                     <form className={style.form}>
-                      <h4>Quick Enquiry</h4>
+                      <h4>{t("enquiry")}</h4>
                       <div className="row">
                         <div className="col-md-6 mb-3">
                           <input
                             type="text"
                             name="name"
                             className={`form-control ${style.inputField}`}
-                            placeholder="Name"
+                            placeholder={t("placeholder.name")}
                             value={formData.name}
                             onChange={handleInputChange}
                           />
@@ -568,7 +578,7 @@ const Page: React.FC = () => {
                             type="email"
                             name="email"
                             className={`form-control ${style.inputField}`}
-                            placeholder="Email"
+                            placeholder={t("placeholder.email")}
                             value={formData.email}
                             onChange={handleInputChange}
                           />
@@ -581,7 +591,7 @@ const Page: React.FC = () => {
                             type="text"
                             name="phone"
                             className={`form-control ${style.inputField}`}
-                            placeholder="Phone"
+                            placeholder={t("placeholder.phone")}
                             value={formData.phone}
                             onChange={handleInputChange}
                           />
@@ -592,7 +602,7 @@ const Page: React.FC = () => {
                             type="house_no"
                             name="house_no"
                             className={`form-control ${style.inputField}`}
-                            placeholder="Building No."
+                            placeholder={t("placeholder.building")}
                             value={formData.house_no}
                             onChange={handleInputChange}
                           />
@@ -603,7 +613,7 @@ const Page: React.FC = () => {
                             type="street"
                             name="street"
                             className={`form-control ${style.inputField}`}
-                            placeholder="Street"
+                            placeholder={t("placeholder.street")}
                             value={formData.street}
                             onChange={handleInputChange}
                           />
@@ -614,7 +624,7 @@ const Page: React.FC = () => {
                             type="city"
                             name="city"
                             className={`form-control ${style.inputField}`}
-                            placeholder="City"
+                            placeholder={t("placeholder.city")}
                             value={formData.city}
                             onChange={handleInputChange}
                           />
@@ -625,7 +635,7 @@ const Page: React.FC = () => {
                             type="state"
                             name="state"
                             className={`form-control ${style.inputField}`}
-                            placeholder="State"
+                            placeholder={t("placeholder.state")}
                             value={formData.state}
                             onChange={handleInputChange}
                           />
@@ -636,7 +646,7 @@ const Page: React.FC = () => {
                             type="country"
                             name="country"
                             className={`form-control ${style.inputField}`}
-                            placeholder="Country"
+                            placeholder={t("placeholder.country")}
                             value={formData.country}
                             onChange={handleInputChange}
                           />
@@ -647,7 +657,7 @@ const Page: React.FC = () => {
                             type="postalCode"
                             name="postalCode"
                             className={`form-control ${style.inputField}`}
-                            placeholder="Postal Code"
+                            placeholder={t("placeholder.postalCode")}
                             value={formData.postalCode}
                             onChange={handleInputChange}
                           />
@@ -659,7 +669,7 @@ const Page: React.FC = () => {
                           <textarea
                             name="message"
                             className={`form-control ${style.inputField}`}
-                            placeholder="Message"
+                            placeholder={t("placeholder.message")}
                             value={formData.message}
                             onChange={handleInputChange}
                           />
@@ -670,14 +680,14 @@ const Page: React.FC = () => {
                         <div className="col-md-12 mb-3">
                           <button onClick={handleSubmit} type="submit" className={style.talk_btn}
                             disabled={isLoading}>
-                            {isLoading ? 'Sending...' : 'Send Message'}
+                            {isLoading ? `${t("sending")}` : `${t("send")}`}
                           </button>
                           <button
                             type="button"
                             className={style.cancel_btn}
                             onClick={toggleModal} // Close modal on cancel
                           >
-                            Cancel
+                            {t("cancel")}
                           </button>
                         </div>
                       </div>
@@ -687,7 +697,7 @@ const Page: React.FC = () => {
               )}
               <div className='my-5 container-fluid'>
                 <div className={style.action_container_products}>
-                  <h3> Related Products</h3>
+                  <h3> {t("related")}</h3>
                   <div className={style.arrows}>
                     <FaRegArrowAltCircleLeft
                       onClick={() => swiperRef.current?.slidePrev()}

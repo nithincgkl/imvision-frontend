@@ -7,11 +7,13 @@ import { FaEye } from "react-icons/fa";
 import axios from 'axios';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { CartProvider } from '@/context/cart-context'; // Import the useCart hook
+import { useTranslations } from 'next-intl';
 
 const ResetPassword: React.FC = () => {
+  const t = useTranslations('resetPassword');
   return (
     <CartProvider>
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<div>{t("loading")}</div>}>
         <Page />
       </Suspense>
     </CartProvider>
@@ -19,6 +21,7 @@ const ResetPassword: React.FC = () => {
 };
 
 const Page: React.FC = () => {
+  const t = useTranslations('resetPassword');
   const router = useRouter();
   const searchParams = useSearchParams();
   const codeFromURL = searchParams.get('code');
@@ -70,7 +73,7 @@ const Page: React.FC = () => {
         router.push('/login?message=password-reset-successful');
       }
     } catch (err: any) {
-      setError(err.response?.data?.error?.message || err.message || 'An error occurred');
+      setError(err.response?.data?.error?.message || err.message || `${t("error")}`);
     } finally {
       setLoading(false);
     }
@@ -87,8 +90,8 @@ const Page: React.FC = () => {
                   <div className={style.form_container_half}>
                     <form onSubmit={handleSubmit} className="w-full max-w-md space-y-6 px-8">
                       <div className="col-md-12 mb-3">
-                        <h2 className="mb-0">Set Your New<br />Password</h2>
-                        <p>Secure your account by creating a strong new password</p>
+                        <h2 className="mb-0">{t("heading")}<br />{t("heading2")}</h2>
+                        <p>{t("desc")}</p>
                       </div>
 
                       {error && (
@@ -105,7 +108,7 @@ const Page: React.FC = () => {
                             value={formData.code}
                             onChange={handleChange}
                             className={`form-control ${style.inputField}`}
-                            placeholder="Code*"
+                            placeholder={t("code")}
                             readOnly={!!codeFromURL}
                           />
                         </div>
@@ -118,8 +121,8 @@ const Page: React.FC = () => {
                             name="password"
                             value={formData.password}
                             onChange={handleChange}
-                            className={`form control ${style.inputField}`}
-                            placeholder="Password*"
+                            className={`form-control ${style.inputField}`}
+                            placeholder={t("password")}
                             minLength={8}
                             aria-label="Password"
                           />
@@ -142,7 +145,7 @@ const Page: React.FC = () => {
                             value={formData.passwordConfirmation}
                             onChange={handleChange}
                             className={`form-control ${style.inputField}`}
-                            placeholder="Confirm Password*"
+                            placeholder={t("confirmPassword")}
                             minLength={8}
                             aria-label="Confirm Password"
                           />
@@ -157,12 +160,12 @@ const Page: React.FC = () => {
                         </div>
                       </div>
 
-                      <button 
-                        type="submit" 
+                      <button
+                        type="submit"
                         className={`mt-2 ${style.form_button}`}
                         disabled={loading}
                       >
-                        {loading ? 'Processing...' : 'Submit'}
+                        {loading ? `${t("processing")}` : `${t("submit")}`}
                       </button>
                     </form>
                   </div>
