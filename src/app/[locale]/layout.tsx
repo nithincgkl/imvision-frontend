@@ -23,7 +23,11 @@ export default async function LocaleLayout({
     }
 
     return (
-        <NextIntlClientProvider locale={locale} messages={messages}>
+        <NextIntlClientProvider
+            locale={locale}
+            messages={messages}
+            timeZone="UTC" // Add this line
+        >
             {children}
         </NextIntlClientProvider>
     );
