@@ -70,27 +70,6 @@
             "videoError": "Din webbläsare stöder inte videotaggen."
         },
         "footer": {
-            "heading": "Kom i kontakt idag",
-            "logoAltText": "Företagslogotyp",
-            "formPlaceholders": {
-                "name": "Namn*",
-                "email": "E-postadress*",
-                "helpTopic": "Vad kan vi hjälpa dig med?",
-                "companyName": "Företagsnamn*"
-            },
-            "helpTopics": {
-                "sale": "Försäljning",
-                "rent": "Hyra",
-                "career": "Karriär",
-                "other": "Annat"
-            },
-            "buttonText": "Låt oss prata",
-            "buttonSending": "Skickar...",
-            "formSuccess": "Ditt meddelande har skickats!",
-            "formError": "Ett fel uppstod när formuläret skickades. Försök igen.",
-            "logoutMessage": "Du har loggats ut."
-        },
-        "footer": {
             "getInTouch": "Kontakta oss idag",
             "formPlaceholders": {
                 "name": "Namn*",
