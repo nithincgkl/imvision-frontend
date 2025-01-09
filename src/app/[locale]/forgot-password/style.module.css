@@ -98,6 +98,10 @@
   color: #fff;
 }
 
+.inputField:focus::placeholder {
+  color: #585454; /* Placeholder color */
+}
+
 .textareaLabel {
   top: 1rem;
 }

@@ -104,7 +104,11 @@ const EventsCarouselThree: React.FC<HomeCarouselProps> = ({ style_2, style_3 }) 
     }
   };
 
-
+  const truncateDescription = (description: string, wordLimit: number) => {
+    const words = description.split(" ");
+    const truncated = words.slice(0, wordLimit).join(" ");
+    return words.length > wordLimit ? `${truncated}...` : truncated;
+  };
   return (
     <section className={`${styles['home-carousel']} ${styles['bg-light-black']}`}>
       <div className="container-fluid">
@@ -153,7 +157,7 @@ const EventsCarouselThree: React.FC<HomeCarouselProps> = ({ style_2, style_3 }) 
             {events.map((event) => (
               <SwiperSlide key={event.id}>
                 <div className={styles['our-screen-box']}>
-                  <div className="cs_post cs_style_1">
+                  <div className="cs_post cs_style_1" style={{ paddingTop: '5px' }}>
                     <Link href={`/events/${event.slug}`} className="cs_post_thumb">
                       {event.thumbnail && (
                         <Image
@@ -166,11 +170,18 @@ const EventsCarouselThree: React.FC<HomeCarouselProps> = ({ style_2, style_3 }) 
                       )}
                     </Link>
                     <div className="cs_post_info">
-                      <h2 className="cs_post_title">
+                      <h2 className="cs_post_title" style={{ paddingTop: '25px' }}>
                         <Link href={`/events/${event.slug}`}>{event.title}</Link>
                       </h2>
                       <div>
-                        <p className="col-12">SEK {event.description}</p>
+                        <p className="col-12 mb-xl-0 mb-lg-3 mb-md-2">
+                          {truncateDescription(event.description, 20)}
+                          {/* Custom tooltip on hover */}
+                        </p>
+                        <Link href={`/events/${event.slug}`} > <span className={styles.tooltip}>
+                          {t("eventCarousel.readMore")}
+                        </span>
+                        </Link>
                       </div>
                     </div>
                   </div>

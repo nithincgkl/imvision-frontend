@@ -181,7 +181,8 @@
             "title": "Senaste evenemang",
             "error": "Fel vid laddning av evenemang:",
             "empty": "Inga evenemang hittades",
-            "buttonText": "Prata med en expert"
+            "buttonText": "Prata med en expert",
+            "readMore": "Läs mer"
         }
     },
     "productPage": {
@@ -213,7 +214,8 @@
             "filterMessage2": "av",
             "filterMessage3": "resultat",
             "reset": "Återställ filter",
-            "apply": "Tillämpa filter"
+            "apply": "Tillämpa filter",
+            "noProduct": "Inga produkter hittades"
         }
     },
     "aboutPage": {
@@ -657,7 +659,9 @@
         "desc": "Dina personuppgifter kommer att användas för att behandla din beställning, förbättra din upplevelse på webbplatsen och för andra ändamål som beskrivs i vår",
         "privacy": "integritetspolicy",
         "placing": "Lägger beställning...",
-        "place": "Slutför beställning"
+        "place": "Slutför beställning",
+        "success": "Beställning slutförd!",
+        "error": "Fel vid slutförande av beställning!"
     },
     "resetPassword": {
         "loading": "Laddar...",

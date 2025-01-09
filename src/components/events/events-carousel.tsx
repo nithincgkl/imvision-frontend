@@ -109,6 +109,13 @@ const EventsCarousel: React.FC<HomeCarouselProps> = ({ style_2, style_3 }) => {
     }
   };
 
+
+  const truncateDescription = (description: string, wordLimit: number) => {
+    const words = description.split(" ");
+    const truncated = words.slice(0, wordLimit).join(" ");
+    return words.length > wordLimit ? `${truncated}...` : truncated;
+  };
+
   return (
     <section className={`${styles['home-carousel']} ${styles['bg-light-black']}`}>
       <div className="container-fluid">
@@ -174,7 +181,14 @@ const EventsCarousel: React.FC<HomeCarouselProps> = ({ style_2, style_3 }) => {
                         <Link href={`/events/${event.slug}`}>{event.title}</Link>
                       </h2>
                       <div>
-                        <p className="col-12">SEK {event.description}</p>
+                        <p className="col-12 mb-xl-0 mb-lg-3 mb-md-3">
+                          {truncateDescription(event.description, 20)}
+                          {/* Custom tooltip on hover */}
+                        </p>
+                        <Link href={`/events/${event.slug}`} > <span className={styles.tooltip}>
+                          {t("eventCarousel.readMore")}
+                        </span>
+                        </Link>
                       </div>
                     </div>
                   </div>

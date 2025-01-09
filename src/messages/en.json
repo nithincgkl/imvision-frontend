@@ -181,7 +181,8 @@
             "title": "Recent Events",
             "error": "Error loading events:",
             "empty": "No events found",
-            "buttonText": "Talk to Expert"
+            "buttonText": "Talk to Expert",
+            "readMore": "Read More"
         }
     },
     "productPage": {
@@ -213,7 +214,8 @@
             "filterMessage2": "of",
             "filterMessage3": "results",
             "reset": "Reset Filter",
-            "apply": "Apply Filter"
+            "apply": "Apply Filter",
+            "noProduct": "No products found"
         }
     },
     "aboutPage": {
@@ -657,7 +659,9 @@
         "desc": "Your personal data will be used to process your order, improve your experience on the website, and for other purposes described in our",
         "privacy": "privacy policy",
         "placing": "Placing order...",
-        "place": "Place Order"
+        "place": "Place Order",
+        "success": "Order Placed successfully!",
+        "error": "Error Placing order!"
     },
     "resetPassword": {
         "loading": "Loading...",

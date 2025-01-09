@@ -73,6 +73,8 @@ const Filter: React.FC<FilterProps> = ({ onFilterChange, totalItems, totalLength
   const [error, setError] = useState<string | null>(null);
   const [sortOption, setSortOption] = useState<string>("");
   const [loader, setLoader] = useState(true);
+  const [loading, setLoading] = useState(true);
+
   const getSortParameter = (sortOption: string): object => {
     switch (sortOption) {
       case "price-low-to-high":
@@ -98,6 +100,8 @@ const Filter: React.FC<FilterProps> = ({ onFilterChange, totalItems, totalLength
   };
   useEffect(() => {
     // Fetch Categories
+    setLoading(true);
+
     const fetchCategories = async () => {
       try {
         const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}product-categories`, {
@@ -115,10 +119,16 @@ const Filter: React.FC<FilterProps> = ({ onFilterChange, totalItems, totalLength
       } catch (error) {
         console.error("Error fetching categories:", error);
         setError(t("error1"));
+        setLoading(false);
+
+      }
+      finally {
+        setLoading(false);
       }
     };
 
     fetchCategories();
+
   }, []);
 
   useEffect(() => {
@@ -211,7 +221,15 @@ const Filter: React.FC<FilterProps> = ({ onFilterChange, totalItems, totalLength
     );
   };
 
-  const resetFilters = () => {
+  const resetFilters = async () => {
+    await new Promise(resolve => setTimeout(resolve, 100));
+    setShowFilter(false);
+    if (window.innerWidth <= 1000) {
+      document.body.scrollTop = 0;
+      document.documentElement.scrollTop = 0;
+    } else {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
     const sort = {};
     setSelectedCategories([]);
     setSelectedSubCategories([]);
@@ -230,9 +248,18 @@ const Filter: React.FC<FilterProps> = ({ onFilterChange, totalItems, totalLength
       reset: false
     });
     setShowFilter(!showFilter)
+
   };
 
   const applyFilters = async () => {
+    await new Promise(resolve => setTimeout(resolve, 100));
+    setShowFilter(false);
+    if (window.innerWidth <= 1000) {
+      document.body.scrollTop = 0;
+      document.documentElement.scrollTop = 0;
+    } else {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
     const sort = getSortParameter(sortOption);
     const filters: Filter = {
       categoryIds: selectedCategories.map((category) => parseInt(category)),
@@ -245,7 +272,6 @@ const Filter: React.FC<FilterProps> = ({ onFilterChange, totalItems, totalLength
       sortOption,
       reset: false
     });
-    setShowFilter(!showFilter)
   };
 
   const handleSortChange = async (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -387,14 +413,17 @@ const Filter: React.FC<FilterProps> = ({ onFilterChange, totalItems, totalLength
                   </div>
                 </div>
               </div>
-              <div className={style.filter_btn_containeee}>
-                <button onClick={() => setShowFilter(!showFilter)} className="bg-transparent border-0 d-lg-block d-md-none d-none"><IoMdClose /></button>
-
-              </div>
-              <div className={style.filter_btn_containe}>
-                <button className={style.reset_btn} onClick={resetFilters}>{t("reset")}</button>
-                <button className={style.apply_btn} onClick={applyFilters}>{t("apply")}</button>
-              </div>
+              {!loading && (
+                <div className={style.filter_btn_containeee}>
+                  <button onClick={() => setShowFilter(!showFilter)} className="bg-transparent border-0 d-lg-block d-md-none d-none"><IoMdClose /></button>
+                </div>
+              )}
+              {!loading && (
+                <div className={style.filter_btn_containe}>
+                  <button className={style.reset_btn} onClick={resetFilters}>{t("reset")}</button>
+                  <button className={style.apply_btn} onClick={applyFilters}>{t("apply")}</button>
+                </div>
+              )}
             </div>
           </div>
         </section>
