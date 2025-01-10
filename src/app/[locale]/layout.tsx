@@ -2,7 +2,7 @@
 
 import { NextIntlClientProvider } from 'next-intl';
 import { notFound } from 'next/navigation';
-import { locales } from '@/config';
+import { locales } from '../../../i18n/request';
 
 export default async function LocaleLayout({
     children,
