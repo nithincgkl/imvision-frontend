@@ -66,7 +66,7 @@ const Page: React.FC = () => {
         },
         {
             id: 6,
-            image: "/images/recent-events/03.jpg",
+            image: "/images/recent-events/02.jpg",
             title: t('recentEvents.automotive.title'),
             description: t('recentEvents.automotive.description'),
         },
@@ -159,7 +159,7 @@ const Page: React.FC = () => {
                                 <div className="container-fluid">
                                     <div className="row">
                                         <div className="col-md-12">
-                                            <img src="/assets/images/retail.jpg" alt="Retail events" className="w-100" />
+                                            <img src="/assets/images/government.jpg" alt="Retail events" className="w-100" />
                                             <div className={style["event-corporate-text"]}>
                                                 <h3 className="text-center">{t('sections.retail.title')}</h3>
                                                 <button onClick={handleTalkToExpert} className="btn-one">
