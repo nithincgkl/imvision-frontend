@@ -90,7 +90,7 @@ const Filter: React.FC<FilterProps> = ({ onFilterChange, totalItems, totalLength
       case "newest":
         return {
           key: "createdAt",
-          value: "asc"
+          value: "desc"
         };  // Added specific sort parameter
       case "rating":
         return {}; // Added specific sort parameter
