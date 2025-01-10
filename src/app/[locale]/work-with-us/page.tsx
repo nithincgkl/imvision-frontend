@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, Suspense } from "react";
 import Wrapper from "@/layouts/wrapper";
 import FooterOne from "@/layouts/footers/FooterOne";
 import HeaderOne from "@/layouts/headers/HeaderOne";
@@ -19,7 +19,9 @@ import { useTranslations } from 'next-intl';
 const WorkWithUs: React.FC = () => {
   return (
     <CartProvider>
-      <Career />
+      <Suspense fallback={<div>loading...</div>}>
+        <Career />
+      </Suspense>
     </CartProvider>
   );
 };

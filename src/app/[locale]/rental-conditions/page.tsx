@@ -1,5 +1,5 @@
 'use client'
-import React from 'react';
+import React, { Suspense } from 'react';
 import Link from 'next/link';
 import Wrapper from '@/layouts/wrapper';
 import FooterOne from '@/layouts/footers/FooterOne';
@@ -13,7 +13,9 @@ import { useTranslations } from 'next-intl';
 const RentalConditions: React.FC = () => {
   return (
     <CartProvider>
-      <Page />
+      <Suspense fallback={<div>loading...</div>}>
+        <Page />
+      </Suspense>
     </CartProvider>
   );
 };

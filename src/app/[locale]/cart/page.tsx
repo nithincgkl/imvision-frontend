@@ -1,5 +1,5 @@
 'use client';
-import React, { useEffect, useState } from 'react';
+import React, { Suspense, useEffect, useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import Wrapper from '@/layouts/wrapper';
@@ -15,8 +15,11 @@ import { useTranslations } from 'next-intl';
 const CartPage: React.FC = () => {
   return (
     <CartProvider>
-      <CartContent />
+      <Suspense fallback={<div>loading...</div>}>
+        <CartContent />
+      </Suspense>
     </CartProvider>
+
   );
 };
 

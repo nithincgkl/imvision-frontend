@@ -1,6 +1,6 @@
 'use client';
 
-import React from "react";
+import React, { Suspense } from "react";
 import style from "./style.module.css";
 import Wrapper from "@/layouts/wrapper";
 import FooterOne from "@/layouts/footers/FooterOne";
@@ -13,7 +13,9 @@ import { CartProvider, useCart } from '@/context/cart-context'; // Import the us
 const EventDetails: React.FC = () => {
   return (
     <CartProvider>
-      <Page />
+      <Suspense fallback={<div>loading...</div>}>
+        <Page />
+      </Suspense>
     </CartProvider>
   );
 };
@@ -80,10 +82,10 @@ const Page: React.FC = () => {
 
   return (
     <Wrapper>
-        <HeaderOne />
+      <HeaderOne />
 
 
-        
+
 
 
       <div id="smooth-wrapper">
@@ -111,10 +113,10 @@ const Page: React.FC = () => {
 
             <EventGallery />
 
-            
+
 
             <LetsTalk />
-           
+
 
 
           </main>

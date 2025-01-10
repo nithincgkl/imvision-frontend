@@ -1,7 +1,7 @@
 'use client'
 
 
-import React from 'react';
+import React, { Suspense } from 'react';
 import Wrapper from '@/layouts/wrapper';
 import Error from '@/components/error';
 import { CartProvider, useCart } from '@/context/cart-context'; // Import the useCart hook
@@ -9,7 +9,9 @@ import { CartProvider, useCart } from '@/context/cart-context'; // Import the us
 const ErrorPage: React.FC = () => {
   return (
     <CartProvider>
-      <ErrorIndex />
+      <Suspense fallback={<div>loading...</div>}>
+        <ErrorIndex />
+      </Suspense>
     </CartProvider>
   );
 }

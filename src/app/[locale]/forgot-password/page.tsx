@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { Suspense, useState } from 'react';
 import axios from 'axios';
 import style from './style.module.css';
 import Wrapper from '@/layouts/wrapper';
@@ -11,7 +11,9 @@ import { useTranslations } from 'next-intl';
 const ForgetPassword: React.FC = () => {
   return (
     <CartProvider>
-      <Page />
+      <Suspense fallback={<div>loading...</div>}>
+        <Page />
+      </Suspense>
     </CartProvider>
   );
 };

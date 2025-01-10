@@ -1,5 +1,5 @@
 'use client';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import Wrapper from '@/layouts/wrapper';
 import FooterOne from '@/layouts/footers/FooterOne';
 import HeaderOne from '@/layouts/headers/HeaderOne';
@@ -16,7 +16,9 @@ import { useSnackbar } from 'notistack';
 const Checkout: React.FC = () => {
   return (
     <CartProvider>
-      <RentalConditions />
+      <Suspense fallback={<div>loading...</div>}>
+        <RentalConditions />
+      </Suspense>
     </CartProvider>
   );
 };

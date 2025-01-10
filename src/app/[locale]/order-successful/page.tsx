@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { Suspense, useEffect, useState } from 'react';
 import Wrapper from '@/layouts/wrapper';
 import FooterOne from '@/layouts/footers/FooterOne';
 import HeaderOne from '@/layouts/headers/HeaderOne';
@@ -38,7 +38,9 @@ const OrderSuccess: React.FC = () => {
 
   return (
     <CartProvider>
-      <Page orderId={orderId} />
+      <Suspense fallback={<div>loading...</div>}>
+        <Page orderId={orderId} />
+      </Suspense>
     </CartProvider>
   );
 };

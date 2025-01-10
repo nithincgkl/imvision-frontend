@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import style from "./style.module.css";
 import Wrapper from "@/layouts/wrapper";
 import FooterOne from "@/layouts/footers/FooterOne";
@@ -16,7 +16,9 @@ import { useTranslations } from 'next-intl';
 const Product: React.FC = () => {
   return (
     <CartProvider>
-      <Page />
+      <Suspense fallback={<div>loading...</div>}>
+        <Page />
+      </Suspense>
     </CartProvider>
   );
 };

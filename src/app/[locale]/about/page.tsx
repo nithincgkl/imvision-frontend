@@ -1,5 +1,5 @@
 "use client"
-import React, { useEffect } from 'react';
+import React, { Suspense, useEffect } from 'react';
 import Wrapper from '@/layouts/wrapper';
 import FooterOne from '@/layouts/footers/FooterOne';
 import HeaderOne from '@/layouts/headers/HeaderOne';
@@ -11,7 +11,9 @@ import { useTranslations } from 'next-intl';
 const About: React.FC = () => {
   return (
     <CartProvider>
-      <AboutPage />
+      <Suspense fallback={<div>loading...</div>}>
+        <AboutPage />
+      </Suspense>
     </CartProvider>
   );
 }

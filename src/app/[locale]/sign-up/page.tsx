@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from "react";
+import React, { Suspense, useState } from "react";
 import style from "./style.module.css";
 import Wrapper from "@/layouts/wrapper";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
@@ -14,7 +14,9 @@ import { useTranslations } from 'next-intl';
 const SignUp: React.FC = () => {
   return (
     <CartProvider>
-      <Page />
+      <Suspense fallback={<div>loading...</div>}>
+        <Page />
+      </Suspense>
     </CartProvider>
   );
 };

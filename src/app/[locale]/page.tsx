@@ -1,5 +1,5 @@
 'use client'
-import React from 'react';
+import React, { Suspense } from 'react';
 import HeaderOne from '@/layouts/headers/HeaderOne';
 import Wrapper from '@/layouts/wrapper';
 import BannerVideo from '@/components/home/banner-video';
@@ -15,7 +15,9 @@ import { CartProvider, useCart } from '@/context/cart-context'; // Import the us
 const Home: React.FC = () => {
   return (
     <CartProvider>
-      <Index />
+      <Suspense fallback={<div>loading...</div>}>
+        <Index />
+      </Suspense>
     </CartProvider>
   );
 };

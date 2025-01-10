@@ -1,5 +1,5 @@
 'use client';
-import React, { useState, ChangeEvent, FormEvent, useRef } from 'react';
+import React, { useState, ChangeEvent, FormEvent, useRef, Suspense } from 'react';
 import Image from 'next/image';
 import Wrapper from '@/layouts/wrapper';
 import FooterOne from '@/layouts/footers/FooterOne';
@@ -13,7 +13,9 @@ import { useTranslations } from 'next-intl';
 const ErrorReporting: React.FC = () => {
   return (
     <CartProvider>
-      <ErrorReportings />
+      <Suspense fallback={<div>loading...</div>}>
+        <ErrorReportings />
+      </Suspense>
     </CartProvider>
   );
 };

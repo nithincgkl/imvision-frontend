@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import style from "./style.module.css";
 import Wrapper from "@/layouts/wrapper";
 import FooterOne from "@/layouts/footers/FooterOne";
@@ -17,7 +17,9 @@ import { useTranslations } from 'next-intl';
 const EventDetails: React.FC = () => {
     return (
         <CartProvider>
-            <Page />
+            <Suspense fallback={<div>loading...</div>}>
+                <Page />
+            </Suspense>
         </CartProvider>
     );
 };

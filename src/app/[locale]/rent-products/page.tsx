@@ -1,5 +1,5 @@
 'use client';
-import React, { useEffect, useState } from 'react';
+import React, { Suspense, useEffect, useState } from 'react';
 import axios from 'axios';
 import style from './style.module.css';
 import Wrapper from '@/layouts/wrapper';
@@ -15,7 +15,9 @@ import { useTranslations } from 'next-intl';
 const RentProducts: React.FC = () => {
   return (
     <CartProvider>
-      <RentPage />
+      <Suspense fallback={<div>loading...</div>}>
+        <RentPage />
+      </Suspense>
     </CartProvider>
   );
 };
