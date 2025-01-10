@@ -8,6 +8,7 @@ import axios from 'axios';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { CartProvider } from '@/context/cart-context'; // Import the useCart hook
 import { useTranslations } from 'next-intl';
+import LanguageToggle from '@/components/common/LanguageToggle';
 
 const ResetPassword: React.FC = () => {
   const t = useTranslations('resetPassword');
@@ -82,6 +83,9 @@ const Page: React.FC = () => {
   return (
     <Wrapper>
       <div id="smooth-wrapper">
+        <div className={style.toggle_wrapper}>
+          <LanguageToggle />
+        </div>
         <div id="smooth-content">
           <main>
             <section className={style["reset_password"]}>

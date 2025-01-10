@@ -135,7 +135,8 @@
 }
 
 .inputField:focus::placeholder {
-  color: #585454; /* Placeholder color */
+  color: #585454;
+  /* Placeholder color */
 }
 
 .eye_button {
@@ -316,4 +317,11 @@
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+.toggle_wrapper {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
 }

@@ -10,6 +10,7 @@ import { useSnackbar } from 'notistack';
 import axios from 'axios';
 import { CartProvider, useCart } from '@/context/cart-context'; // Import the useCart hook
 import { useTranslations } from 'next-intl';
+import LanguageToggle from '@/components/common/LanguageToggle';
 
 const Login: React.FC = () => {
   return (
@@ -104,6 +105,9 @@ const Page: React.FC = () => {
   return (
     <Wrapper>
       <div id="smooth-wrapper">
+        <div className={style.toggle_wrapper}>
+          <LanguageToggle />
+        </div>
         <div id="smooth-content">
           <main>
             <section className={style["sign_up"]}>

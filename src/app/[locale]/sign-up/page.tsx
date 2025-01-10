@@ -10,6 +10,7 @@ import { useSnackbar } from 'notistack';
 import axios, { AxiosError } from 'axios';
 import { CartProvider, useCart } from '@/context/cart-context'; // Import the useCart hook
 import { useTranslations } from 'next-intl';
+import LanguageToggle from "@/components/common/LanguageToggle";
 
 const SignUp: React.FC = () => {
   return (
@@ -96,8 +97,26 @@ const Page: React.FC = () => {
         if (registerResponse.status === 200) {
           const token = registerResponse.data.jwt;
           localStorage.setItem("token", token);
+          localStorage.setItem('user', JSON.stringify(registerResponse.data.user));
 
-          // Now update the profile with the phone number
+          // Get user address data after registration
+          try {
+            const addressResponse = await axios.get(
+              `${process.env.NEXT_PUBLIC_API_URL}user-address`,
+              {
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                },
+              }
+            );
+            const { user_id, documentId, ...filteredData } = addressResponse.data;
+            localStorage.setItem("userData", JSON.stringify(filteredData));
+          } catch (error) {
+            // If no address data exists, store empty object
+            localStorage.setItem("userData", JSON.stringify({}));
+          }
+
+          // Update profile with phone number
           const updateResponse = await axios.put(
             `${process.env.NEXT_PUBLIC_API_URL}profile`,
             {
@@ -115,6 +134,7 @@ const Page: React.FC = () => {
         } else {
           enqueueSnackbar(registerResponse.data.message || `${t("error2")}`, { variant: 'error' });
         }
+
       } catch (error) {
         handleError(error);
       } finally {
@@ -144,6 +164,9 @@ const Page: React.FC = () => {
   return (
     <Wrapper>
       <div id="smooth-wrapper">
+        <div className={style.toggle_wrapper}>
+          <LanguageToggle />
+        </div>
         <div id="smooth-content">
           <main>
             <section className={style["sign_up"]}>

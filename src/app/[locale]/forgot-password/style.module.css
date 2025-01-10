@@ -99,7 +99,8 @@
 }
 
 .inputField:focus::placeholder {
-  color: #585454; /* Placeholder color */
+  color: #585454;
+  /* Placeholder color */
 }
 
 .textareaLabel {
@@ -189,4 +190,11 @@
   }
 
 
+}
+
+.toggle_wrapper {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
 }
