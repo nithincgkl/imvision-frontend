@@ -1,1 +1,0 @@
-export const locales = ["en", "sv"] as const;
