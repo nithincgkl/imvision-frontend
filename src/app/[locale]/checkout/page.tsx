@@ -161,7 +161,24 @@ const RentalConditions = () => {
     const newErrors: FormErrors = {};
 
     function formatFieldName(field: string): string {
-      return field.replace(/([a-z0-9])([A-Z])/g, '$1 $2').replace(/([A-Z])([A-Z])/g, '$1 $2').replace(/Last Name/, 'Surname');;
+      // Map fields to their translation keys
+      const fieldToTranslationKey: { [key: string]: string } = {
+        FirstName: 'name',
+        LastName: 'surname',
+        Email: 'email',
+        Phone: 'phone',
+        Street: 'street',
+        HouseNo: 'house',
+        City: 'city',
+        PostalCode: 'postalCode',
+        State: 'state',
+        Country: 'country'
+      };
+
+      // Get the translation key for the field
+      const translationKey = fieldToTranslationKey[field.replace('shipping', '')];
+      // Remove the asterisk (*) from placeholder text if present
+      return translationKey ? t(`placeholder.${translationKey}`).replace('*', '') : field;
     }
 
     const requiredFields = [
@@ -177,15 +194,15 @@ const RentalConditions = () => {
 
     // Email validation
     if (formData.Email && !/\S+@\S+\.\S+/.test(formData.Email)) {
-      newErrors.Email = `${t("invalidEmail")}`;
+      newErrors.Email = t("invalidEmail");
     }
 
-    // Phone validation (optional: you can customize this regex)
+    // Phone validation
     if (formData.Phone && !/^\d+$/.test(formData.Phone)) {
-      newErrors.Phone = `${t("invalidPhone")}`;
+      newErrors.Phone = t("invalidPhone");
     }
 
-    // Shipping address validation if checkbox is checked
+    // Shipping address validation if checkbox is not checked
     if (!formData.gdprConsent) {
       const shippingRequiredFields = [
         'shippingFirstName', 'shippingLastName', 'shippingEmail',
@@ -195,13 +212,22 @@ const RentalConditions = () => {
 
       shippingRequiredFields.forEach(field => {
         if (!formData[field as keyof FormData]) {
-          newErrors[field] = `${formatFieldName((field).replace(/^shipping/, '').trim())} ${t("isRequired")}`;
+          const baseField = field.replace('shipping', '');
+          newErrors[field] = `${formatFieldName(baseField)} ${t("isRequired")}`;
         }
       });
+
+      // Validate shipping email and phone if provided
+      if (formData.shippingEmail && !/\S+@\S+\.\S+/.test(formData.shippingEmail)) {
+        newErrors.shippingEmail = t("invalidEmail");
+      }
+      if (formData.shippingPhone && !/^\d+$/.test(formData.shippingPhone)) {
+        newErrors.shippingPhone = t("invalidPhone");
+      }
     }
 
     setErrors(newErrors);
-    return Object.keys(newErrors).length === 0; // Return true if no errors
+    return Object.keys(newErrors).length === 0;
   };
 
 
@@ -383,12 +409,11 @@ const RentalConditions = () => {
                                     id="FirstName"
                                     name="FirstName"
                                     className={`form-control ${style.inputField}`}
-                                    placeholder="First Name*"
+                                    placeholder={t("placeholder.name")}
                                     value={formData.FirstName}
                                     onChange={handleChange}
                                   />
                                   {errors.FirstName && <span className={style.error}>{errors.FirstName}</span>}
-
                                 </div>
                               </div>
                               <div className="col-md-6">
@@ -398,12 +423,11 @@ const RentalConditions = () => {
                                     id="LastName"
                                     name="LastName"
                                     className={`form-control ${style.inputField}`}
-                                    placeholder="Surname*"
+                                    placeholder={t("placeholder.surname")}
                                     value={formData.LastName}
                                     onChange={handleChange}
                                   />
                                   {errors.LastName && <span className={style.error}>{errors.LastName}</span>}
-
                                 </div>
                               </div>
                             </div>
@@ -416,7 +440,7 @@ const RentalConditions = () => {
                                     id="Email"
                                     name="Email"
                                     className={`form-control ${style.inputField}`}
-                                    placeholder="Email Address*"
+                                    placeholder={t("placeholder.email")}
                                     value={formData.Email}
                                     onChange={handleChange}
                                   />
@@ -430,12 +454,11 @@ const RentalConditions = () => {
                                     id="Phone"
                                     name="Phone"
                                     className={`form-control ${style.inputField}`}
-                                    placeholder="Phone*"
+                                    placeholder={t("placeholder.phone")}
                                     value={formData.Phone}
                                     onChange={handleChange}
                                   />
                                   {errors.Phone && <span className={style.error}>{errors.Phone}</span>}
-
                                 </div>
                               </div>
                             </div>
@@ -448,12 +471,11 @@ const RentalConditions = () => {
                                     id="Street"
                                     name="Street"
                                     className={`form-control ${style.inputField}`}
-                                    placeholder="Street*"
+                                    placeholder={t("placeholder.street")}
                                     value={formData.Street}
                                     onChange={handleChange}
                                   />
                                   {errors.Street && <span className={style.error}>{errors.Street}</span>}
-
                                 </div>
                               </div>
                               <div className="col-md-6">
@@ -463,7 +485,7 @@ const RentalConditions = () => {
                                     id="HouseNo"
                                     name="HouseNo"
                                     className={`form-control ${style.inputField}`}
-                                    placeholder="House Number*"
+                                    placeholder={t("placeholder.house")}
                                     value={formData.HouseNo}
                                     onChange={handleChange}
                                   />
@@ -480,12 +502,11 @@ const RentalConditions = () => {
                                     id="City"
                                     name="City"
                                     className={`form-control ${style.inputField}`}
-                                    placeholder="City / Town*"
+                                    placeholder={t("placeholder.city")}
                                     value={formData.City}
                                     onChange={handleChange}
                                   />
                                   {errors.City && <span className={style.error}>{errors.City}</span>}
-
                                 </div>
                               </div>
                               <div className="col-md-6">
@@ -495,12 +516,11 @@ const RentalConditions = () => {
                                     id="PostalCode"
                                     name="PostalCode"
                                     className={`form-control ${style.inputField}`}
-                                    placeholder="Postal Code*"
+                                    placeholder={t("placeholder.postalCode")}
                                     value={formData.PostalCode}
                                     onChange={handleChange}
                                   />
                                   {errors.PostalCode && <span className={style.error}>{errors.PostalCode}</span>}
-
                                 </div>
                               </div>
                             </div>
@@ -513,7 +533,7 @@ const RentalConditions = () => {
                                     id="State"
                                     name="State"
                                     className={`form-control ${style.inputField}`}
-                                    placeholder="State*"
+                                    placeholder={t("placeholder.state")}
                                     value={formData.State}
                                     onChange={handleChange}
                                   />
@@ -529,9 +549,9 @@ const RentalConditions = () => {
                                       name="Country"
                                       className={`form-control ${style.inputField}`}
                                       onChange={handleChange}
-                                      value={formData.Country || ''} // Bind value to state
+                                      value={formData.Country || ''}
                                     >
-                                      <option value="">Select Country / Region*</option>
+                                      <option value="">{t("placeholder.country")}</option>
                                       <option value="Sweden">Sweden</option>
                                       <option value="USA">United States</option>
                                       <option value="Canada">Canada</option>
@@ -547,7 +567,6 @@ const RentalConditions = () => {
                               </div>
                             </div>
 
-
                             <div className="row">
                               <div className="col-md-6">
                                 <div className={style.formControl}>
@@ -556,7 +575,7 @@ const RentalConditions = () => {
                                     id="Company-Name"
                                     name="CompanyName"
                                     className={`form-control ${style.inputField}`}
-                                    placeholder="Company Name (optional)"
+                                    placeholder={t("placeholder.companyName")}
                                     value={formData.CompanyName}
                                     onChange={handleChange}
                                   />
@@ -569,14 +588,13 @@ const RentalConditions = () => {
                                     id="Reference"
                                     name="Reference"
                                     className={`form-control ${style.inputField}`}
-                                    placeholder="Reference (optional)"
+                                    placeholder={t("placeholder.reference")}
                                     value={formData.Reference}
                                     onChange={handleChange}
                                   />
                                 </div>
                               </div>
                             </div>
-
                           </div>
 
                           <div className={`my-4 ${style.checkout_container}`}>
@@ -612,7 +630,6 @@ const RentalConditions = () => {
                                   <h5>{t("products")}</h5>
                                 </div>
                                 {cartItems.map((item: any) => (
-
                                   <div key={item.id} className={style["two_row"]}>
                                     <div className='d-flex flex-row col-md-12 col-lg-6 col-12'>
                                       <p style={{ textOverflow: 'ellipsis', }} className='d-md-none d-sm-none d-block'> {item.title.length > 8 ? `${item.title.substring(0, 8)}...` : item.title} x {item.count}  </p>
@@ -624,8 +641,8 @@ const RentalConditions = () => {
                                     </div>
                                   </div>
                                 ))}
-
                               </div>
+
                               <div className={style["checkout_table_sec"]}>
                                 <div className={style["two_row"]}>
                                   <div>
@@ -635,11 +652,11 @@ const RentalConditions = () => {
                                   <div>
                                     <p>SEK {calculateSubtotal()}</p>
                                     <p>SEK {shippingCost.toFixed(2)}</p>
-
                                   </div>
                                 </div>
                                 <span className={style["im_hr"]}></span>
                               </div>
+
                               <div className={style["checkout_table_sec"]}>
                                 <div className={style["two_row"]}>
                                   <div>
@@ -659,14 +676,15 @@ const RentalConditions = () => {
                                   </p>
                                 </div>
                               </div>
+
                               <div className={style["checkout_table_sec"]}>
                                 <div className={style["single_row"]}>
-                                  <button onClick={handlePlaceOrder}>{isPlacing ? `${t("placing")}` : `${t("place")}`}</button>
+                                  <button onClick={handlePlaceOrder}>
+                                    {isPlacing ? t("placing") : t("place")}
+                                  </button>
                                 </div>
-
                               </div>
                             </div>
-
                           </div>
                         </div>
                       </div>
@@ -674,6 +692,8 @@ const RentalConditions = () => {
                   </div>
                 </div>
               </div>
+
+              {/* Shipping Address Section */}
               <div className={style["checkout"]}>
                 <div className="container-fluid">
                   <div className="row">
@@ -690,7 +710,7 @@ const RentalConditions = () => {
                                     id="FirstName"
                                     name="shippingFirstName"
                                     className={`form-control ${style.inputField}`}
-                                    placeholder="First Name*"
+                                    placeholder={t("placeholder.name")}
                                     value={formData.shippingFirstName}
                                     onChange={handleChange}
                                   />
@@ -704,12 +724,11 @@ const RentalConditions = () => {
                                     id="LastName"
                                     name="shippingLastName"
                                     className={`form-control ${style.inputField}`}
-                                    placeholder="Surname*"
+                                    placeholder={t("placeholder.surname")}
                                     value={formData.shippingLastName}
                                     onChange={handleChange}
                                   />
                                   {errors.shippingLastName && <span className={style.error}>{errors.shippingLastName}</span>}
-
                                 </div>
                               </div>
                             </div>
@@ -722,9 +741,10 @@ const RentalConditions = () => {
                                     id="Email"
                                     name="shippingEmail"
                                     className={`form-control ${style.inputField}`}
-                                    placeholder="Email Address*"
+                                    placeholder={t("placeholder.email")}
                                     value={formData.shippingEmail}
                                     onChange={handleChange}
+
                                   />
                                   {errors.shippingEmail && <span className={style.error}>{errors.shippingEmail}</span>}
 
@@ -754,7 +774,7 @@ const RentalConditions = () => {
                                     id="Street"
                                     name="shippingStreet"
                                     className={`form-control ${style.inputField}`}
-                                    placeholder="Street*"
+                                    placeholder={t("placeholder.street")}
                                     value={formData.shippingStreet}
                                     onChange={handleChange}
                                   />
@@ -768,7 +788,7 @@ const RentalConditions = () => {
                                     id="HouseNo"
                                     name="shippingHouseNo"
                                     className={`form-control ${style.inputField}`}
-                                    placeholder="House Number*"
+                                    placeholder={t("placeholder.house")}
                                     value={formData.shippingHouseNo}
                                     onChange={handleChange}
                                   />
@@ -776,18 +796,17 @@ const RentalConditions = () => {
                                 </div>
                               </div>
                             </div>
+
                             <div className="row">
                               <div className="col-md-6">
                                 <div className={style.formControl}>
                                   <input
                                     type="text"
                                     id="City"
-
                                     name="shippingCity"
                                     className={`form-control ${style.inputField}`}
-                                    placeholder="City / Town*"
+                                    placeholder={t("placeholder.city")}
                                     value={formData.shippingCity}
-
                                     onChange={handleChange}
                                   />
                                   {errors.shippingCity && <span className={style.error}>{errors.shippingCity}</span>}
@@ -798,19 +817,17 @@ const RentalConditions = () => {
                                   <input
                                     type="text"
                                     id="PostalCode"
-
                                     name="shippingPostalCode"
                                     className={`form-control ${style.inputField}`}
-                                    placeholder="Postal Code*"
+                                    placeholder={t("placeholder.postalCode")}
                                     value={formData.shippingPostalCode}
-
                                     onChange={handleChange}
                                   />
                                   {errors.shippingPostalCode && <span className={style.error}>{errors.shippingPostalCode}</span>}
-
                                 </div>
                               </div>
                             </div>
+
                             <div className="row">
                               <div className="col-md-6">
                                 <div className={style.formControl}>
@@ -819,7 +836,7 @@ const RentalConditions = () => {
                                     id="State"
                                     name="shippingState"
                                     className={`form-control ${style.inputField}`}
-                                    placeholder="State*"
+                                    placeholder={t("placeholder.state")}
                                     value={formData.shippingState}
                                     onChange={handleChange}
                                   />
@@ -837,7 +854,7 @@ const RentalConditions = () => {
                                       onChange={handleChange}
                                       value={formData.shippingCountry || ''}
                                     >
-                                      <option value="">Select Country / Region*</option>
+                                      <option value="">{t("placeholder.country")}</option>
                                       <option value="Sweden">Sweden</option>
                                       <option value="USA">United States</option>
                                       <option value="Canada">Canada</option>
@@ -853,7 +870,6 @@ const RentalConditions = () => {
                               </div>
                             </div>
 
-
                             <div className="row">
                               <div className="col-md-6">
                                 <div className={style.formControl}>
@@ -862,7 +878,7 @@ const RentalConditions = () => {
                                     id="Company-Name"
                                     name="shippingCompanyName"
                                     className={`form-control ${style.inputField}`}
-                                    placeholder="Company Name (optional)"
+                                    placeholder={t("placeholder.companyName")}
                                     value={formData.shippingCompanyName}
                                     onChange={handleChange}
                                   />
@@ -875,15 +891,13 @@ const RentalConditions = () => {
                                     id="Reference"
                                     name="shippingReference"
                                     className={`form-control ${style.inputField}`}
-                                    placeholder="Reference (optional)"
+                                    placeholder={t("placeholder.reference")}
                                     value={formData.shippingReference}
                                     onChange={handleChange}
                                   />
                                 </div>
                               </div>
                             </div>
-                          </div>
-                          <div className={`my-4 ${style.checkout_container}`}>
                           </div>
 
                           <div className={style["checkout_inner_container"]}>
@@ -895,7 +909,7 @@ const RentalConditions = () => {
                                     id="Notes"
                                     name="Notes"
                                     className={`form-control ${style.inputField}`}
-                                    placeholder="Order Notes (optional)"
+                                    placeholder={t("placeholder.orderNotes")}
                                     value={formData.Notes}
                                     onChange={handleChange}
                                   />
@@ -906,7 +920,6 @@ const RentalConditions = () => {
                         </form>
                       </div>
                     </div>
-
                   </div>
                 </div>
               </div>

@@ -645,7 +645,7 @@
             "house": "House Number*",
             "city": "City/Town*",
             "postalCode": "Postal Code*",
-            "state": "State",
+            "state": "State*",
             "country": "Select Country / Region*",
             "companyName": "Company Name (optional)",
             "reference": "Reference (optional)",
