@@ -1,0 +1,20 @@
+.cart_container {
+    background: #222222;
+    color: white;
+    padding: 8px !important;
+    padding-left: 15px !important;
+    padding-right: 15px !important;
+}
+
+@media (max-width: 1300px) {
+    .language_toggle_item {
+        margin-left: 10px !important;
+        background: none !important;
+        margin-top: 5px !important;
+        margin-bottom: 5px !important;
+    }
+
+    .cart_container {
+        background: none;
+    }
+}

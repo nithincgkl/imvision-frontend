@@ -9,7 +9,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html>
       <head>
         <link rel="icon" href="/assets/img/favicon.svg" />
         <link
@@ -18,14 +18,13 @@ export default function RootLayout({
         />
         <title>IM VISION</title>
       </head>
-
       <body className="dark">
         <SnackbarProvider
-          maxSnack={3} // Maximum number of snackbars to show at once
-          autoHideDuration={3000} // Auto-hide after 3 seconds
+          maxSnack={3}
+          autoHideDuration={3000}
           anchorOrigin={{
             vertical: 'bottom',
-            horizontal: 'right', // Position of the snackbar
+            horizontal: 'right',
           }}
         >
           {children}

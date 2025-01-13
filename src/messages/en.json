@@ -1,0 +1,678 @@
+{
+    "navigation": {
+        "events": "Event",
+        "expo": "Expo",
+        "products": "Products",
+        "installation": "installation",
+        "contact": "Contact",
+        "support": "Support",
+        "cart": "Cart"
+    },
+    "home": {
+        "bannerVideo": {
+            "heading": "Your browser does not support the video tag.",
+            "subHeading1": "Bigscreen Beyond",
+            "subHeading2": "Your display partner",
+            "buttonText": "Talk to Expert"
+        },
+        "displays": {
+            "smallHeading": "Displays",
+            "heading": "Next-generation displays",
+            "heading2": "90 Degree",
+            "description1": "90° connection cabinets cut 45° In the left or right side of your cabinet and then can't connect with normal cabinet from that side anymore.",
+            "description2": "90° Connection",
+            "description3": "Make your corner & cube"
+        },
+        "homeCarousel": {
+            "smallHeading": "Product",
+            "heading": "Our Screens",
+            "buttonText": "All Products"
+        },
+        "wowMoments": {
+            "smallHeading": "Perfect For",
+            "heading": "Create a WOW Moment",
+            "description1": "The result? A face cushion that fits you perfectly.",
+            "description2": "Enhanced immersion with no more light",
+            "description3": "leakage, and comfortable to wear for hours.",
+            "buttonText": "Know More Details"
+        },
+        "homeExperience": {
+            "heading": "Experience",
+            "energyEfficiency": {
+                "title": "Energy Efficiency",
+                "description": "Low power consumption compared to other display technologies."
+            },
+            "durabilityReliability": {
+                "title": "Durability and Reliability",
+                "description": "Built to withstand different environmental conditions, including extreme temperatures."
+            },
+            "wideViewingAngles": {
+                "title": "Wide Viewing Angles",
+                "description": "Consistent image quality and color accuracy even when viewed from off-center angles."
+            },
+            "fastRefreshRate": {
+                "title": "Fast Refresh Rate",
+                "description": "High refresh rates provide smooth motion, making them ideal for video playback."
+            },
+            "thinLightweight": {
+                "title": "Thin and Lightweight",
+                "description": "Slim profiles and lightweight panels are easier to install and integrate into various settings."
+            },
+            "scalability": {
+                "title": "Scalability",
+                "description": "Can be scaled to create large displays by combining multiple panels."
+            }
+        },
+        "letsTalk": {
+            "heading": "Have a project for us?",
+            "heading2": "Let's talk.",
+            "buttonText": "Talk to expert",
+            "videoError": "Your browser does not support the video tag."
+        },
+        "footer": {
+            "getInTouch": "Get in touch today",
+            "formPlaceholders": {
+                "name": "Name*",
+                "email": "Email Address*",
+                "helpTopic": "What can we help you with?",
+                "companyName": "Company Name*"
+            },
+            "helpTopics": {
+                "sale": "Sale",
+                "rent": "Rent",
+                "career": "Career",
+                "other": "Other"
+            },
+            "submitButton": {
+                "default": "Let's Talk",
+                "sending": "Sending..."
+            },
+            "navItems": {
+                "rentProducts": "Rent products",
+                "sale": "Sale",
+                "about": "About IM Vision",
+                "contact": "Contact Us",
+                "errorReporting": "Error reporting",
+                "workWithUs": "Work With us",
+                "rentalConditions": "Rental conditions",
+                "profile": "Profile",
+                "signIn": "Sign In",
+                "logout": "Logout"
+            },
+            "legalLinks": {
+                "privacyPolicy": "Privacy Policy",
+                "termsAndConditions": "Terms and Conditions",
+                "cookiePolicy": "Cookie Policy"
+            },
+            "disclaimer": {
+                "title": "Disclaimer",
+                "text": "The photos and videos displayed on this website are used for representational purposes and remain the property of their respective owners. For any queries, please contact us at"
+            },
+            "notifications": {
+                "success": "Your message has been sent successfully!",
+                "error": "There was an error submitting the form. Please try again.",
+                "logout": "You have been logged out."
+            },
+            "validation": {
+                "nameRequired": "Name is required.",
+                "emailRequired": "Email is required.",
+                "emailInvalid": "Please enter a valid email address.",
+                "topicRequired": "Please select a topic.",
+                "companyRequired": "Company Name is required."
+            }
+        }
+    },
+    "events": {
+        "talkToExpert": "Talk to Expert",
+        "bannerDescription": {
+            "line1": "Rev up your automotive events with vibrant LED screens.",
+            "line2": "Our rentals deliver crystal-clear visuals, engaging audiences and amplifying your brand.",
+            "line3": "Take your car shows, launches, and exhibitions to the next level."
+        },
+        "sections": {
+            "automotive": {
+                "title": "Automotive",
+                "description": {
+                    "line1": "Rev up your automotive events with vibrant LED screens.",
+                    "line2": "Our rentals deliver crystal-clear visuals, engaging audiences and amplifying your brand.",
+                    "line3": "Take your car shows, launches, and exhibitions to the next level."
+                }
+            },
+            "corporate": {
+                "title": "Corporate",
+                "description": {
+                    "line1": "Rev up your automotive events with vibrant LED screens.",
+                    "line2": "Our rentals deliver crystal-clear visuals, engaging audiences and amplifying your brand.",
+                    "line3": "Take your car shows, launches, and exhibitions to the next level."
+                }
+            },
+            "government": {
+                "title": "Government",
+                "description": {
+                    "line1": "Rev up your automotive events with vibrant LED screens.",
+                    "line2": "Our rentals deliver crystal-clear visuals, engaging audiences and amplifying your brand.",
+                    "line3": "Take your car shows, launches, and exhibitions to the next level."
+                }
+            },
+            "retail": {
+                "title": "Retail",
+                "description": {
+                    "line1": "Rev up your automotive events with vibrant LED screens.",
+                    "line2": "Our rentals deliver crystal-clear visuals, engaging audiences and amplifying your brand.",
+                    "line3": "Take your car shows, launches, and exhibitions to the next level."
+                }
+            }
+        },
+        "recentEvents": {
+            "transformDealership": {
+                "title": "Transform Your Dealership",
+                "description": "Showcase vehicle design and performance in stunning visual clarity and scale that compels customers to get behind the wheel today."
+            },
+            "revUpEvents": {
+                "title": "Rev Up Your Events",
+                "description": "Elevate your car dealership's visibility with our stunning LED screens. Rent cutting-edge displays that capture attention and drive sales. Transform your showroom into a modern retail experience."
+            },
+            "automotive": {
+                "title": "Automotive",
+                "description": "Rev up your automotive events with vibrant LED screens. Our rentals deliver crystal-clear visuals, engaging audiences and amplifying your brand."
+            }
+        },
+        "eventCarousel": {
+            "title": "Recent Events",
+            "error": "Error loading events:",
+            "empty": "No events found",
+            "buttonText": "Talk to Expert",
+            "readMore": "Read More"
+        }
+    },
+    "productPage": {
+        "allProducts": {
+            "heading": "Products for Sale/Rent",
+            "saleHeading": "Sale Products",
+            "rentHeading": "Rent Products",
+            "loadMore": "Load More",
+            "contactUs": "Contact Us",
+            "error": "Failed to load products. Please try again later."
+        },
+        "productItemComponent": {
+            "addToCart": "Add to Cart",
+            "toast": "has been added to your cart!"
+        },
+        "filterComponent": {
+            "sortOption": {
+                "default": "Default Sorting",
+                "lowToHigh": "Price: Low to High",
+                "highToLow": "Price: High to Low",
+                "newest": "Newest"
+            },
+            "error1": "Failed to load categories. Please try again later.",
+            "error2": "Failed to load sub-categories. Please try again later.",
+            "error3": "Failed to load sub-sub-categories. Please try again later.",
+            "error4": "Failed to load products. Please try again later.",
+            "filterButton": " Filter Product List",
+            "filterMessage1": "Showing 1-",
+            "filterMessage2": "of",
+            "filterMessage3": "results",
+            "reset": "Reset Filter",
+            "apply": "Apply Filter",
+            "noProduct": "No products found"
+        }
+    },
+    "aboutPage": {
+        "heading1": "Experts In LED Solutions",
+        "heading2": "For All Types Of Purpose",
+        "para1": "IM vision is a professional and reliable partner and we are with you all the way from order to execution.",
+        "videoError": "Your browser does not support the video tag.",
+        "years": "YEARS",
+        "para2": "With more than 10 years of",
+        "para3": "experience, we are the market",
+        "para4": "leader in large LED screens.",
+        "para5": "LED screens in stock for rental, with our flexible",
+        "para6": "cabinets you can choose the size of your screen",
+        "para7": "yourself. We deliver according to your wishes.",
+        "para8": "We have mobile screens",
+        "para9": "in sizes 7-28 sq m for quick",
+        "para10": "delivery and easy set up.",
+        "para11": "We always have sales stock",
+        "para12": "of LEDs for quick installations",
+        "heading3": "Who we are",
+        "para13": "Connection and collaboration without boundaries are essential for progress. At IMvision, we believe that intelligent ",
+        "para14": "solutions are the driving force behind both economic and social development.",
+        "para15": "With this in mind, IMvision was created as a platform where information flows seamlessly, fostering creativity and innovation. Our goal is to",
+        "para16": "empower a space—both physical and virtual—where genuine connections can be made, and collaboration thrives, whether offline or",
+        "para17": "online.",
+        "para18": "The name IMvision reflects our commitment to intelligent display solutions that bring people together.",
+        "para19": "We aim to provide advanced,integrated technology to elevate organizational efficiency and enhance",
+        "para20": "communication.",
+        "para21": " By eliminating barriers to connection, we create environments that inspire innovation, enabling full immersion and sparking new",
+        "para22": " possibilities for growth. At IMvision, we don’t just rent displays—we help build the future of collaboration.",
+        "para23": "IM Vision, based in Jönköping, has all of Sweden as a workplace. Our journey started 10 years ago and we have since grown and become a leader in LED screens. We are the small company with the big commitment.",
+        "para24": "With long and broad experience from LED screens, there are many market-leading companies among our partners, including in the automotive and fitness industry as well as retail chains and arena events.",
+        "para25": "But we don't want to stop there. We constantly strive to broaden our contact network and to package our offer and delivery in the best way. Maybe you are our new customer?",
+        "para26": "With us, constant development is the only constant and our goal is to be the best solution in large LED screens. Welcome to IM Vision!"
+    },
+    "contactUs": {
+        "heading": "Get in Touch",
+        "heading2": "With us",
+        "para1": "Are you ready to make the leap to the ultimate innovation in LED technology?",
+        "para2": "Leave your contact details and our sales team will help you take the first step to discover the power of LED technology in sales & rental.",
+        "videoError": "Your browser does not support the video tag.",
+        "form": {
+            "heading": "Send a Message",
+            "placeHolders": {
+                "name": "Name*",
+                "email": "Email*",
+                "phone": "Phone*",
+                "service": {
+                    "default": "Select Service *",
+                    "sale": "Sale",
+                    "rent": "Rent",
+                    "career": "Career",
+                    "other": "Other"
+                },
+                "industry": {
+                    "default": "Industry Type *",
+                    "automotive": "Automotive",
+                    "retail": "Retail",
+                    "government": "Government",
+                    "corporate": "Corporate"
+                },
+                "comment": "Comment*"
+            },
+            "sending": "Sending...",
+            "send": "Send Message",
+            "validation": {
+                "nameRequired": "Name is required.",
+                "emailRequired": "Email is required.",
+                "emailInvalid": "Email is invalid",
+                "phoneRequired": "Phone number is required",
+                "commentRequired": "Comment is required",
+                "serviceRequired": "Please select a service",
+                "industryRequired": "Please select an industry type"
+            }
+        },
+        "boxData": {
+            "title1": "CEO",
+            "title2": "Sales",
+            "title3": "Rental",
+            "title4": "Warehouse",
+            "title5": "Support",
+            "title6": "Finance"
+        },
+        "successToast": "Message sent successfully!",
+        "errorToast": "Failed to send the message. Please try again.",
+        "errorToast2": "An unexpected error occurred. Please try again."
+    },
+    "errorReporting": {
+        "fileSize": "File size must be less than 2 MB",
+        "form": {
+            "validation": {
+                "nameRequired": "Name is required.",
+                "invalidName": "Name should only contain letters",
+                "addressRequired": "Address is required",
+                "emailRequired": "Email is required.",
+                "emailInvalid": "Email is invalid",
+                "phoneRequired": "Phone is required",
+                "companyRequired": "Company / Business Name is required.",
+                "messageRequired": "This field is required",
+                "file": "Please upload a document",
+                "serviceAgreement": "Please select an option",
+                "invalidServiceAgreement": "Invalid selection for service agreement",
+                "gdprConsent": "You must agree to GDPR consent"
+            },
+            "placeHolders": {
+                "name": "Your Name*",
+                "address": "Address*",
+                "email": "Email*",
+                "phone": "Phone*",
+                "company": "Company / Business Name*",
+                "description": "Describe your matter as carefully as possible, enter room number or similar*",
+                "docHeading": "Please attach any relevant documents",
+                "upload": "Upload Documents",
+                "docDesc": "Images or files that may help us better understand and resolve the issue.",
+                "serviceHeading": "Do you have a service agreement with IMPROD AB?",
+                "yes": "Yes",
+                "no": "No",
+                "dontKnow": "Don't know",
+                "agreementDesc": "If you do not have a service agreement with IMPROD AB, a cost of SEK 795 per hour will be added for technical support and repair as well as transport.",
+                "consent": "Consent according to GDPR",
+                "consentDesc": "By using the website/submitting the form, you agree to us",
+                "consentDesc2": " using your personal data.",
+                "sending": "Sending...",
+                "send": "Send Error Report"
+            }
+        },
+        "error": "Failed to submit error report. Please try again.",
+        "heading": "Error Reporting",
+        "para1": "We're here to help you resolve any issues. Please review the details below and follow the provided steps, or contact support for further assistance.",
+        "thanks": "Thanks!",
+        "subtext": "We have received your error report, and we will get back to you shortly to resolve the issue."
+    },
+    "workWithUs": {
+        "imageError": "No Image Available",
+        "noDesc": "No description available.",
+        "location": "Location:",
+        "expertIn": "Expert in:",
+        "mail": "Send mail to career@imvision.se",
+        "apply": "Apply Now",
+        "heading": "Let Our Team",
+        "heading2": "Be Your New Team",
+        "para1": "Glad you are interested in working with us at IM Vision!",
+        "para2": "Below you see a couple of the positions we are currently looking for, we are always looking for new talent and even if the position you are looking for is not currently available, do not hesitate to contact us!",
+        "videoError": "Your browser does not support the video tag.",
+        "talk": "Talk to Expert",
+        "currentOpenings": "Current Openings",
+        "loadMore": "Load More",
+        "form": {
+            "heading": "Connect With Us",
+            "name": "Name",
+            "email": "Email",
+            "phone": "Phone",
+            "upload": "Upload Resume",
+            "message": "Message",
+            "submitting": "Submitting...",
+            "submit": "Submit",
+            "cancel": "Cancel"
+        }
+    },
+    "rentalConditions": {
+        "heading": "Lease agreement",
+        "desc": "The lessee must take good care of the equipment. Damage caused by carelessness is charged regardless of whether the damage was caused by fault or accident",
+        "heading2": "Rental conditions",
+        "point1": "The lessee must take good care of the equipment. Damage caused by carelessness is charged regardless of whether the damage was caused by fault or accident.",
+        "point2": "The lessee does not have the right to sell, pledge, transfer or take the equipment out of the country. Nor, in turn, rent or lend the equipment without written consent from IMPROD AB.",
+        "point3": "The equipment must, unless otherwise agreed, be picked up and left at IMPROD AB, Hekulesvägen 56 in Jönköping.",
+        "point4": "Lately returned equipment is charged according to IMPROD AB rental prices calculated after a 1-day rental per started delayed day.",
+        "point5": "The renter is responsible for damage to the rental equipment, theft, etc., and is liable for compensation up to the full value of the equipment as well as other costs incurred by IMPROD AB due to such damage, from the time the equipment leaves IMPROD AB's warehouse until it is returned. This also applies to cases where IMPROD AB arranged/ordered delivery/collection. To the extent that IMPROD AB's own insurance, according to IMPROD AB's assessment, may apply, the lessee is liable for compensation for all costs incurred by IMPROD AB due to such damage, including deductibles agreed in IMPROD AB's insurance.",
+        "point6:": "IMPROD AB does not compensate for failed or canceled performances, recordings or the like caused by equipment faults or other circumstances beyond IMPROD AB's control.",
+        "point7": "Cancellation of booked equipment and staff must be done no later than two weeks before the start of the rental period. If cancellation occurs later, 50% of the rental amount will be charged. If cancellation is made the day before or on the same day as the start of the rental period, 100% of the rental amount will be charged. For equipment booked but not collected, the agreed rental cost is charged unless otherwise agreed.",
+        "point8": "If the lessee does not take into account the above rental conditions, delays the agreed payment, goes bankrupt, ends up insolvent, is declared incompetent, dies or in some other way breaks the rental agreement entered into, IMPROD AB has the right to immediately repossess the equipment and cancel the agreement. In that case, the lessee must pay the rental cost until the day IMPROD AB takes the equipment back.",
+        "download": "Download",
+        "lease": "Lease Agreement"
+    },
+    "installation": {
+        "videoError": "Your browser does not support the video tag.",
+        "heading": "Installation",
+        "button": "Talk to Expert",
+        "heading2": "Instructions",
+        "para1": "Maximum length of painted frames ",
+        "para2": "4 meters.",
+        "para3": "The price of painted frames is indicated for powder paint",
+        "para4": ", polyester, gloss.",
+        "para5": "Can be performed: drilling, thermal drilling + threading",
+        "para6": "10 rubles/hole.",
+        "para7": "Prices are inclusive of VAT",
+        "para8": ", and include all costs like packing and loading.",
+        "para9": "For large and/or constant volumes",
+        "para10": "- individual prices are applied.",
+        "para11": "Non-standard orders",
+        "para12": "are calculated individually.",
+        "form": {
+            "heading": "Send a Message",
+            "placeHolders": {
+                "name": "Name*",
+                "email": "Email*",
+                "phone": "Phone*",
+                "service": {
+                    "default": "Select Service *",
+                    "sale": "Sale",
+                    "rent": "Rent",
+                    "career": "Career",
+                    "other": "Other"
+                },
+                "industry": {
+                    "default": "Industry Type *",
+                    "automotive": "Automotive",
+                    "retail": "Retail",
+                    "government": "Government",
+                    "corporate": "Corporate"
+                },
+                "comment": "Comment*"
+            },
+            "sending": "Sending...",
+            "send": "Send Message",
+            "validation": {
+                "nameRequired": "Name is required.",
+                "emailRequired": "Email is required.",
+                "emailInvalid": "Email is invalid",
+                "phoneRequired": "Phone number is required",
+                "commentRequired": "Comment is required",
+                "serviceRequired": "Please select a service",
+                "industryRequired": "Please select an industry type"
+            }
+        },
+        "successToast": "Message sent successfully!",
+        "errorToast": "Failed to send the message. Please try again.",
+        "errorToast2": "An unexpected error occurred. Please try again."
+    },
+    "login": {
+        "validation": {
+            "emailRequired": "Email is required.",
+            "emailInvalid": "Enter a valid email",
+            "passwordRequired": "Password is required",
+            "passwordLength": "Password must be at least 6 characters"
+        },
+        "success": "Login successful!",
+        "error": "Invalid email or password",
+        "error2": "An error occurred. Please try again.",
+        "videoError": "Your browser does not support the video tag.",
+        "home": "Back to Home",
+        "heading1": "Welcome Back",
+        "heading2": "We’re excited to see you again!",
+        "placeHolders": {
+            "email": "Email*",
+            "password": "Password*"
+        },
+        "forgotPassword": "Forgot password?",
+        "logging": "Logging in...",
+        "login": "Login",
+        "noAccount": "Don’t have an account?",
+        "signUp": "Sign up"
+    },
+    "forgotPassword": {
+        "success": "Password reset link has been sent to your email.",
+        "error": "User not Found",
+        "error2": "An error occurred. Please try again.",
+        "videoError": "Your browser does not support the video tag.",
+        "heading2": "Hello,",
+        "heading": "Forgot password ?",
+        "subHeading": "We’re excited to see you again!",
+        "email": "Email*",
+        "submitting": "Submitting...",
+        "submit": "Submit"
+    },
+    "signup": {
+        "form": {
+            "validation": {
+                "nameRequired": "Name is required.",
+                "emailRequired": "Email is required.",
+                "emailInvalid": "Invalid email format",
+                "phoneRequired": "Phone number is required",
+                "passwordRequired": "Password is required",
+                "passwordLength": "Password must be at least 8 characters",
+                "confirmPassword": "Confirm Password is required.",
+                "noMatch": "Passwords do not match."
+            },
+            "placeHolders": {
+                "name": "Name",
+                "email": "Email*",
+                "phone": "Phone*",
+                "password": "Password*",
+                "confirmPassword": "Confirm Password*"
+            }
+        },
+        "error": "Profile update failed.",
+        "error2": "Registration failed.",
+        "success": "Account registered successfully!",
+        "error3": "Something went wrong. Please try again.",
+        "videoError": "Your browser does not support the video tag.",
+        "home": "Back to Home",
+        "heading": "Create account",
+        "desc": "Sign up now and start your journey with us!",
+        "creating": "Creating Account...",
+        "create": "Create Account",
+        "existing": "Already have an account?",
+        "login": "Login"
+    },
+    "errorPage": {
+        "heading": "Sorry! The page isn't found here",
+        "desc": "Fortunately, since it is mainly a client-side issue, it is relatively easy for website owners to fix the 404 error. This article will explain the possible causes of error 404 and show four effective methods to resolve it.Fortunately, since it is mainly a client-side issue, it is relatively easy for website owners to fix the 404 error.",
+        "home": "Back to Home"
+    },
+    "cart": {
+        "heading": "My Cart",
+        "rental": "Select Rental Period:",
+        "from": "From:",
+        "to": "To:",
+        "remove": " Remove",
+        "total": "Grand Total:",
+        "checkout": "Proceed To Checkout",
+        "empty": "Cart is empty"
+    },
+    "orderSuccessfull": {
+        "heading": "Thank You for Shopping with Us!",
+        "para1": "Your order ID is #",
+        "para2": ". A detailed report has been sent to your registered email address. If you have any questions, feel free to contact our support team.",
+        "para3": "We could not find your order ID. Please contact support.",
+        "button": "Continue Shopping"
+    },
+    "productDetail": {
+        "success": "Enquiry submitted successfully",
+        "error": "Error submitting Enquiry:",
+        "error2": "Error fetching product data.",
+        "error3": "Product slug is undefined.",
+        "error4": "Error fetching product details.",
+        "success2": " has been added to your cart!",
+        "add": "Add to Cart",
+        "enquiry": "Quick Enquiry",
+        "stock": "Available In Stock",
+        "code": "Article Code:",
+        "category": "Category:",
+        "productSpecification": "Product Specifications",
+        "placeholder": {
+            "email": "Email",
+            "name": "Name",
+            "phone": "Phone",
+            "building": "Building No.",
+            "street": "Street",
+            "city": "City",
+            "state": "State",
+            "country": "Country",
+            "postalCode": "Postal Code",
+            "message": "Message"
+        },
+        "sending": "Sending...",
+        "send": "Send Message",
+        "cancel": "Cancel",
+        "related": "Related Products",
+        "more": "Read less",
+        "less": "Read more"
+    },
+    "profile": {
+        "update": {
+            "validation": {
+                "nameRequired": "Name is required.",
+                "emailRequired": "Email is required.",
+                "emailInvalid": "Email is invalid",
+                "phoneRequired": "Phone is required",
+                "streetRequired": "Street name is required",
+                "houseRequired": "House number is required",
+                "postalRequired": "Postal code is required",
+                "cityRequired": "City/Town is required",
+                "countryRequired": "Country/Region is required",
+                "countryLoading": "Loading countries...",
+                "selectCountry": "Select Country",
+                "updating": "Updating...",
+                "update": "Update Change"
+            },
+            "placeholder": {
+                "name": "Name",
+                "email": "Email",
+                "phone": "Phone",
+                "street": "Street Name",
+                "house": "House Number",
+                "postalCode": "Postal Code",
+                "city": "City/Town",
+                "country": "Country/Region"
+            }
+        },
+        "orders": {
+            "loading": "Loading orders...",
+            "noProducts": "No products found.",
+            "orderId": "Order Id :",
+            "noStatus": "No delivery status available",
+            "quantity": "Quantity:",
+            "articleCode": "Article code:",
+            "packed": "Packed",
+            "delivered": "Delivered",
+            "contact": "Contact no:",
+            "shipping": "Shipping Address:",
+            "total": "Total Amount:",
+            "updating": "Updating...",
+            "update": "Update Change"
+        },
+        "password": {
+            "change": "Change Password",
+            "currentPassword": "Current Password",
+            "newPassword": "New Password",
+            "confirmPassword": "Confirm New Password",
+            "submitting": "Submitting...",
+            "submit": "Submit"
+        },
+        "success": "Profile Updated successfully!",
+        "success2": "Password Updated successfully!",
+        "error": "Passwords do not match.",
+        "error2": "Failed to reset password. Please try again.",
+        "heading": "Your Profile & Settings",
+        "personal": "Personal",
+        "order": "Orders",
+        "account": "Account"
+    },
+    "checkout": {
+        "isRequired": "is required",
+        "invalidEmail": "Email is invalid.",
+        "invalidPhone": "Phone number is invalid.",
+        "heading": "Checkout",
+        "bAddress": "Billing Address",
+        "sAddress": "Shipping Address",
+        "deliver": "Deliver to Billing Address",
+        "placeholder": {
+            "name": "First Name*",
+            "surname": "Surname*",
+            "email": "Email Address*",
+            "phone": "Phone*",
+            "street": "Street*",
+            "house": "House Number*",
+            "city": "City/Town*",
+            "postalCode": "Postal Code*",
+            "state": "State*",
+            "country": "Select Country / Region*",
+            "companyName": "Company Name (optional)",
+            "reference": "Reference (optional)",
+            "orderNotes": "Order Notes (optional)"
+        },
+        "summary": "Order Summary",
+        "products": "Products",
+        "subtotal": "Subtotal",
+        "shipping": "Shipping",
+        "total": "Grand Total",
+        "desc": "Your personal data will be used to process your order, improve your experience on the website, and for other purposes described in our",
+        "privacy": "privacy policy",
+        "placing": "Placing order...",
+        "place": "Place Order",
+        "success": "Order Placed successfully!",
+        "error": "Error Placing order!"
+    },
+    "resetPassword": {
+        "loading": "Loading...",
+        "error": "An error occurred",
+        "heading": "Set Your New",
+        "heading2": "Password",
+        "desc": "Secure your account by creating a strong new password",
+        "code": "Code*",
+        "password": "Password*",
+        "confirmPassword": "Confirm Password*",
+        "processing": "Processing...",
+        "submit": "Submit"
+    }
+}

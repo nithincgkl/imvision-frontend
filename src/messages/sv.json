@@ -1,0 +1,678 @@
+{
+    "navigation": {
+        "events": "Event",
+        "expo": "Mässa",
+        "products": "Produkter",
+        "installation": "Installation",
+        "contact": "Kontakt",
+        "support": "Support",
+        "cart": "Kundvagn"
+    },
+    "home": {
+        "bannerVideo": {
+            "heading": "Din webbläsare stöder inte videotaggen.",
+            "subHeading1": "Bigscreen Beyond",
+            "subHeading2": "Din skärmpartner",
+            "buttonText": "Prata med en expert"
+        },
+        "displays": {
+            "smallHeading": "Skärmar",
+            "heading": "Nästa generations skärmar",
+            "heading2": "90 grader",
+            "description1": "90° anslutningsskåp skär 45° på vänster eller höger sida av ditt skåp och kan sedan inte längre ansluta till ett normalt skåp från den sidan.",
+            "description2": "90° anslutning",
+            "description3": "Skapa dina hörn & kub"
+        },
+        "homeCarousel": {
+            "smallHeading": "Produkt",
+            "heading": "Våra skärmar",
+            "buttonText": "Alla produkter"
+        },
+        "wowMoments": {
+            "smallHeading": "Perfekt för",
+            "heading": "Skapa ett WOW-ögonblick",
+            "description1": "Resultatet? En ansiktsdyna som passar dig perfekt.",
+            "description2": "Förbättrad uppslukande upplevelse utan ljus",
+            "description3": "läckage, och bekväm att bära i timmar.",
+            "buttonText": "Läs mer detaljer"
+        },
+        "homeExperience": {
+            "heading": "Upplevelse",
+            "energyEfficiency": {
+                "title": "Energieffektivitet",
+                "description": "Låg strömförbrukning jämfört med andra bildskärmsteknologier."
+            },
+            "durabilityReliability": {
+                "title": "Hållbarhet och Tillförlitlighet",
+                "description": "Byggd för att tåla olika miljöförhållanden, inklusive extrema temperaturer."
+            },
+            "wideViewingAngles": {
+                "title": "Breda Betraktningsvinklar",
+                "description": "Konsekvent bildkvalitet och färgprecision även från sneda vinklar."
+            },
+            "fastRefreshRate": {
+                "title": "Snabb Uppdateringsfrekvens",
+                "description": "Höga uppdateringsfrekvenser ger jämna rörelser, idealiska för videouppspelning."
+            },
+            "thinLightweight": {
+                "title": "Tunn och Lättviktig",
+                "description": "Smala profiler och lätta paneler är enklare att installera och integrera i olika miljöer."
+            },
+            "scalability": {
+                "title": "Skalbarhet",
+                "description": "Kan skalas för att skapa stora skärmar genom att kombinera flera paneler."
+            }
+        },
+        "letsTalk": {
+            "heading": "Har du ett projekt för oss?",
+            "heading2": "Låt oss prata.",
+            "buttonText": "Prata med en expert",
+            "videoError": "Din webbläsare stöder inte videotaggen."
+        },
+        "footer": {
+            "getInTouch": "Kontakta oss idag",
+            "formPlaceholders": {
+                "name": "Namn*",
+                "email": "E-postadress*",
+                "helpTopic": "Vad kan vi hjälpa dig med?",
+                "companyName": "Företagsnamn*"
+            },
+            "helpTopics": {
+                "sale": "Försäljning",
+                "rent": "Hyra",
+                "career": "Karriär",
+                "other": "Övrigt"
+            },
+            "submitButton": {
+                "default": "Låt oss prata",
+                "sending": "Skickar..."
+            },
+            "navItems": {
+                "rentProducts": "Hyr produkter",
+                "sale": "Försäljning",
+                "about": "Om IM Vision",
+                "contact": "Kontakta oss",
+                "errorReporting": "Felrapportering",
+                "workWithUs": "Jobba hos oss",
+                "rentalConditions": "Hyresvillkor",
+                "profile": "Profil",
+                "signIn": "Logga in",
+                "logout": "Logga ut"
+            },
+            "legalLinks": {
+                "privacyPolicy": "Integritetspolicy",
+                "termsAndConditions": "Villkor",
+                "cookiePolicy": "Cookie-policy"
+            },
+            "disclaimer": {
+                "title": "Ansvarsfriskrivning",
+                "text": "Foton och videor som visas på denna webbplats används i representativt syfte och förblir respektive ägares egendom. För eventuella frågor, kontakta oss på"
+            },
+            "notifications": {
+                "success": "Ditt meddelande har skickats!",
+                "error": "Det uppstod ett fel när formuläret skulle skickas. Försök igen.",
+                "logout": "Du har loggat ut."
+            },
+            "validation": {
+                "nameRequired": "Namn krävs.",
+                "emailRequired": "E-postadress krävs.",
+                "emailInvalid": "Ange en giltig e-postadress.",
+                "topicRequired": "Välj ett ämne.",
+                "companyRequired": "Företagsnamn krävs."
+            }
+        }
+    },
+    "events": {
+        "talkToExpert": "Prata med expert",
+        "bannerDescription": {
+            "line1": "Förbättra dina bilevenemang med levande LED-skärmar.",
+            "line2": "Våra uthyrningar levererar kristallklara bilder som engagerar publiken och förstärker ditt varumärke.",
+            "line3": "Ta dina bilshower, lanseringar och utställningar till nästa nivå."
+        },
+        "sections": {
+            "automotive": {
+                "title": "Fordonsindustri",
+                "description": {
+                    "line1": "Förhöj dina fordonsevenemang med livfulla LED-skärmar.",
+                    "line2": "Våra uthyrningar levererar kristallklara bilder som engagerar publiken och stärker ditt varumärke.",
+                    "line3": "Lyft dina bilshower, lanseringar och utställningar till nästa nivå."
+                }
+            },
+            "corporate": {
+                "title": "Företag",
+                "description": {
+                    "line1": "Förbättra dina bilevenemang med levande LED-skärmar.",
+                    "line2": "Våra uthyrningar levererar kristallklara bilder som engagerar publiken och förstärker ditt varumärke.",
+                    "line3": "Ta dina bilshower, lanseringar och utställningar till nästa nivå."
+                }
+            },
+            "government": {
+                "title": "Myndigheter",
+                "description": {
+                    "line1": "Förbättra dina bilevenemang med levande LED-skärmar.",
+                    "line2": "Våra uthyrningar levererar kristallklara bilder som engagerar publiken och förstärker ditt varumärke.",
+                    "line3": "Ta dina bilshower, lanseringar och utställningar till nästa nivå."
+                }
+            },
+            "retail": {
+                "title": "Detaljhandel",
+                "description": {
+                    "line1": "Förbättra dina bilevenemang med levande LED-skärmar.",
+                    "line2": "Våra uthyrningar levererar kristallklara bilder som engagerar publiken och förstärker ditt varumärke.",
+                    "line3": "Ta dina bilshower, lanseringar och utställningar till nästa nivå."
+                }
+            }
+        },
+        "recentEvents": {
+            "transformDealership": {
+                "title": "Förvandla din bilhandel",
+                "description": "Visa upp fordonsdesign och prestanda i fantastisk visuell klarhet och skala som får kunderna att sätta sig bakom ratten idag."
+            },
+            "revUpEvents": {
+                "title": "Förbättra dina evenemang",
+                "description": "Höj din bilhandels synlighet med våra fantastiska LED-skärmar. Hyr toppmoderna skärmar som fångar uppmärksamhet och driver försäljning. Förvandla din utställningshall till en modern köpupplevelse."
+            },
+            "automotive": {
+                "title": "Fordon",
+                "description": "Förbättra dina bilevenemang med levande LED-skärmar. Våra uthyrningar levererar kristallklara bilder som engagerar publiken och förstärker ditt varumärke."
+            }
+        },
+        "eventCarousel": {
+            "title": "Senaste evenemang",
+            "error": "Fel vid laddning av evenemang:",
+            "empty": "Inga evenemang hittades",
+            "buttonText": "Prata med en expert",
+            "readMore": "Läs mer"
+        }
+    },
+    "productPage": {
+        "allProducts": {
+            "heading": "Produkter till salu/uthyrning",
+            "saleHeading": "Produkter till salu",
+            "rentHeading": "Produkter att hyra",
+            "loadMore": "Ladda mer",
+            "contactUs": "Kontakta oss",
+            "error": "Kunde inte ladda produkter. Försök igen senare."
+        },
+        "productItemComponent": {
+            "addToCart": "Lägg till i kundvagnen",
+            "toast": "har lagts till i din kundvagn!"
+        },
+        "filterComponent": {
+            "sortOption": {
+                "default": "Standard sortering",
+                "lowToHigh": "Pris: Lågt till högt",
+                "highToLow": "Pris: Högt till lågt",
+                "newest": "Nyast"
+            },
+            "error1": "Kunde inte ladda kategorier. Försök igen senare.",
+            "error2": "Kunde inte ladda underkategorier. Försök igen senare.",
+            "error3": "Kunde inte ladda under-underkategorier. Försök igen senare.",
+            "error4": "Kunde inte ladda produkter. Försök igen senare.",
+            "filterButton": "Filtrera produktlista",
+            "filterMessage1": "Visar 1-",
+            "filterMessage2": "av",
+            "filterMessage3": "resultat",
+            "reset": "Återställ filter",
+            "apply": "Tillämpa filter",
+            "noProduct": "Inga produkter hittades"
+        }
+    },
+    "aboutPage": {
+        "heading1": "Experter på LED-lösningar",
+        "heading2": "För alla typer av ändamål",
+        "para1": "IMvision är en professionell och pålitlig partner och vi är med dig hela vägen från beställning till utförande.",
+        "videoError": "Din webbläsare stöder inte videotaggen.",
+        "years": "ÅR",
+        "para2": "Med mer än 10 års",
+        "para3": "erfarenhet är vi marknadsledande",
+        "para4": "inom stora LED-skärmar.",
+        "para5": "LED-skärmar i lager för uthyrning, med våra flexibla",
+        "para6": "kabinett kan du själv välja storlek på din skärm",
+        "para7": "vi levererar enligt dina önskemål.",
+        "para8": "Vi har mobila skärmar",
+        "para9": "i storlekar från 7-28 kvm för snabb",
+        "para10": "leverans och enkel installation.",
+        "para11": "Vi har alltid försäljningslager",
+        "para12": "av LED-skärmar för snabb installation",
+        "heading3": "Vilka vi är",
+        "para13": "Anslutning och samarbete utan gränser är avgörande för framsteg. På IMvision tror vi att intelligenta",
+        "para14": "lösningar är drivkraften bakom både ekonomisk och social utveckling.",
+        "para15": "Med detta i åtanke skapades IMvision som en plattform där information flödar sömlöst och främjar kreativitet och innovation. Vårt mål är att",
+        "para16": "möjliggöra ett utrymme—både fysiskt och virtuellt—där genuina anslutningar kan skapas och samarbetet blomstrar, oavsett om det är offline eller",
+        "para17": "online.",
+        "para18": "Namnet IMvision speglar vårt engagemang för intelligenta displaylösningar som förenar människor.",
+        "para19": "Vi strävar efter att tillhandahålla avancerad, integrerad teknik för att förbättra organisatorisk effektivitet och stärka",
+        "para20": "kommunikation.",
+        "para21": "Genom att eliminera hinder för anslutning skapar vi miljöer som inspirerar till innovation, möjliggör fullständig fördjupning och utlöser nya",
+        "para22": "möjligheter för tillväxt. På IMvision hyr vi inte bara ut skärmar—vi hjälper till att bygga framtidens samarbete.",
+        "para23": "IMvision, baserat i Jönköping, har hela Sverige som arbetsplats. Vår resa började för 10 år sedan och sedan dess har vi växt och blivit en ledare inom LED-skärmar. Vi är det lilla företaget med det stora engagemanget.",
+        "para24": "Med lång och bred erfarenhet av LED-skärmar finns det många marknadsledande företag bland våra samarbetspartners, inklusive inom bil- och fitnessindustrin samt detaljhandelskedjor och arenahändelser.",
+        "para25": "Men vi vill inte stanna där. Vi strävar ständigt efter att bredda vårt kontaktnät och att paketera vårt erbjudande och leverans på bästa sätt. Kanske är du vår nya kund?",
+        "para26": "Hos oss är ständig utveckling det enda som är konstant och vårt mål är att vara den bästa lösningen inom stora LED-skärmar. Välkommen till IMvision!"
+    },
+    "contactUs": {
+        "heading": "Kontakta oss",
+        "heading2": "Med oss",
+        "para1": "Är du redo att ta steget till den ultimata innovationen inom LED-teknik?",
+        "para2": "Lämna dina kontaktuppgifter så hjälper vårt säljteam dig att ta det första steget för att upptäcka kraften i LED-teknik för försäljning och uthyrning.",
+        "videoError": "Din webbläsare stöder inte videotaggen.",
+        "form": {
+            "heading": "Skicka ett meddelande",
+            "placeHolders": {
+                "name": "Namn*",
+                "email": "E-post*",
+                "phone": "Telefon*",
+                "service": {
+                    "default": "Välj tjänst *",
+                    "sale": "Försäljning",
+                    "rent": "Uthyrning",
+                    "career": "Karriär",
+                    "other": "Annat"
+                },
+                "industry": {
+                    "default": "Branschtyp *",
+                    "automotive": "Bilindustri",
+                    "retail": "Detaljhandel",
+                    "government": "Offentlig sektor",
+                    "corporate": "Företag"
+                },
+                "comment": "Kommentar*"
+            },
+            "sending": "Skickar...",
+            "send": "Skicka meddelande",
+            "validation": {
+                "nameRequired": "Namn krävs.",
+                "emailRequired": "E-post krävs.",
+                "emailInvalid": "Ogiltig e-postadress.",
+                "phoneRequired": "Telefonnummer krävs.",
+                "commentRequired": "Kommentar krävs.",
+                "serviceRequired": "Vänligen välj en tjänst.",
+                "industryRequired": "Vänligen välj en branschtyp."
+            }
+        },
+        "boxData": {
+            "title1": "VD",
+            "title2": "Försäljning",
+            "title3": "Uthyrning",
+            "title4": "Lager",
+            "title5": "Support",
+            "title6": "Ekonomi"
+        },
+        "successToast": "Meddelandet skickades framgångsrikt!",
+        "errorToast": "Misslyckades med att skicka meddelandet. Försök igen.",
+        "errorToast2": "Ett oväntat fel uppstod. Försök igen."
+    },
+    "errorReporting": {
+        "fileSize": "Filstorleken måste vara mindre än 2 MB",
+        "form": {
+            "validation": {
+                "nameRequired": "Namn krävs.",
+                "invalidName": "Namnet ska endast innehålla bokstäver",
+                "addressRequired": "Adress krävs.",
+                "emailRequired": "E-post krävs.",
+                "emailInvalid": "Ogiltig e-postadress.",
+                "phoneRequired": "Telefonnummer krävs.",
+                "companyRequired": "Företagsnamn / Organisationsnamn krävs.",
+                "messageRequired": "Detta fält är obligatoriskt.",
+                "file": "Vänligen ladda upp ett dokument.",
+                "serviceAgreement": "Vänligen välj ett alternativ.",
+                "invalidServiceAgreement": "Ogiltigt val för serviceavtal.",
+                "gdprConsent": "Du måste godkänna GDPR-samtycke."
+            },
+            "placeHolders": {
+                "name": "Ditt namn*",
+                "address": "Adress*",
+                "email": "E-post*",
+                "phone": "Telefon*",
+                "company": "Företagsnamn / Organisationsnamn*",
+                "description": "Beskriv ditt ärende så noggrant som möjligt, ange rumsnummer eller liknande*",
+                "docHeading": "Vänligen bifoga relevanta dokument",
+                "upload": "Ladda upp dokument",
+                "docDesc": "Bilder eller filer som kan hjälpa oss att bättre förstå och lösa problemet.",
+                "serviceHeading": "Har du ett serviceavtal med IMPROD AB?",
+                "yes": "Ja",
+                "no": "Nej",
+                "dontKnow": "Vet inte",
+                "agreementDesc": "Om du inte har ett serviceavtal med IMPROD AB tillkommer en kostnad på 795 SEK per timme för teknisk support och reparation samt transport.",
+                "consent": "Samtycke enligt GDPR",
+                "consentDesc": "Genom att använda webbplatsen/skicka in formuläret godkänner du att vi",
+                "consentDesc2": " använder dina personuppgifter.",
+                "sending": "Skickar...",
+                "send": "Skicka felrapport"
+            }
+        },
+        "error": "Det gick inte att skicka felrapporten. Försök igen.",
+        "heading": "Felrapportering",
+        "para1": "Vi finns här för att hjälpa dig att lösa eventuella problem. Granska informationen nedan och följ de angivna stegen, eller kontakta supporten för ytterligare hjälp.",
+        "thanks": "Tack!",
+        "subtext": "Vi har mottagit din felrapport och kommer att återkomma till dig inom kort för att lösa problemet."
+    },
+    "workWithUs": {
+        "imageError": "Ingen bild tillgänglig",
+        "noDesc": "Ingen beskrivning tillgänglig.",
+        "location": "Plats:",
+        "expertIn": "Expert på:",
+        "mail": "Skicka e-post till career@imvision.se",
+        "apply": "Ansök nu",
+        "heading": "Låt vårt team",
+        "heading2": "bli ditt nya team",
+        "para1": "Roligt att du är intresserad av att arbeta med oss på IM Vision!",
+        "para2": "Nedan ser du några av de tjänster vi för närvarande söker, vi letar alltid efter nya talanger och även om den tjänst du söker inte är tillgänglig just nu, tveka inte att kontakta oss!",
+        "videoError": "Din webbläsare stöder inte videotaggen.",
+        "talk": "Prata med en expert",
+        "currentOpenings": "Lediga tjänster",
+        "loadMore": "Visa fler",
+        "form": {
+            "heading": "Kontakta oss",
+            "name": "Namn",
+            "email": "E-post",
+            "phone": "Telefon",
+            "upload": "Ladda upp CV",
+            "message": "Meddelande",
+            "submitting": "Skickar...",
+            "submit": "Skicka",
+            "cancel": "Avbryt"
+        }
+    },
+    "rentalConditions": {
+        "heading": "Hyresavtal",
+        "desc": "Hyrestagaren ska vårda utrustningen väl. Skador orsakade av vårdslöshet debiteras oavsett om skadan uppkommit genom fel eller olycka.",
+        "heading2": "Hyresvillkor",
+        "point1": "Hyrestagaren ska vårda utrustningen väl. Skador orsakade av vårdslöshet debiteras oavsett om skadan uppkommit genom fel eller olycka.",
+        "point2": "Hyrestagaren har inte rätt att sälja, pantsätta, överlåta eller ta utrustningen ur landet. Inte heller att i sin tur hyra ut eller låna ut utrustningen utan skriftligt medgivande från IMPROD AB.",
+        "point3": "Utrustningen ska, om inget annat avtalats, hämtas och lämnas hos IMPROD AB, Hekulesvägen 56 i Jönköping.",
+        "point4": "Försenat återlämnad utrustning debiteras enligt IMPROD AB:s hyrespriser beräknat efter en 1-dagshyra per påbörjad försening.",
+        "point5": "Hyrestagaren ansvarar för skada på hyrd utrustning, stöld etc., och är ersättningsskyldig upp till utrustningens fulla värde samt övriga kostnader som IMPROD AB ådrar sig på grund av sådan skada, från det att utrustningen lämnar IMPROD AB:s lager tills den återlämnas. Detta gäller även om IMPROD AB arrangerat/beställt leverans/upphämtning. I den mån IMPROD AB:s egen försäkring, enligt IMPROD AB:s bedömning, kan gälla är hyrestagaren skyldig att ersätta samtliga kostnader som IMPROD AB ådrar sig på grund av sådan skada, inklusive självrisk enligt avtalad försäkring hos IMPROD AB.",
+        "point6": "IMPROD AB ersätter inte misslyckade eller inställda framträdanden, inspelningar eller liknande som orsakats av utrustningsfel eller andra omständigheter utanför IMPROD AB:s kontroll.",
+        "point7": "Avbokning av bokad utrustning och personal måste ske senast två veckor före hyresperiodens start. Om avbokning sker senare debiteras 50% av hyresbeloppet. Vid avbokning dagen före eller samma dag som hyresperiodens start debiteras 100% av hyresbeloppet. För utrustning som bokats men inte hämtats ut debiteras avtalad hyreskostnad om inget annat avtalats.",
+        "point8": "Om hyrestagaren inte följer ovanstående hyresvillkor, försenar avtalad betalning, går i konkurs, blir insolvent, förklaras omyndig, avlider eller på annat sätt bryter mot det ingångna hyresavtalet, har IMPROD AB rätt att omedelbart återta utrustningen och häva avtalet. I sådant fall ska hyrestagaren betala hyreskostnaden fram till den dag IMPROD AB återtar utrustningen.",
+        "download": "Ladda ner",
+        "lease": "Hyresavtal"
+    },
+    "installation": {
+        "videoError": "Din webbläsare stöder inte videotaggen.",
+        "heading": "Installation",
+        "button": "Prata med expert",
+        "heading2": "Instruktioner",
+        "para1": "Maximal längd för målade ramar",
+        "para2": "4 meter.",
+        "para3": "Priset för målade ramar anges för pulverlack",
+        "para4": ", polyester, glans.",
+        "para5": "Kan utföras: borrning, termisk borrning + gängning",
+        "para6": "10 kronor/hål.",
+        "para7": "Priserna är inklusive moms",
+        "para8": ", och inkluderar alla kostnader som packning och lastning.",
+        "para9": "För stora och/eller kontinuerliga volymer",
+        "para10": "- tillämpas individuella priser.",
+        "para11": "Icke-standardiserade beställningar",
+        "para12": "beräknas individuellt.",
+        "form": {
+            "heading": "Skicka ett meddelande",
+            "placeHolders": {
+                "name": "Namn*",
+                "email": "E-post*",
+                "phone": "Telefon*",
+                "service": {
+                    "default": "Välj tjänst *",
+                    "sale": "Försäljning",
+                    "rent": "Uthyrning",
+                    "career": "Karriär",
+                    "other": "Annat"
+                },
+                "industry": {
+                    "default": "Industrityp *",
+                    "automotive": "Fordonsindustri",
+                    "retail": "Detaljhandel",
+                    "government": "Offentlig sektor",
+                    "corporate": "Företag"
+                },
+                "comment": "Kommentar*"
+            },
+            "sending": "Skickar...",
+            "send": "Skicka meddelande",
+            "validation": {
+                "nameRequired": "Namn är obligatoriskt.",
+                "emailRequired": "E-post är obligatoriskt.",
+                "emailInvalid": "E-post är ogiltig",
+                "phoneRequired": "Telefonnummer är obligatoriskt",
+                "commentRequired": "Kommentar är obligatoriskt",
+                "serviceRequired": "Välj en tjänst",
+                "industryRequired": "Välj en industrityp"
+            }
+        },
+        "successToast": "Meddelandet har skickats!",
+        "errorToast": "Det gick inte att skicka meddelandet. Försök igen.",
+        "errorToast2": "Ett oväntat fel uppstod. Försök igen."
+    },
+    "login": {
+        "validation": {
+            "emailRequired": "E-post är obligatoriskt.",
+            "emailInvalid": "Ange en giltig e-postadress",
+            "passwordRequired": "Lösenord är obligatoriskt",
+            "passwordLength": "Lösenordet måste vara minst 6 tecken långt"
+        },
+        "success": "Inloggning lyckades!",
+        "error": "Ogiltig e-postadress eller lösenord",
+        "error2": "Ett fel uppstod. Försök igen.",
+        "videoError": "Din webbläsare stöder inte videotaggen.",
+        "home": "Tillbaka till startsidan",
+        "heading1": "Välkommen tillbaka",
+        "heading2": "Vi är glada att se dig igen!",
+        "placeHolders": {
+            "email": "E-post*",
+            "password": "Lösenord*"
+        },
+        "forgotPassword": "Glömt lösenord?",
+        "logging": "Loggar in...",
+        "login": "Logga in",
+        "noAccount": "Har du inget konto?",
+        "signUp": "Registrera dig"
+    },
+    "forgotPassword": {
+        "success": "En länk för att återställa lösenord har skickats till din e-post.",
+        "error": "Användare hittades inte",
+        "error2": "Ett fel uppstod. Försök igen.",
+        "videoError": "Din webbläsare stöder inte videotaggen.",
+        "heading2": "Hej,",
+        "heading": "Glömt lösenord?",
+        "subHeading": "Vi är glada att se dig igen!",
+        "email": "E-post*",
+        "submitting": "Skickar...",
+        "submit": "Skicka"
+    },
+    "signup": {
+        "form": {
+            "validation": {
+                "nameRequired": "Namn är obligatoriskt.",
+                "emailRequired": "E-post är obligatoriskt.",
+                "emailInvalid": "Ogiltigt e-postformat",
+                "phoneRequired": "Telefonnummer är obligatoriskt",
+                "passwordRequired": "Lösenord är obligatoriskt",
+                "passwordLength": "Lösenordet måste vara minst 8 tecken långt",
+                "confirmPassword": "Bekräfta lösenord är obligatoriskt.",
+                "noMatch": "Lösenorden matchar inte."
+            },
+            "placeHolders": {
+                "name": "Namn",
+                "email": "E-post*",
+                "phone": "Telefon*",
+                "password": "Lösenord*",
+                "confirmPassword": "Bekräfta lösenord*"
+            }
+        },
+        "error": "Profiluppdatering misslyckades.",
+        "error2": "Registrering misslyckades.",
+        "success": "Konto registrerat framgångsrikt!",
+        "error3": "Något gick fel. Försök igen.",
+        "videoError": "Din webbläsare stöder inte videotaggen.",
+        "home": "Tillbaka till startsidan",
+        "heading": "Skapa konto",
+        "desc": "Registrera dig nu och börja din resa med oss!",
+        "creating": "Skapar konto...",
+        "create": "Skapa konto",
+        "existing": "Har du redan ett konto?",
+        "login": "Logga in"
+    },
+    "errorPage": {
+        "heading": "Tyvärr! Sidan hittas inte här",
+        "desc": "Lyckligtvis, eftersom det främst är ett klientrelaterat problem, är det relativt enkelt för webbplatsägare att åtgärda 404-felet. Den här artikeln kommer att förklara de möjliga orsakerna till fel 404 och visa fyra effektiva metoder för att lösa det. Lyckligtvis, eftersom det främst är ett klientrelaterat problem, är det relativt enkelt för webbplatsägare att åtgärda 404-felet.",
+        "home": "Tillbaka till startsidan"
+    },
+    "cart": {
+        "heading": "Min Kundvagn",
+        "rental": "Välj Hyresperiod:",
+        "from": "Från:",
+        "to": "Till:",
+        "remove": "Ta Bort",
+        "total": "Totalt:",
+        "checkout": "Gå Till Kassan",
+        "empty": "Kundvagnen är tom"
+    },
+    "orderSuccessfull": {
+        "heading": "Tack för att du handlade hos oss!",
+        "para1": "Ditt order-ID är #",
+        "para2": ". En detaljerad rapport har skickats till din registrerade e-postadress. Om du har några frågor, vänligen kontakta vår supportavdelning.",
+        "para3": "Vi kunde inte hitta ditt order-ID. Vänligen kontakta supporten.",
+        "button": "Fortsätt Handla"
+    },
+    "productDetail": {
+        "success": "Förfrågan skickades framgångsrikt",
+        "error": "Fel vid skickande av förfrågan:",
+        "error2": "Fel vid hämtning av produktdata.",
+        "error3": "Produktens slug är odefinierad.",
+        "error4": "Fel vid hämtning av produktinformation.",
+        "success2": " har lagts till i din kundvagn!",
+        "add": "Lägg till i kundvagn",
+        "enquiry": "Snabbförfrågan",
+        "stock": "Finns i lager",
+        "code": "Artikelkod:",
+        "category": "Kategori:",
+        "productSpecification": "Produktspecifikationer",
+        "placeholder": {
+            "email": "E-post",
+            "name": "Namn",
+            "phone": "Telefon",
+            "building": "Byggnadsnummer",
+            "street": "Gata",
+            "city": "Stad",
+            "state": "Län",
+            "country": "Land",
+            "postalCode": "Postnummer",
+            "message": "Meddelande"
+        },
+        "sending": "Skickar...",
+        "send": "Skicka meddelande",
+        "cancel": "Avbryt",
+        "related": "Relaterade produkter",
+        "more": "Läs mindre",
+        "less": "Läs mer"
+    },
+    "profile": {
+        "update": {
+            "validation": {
+                "nameRequired": "Namn är obligatoriskt.",
+                "emailRequired": "E-post är obligatoriskt.",
+                "emailInvalid": "Ogiltig e-postadress.",
+                "phoneRequired": "Telefonnummer är obligatoriskt.",
+                "streetRequired": "Gatunamn är obligatoriskt.",
+                "houseRequired": "Husnummer är obligatoriskt.",
+                "postalRequired": "Postnummer är obligatoriskt.",
+                "cityRequired": "Stad/Ort är obligatoriskt.",
+                "countryRequired": "Land/Region är obligatoriskt.",
+                "countryLoading": "Laddar länder...",
+                "selectCountry": "Välj land",
+                "updating": "Uppdaterar...",
+                "update": "Spara ändringar"
+            },
+            "placeholder": {
+                "name": "Namn",
+                "email": "E-post",
+                "phone": "Telefon",
+                "street": "Gatunamn",
+                "house": "Husnummer",
+                "postalCode": "Postnummer",
+                "city": "Stad/Ort",
+                "country": "Land/Region"
+            }
+        },
+        "orders": {
+            "loading": "Laddar beställningar...",
+            "noProducts": "Inga produkter hittades.",
+            "orderId": "Beställnings-ID:",
+            "noStatus": "Ingen leveransstatus tillgänglig.",
+            "quantity": "Antal:",
+            "articleCode": "Artikelkod:",
+            "packed": "Packad",
+            "delivered": "Levererad",
+            "contact": "Kontakt nr:",
+            "shipping": "Leveransadress:",
+            "total": "Totalt belopp:",
+            "updating": "Uppdaterar...",
+            "update": "Spara ändringar"
+        },
+        "password": {
+            "change": "Byt lösenord",
+            "currentPassword": "Nuvarande lösenord",
+            "newPassword": "Nytt lösenord",
+            "confirmPassword": "Bekräfta nytt lösenord",
+            "submitting": "Skickar...",
+            "submit": "Skicka"
+        },
+        "success": "Profilen har uppdaterats framgångsrikt!",
+        "success2": "Lösenordet har uppdaterats framgångsrikt!",
+        "error": "Lösenorden matchar inte.",
+        "error2": "Det gick inte att återställa lösenordet. Försök igen.",
+        "heading": "Din profil och inställningar",
+        "personal": "Personligt",
+        "order": "Beställningar",
+        "account": "Konto"
+    },
+    "checkout": {
+        "isRequired": "är obligatoriskt",
+        "invalidEmail": "Ogiltig e-postadress.",
+        "invalidPhone": "Ogiltigt telefonnummer.",
+        "heading": "Kassa",
+        "bAddress": "Faktureringsadress",
+        "sAddress": "Leveransadress",
+        "deliver": "Leverera till faktureringsadress",
+        "placeholder": {
+            "name": "Förnamn*",
+            "surname": "Efternamn*",
+            "email": "E-postadress*",
+            "phone": "Telefon*",
+            "street": "Gata*",
+            "house": "Husnummer*",
+            "city": "Stad/Ort*",
+            "postalCode": "Postnummer*",
+            "state": "Län",
+            "country": "Välj land / region*",
+            "companyName": "Företagsnamn (valfritt)",
+            "reference": "Referens (valfritt)",
+            "orderNotes": "Beställningsanteckningar (valfritt)"
+        },
+        "summary": "Orderöversikt",
+        "products": "Produkter",
+        "subtotal": "Delsumma",
+        "shipping": "Frakt",
+        "total": "Totalsumma",
+        "desc": "Dina personuppgifter kommer att användas för att behandla din beställning, förbättra din upplevelse på webbplatsen och för andra ändamål som beskrivs i vår",
+        "privacy": "integritetspolicy",
+        "placing": "Lägger beställning...",
+        "place": "Slutför beställning",
+        "success": "Beställning slutförd!",
+        "error": "Fel vid slutförande av beställning!"
+    },
+    "resetPassword": {
+        "loading": "Laddar...",
+        "error": "Ett fel inträffade",
+        "heading": "Ange ditt nya",
+        "heading2": "Lösenord",
+        "desc": "Skydda ditt konto genom att skapa ett starkt nytt lösenord",
+        "code": "Kod*",
+        "password": "Lösenord*",
+        "confirmPassword": "Bekräfta lösenord*",
+        "processing": "Bearbetar...",
+        "submit": "Skicka"
+    }
+}

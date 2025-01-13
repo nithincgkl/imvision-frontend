@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import styles from "./style.module.css";
 import Loader from '../common/Loader';
+import { useTranslations } from 'next-intl';
 
 interface EventCategory {
   id: number;
@@ -15,6 +16,7 @@ interface EventCategory {
 const WowMoments: React.FC = () => {
   const [categories, setCategories] = useState<EventCategory[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
+  const t = useTranslations('home.wowMoments');
 
   // Fetch data from API
   useEffect(() => {
@@ -58,12 +60,12 @@ const WowMoments: React.FC = () => {
           <div className="row">
             <div className="col-md-12">
               <div className={styles.headerTexts}>
-                <p className={styles.smallText}>Perfect For</p>
-                <p className={styles.largeText}>Create a WOW Moment</p>
+                <p className={styles.smallText}>{t("smallHeading")}</p>
+                <p className={styles.largeText}>{t("heading")}</p>
               </div>
               <p className={styles['home-wow-p']}>
-                <span>The result? A face cushion that fits you perfectly.</span><br />
-                Enhanced immersion with no more light <br /> leakage, and comfortable to wear for hours.
+                <span>{t("description1")}</span><br />
+                {t("description2")} <br /> {t("description3")}
               </p>
             </div>
           </div>
@@ -90,7 +92,7 @@ const WowMoments: React.FC = () => {
               ))
             )}
             <div className="col-md-12 text-center">
-              <button onClick={() => window.location.href = '/events'}>Know More Details</button>
+              <button onClick={() => window.location.href = '/events'}>{t("buttonText")}</button>
             </div>
           </div>
         </div>

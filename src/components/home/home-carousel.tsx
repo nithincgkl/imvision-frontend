@@ -9,6 +9,7 @@ import ProductItem from '../product-item/product-item';
 import Image from 'next/image';
 import { FaRegArrowAltCircleLeft, FaRegArrowAltCircleRight } from 'react-icons/fa';
 import Loader from '../common/Loader';
+import { useTranslations } from 'next-intl';
 
 interface Product {
   id: string;
@@ -30,6 +31,7 @@ const HomeCarousel: React.FC<{ style_2?: boolean; style_3?: boolean }> = ({ styl
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const swiperRef = useRef<any>(null); // Reference for Swiper instance
+  const t = useTranslations('home.homeCarousel');
 
   // Fetch product data
   useEffect(() => {
@@ -82,15 +84,15 @@ const HomeCarousel: React.FC<{ style_2?: boolean; style_3?: boolean }> = ({ styl
           </div> */}
         <div className={styles.product_actions}>
           <div className={styles.headerTexts}>
-            <p className={styles.smallText}>Product</p>
-            <p className={styles.largeText}>Our Screens</p>
+            <p className={styles.smallText}>{t('smallHeading')}</p>
+            <p className={styles.largeText}>{t('heading')}</p>
           </div>
           <div className={styles.action_container_products}>
             <button
               onClick={() => window.location.href = '/products'}
               className={styles["all-products-btn"]}
             >
-              All Products
+              {t('buttonText')}
             </button>
             <div className={styles.arrows}>
               <FaRegArrowAltCircleLeft

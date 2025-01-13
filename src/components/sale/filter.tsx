@@ -6,6 +6,7 @@ import { FaAngleDown, FaAngleUp } from "react-icons/fa6";
 import axios from "axios";
 import style from "./style.module.css";
 import { IoMdClose } from "react-icons/io";
+import { useTranslations } from 'next-intl';
 
 // Define types for categories and filters
 interface Category {
@@ -61,6 +62,7 @@ interface FilterProps {
 }
 
 const Filter: React.FC<FilterProps> = ({ onFilterChange, totalItems, totalLength }) => {
+  const t = useTranslations('productPage.filterComponent');
   const [showFilter, setShowFilter] = useState<boolean>(false);
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [selectedSubCategories, setSelectedSubCategories] = useState<string[]>([]);
@@ -88,7 +90,7 @@ const Filter: React.FC<FilterProps> = ({ onFilterChange, totalItems, totalLength
       case "newest":
         return {
           key: "createdAt",
-          value: "asc"
+          value: "desc"
         };  // Added specific sort parameter
       case "rating":
         return {}; // Added specific sort parameter
@@ -112,17 +114,15 @@ const Filter: React.FC<FilterProps> = ({ onFilterChange, totalItems, totalLength
           setCategories(response.data.data);
         } else {
           console.error("Unexpected response format:", response.data);
-          setError("Failed to load categories. Please try again later.");
+          setError(t("error1"));
         }
-        setLoading(false);
-
       } catch (error) {
         console.error("Error fetching categories:", error);
-        setError("Failed to load categories. Please try again later.");
+        setError(t("error1"));
         setLoading(false);
 
       }
-      finally{
+      finally {
         setLoading(false);
       }
     };
@@ -156,11 +156,11 @@ const Filter: React.FC<FilterProps> = ({ onFilterChange, totalItems, totalLength
             setSelectedSubSubCategories([]);
           } else {
             console.error("Unexpected response format:", response.data);
-            setError("Failed to load sub-categories. Please try again later.");
+            setError(t("error2"));
           }
         } catch (error) {
           console.error("Error fetching sub-categories:", error);
-          setError("Failed to load sub-categories. Please try again later.");
+          setError(t("error2"));
         }
       } else {
         setSubCategories([]);
@@ -195,11 +195,11 @@ const Filter: React.FC<FilterProps> = ({ onFilterChange, totalItems, totalLength
             setSubSubCategories(uniqueSubSubCategories);
           } else {
             console.error("Unexpected response format:", response.data);
-            setError("Failed to load sub-sub-categories. Please try again later.");
+            setError(t("error3"));
           }
         } catch (error) {
           console.error("Error fetching sub-sub-categories:", error);
-          setError("Failed to load sub-sub-categories. Please try again later.");
+          setError(t("error3"));
         }
       } else {
         setSubSubCategories([]);
@@ -295,7 +295,7 @@ const Filter: React.FC<FilterProps> = ({ onFilterChange, totalItems, totalLength
       });
     } catch (error) {
       console.error("Error fetching sorted and filtered products:", error);
-      setError("Failed to load products. Please try again later.");
+      setError(t("error4"));
     }
   };
 
@@ -306,7 +306,7 @@ const Filter: React.FC<FilterProps> = ({ onFilterChange, totalItems, totalLength
           <div className="row p-2 py-3" style={{ background: "#131313" }}>
             <div className="col-12 col-md-6">
               <button onClick={() => setShowFilter(!showFilter)} className={style.filter_btn}>
-                Filter Product List
+                {t('filterButton')}
                 {showFilter ? (
                   <FaAngleUp className="fs-5" />
                 ) : (
@@ -318,13 +318,13 @@ const Filter: React.FC<FilterProps> = ({ onFilterChange, totalItems, totalLength
             <div className="col-12 col-md-6">
               <div className={style.sale_filter_container_right}>
                 <p className={style.m_none}>
-                  {`Showing 1-${totalLength} of ${totalItems} results`}
+                  {`${t("filterMessage1")}${totalLength} ${t("filterMessage2")} ${totalItems} ${t("filterMessage3")}`}
                 </p>
                 <select className={style.sort_dropdown} value={sortOption} onChange={handleSortChange}>
-                  <option value="">Default Sorting</option>
-                  <option value="price-low-to-high">Price: Low to High</option>
-                  <option value="price-high-to-low">Price: High to Low</option>
-                  <option value="newest">Newest</option>
+                  <option value="">{t('sortOption.default')}</option>
+                  <option value="price-low-to-high">{t('sortOption.lowToHigh')}</option>
+                  <option value="price-high-to-low">{t('sortOption.highToLow')}</option>
+                  <option value="newest">{t('sortOption.newest')}</option>
                   {/* <option value="rating">Rating</option> */}
                 </select>
                 <FaAngleDown className={`${style.btn_cat} fs-5 text-white`} />
@@ -414,14 +414,14 @@ const Filter: React.FC<FilterProps> = ({ onFilterChange, totalItems, totalLength
                 </div>
               </div>
               {!loading && (
-              <div className={style.filter_btn_containeee}>
-             <button onClick={() => setShowFilter(!showFilter)} className="bg-transparent border-0 d-lg-block d-md-none d-none"><IoMdClose /></button>
-              </div>
+                <div className={style.filter_btn_containeee}>
+                  <button onClick={() => setShowFilter(!showFilter)} className="bg-transparent border-0 d-lg-block d-md-none d-none"><IoMdClose /></button>
+                </div>
               )}
               {!loading && (
                 <div className={style.filter_btn_containe}>
-                  <button className={style.reset_btn} onClick={resetFilters}>Reset Filter</button>
-                  <button className={style.apply_btn} onClick={applyFilters}>Apply Filter</button>
+                  <button className={style.reset_btn} onClick={resetFilters}>{t("reset")}</button>
+                  <button className={style.apply_btn} onClick={applyFilters}>{t("apply")}</button>
                 </div>
               )}
             </div>

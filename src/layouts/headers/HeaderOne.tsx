@@ -58,18 +58,15 @@ const HeaderOne: React.FC = () => {
           <div className="container">
             <div className="cs_main_header_in">
               <div className="cs_main_header_left">
-                <Link className="cs_site_branding logo-dark" href="/">
-                  <Image src={logo} alt="Logo" />
-                </Link>
                 <Link className="cs_site_branding logo-white" href="/">
                   <Image src={Logo_white} alt="Logo" />
                 </Link>
               </div>
               <div className="cs_main_header_right">
                 <div className="cs_nav cs_medium">
-                <MobileMenu active={active} navTitle={navTitle} openMobileMenu={openMobileMenu} cartItemCount={cartItemCount} />
-                <span 
-                    className={`cs_munu_toggle ${active ? "cs_toggle_active" : ""}`} 
+                  <MobileMenu active={active} navTitle={navTitle} openMobileMenu={openMobileMenu} cartItemCount={cartItemCount} />
+                  <span
+                    className={`cs_munu_toggle ${active ? "cs_toggle_active" : ""}`}
                     onClick={handleActive}
                   >
                     <span></span>
