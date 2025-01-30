@@ -11,7 +11,7 @@ import LetsTalk from '@/components/home/lets-talk';
 import axios from 'axios';
 import { CartProvider, useCart } from '@/context/cart-context';
 import Loader from '@/components/common/Loader';
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 
 const Product: React.FC = () => {
   return (
@@ -70,6 +70,8 @@ const Page: React.FC = () => {
   const [filterCreatedAt, setCreatedAt] = useState<string>();
   const [filters, setFilters] = useState<Filter>();
   const [filterLoader, setFilterLoader] = useState<Boolean>(false);
+  const locale = useLocale();
+
 
   const loadProducts = async () => {
     setLoading(true);
@@ -103,7 +105,7 @@ const Page: React.FC = () => {
       if (createdAt) {
         queryParams += `&createdAt=${createdAt}`;
       }
-      const API_URL = `${process.env.NEXT_PUBLIC_API_URL}products?${queryParams}`;
+      const API_URL = `${process.env.NEXT_PUBLIC_API_URL}products?locale=${locale}&${queryParams}`;
       const API_TOKEN = process.env.NEXT_PUBLIC_API_TOKEN;
 
       const response = await axios.post(API_URL,

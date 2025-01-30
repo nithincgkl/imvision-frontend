@@ -12,7 +12,7 @@ import { CartProvider, useCart } from '@/context/cart-context'; // Import the us
 import axios from "axios";
 import { useParams } from 'next/navigation';
 import Loader from "@/components/common/Loader";
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 
 const EventDetails: React.FC = () => {
     return (
@@ -23,6 +23,7 @@ const EventDetails: React.FC = () => {
         </CartProvider>
     );
 };
+
 interface RecentEvent {
     id: number;
     image: string;
@@ -69,6 +70,8 @@ const Page: React.FC = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const { slug } = useParams();
+    const locale = useLocale();
+
     const t = useTranslations('events');
 
     const recentEvents: RecentEvent[] = [
@@ -124,7 +127,7 @@ const Page: React.FC = () => {
     const fetchEvents = async () => {
         try {
             console.log(`${process.env.NEXT_PUBLIC_API_URL}events?${slug}`)
-            const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}events/${slug}`, {
+            const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}events/${slug}?locale=${locale}`, {
                 headers: {
                     Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
                 },

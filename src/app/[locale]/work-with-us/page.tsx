@@ -14,7 +14,7 @@ import { log } from "console";
 import { CartProvider, useCart } from '@/context/cart-context'; // Import the useCart hook
 import { useSnackbar } from 'notistack'; // Import useSnackbar hook
 import Loader from "@/components/common/Loader";
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 
 const WorkWithUs: React.FC = () => {
   return (
@@ -98,12 +98,14 @@ const Career = () => {
   const modalRef = useRef<HTMLDivElement>(null);
   const [isSubmitting, setIsSubmitting] = useState<Boolean>(false);
   const { enqueueSnackbar } = useSnackbar();
+  const locale = useLocale();
+
 
   useEffect(() => {
     const fetchJobs = async () => {
       setOpeningsLoader(true);
       try {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}careers?populate=*`, {
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}careers?locale=${locale}&populate=*`, {
           headers: {
             Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
           },

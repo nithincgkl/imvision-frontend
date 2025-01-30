@@ -8,7 +8,7 @@ import axios from 'axios';
 import Image from 'next/image';
 import { FaRegArrowAltCircleRight, FaRegArrowAltCircleLeft } from "react-icons/fa";
 import Loader from '../common/Loader';
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 
 // Updated interfaces to match the API response structure
 interface HomeCarouselProps {
@@ -63,12 +63,14 @@ const EventsCarousel: React.FC<HomeCarouselProps> = ({ style_2, style_3 }) => {
   const [totalItems, setTotalItems] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
   const [pageNumber, setPageNumber] = useState(1);
+  const locale = useLocale();
+  const title = locale === 'sv' ? 'fordonsindustri' : 'automotive';
 
   // Create a ref for the Swiper instance
   const swiperRef = useRef<any>(null);
   const fetchEvents = async (page = 1) => {
     try {
-      const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}events?title=automotive&pageNumber=${page}&limit=8`, {
+      const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}events?locale=${locale}&title=${title}&pageNumber=${page}&limit=8`, {
         headers: {
           Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
         },

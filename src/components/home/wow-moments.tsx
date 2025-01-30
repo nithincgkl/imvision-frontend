@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import styles from "./style.module.css";
 import Loader from '../common/Loader';
+import { useLocale } from 'next-intl';
 import { useTranslations } from 'next-intl';
 
 interface EventCategory {
@@ -18,11 +19,14 @@ const WowMoments: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const t = useTranslations('home.wowMoments');
 
+  const locale = useLocale();
+
+
   // Fetch data from API
   useEffect(() => {
     const fetchEventCategories = async () => {
       try {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}event-categories?populate=*`, {
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}event-categories?locale=${locale}&populate=*`, {
           headers: {
             Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
           },

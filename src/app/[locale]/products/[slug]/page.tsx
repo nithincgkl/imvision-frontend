@@ -17,7 +17,7 @@ import { CartProvider, useCart } from '@/context/cart-context'; // Import the us
 import { useSnackbar } from 'notistack'; // Import useSnackbar hook
 import { FaRegArrowAltCircleLeft, FaRegArrowAltCircleRight } from 'react-icons/fa';
 import Loader from '@/components/common/Loader';
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 
 
 const ProductSlug: React.FC = () => {
@@ -112,7 +112,7 @@ const Page: React.FC = () => {
   const swiperRef = useRef<any>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [pageLoading, setPageLoading] = useState(true);  // Add this new state
-
+  const locale = useLocale();
 
 
   const [formData, setFormData] = useState({
@@ -277,7 +277,7 @@ const Page: React.FC = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const API_URL = `${process.env.NEXT_PUBLIC_API_URL}products?page=1&limit=8`;
+        const API_URL = `${process.env.NEXT_PUBLIC_API_URL}products?locale=${locale}&page=1&limit=8`;
         const API_TOKEN = process.env.NEXT_PUBLIC_API_TOKEN;
         const requestData = {
           categoryIds: [],
@@ -300,7 +300,7 @@ const Page: React.FC = () => {
       }
 
       try {
-        const API_URL = `${process.env.NEXT_PUBLIC_API_URL}products/${slug}`;
+        const API_URL = `${process.env.NEXT_PUBLIC_API_URL}products/${slug}?locale=${locale}`;
         const API_TOKEN = process.env.NEXT_PUBLIC_API_TOKEN;
         const response = await axios.get(API_URL, {
           headers: { Authorization: `Bearer ${API_TOKEN}` }
