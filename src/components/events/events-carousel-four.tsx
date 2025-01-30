@@ -8,7 +8,7 @@ import axios from 'axios';
 import Image from 'next/image';
 import { FaRegArrowAltCircleRight, FaRegArrowAltCircleLeft } from "react-icons/fa";
 import Loader from '../common/Loader';
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 
 // Updated interfaces to match the API response structure
 interface HomeCarouselProps {
@@ -61,11 +61,14 @@ const EventsCarouselFour: React.FC<HomeCarouselProps> = ({ style_2, style_3 }) =
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const swiperRef = useRef<any>(null);
+  const locale = useLocale();
+  const title = locale === 'sv' ? 'detaljhandel' : 'retail';
+
 
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}events?title=retail&limit=8`, {
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}events?locale=${locale}&title=${title}&limit=8`, {
           headers: {
             Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
           },

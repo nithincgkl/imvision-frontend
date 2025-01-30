@@ -6,7 +6,7 @@ import { FaAngleDown, FaAngleUp } from "react-icons/fa6";
 import axios from "axios";
 import style from "./style.module.css";
 import { IoMdClose } from "react-icons/io";
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 
 // Define types for categories and filters
 interface Category {
@@ -74,6 +74,8 @@ const Filter: React.FC<FilterProps> = ({ onFilterChange, totalItems, totalLength
   const [sortOption, setSortOption] = useState<string>("");
   const [loader, setLoader] = useState(true);
   const [loading, setLoading] = useState(true);
+  const locale = useLocale();
+
 
   const getSortParameter = (sortOption: string): object => {
     switch (sortOption) {
@@ -104,7 +106,7 @@ const Filter: React.FC<FilterProps> = ({ onFilterChange, totalItems, totalLength
 
     const fetchCategories = async () => {
       try {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}product-categories`, {
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}product-categories?locale=${locale}`, {
           headers: {
             Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`
           }
@@ -135,7 +137,7 @@ const Filter: React.FC<FilterProps> = ({ onFilterChange, totalItems, totalLength
     const fetchSubCategories = async () => {
       if (selectedCategories.length > 0) {
         try {
-          const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}products/subcategories`, {
+          const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}products/subcategories?locale=${locale}`, {
             categoryIds: selectedCategories
           }, {
             headers: {
@@ -178,7 +180,7 @@ const Filter: React.FC<FilterProps> = ({ onFilterChange, totalItems, totalLength
       if (selectedSubCategories.length > 0) {
         try {
           const response = await axios.post(
-            `${process.env.NEXT_PUBLIC_API_URL}products/subsubcategories`,
+            `${process.env.NEXT_PUBLIC_API_URL}products/subsubcategories?locale=${locale}`,
             { subCategoryIds: selectedSubCategories },
             { headers: { Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}` } }
           );
