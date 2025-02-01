@@ -131,7 +131,7 @@ const Page: React.FC = () => {
                         <Link href="/"><IoIosArrowRoundBack className={style["form_back_icon"]} />{t("home")}</Link>
                       </div>
                       <div className="col-md-12 mb-3">
-                        <h2 className="mb-0">Hello,<br />{t("heading1")}</h2>
+                        <h2 className="mb-0">{t("hello")},<br />{t("heading1")}</h2>
                         <p>{t("heading2")}</p>
                       </div>
 
