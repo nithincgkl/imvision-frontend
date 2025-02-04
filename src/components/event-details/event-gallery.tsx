@@ -4,6 +4,7 @@ import axios from "axios"; // Import axios
 import style from "./style.module.css";
 import ImagePopup from "../modals/ImagePopup";
 import Loader from "../common/Loader";
+import { useLocale } from 'next-intl';
 
 interface Image {
   id: number;
@@ -20,11 +21,25 @@ const EventGallery: NextPage<EventGalleryProps> = ({ slug }) => {
   const [images, setImages] = useState<Image[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-
+  const locale = useLocale();
+  
+  const slugMapping: Record<string, string> = {
+    detaljhandel: 'retail',
+    myndigheter: 'government',
+    företag: 'corporate',
+    fordonsindustri: 'automotive',
+  };
+  
+  const title =
+    locale === 'sv'
+      ? slugMapping[slug as string] || Object.keys(slugMapping).find((key) => slugMapping[key] === slug) || slug
+      : Object.values(slugMapping).includes(slug as string)
+      ? slug
+      : Object.entries(slugMapping).find(([_, value]) => value === slug)?.[0] || slug;
   useEffect(() => {
     const fetchImages = async () => {
       try {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}events?title=${slug}&limit=10`, {
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}events?title=${title}&limit=10&locale=${locale}`, {
           headers: {
             Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
           },
