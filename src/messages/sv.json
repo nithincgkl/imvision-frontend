@@ -1,11 +1,11 @@
 {
     "navigation": {
-        "events": "Event",
+        "events": "evenemang",
         "expo": "Mässa",
         "products": "Produkter",
         "installation": "Installation",
         "contact": "Kontakt",
-        "support": "Support",
+        "support": "kundtjänst",
         "cart": "Kundvagn"
     },
     "home": {
@@ -329,6 +329,7 @@
                 "description": "Beskriv ditt ärende så noggrant som möjligt, ange rumsnummer eller liknande*",
                 "docHeading": "Vänligen bifoga relevanta dokument",
                 "upload": "Ladda upp dokument",
+                "chooseFile": "Välj fil",
                 "docDesc": "Bilder eller filer som kan hjälpa oss att bättre förstå och lösa problemet.",
                 "serviceHeading": "Har du ett serviceavtal med IMPROD AB?",
                 "yes": "Ja",
@@ -457,6 +458,7 @@
         "error2": "Ett fel uppstod. Försök igen.",
         "videoError": "Din webbläsare stöder inte videotaggen.",
         "home": "Tillbaka till startsidan",
+        "hello":"Hej",
         "heading1": "Välkommen tillbaka",
         "heading2": "Vi är glada att se dig igen!",
         "placeHolders": {
