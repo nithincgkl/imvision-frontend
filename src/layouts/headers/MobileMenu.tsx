@@ -1,10 +1,11 @@
 'use client'
 
-import Link from 'next/link';
 import React from 'react';
 import { useTranslations } from 'next-intl';
 import LanguageToggle from '@/components/common/LanguageToggle';
 import styles from './style.module.css'
+import {Link} from '../../i18n/routing';
+
 interface MenuItem {
   id: number;
   title: string;
