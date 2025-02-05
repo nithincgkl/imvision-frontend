@@ -548,11 +548,32 @@ const Page: React.FC = () => {
                   </div>
 
                   <div className="col-md-12 mb-3 d-flex justify-content-center my-3">
-                    <button type="submit" className={style.talk_btn}>
-                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" height={25} width={25} viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="size-7 me-2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                    <button
+                      type="submit"
+                      className={style.talk_btn}
+                      disabled={isUpdating}
+                      style={{
+                        opacity: isUpdating ? 0.6 : 1,
+                        cursor: isUpdating ? "not-allowed" : "pointer",
+                      }}
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        height={25}
+                        width={25}
+                        viewBox="0 0 24 24"
+                        strokeWidth="1.5"
+                        stroke="currentColor"
+                        className="size-7 me-2"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                        />
                       </svg>
-                      {isUpdating ? `${t("orders.updating")}` : `${t("orders.update")}`}
+                      {isUpdating ? t("orders.updating") : t("orders.update")}
                     </button>
                   </div>
                 </form>
@@ -738,7 +759,17 @@ const Page: React.FC = () => {
                       {errors.confirmPassword && <div className="text-danger">{errors.confirmPassword}</div>}
                     </div>
                     <div className="col-xl-6 col-lg-8 my-3">
-                      <button type="submit" className={style.submit_btn}>{isSubmitting ? `${t("password.submitting")}` : `${t("password.submit")}`}</button>
+                      <button
+                        type="submit"
+                        className={style.submit_btn}
+                        disabled={isSubmitting}
+                        style={{
+                          opacity: isSubmitting ? 0.6 : 1,
+                          cursor: isSubmitting ? "not-allowed" : "pointer",
+                        }}
+                      >
+                        {isSubmitting ? t("password.submitting") : t("password.submit")}
+                      </button>
                     </div>
                   </div>
                 </form>

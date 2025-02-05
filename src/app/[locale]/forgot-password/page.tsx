@@ -129,8 +129,13 @@ const Page: React.FC = () => {
                         type="submit"
                         className={`mt-2 ${style.form_button}`}
                         onClick={(e) => console.log("Button clicked")}
+                        disabled={loading}
+                        style={{
+                          opacity: loading ? 0.6 : 1,
+                          cursor: loading ? "not-allowed" : "pointer",
+                        }}
                       >
-                        {loading ? `${t("submitting")}` : `${t("submit")}`}
+                        {loading ? t("submitting") : t("submit")}
                       </button>
 
                     </form>

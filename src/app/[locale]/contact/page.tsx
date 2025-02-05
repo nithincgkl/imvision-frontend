@@ -410,8 +410,12 @@ const ContactPage = () => {
                               type="submit"
                               className={`mt-2 ${style.form_button}`}
                               disabled={isLoading}
+                              style={{
+                                opacity: isLoading ? 0.6 : 1,
+                                cursor: isLoading ? "not-allowed" : "pointer"
+                              }}
                             >
-                              {isLoading ? `${t("form.sending")}` : `${t("form.send")}`}
+                              {isLoading ? t("form.sending") : t("form.send")}
                             </button>
                           </div>
                         </form>

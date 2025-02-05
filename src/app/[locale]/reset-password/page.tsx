@@ -168,8 +168,12 @@ const Page: React.FC = () => {
                         type="submit"
                         className={`mt-2 ${style.form_button}`}
                         disabled={loading}
+                        style={{
+                          opacity: loading ? 0.6 : 1,
+                          cursor: loading ? "not-allowed" : "pointer",
+                        }}
                       >
-                        {loading ? `${t("processing")}` : `${t("submit")}`}
+                        {loading ? t("processing") : t("submit")}
                       </button>
                     </form>
                   </div>

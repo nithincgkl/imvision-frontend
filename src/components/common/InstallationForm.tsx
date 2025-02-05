@@ -100,7 +100,7 @@ const InstallationForm: React.FC = () => {
                 }
             );
 
-            enqueueSnackbar(`${t("validation.successToast")}`, { variant: 'success' });
+            enqueueSnackbar(`${t("successToast")}`, { variant: 'success' });
 
             // Reset form fields
             setName('');
@@ -115,10 +115,10 @@ const InstallationForm: React.FC = () => {
             if (axios.isAxiosError(error)) {
                 const errorMessage =
                     error.response?.data?.message ||
-                    `${t("validation.errorToast")}`;
+                    `${t("errorToast")}`;
                 enqueueSnackbar(errorMessage, { variant: 'error' });
             } else {
-                enqueueSnackbar(`${t("validation.errorToast2")}`, {
+                enqueueSnackbar(`${t("errorToast2")}`, {
                     variant: 'error',
                 });
             }
@@ -303,8 +303,12 @@ const InstallationForm: React.FC = () => {
                                             type="submit"
                                             className={`mt-2 ${style.form_button}`}
                                             disabled={isLoading}
+                                            style={{
+                                                opacity: isLoading ? 0.6 : 1,
+                                                cursor: isLoading ? "not-allowed" : "pointer",
+                                            }}
                                         >
-                                            {isLoading ? `${t("sending")}` : `${t("send")}`}
+                                            {isLoading ? t("sending") : t("send")}
                                         </button>
                                     </div>
                                 </form>
