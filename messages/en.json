@@ -439,11 +439,11 @@
                 "commentRequired": "Comment is required",
                 "serviceRequired": "Please select a service",
                 "industryRequired": "Please select an industry type"
-            }
-        },
-        "successToast": "Message sent successfully!",
-        "errorToast": "Failed to send the message. Please try again.",
-        "errorToast2": "An unexpected error occurred. Please try again."
+            },
+            "successToast": "Message sent successfully!",
+            "errorToast": "Failed to send the message. Please try again.",
+            "errorToast2": "An unexpected error occurred. Please try again."
+        }
     },
     "login": {
         "validation": {

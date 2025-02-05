@@ -180,8 +180,12 @@ const Page: React.FC = () => {
                         type="submit"
                         className={`mt-2 ${style.form_button}`}
                         disabled={loading}
+                        style={{
+                          opacity: loading ? 0.6 : 1,
+                          cursor: loading ? "not-allowed" : "pointer",
+                        }}
                       >
-                        {loading ? `${t("logging")}` : `${t("login")}`}
+                        {loading ? t("logging") : t("login")}
                       </button>
                       <p className="pt-3">{t("noAccount")} <Link href="/sign-up">{t("signUp")}</Link></p>
                     </form>

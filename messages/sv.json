@@ -440,11 +440,11 @@
                 "commentRequired": "Kommentar är obligatoriskt",
                 "serviceRequired": "Välj en tjänst",
                 "industryRequired": "Välj en industrityp"
-            }
-        },
-        "successToast": "Meddelandet har skickats!",
-        "errorToast": "Det gick inte att skicka meddelandet. Försök igen.",
-        "errorToast2": "Ett oväntat fel uppstod. Försök igen."
+            },
+            "successToast": "Meddelandet har skickats!",
+            "errorToast": "Det gick inte att skicka meddelandet. Försök igen.",
+            "errorToast2": "Ett oväntat fel uppstod. Försök igen."
+        }
     },
     "login": {
         "validation": {

@@ -350,9 +350,8 @@ const RentalConditions = () => {
         }
       );
       if (response.status === 201 || response.status === 200) {
-        window.location.href = `/order-successful?id=${response.data.data.id}`;
         localStorage.setItem("cartItems", JSON.stringify([]));
-
+        window.location.href = `/order-successful?id=${response.data.data.id}`;
         enqueueSnackbar(`${t("success")}`, { variant: 'success' });
 
       }
@@ -679,7 +678,7 @@ const RentalConditions = () => {
 
                               <div className={style["checkout_table_sec"]}>
                                 <div className={style["single_row"]}>
-                                  <button onClick={handlePlaceOrder}>
+                                  <button onClick={handlePlaceOrder} disabled={isPlacing} style={{ opacity: isPlacing ? 0.6 : 1, cursor: isPlacing ? "not-allowed" : "pointer" }}>
                                     {isPlacing ? t("placing") : t("place")}
                                   </button>
                                 </div>

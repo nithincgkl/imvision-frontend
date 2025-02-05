@@ -96,7 +96,7 @@ const Career = () => {
     service: "",
   });
   const modalRef = useRef<HTMLDivElement>(null);
-  const [isSubmitting, setIsSubmitting] = useState<Boolean>(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const { enqueueSnackbar } = useSnackbar();
   const locale = useLocale();
 
@@ -430,8 +430,17 @@ const Career = () => {
                       </div>
                       <div className="row">
                         <div className="col-md-12 mb-3">
-                          <button type="submit" className={style.talk_btn} onClick={handleFormSubmit}>
-                            {isSubmitting ? `${t("form.submitting")}` : `${t("form.submit")}`}
+                          <button
+                            type="submit"
+                            className={style.talk_btn}
+                            onClick={handleFormSubmit}
+                            disabled={isSubmitting}
+                            style={{
+                              opacity: isSubmitting ? 0.6 : 1,
+                              cursor: isSubmitting ? "not-allowed" : "pointer",
+                            }}
+                          >
+                            {isSubmitting ? t("form.submitting") : t("form.submit")}
                           </button>
                           <button
                             type="button"

@@ -680,9 +680,17 @@ const Page: React.FC = () => {
 
                       <div className="row">
                         <div className="col-md-12 mb-3">
-                          <button onClick={handleSubmit} type="submit" className={style.talk_btn}
-                            disabled={isLoading}>
-                            {isLoading ? `${t("sending")}` : `${t("send")}`}
+                          <button
+                            onClick={handleSubmit}
+                            type="submit"
+                            className={style.talk_btn}
+                            disabled={isLoading}
+                            style={{
+                              opacity: isLoading ? 0.6 : 1,
+                              cursor: isLoading ? "not-allowed" : "pointer",
+                            }}
+                          >
+                            {isLoading ? t("sending") : t("send")}
                           </button>
                           <button
                             type="button"

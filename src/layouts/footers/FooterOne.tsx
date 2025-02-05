@@ -224,8 +224,16 @@ const FooterOne: React.FC = () => {
                 </div>
               </div>
 
-              <button type="submit" className={`${style.submitButton}`} disabled={isSubmitting}>
-                {isSubmitting ? t('submitButton.sending') : t('submitButton.default')}
+              <button
+                type="submit"
+                className={style.submitButton}
+                disabled={isSubmitting}
+                style={{
+                  opacity: isSubmitting ? 0.6 : 1,
+                  cursor: isSubmitting ? "not-allowed" : "pointer",
+                }}
+              >
+                {isSubmitting ? t("submitButton.sending") : t("submitButton.default")}
               </button>
             </form>
           </div>

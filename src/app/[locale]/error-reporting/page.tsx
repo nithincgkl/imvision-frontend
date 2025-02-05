@@ -249,21 +249,22 @@ const ErrorReportings: React.FC = () => {
     if (!validateForm()) {
       return;
     }
-
+  
     setIsSubmitting(true);
     setSubmitError(null);
-
+  
     try {
       if (!formData.file) {
         throw new Error('No file selected');
       }
-
-      // First upload the file
-      const documentId = await uploadFile(formData.file);
-
-      // Then create the ticket with the file ID
+  
+      // Upload file and create ticket in sequence using Promise.all
+      const [documentId] = await Promise.all([
+        uploadFile(formData.file),
+      ]);
+  
       await createTicket(documentId);
-
+  
       // Reset form after successful submission
       setFormData({
         name: '',
@@ -272,14 +273,15 @@ const ErrorReportings: React.FC = () => {
         phone: '',
         company: '',
         message: '',
-        file: null, // Reset file field to null
+        file: null,
         serviceAgreement: '',
-        gdprConsent: false, // Reset to boolean
+        gdprConsent: false,
       });
+  
       if (fileInputRef.current) {
         fileInputRef.current.value = '';
       }
-
+  
       // Clear errors and set success state
       setErrors({});
       setIsSuccess(true);
@@ -468,9 +470,17 @@ const ErrorReportings: React.FC = () => {
                               </p>
                               {errors.gdprConsent && <div className={`text-danger ${style.input_error}`}>{errors.gdprConsent}</div>}
                               {submitError && <div className={`text-danger ${style.submit_error}`}>{submitError}</div>}
-                              <button type="submit" disabled={isSubmitting}>
-                                {isSubmitting ? `${t("form.placeHolders.sending")}` : `${t("form.placeHolders.send")}`}
+                              <button
+                                type="submit"
+                                disabled={isSubmitting}
+                                style={{
+                                  opacity: isSubmitting ? 0.6 : 1,
+                                  cursor: isSubmitting ? "not-allowed" : "pointer",
+                                }}
+                              >
+                                {isSubmitting ? t("form.placeHolders.sending") : t("form.placeHolders.send")}
                               </button>
+
                             </div>
                           </div>
                         </form>
