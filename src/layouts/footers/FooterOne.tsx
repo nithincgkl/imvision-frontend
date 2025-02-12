@@ -15,8 +15,8 @@ const FooterOne: React.FC = () => {
   const { enqueueSnackbar } = useSnackbar();
 
   const NAV_ITEMS: NavItem[] = [
-    { label: t('navItems.rentProducts'), href: '/rent-products' },
-    { label: t('navItems.sale'), href: '/sale' },
+    // { label: t('navItems.rentProducts'), href: '/rent-products' },
+    // { label: t('navItems.sale'), href: '/sale' },
     { label: t('navItems.about'), href: '/about' },
     { label: t('navItems.contact'), href: '/contact' },
     { label: t('navItems.errorReporting'), href: '/error-reporting' },
