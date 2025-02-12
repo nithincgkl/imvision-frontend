@@ -244,6 +244,13 @@ const Career = () => {
         });
         enqueueSnackbar('Thank you for applying! Your application has been successfully submitted', { variant: 'success' });
         handleCloseModal();
+        setFormData({ name: "",
+          email: "",
+          phone: "",
+          resume: null as File | string | null,
+          message: "",
+          service: "",
+        })
       } catch (error) {
         console.error(error);
         setIsSubmitting(false);
@@ -437,7 +444,7 @@ const Career = () => {
                             disabled={isSubmitting}
                             style={{
                               opacity: isSubmitting ? 0.6 : 1,
-                              cursor: isSubmitting ? "not-allowed" : "pointer",
+                              cursor: isSubmitting ? "pointer" : "pointer",
                             }}
                           >
                             {isSubmitting ? t("form.submitting") : t("form.submit")}
