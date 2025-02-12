@@ -71,7 +71,7 @@ const Career = () => {
         <p><PiSuitcaseSimpleLight /> {t("expertIn")}  {job.expert_in}</p>
         <div className={style["career_box_btn"]}>
           <span>
-            <a href="mailto:career@imvision.se" className="d-inline-flex align-items-center">
+            <a href="mailto:info@imvision.se" className="d-inline-flex align-items-center">
               {t("mail")}  <LuMoveUpRight />
             </a>
           </span>

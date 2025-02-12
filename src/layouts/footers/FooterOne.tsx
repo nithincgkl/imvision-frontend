@@ -278,8 +278,8 @@ const FooterOne: React.FC = () => {
                 <p className='my-4 col-xxl-8 col-xl-9 col-md-8 col-11 mx-auto'>
                   <span className='fw-bold mb-1'>{t('disclaimer.title')}</span><br />
                   {t('disclaimer.text')}{' '}
-                  <a href="mailto:elliott@imvision.se" className='fw-bold'>
-                    elliott@imvision.se
+                  <a href="mailto:info@imvision.se" className='fw-bold'>
+                  info@imvision.se
                   </a>
                 </p>
               </div>

@@ -35,7 +35,7 @@ const Index: React.FC = () => {
           <main>
             <BannerVideo />
             <Displays />
-            <HomeCarousel />
+            {/* <HomeCarousel /> */}
             <WowMoments />
             <HomeExperience />
             {/* <ScreenSizes /> */}
