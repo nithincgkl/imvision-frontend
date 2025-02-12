@@ -646,11 +646,11 @@ const RentalConditions = () => {
                                 <div className={style["two_row"]}>
                                   <div>
                                     <p>{t("subtotal")}</p>
-                                    <p>{t("shipping")}</p>
+                                    {/* <p>{t("shipping")}</p> */}
                                   </div>
                                   <div>
                                     <p>SEK {calculateSubtotal()}</p>
-                                    <p>SEK {shippingCost.toFixed(2)}</p>
+                                    {/* <p>SEK {shippingCost.toFixed(2)}</p> */}
                                   </div>
                                 </div>
                                 <span className={style["im_hr"]}></span>

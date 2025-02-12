@@ -21,9 +21,6 @@ const Home: React.FC = () => {
     </CartProvider>
   );
 };
-
-
-
 const Index: React.FC = () => {
 
 
@@ -35,7 +32,7 @@ const Index: React.FC = () => {
           <main>
             <BannerVideo />
             <Displays />
-            <HomeCarousel />
+            {/* <HomeCarousel /> */}
             <WowMoments />
             <HomeExperience />
             {/* <ScreenSizes /> */}

@@ -63,7 +63,7 @@ const Page = () => {
                           <div><img src="/assets/images/download.jpg" className="w-100" alt="" /></div>
                           <a
                             href="/lease-agreement.pdf"
-                            download
+                            download="lease-agreement.pdf"
                             className={style["download-link"]}
                           >
                             <h4>{t("download")}<br className='d-md-none d-block' /> {t("lease")}</h4>
