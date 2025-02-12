@@ -45,12 +45,12 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ active, navTitle, openMobileMen
       ))}
 
       {/* Separate Cart Container */}
-      <li>
+      {/* <li>
         <Link href="/cart" className={styles.cart_container}>
           🛒 {t('cart')}
           {cartItemCount > 0 && <span className="cart-item-count">[{cartItemCount}]</span>}
         </Link>
-      </li>
+      </li> */}
 
       {/* Separate LanguageToggle UI */}
       <li className={styles.language_toggle_item}>
