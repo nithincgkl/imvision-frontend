@@ -21,9 +21,6 @@ const Home: React.FC = () => {
     </CartProvider>
   );
 };
-
-
-
 const Index: React.FC = () => {
 
 
