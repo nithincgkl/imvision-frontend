@@ -444,7 +444,7 @@ const Career = () => {
                             disabled={isSubmitting}
                             style={{
                               opacity: isSubmitting ? 0.6 : 1,
-                              cursor: isSubmitting ? "pointer" : "pointer",
+                              cursor: isSubmitting ? "not-allowed" : "pointer",
                             }}
                           >
                             {isSubmitting ? t("form.submitting") : t("form.submit")}
