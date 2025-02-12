@@ -244,6 +244,13 @@ const Career = () => {
         });
         enqueueSnackbar('Thank you for applying! Your application has been successfully submitted', { variant: 'success' });
         handleCloseModal();
+        setFormData({ name: "",
+          email: "",
+          phone: "",
+          resume: null as File | string | null,
+          message: "",
+          service: "",
+        })
       } catch (error) {
         console.error(error);
         setIsSubmitting(false);
