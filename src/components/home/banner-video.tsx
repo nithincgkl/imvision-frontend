@@ -19,7 +19,7 @@ const BannerVideo: React.FC = () => {
                 playsInline
                 className={styles["banner-video"]}
               >
-                <source src="/assets/videos/banner.mp4" type="video/mp4" />
+                <source src="/assets/videos/banner_updated.mov" type="video/mp4" />
                 {t("heading")}
               </video>
             </div>
