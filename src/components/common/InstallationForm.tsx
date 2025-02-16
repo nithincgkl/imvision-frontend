@@ -90,6 +90,7 @@ const InstallationForm: React.FC = () => {
                         service: service,
                         industry_type: industryType,
                         comments: comment,
+                        emailTo:"service"
                     },
                 },
                 {

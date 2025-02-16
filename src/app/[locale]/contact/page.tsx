@@ -164,6 +164,7 @@ const ContactPage = () => {
             service: service,
             industry_type: industryType,
             comments: comment,
+            emailTo:"info"
           },
         },
         {
