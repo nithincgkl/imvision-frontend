@@ -27,15 +27,15 @@ export async function POST(req) {
             port: 2525, // Use 587 for TLS or 465 for SSL
             secure: false,
             auth: {
-                user: process.env.NEXT_PUBLIC_EMAIL_INFO,
-                pass: process.env.NEXT_PUBLIC_PASSWORD_INFO,
+                user: process.env.NEXT_PUBLIC_EMAIL_SERVICE,
+                pass: process.env.NEXT_PUBLIC_PASSWORD_SERVICE,
             },
         });
 
         // Construct email message
         const mailOptions = {
-            from: process.env.NEXT_PUBLIC_EMAIL_INFO,
-            to: process.env.NEXT_PUBLIC_EMAIL_INFO,
+            from: process.env.NEXT_PUBLIC_EMAIL_SERVICE,
+            to: process.env.NEXT_PUBLIC_EMAIL_SERVICE,
             subject: `New Error Reported from ${body.name}`,
             html: `
                 <h2>Error Reporting</h2>

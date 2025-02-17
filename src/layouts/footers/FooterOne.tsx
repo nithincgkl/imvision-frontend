@@ -127,8 +127,30 @@ const FooterOne: React.FC = () => {
             },
           }
         );
+      // If form submission is successful, send the email
+      const emailData = {
+        name: formData.name,
+        email: formData.email,
+        service: formData.helpTopic,
+        company: formData.companyName,
+      };
 
+      // Send the email using the send-email API route
+      const emailResponse = await fetch('/api/footer', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(emailData),
+      });
+
+      if (emailResponse.ok) {
         enqueueSnackbar(t('notifications.success'), { variant: 'success' });
+      } else {
+        enqueueSnackbar(t('notifications.emailError'), { variant: 'error' });
+      }
+
+        // Reset form data after successful submission
         setFormData({ name: '', email: '', helpTopic: '', companyName: '' });
       } catch (error) {
         enqueueSnackbar(t('notifications.error'), { variant: 'error' });

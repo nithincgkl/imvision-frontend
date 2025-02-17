@@ -264,7 +264,22 @@ const ErrorReportings: React.FC = () => {
       ]);
   
       await createTicket(documentId);
-  
+      const formDataToSend = new FormData();
+      formDataToSend.append("name", formData.name);
+      formDataToSend.append("address", formData.address);
+      formDataToSend.append("email", formData.email);
+      formDataToSend.append("phone", formData.phone);
+      formDataToSend.append("company", formData.company);
+      formDataToSend.append("message", formData.message);
+      formDataToSend.append("file", formData.file); // Attach actual file
+      formDataToSend.append("serviceAgreement", formData.serviceAgreement);
+      formDataToSend.append("gdprConsent", formData.gdprConsent? "Yes":"No");
+
+      // Send data to error-reporting API
+      await fetch('/api/error-reporting', {
+          method: 'POST',
+          body: formDataToSend, // Correct format
+      });
       // Reset form after successful submission
       setFormData({
         name: '',

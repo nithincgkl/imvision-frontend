@@ -99,7 +99,22 @@ const InstallationForm: React.FC = () => {
                     },
                 }
             );
-
+            const emailData = {
+                name: Name,
+                email: email,
+                phone: Phone,
+                service: service,
+                industry_type: industryType,
+                comments: comment,
+              }
+        
+              await fetch('/api/installation', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(emailData),
+              });
             enqueueSnackbar(`${t("successToast")}`, { variant: 'success' });
 
             // Reset form fields
