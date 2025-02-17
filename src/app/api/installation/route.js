@@ -11,18 +11,18 @@ export async function POST(req) {
             port: 2525, // or another port like 587 or 465 depending on your email service
             secure: false,
             auth: {
-                user: process.env.NEXT_PUBLIC_EMAIL_INFO, // Your email username
-                pass: process.env.NEXT_PUBLIC_PASSWORD_INFO, // Your email password
+                user: process.env.NEXT_PUBLIC_EMAIL_SERVICE, // Your email username
+                pass: process.env.NEXT_PUBLIC_PASSWORD_SERVICE, // Your email password
             },
         });
 
         // Email options
         const mailOptions = {
-            from: process.env.NEXT_PUBLIC_EMAIL_INFO, // Replace with your sender email
-            to: process.env.NEXT_PUBLIC_EMAIL_INFO, // Recipient's email address
-            subject: `New Contact Enquiry from ${name}`,
+            from: process.env.NEXT_PUBLIC_EMAIL_SERVICE, // Replace with your sender email
+            to: process.env.NEXT_PUBLIC_EMAIL_SERVICE, // Recipient's email address
+            subject: `Enquiry from ${name} for Installation`,
             html: `
-                <h2>Contact Enquiry</h2>
+                <h2>Enquiry for Installation</h2>
                 <p><strong>Name:</strong> ${name}</p>
                 <p><strong>Email:</strong> ${email}</p>
                 <p><strong>Phone:</strong> ${phone}</p>

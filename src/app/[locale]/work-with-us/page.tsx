@@ -242,6 +242,19 @@ const Career = () => {
             'Content-Type': 'application/json'
           }
         });
+        const emailDataToSend = new FormData();
+        emailDataToSend.append("name", formData.name)
+        emailDataToSend.append("email",formData.email)
+        emailDataToSend.append("phone", formData.phone)
+        emailDataToSend.append("job", selectedJob?.title as string)
+        emailDataToSend.append("resume", formData.resume as File)
+        emailDataToSend.append("comments", formData.message as string)
+
+        // Send data to error-reporting API
+        await fetch('/api/work-with-us', {
+          method: 'POST',
+          body: emailDataToSend, // Correct format
+        });
         enqueueSnackbar('Thank you for applying! Your application has been successfully submitted', { variant: 'success' });
         handleCloseModal();
         setFormData({ name: "",
