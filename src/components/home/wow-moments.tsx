@@ -82,7 +82,7 @@ const WowMoments: React.FC = () => {
             ) : (
               // Map categories into UI elements
               categories.map((category) => (
-                <div className="col-md-6" key={category.id}>
+                <div className="col-md-6 d-flex justify-content-center" key={category.id}> {/* Added d-flex justify-content-center */}
                   <div className={styles['wow-box']}>
                     <img
                       src={category.thumbnailUrl}
@@ -95,9 +95,9 @@ const WowMoments: React.FC = () => {
                 </div>
               ))
             )}
-            <div className="col-md-12 text-center">
+            {/* <div className="col-md-12 text-center">
               <button onClick={() => window.location.href = '/events'}>{t("buttonText")}</button>
-            </div>
+            </div> */}
           </div>
         </div>
       </section>
