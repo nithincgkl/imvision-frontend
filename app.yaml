@@ -1,0 +1,42 @@
+runtime: nodejs
+env: flex
+runtime_config:
+    operating_system: "ubuntu22"
+    runtime_version: "18"
+
+handlers:
+- url: /.*
+  secure: always
+  redirect_http_response_code: 301
+  script: auto
+- url: /*
+  secure: always
+  redirect_http_response_code: 301
+  script: auto
+
+automatic_scaling:
+  min_num_instances: 1
+  max_num_instances: 3
+  cool_down_period_sec: 150
+  cpu_utilization:
+    target_utilization: 0.80
+
+resources:
+  cpu: 1
+  memory_gb: 0.5
+  disk_size_gb: 10
+
+network:
+  session_affinity: true
+  forwarded_ports:
+      - 80:8080
+
+env_variables:
+  NODE_ENV: 'production'
+  NEXT_PUBLIC_API_URL: "https://api-dot-kl-imvision.uc.r.appspot.com/api/"
+  NEXT_PUBLIC_IMAGE_URL: "http://34.173.228.29"
+  NEXT_PUBLIC_API_TOKEN: "de85300a13ff22d0a9d023fd37607745cfd35b925c18dcef8dc67890d4da41368b2e50e177c1540240894fb0b51c136fbf930825df8bd246c5b397368adffa8e9682012fa322636906f32a44aa82a117b42c37f46926976b741555b508ac293f100f5406fb23a35c7849b8a71cb6219f73840e6dba08a43f6d09c191d9d4011e"
+  NEXT_PUBLIC_EMAIL_INFO: "info@imvision.se"
+  NEXT_PUBLIC_PASSWORD_INFO: "48F91FBE9C8A0B289101A61406452D53118E"
+  NEXT_PUBLIC_EMAIL_SERVICE: "service@imvision.se"
+  NEXT_PUBLIC_PASSWORD_SERVICE: "2EA2CF5560A0EB8099649D95D3466FDAFFBA"
