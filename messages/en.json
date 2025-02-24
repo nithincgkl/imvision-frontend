@@ -6,7 +6,9 @@
         "installation": "installation",
         "contact": "Contact",
         "support": "Support",
-        "cart": "Cart"
+        "cart": "Cart",
+        "industry":"Industry",
+        "cases":"Cases"
     },
     "home": {
         "bannerVideo": {
@@ -14,6 +16,9 @@
             "subHeading1": "Bigscreen Beyond",
             "subHeading2": "Your display partner",
             "buttonText": "Talk to Expert"
+        },
+        "whatWeDo":{
+            "heading":"What we do"
         },
         "displays": {
             "smallHeading": "Displays",

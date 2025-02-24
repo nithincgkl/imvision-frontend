@@ -6,7 +6,9 @@
         "installation": "Installation",
         "contact": "Kontakt",
         "support": "kundtjänst",
-        "cart": "Kundvagn"
+        "cart": "Kundvagn",
+        "industry":"Branscher",
+        "cases":"Inspiration"
     },
     "home": {
         "bannerVideo": {
@@ -14,6 +16,9 @@
             "subHeading1": "Bigscreen Beyond",
             "subHeading2": "Din skärmpartner",
             "buttonText": "Prata med en expert"
+        },
+        "whatWeDo": {
+            "heading": "Vad vi gör"
         },
         "displays": {
             "smallHeading": "Skärmar",

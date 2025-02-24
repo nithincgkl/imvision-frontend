@@ -30,6 +30,8 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ active, navTitle, openMobileMen
     { id: 4, title: t('installation'), link: '/installation', has_dropdown: false },
     { id: 5, title: t('contact'), link: '/contact', has_dropdown: false },
     { id: 6, title: t('support'), link: '/error-reporting', has_dropdown: false },
+    { id: 7, title: t('industry'), link: '/industry', has_dropdown: false },
+    { id: 8, title: t('cases'), link: '/cases', has_dropdown: false },
   ];
 
   return (

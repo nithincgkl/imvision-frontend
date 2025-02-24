@@ -1,17 +1,17 @@
 'use client'
-import React, { Suspense, useState } from 'react';
-import Link from 'next/link';
+import React, { Suspense, useEffect, useState } from 'react';
 import Wrapper from '@/layouts/wrapper';
 import FooterOne from '@/layouts/footers/FooterOne';
 import HeaderOne from '@/layouts/headers/HeaderOne';
 import style from "./style.module.css";
 import { useSnackbar } from 'notistack';
 import axios from 'axios';
-import LetsTalk from '@/components/home/lets-talk';
 import { IoChevronDown } from "react-icons/io5";
-import { CartProvider, useCart } from '@/context/cart-context'; // Import the useCart hook
-import { useTranslations } from 'next-intl';
-
+import { CartProvider } from '@/context/cart-context'; // Import the useCart hook
+import { useLocale, useTranslations } from 'next-intl';
+import Loader from '@/components/common/Loader';
+import Error from '@/components/common/Error';
+import Image from 'next/image';
 const Contact: React.FC = () => {
   return (
     <CartProvider>
@@ -24,55 +24,31 @@ const Contact: React.FC = () => {
 
 
 // New ContactInfoBoxes Component
-const ContactInfoBoxes = () => {
+const ContactInfoBoxes = ({ positions }: any) => {
   const t = useTranslations('contactUs');
-  const boxData = [
-    {
-      title: `${t("boxData.title1")}`,
-      subtitle: "Ivan Martic",
-      description: "ivan@imvision.se <br /> +46 73 913 01 29 <br />+46 10 330 46 36"
-    },
-    {
-      title: `${t("boxData.title2")}`,
-      subtitle: "Ivan Martic",
-      description: "ivan@imvision.se <br /> 076 -307 22 25"
-    },
-    {
-      title: `${t("boxData.title3")}`,
-      subtitle: "Jonas Möller - Salesperson",
-      description: "jonas@imvision.se <br /> 073 -97 77 614"
-    },
-    {
-      title: `${t("boxData.title4")}`,
-      subtitle: "Jönköping Dragan Martic - Logistik",
-      description: "dragan@imvision.se <br /> 010-330 46 36"
-    },
-    {
-      title: `${t("boxData.title5")}`,
-      subtitle: "Simon Ljunggren - Service manager",
-      description: "simon@imvision.se <br /> 010-330 46 36"
-    },
-    {
-      title: `${t("boxData.title6")}`,
-      subtitle: "Ivan Martic",
-      description: "info@imvision.se"
-    },
-  ];
-
   return (
     <div className="container-fluid">
       <div className="row g-4">
-        {boxData.map((box, index) => (
-          <div key={index} className="col-md-4 col-sm-6">
-            <div className={style["card_contact"]}>
-              <div>
-                <h3>{box.title}</h3>
-                <h4>{box.subtitle}</h4>
-                <p dangerouslySetInnerHTML={{ __html: box.description }} />
+        {positions.length > 0 ? (
+          positions.map((box: any, index: any) => (
+            <div key={index} className="col-md-4 col-sm-6">
+              <div className={`${style["card_contact"]} h-full flex flex-col`} style={{ height: '100%', minHeight: '200px' }}>
+                <div className="flex flex-col h-full">
+                  <h3>{box.department}</h3>
+                  <h4>{box.name_and_role}</h4>
+                  {box.emails && box.emails.length > 0 && (
+                    <p>{box.emails.join(", ")}</p>
+                  )}
+                  {box.phone_numbers && box.phone_numbers.length > 0 && (
+                    <p>{box.phone_numbers.join(", ")}</p>
+                  )}
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          ))
+        ) : (
+          <p>Something went wrong</p>
+        )}
       </div>
     </div>
   );
@@ -97,7 +73,10 @@ const ContactPage = () => {
   }>({});
   const [isLoading, setIsLoading] = useState(false);
   const { enqueueSnackbar } = useSnackbar();
-
+  const [mainLoader,setMainLoader] = useState(true)
+  const [positions, setPositions] = useState<any[]>([]); // Default as an empty array
+  const locale = useLocale();
+  const [contact,setContact] = useState<any>([])
   const validateForm = () => {
     const newErrors: {
       Name?: string;
@@ -216,6 +195,64 @@ const ContactPage = () => {
       setIsLoading(false);
     }
   };
+  const getPositions = async () => {
+    try {
+      const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}position?locale=${locale}`);
+      const data = response.data.data.map((item: any) => ({
+        id: item.id,
+        department: item.department,
+        name_and_role: item.name_and_role,
+        emails: item.emails,
+        phone_numbers: item.phone_numbers
+      }));
+      console.log("position data", data)
+      setPositions(data);
+    } catch (error) {
+      console.error("Error fetching positions:", error);
+      setPositions([]);
+    }
+  };
+  const getContactAssets = async () => {
+    try {
+      const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}contact-banner?locale=${locale}&populate=*`);
+      setContact(response.data.data);
+    } catch (error) {
+      console.error("Error fetching Contact data:", error);
+      setContact([]); 
+    }
+};
+  useEffect(() => {
+    const fetchPositions = async () => {
+      try {
+        setMainLoader(true);
+        await Promise.all([getPositions(), getContactAssets()]);
+        setMainLoader(false);
+      } catch (error) {
+        console.error("Error fetching positions:", error);
+      }
+    };
+
+    fetchPositions();
+  }, []);
+  if (mainLoader) {
+    return (
+      <div
+        style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100vh',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          zIndex: 9999
+        }}
+      >
+        <Loader size={300} />
+      </div>
+    );
+  }
 
   return (
     <Wrapper>
@@ -224,35 +261,29 @@ const ContactPage = () => {
         <div id="smooth-content">
           <main>
             <section className={style["contact_section"]}>
-
-              <div className={style["contact_banner"]}>
-                <div className="container-fluid">
-                  <div className="row">
-                    <div className="col-md-8">
-                      <h1 className={style.pageTitle}>{t("heading")}<br />
-                        {t("heading2")}</h1>
-                    </div>
-                    <div className="col-md-4">
-                      <p>{t("para1")}<br />
-                        {t("para2")}</p>
-                    </div>
+            <div className={`container-fluid ${style["contact_section_div"]}`}>
+                <div className={`row align-items-center ${style["contact_section_subdiv"]}`}>
+                  <div className="col-12 col-md-6 text-center text-md-start"> {/* Text center on mobile, left on larger screens */}
+                    <h1 className={style["contact_heading"]}>{contact.get_in_touch.get_in_touch.heading}</h1>
+                    <p className={style["contact_paragraph"]}>
+                      {contact.get_in_touch.get_in_touch.description}
+                    </p>
+                  </div>
+                  <div className="col-12 col-md-6 text-end">
+                    <Image
+                      src={contact.side_banner_image.url}
+                      width={400}
+                      height={400}
+                      alt="Contact"
+                      className={style["contact_image"]}
+                    />
                   </div>
                 </div>
               </div>
-
               <div className={style["contact_video"]}>
                 <div className="container-fluid">
-                  <div className="row">
-                    <div className="col-12">
-                      <video autoPlay loop muted playsInline className={style["contact-video"]} >
-                        <source src="/assets/videos/contact.mp4" type="video/mp4" />
-                        {t("videoError")}
-                      </video>
-                    </div>
-                  </div>
                 </div>
               </div>
-
               <div className={style["contact_form_container"]}>
                 <div className="container-fluid">
                   <div className="row">
@@ -443,14 +474,14 @@ const ContactPage = () => {
 
               <div className={style["contact_box"]}>
 
-                <div className="container-fluid">
-                  <div className="row">
-                    <div className="col-12">
-                      <ContactInfoBoxes />
+                  <div className="container-fluid">
+                    <div className="row">
+                      <div className="col-12">
+                      <ContactInfoBoxes positions={positions} />
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
 
               <div className={style["contact_map"]}>
 

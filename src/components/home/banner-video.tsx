@@ -1,13 +1,22 @@
 import React from "react";
 import styles from "./style.module.css";
 import Link from "next/link";
-import { FaWhatsapp } from "react-icons/fa";
-import { useTranslations } from 'next-intl';
+import { useTranslations } from "next-intl";
+import Error from "../common/Error";
+interface BannerVideoProps {
+  homeData: any; // Replace 'any' with proper typing when possible
+}
 
-const BannerVideo: React.FC = () => {
-  const t = useTranslations('home.bannerVideo');
-  return (
-    <>
+const BannerVideo: React.FC<BannerVideoProps> = ({ homeData }) => {
+  const t = useTranslations("home.bannerVideo");
+
+  if (!homeData || !homeData.data || !homeData.data.banner_home?.length) {
+    return <Error></Error>
+  }
+  else {
+    const bannerVideo = homeData.data.banner_home[0]; // Get the first banner video
+
+    return (
       <section className={styles["nav-banner-container"]}>
         <div className={styles["banner"]}>
           <div className="container-fluid">
@@ -19,7 +28,7 @@ const BannerVideo: React.FC = () => {
                 playsInline
                 className={styles["banner-video"]}
               >
-                <source src="/assets/videos/banner_updated.mov" type="video/mp4" />
+                <source src={bannerVideo.url} type={bannerVideo.mime} />
                 {t("heading")}
               </video>
             </div>
@@ -32,12 +41,9 @@ const BannerVideo: React.FC = () => {
             </Link>
           </div>
         </div>
-
-      </section>
-    </>
-  );
+        </section>
+    );
+  }
 };
-
-
 
 export default BannerVideo;

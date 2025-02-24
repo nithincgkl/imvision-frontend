@@ -6,7 +6,7 @@ export async function POST(req) {
         const formData = await req.formData();
         const body = Object.fromEntries(formData.entries());
 
-        console.log('Received request body:q', body);
+        console.log('Received request body:', body);
 
         // Extract file
         const file = formData.get("file");

@@ -1,12 +1,15 @@
 "use client"
-import React, { Suspense, useEffect } from 'react';
+import React, { Suspense, useEffect, useState } from 'react';
 import Wrapper from '@/layouts/wrapper';
 import FooterOne from '@/layouts/footers/FooterOne';
 import HeaderOne from '@/layouts/headers/HeaderOne';
 import style from "./style.module.css";
 import LetsTalk from '@/components/home/lets-talk';
 import { CartProvider, useCart } from '@/context/cart-context'; // Import the useCart hook
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
+import axios from 'axios';
+import Loader from '@/components/common/Loader';
+import Error from '@/components/common/Error';
 
 const About: React.FC = () => {
   return (
@@ -20,6 +23,34 @@ const About: React.FC = () => {
 
 const AboutPage = () => {
   const t = useTranslations('aboutPage');
+  const locale = useLocale();
+  const [aboutUs, setAboutUs] = useState<any>([]);
+  const [loading, setLoading] = useState(true);
+  const getAboutUsAssets = async () => {
+    try {
+      const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}about?locale=${locale}&populate=*`);
+      setAboutUs(response.data.data);
+    } catch (error) {
+      console.error("Error fetching Contact data:", error);
+      setAboutUs([]);
+    }
+  };
+
+  useEffect(() => {
+    let isMounted = true;
+    const fetchData = async () => {
+      setLoading(true);
+      await getAboutUsAssets();
+      if (isMounted) setLoading(false);
+    };
+
+    fetchData();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [locale]);
+
   useEffect(() => {
     const rectangles: NodeListOf<Element> = document.querySelectorAll(".line-mask");
 
@@ -53,206 +84,192 @@ const AboutPage = () => {
     };
   }, []); // Empty dependency array ensures this runs once on mount
 
-  return (
-    <Wrapper>
-      <HeaderOne />
-      <div id="smooth-wrapper">
-        <div id="smooth-content">
-          <main>
+
+  if (loading) {
+    return (
+      <div
+        style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100vh',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          zIndex: 9999
+        }}
+      >
+        <Loader size={300} />
+      </div>
+    );
+  }
+  else {
+    return (
+      <Wrapper>
+        <HeaderOne />
+        <div id="smooth-wrapper">
+          <div id="smooth-content">
+            <main>
 
 
-            <section className={style.about_section}>
+              <section className={style.about_section}>
 
-              <div className={style["about_banner"]}>
-                <div className="container-fluid my-5" >
-                  <div className="row">
-                    <div className="col-md-8">
-                      <h1 className={style.pageTitle}>
-                        {t("heading1")}
-                        <br /> {t("heading2")}
+                <div className={style["about_banner"]}>
+                  <div className="container-fluid my-5" >
+                    <div className="row">
+                      <div className="col-md-8">
+                        <h1 className={style.pageTitle}>
+                          {t("heading1")}
+                          <br /> {t("heading2")}
+                        </h1>
+                      </div>
+                      <div className="col-md-4">
+                        <p className={style["header-secondary-text"]}>
+                          {t("para1")}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div>
+                  <div className="container-fluid my-4">
+                    <div className="row">
+                      {aboutUs && aboutUs?.about_banner && aboutUs?.about_banner.length > 0 ? (
+                        <div >
+                          <video
+                            autoPlay
+                            loop
+                            muted
+                            playsInline
+                            className={style["about_video"]}
+                          >
+                            <source src={aboutUs?.about_banner[0]?.url} type={aboutUs?.about_banner[0]?.mime} />
+                            {t("videoError")}
+                          </video>
+                        </div>
+                      ) :
+                        (
+                          <Error></Error>
+                        )}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="my-5">
+                  <div className="d-flex flex-row gap-md-5 gap-4 bg-black justify-content-center col-12">
+                    <div className={style.about_years}>
+                      <h1>
+                        10<span>+</span>
+                        <br />
+                        <p className=''>{t("years")}</p>
                       </h1>
                     </div>
-                    <div className="col-md-4">
-                      <p className={style["header-secondary-text"]}>
-                        {t("para1")}
-                      </p>
+                    <div>
+                      <h4 className={`${style.about_years_para} my-md-4 my-3 pt-md-3 pt-0`}>
+                        {t("para2")}
+                        <br className='d-md-block d-none' />
+                        {t("para3")}
+                        <br className='d-md-block d-none' />
+                        {t("para4")}
+                      </h4>
                     </div>
                   </div>
                 </div>
-              </div>
 
-              <div>
-                <div className="container-fluid my-4">
-                  <div className="row">
-                    <div >
-                      <video
-                        autoPlay
-                        loop
-                        muted
-                        playsInline
-                        className={style["about_video"]}
-                      >
-                        <source src="/assets/videos/about.mp4" type="video/mp4" />
-                        {t("videoError")}
-                      </video>
-                    </div>
+                {/* ||||card1 |||||| */}
+                <div className={`d-flex flex-md-row flex-column container gap-md-5 gap-3 pb-2`}>
+                  <div
+                    className={`${style.about_card1} text-black ms-xxl-5 ms-xl-2`}
+                    style={{ background: '#9FDEBE', paddingRight: '55px', paddingLeft: '35px' }}
+                  >
+                    <h2 className="fw-bold text-black">2400 m²</h2>
+                    <p>
+                      {t("para5")}
+                      <br className='d-lg-block d-md-none d-none' />
+                      {t("para6")}
+                      <br className='d-lg-block d-md-none d-none' />
+                      {t("para7")}
+                    </p>
+                  </div>
+
+                  <div className={`${style.about_card1}`}>
+                    <h2 className="fw-bold">8St</h2>
+                    <p>
+                      {t("para8")}
+                      <br className='d-lg-block d-md-none d-none' />
+                      {t("para9")}
+                      <br className='d-lg-block d-md-none d-none' />
+                      {t("para10")}
+                    </p>
+                  </div>
+
+                  <div className={`${style.about_card1}`}>
+                    <h2 className="fw-bold">220m²</h2>
+                    <p>
+                      {t("para11")}
+                      <br className='d-lg-block d-md-none d-none' />
+                      {t("para12")}
+                    </p>
                   </div>
                 </div>
-              </div>
 
-              <div className="my-5">
-                <div className="d-flex flex-row gap-md-5 gap-4 bg-black justify-content-center col-12">
-                  <div className={style.about_years}>
-                    <h1>
-                      10<span>+</span>
-                      <br />
-                      <p className=''>{t("years")}</p>
-                    </h1>
-                  </div>
+                <div className={`${style.whoVR} container pb-5`}>
                   <div>
-                    <h4 className={`${style.about_years_para} my-md-4 my-3 pt-md-3 pt-0`}>
-                      {t("para2")}
-                      <br className='d-md-block d-none' />
-                      {t("para3")}
-                      <br className='d-md-block d-none' />
-                      {t("para4")}
-                    </h4>
-                  </div>
-                </div>
-              </div>
+                    <h3 className="">{t("heading3")}</h3><br />
+                    <div className="">
+                      <div className={`line position-relative text-white`}>
+                        {aboutUs && aboutUs?.who_we_are && aboutUs?.who_we_are?.description && aboutUs.who_we_are.description.length > 0 ? (
+                          aboutUs.who_we_are.description.map((para: any, index: number) => (
+                            <div key={index} className={`${style.whoVR_para} pt-3 d-flex flex-row`}>
+                              <div className='d-flex flex-column gap-2'>
+                                <div className={`${style.para_ball}`}></div>
+                                {/* Show the para_line only if it's NOT the last item */}
+                                {index !== aboutUs.who_we_are.description.length - 1 && (
+                                  <div className={`${style.para_line}`}></div>
+                                )}
+                              </div>
+                              <p className='pb-3'>
+                                {para}
+                                <br className='d-lg-block d-md-none d-none' />
+                              </p>
+                            </div>
+                          ))
+                        ) : (
+                          <Error></Error>
+                        )}
 
-              {/* ||||card1 |||||| */}
-              <div className={`d-flex flex-md-row flex-column container gap-md-5 gap-3 pb-2`}>
-                <div
-                  className={`${style.about_card1} text-black ms-xxl-5 ms-xl-2`}
-                  style={{ background: '#9FDEBE', paddingRight: '55px', paddingLeft: '35px' }}
-                >
-                  <h2 className="fw-bold text-black">2400 m²</h2>
-                  <p>
-                    {t("para5")}
-                    <br className='d-lg-block d-md-none d-none' />
-                    {t("para6")}
-                    <br className='d-lg-block d-md-none d-none' />
-                    {t("para7")}
-                  </p>
-                </div>
-
-                <div className={`${style.about_card1}`}>
-                  <h2 className="fw-bold">8St</h2>
-                  <p>
-                    {t("para8")}
-                    <br className='d-lg-block d-md-none d-none' />
-                    {t("para9")}
-                    <br className='d-lg-block d-md-none d-none' />
-                    {t("para10")}
-                  </p>
-                </div>
-
-                <div className={`${style.about_card1}`}>
-                  <h2 className="fw-bold">220m²</h2>
-                  <p>
-                    {t("para11")}
-                    <br className='d-lg-block d-md-none d-none' />
-                    {t("para12")}
-                  </p>
-                </div>
-              </div>
-
-              <div className={`${style.whoVR} container pb-5`}>
-                <div>
-                  <h3 className="">{t("heading3")}</h3><br />
-                  <div className="">
-                    <div className={`line position-relative text-white`}>
-                      <div className={`${style.whoVR_para} pt-3 d-flex flex-row`}>
-                        <div className='d-flex flex-column gap-2'>
-                          <div className={`${style.para_ball}`}></div>
-                          <div className={`${style.para_line}`}></div>
-                        </div>
-                        <p className='pb-3'>
-                          {t("para13")}<br className='d-lg-block d-md-none d-none' />{t("para14")}
-                        </p>
+                        <div className='line-mask d-lg-block d-md-none d-none position-absolute bg-black z-1' style={{ right: '0', width: '100%', bottom: '-10px', opacity: '0.5' }}></div>
                       </div>
-
-                      <div className={`${style.whoVR_para} `}>
-                        <div className='d-flex flex-column gap-2'>
-                          <div className={`${style.para_ball}`} style={{ height: '27px' }}></div>
-                          <div className={`${style.para_line}`}></div>
-                        </div>
-                        <p>
-                          {t("para15")}<br className='d-lg-block d-md-none d-none' />
-                          {t("para16")}<br className='d-lg-block d-md-none d-none' />
-                          {t("para17")}
-                        </p>
-                      </div>
-
-                      <div className={`${style.whoVR_para}`}>
-                        <div className='d-flex flex-column gap-2'>
-                          <div className={`${style.para_ball}`} style={{ height: '29px' }}></div>
-                          <div className={`${style.para_line}`}></div>
-                        </div>
-                        <p>
-                          {t("para18")} <br className='d-lg-block d-md-none d-none' />{t("para19")}<br className='d-lg-block d-md-none d-none' />
-                          {t("para20")}
-                        </p>
-                      </div>
-
-                      <div className={`${style.whoVR_para}`}>
-                        <div className='d-flex flex-column'>
-                          <div className={`${style.para_ball}`} style={{ height: '22px' }}></div>
-                        </div>
-                        <p>
-                          {t("para21")}<br className='d-lg-block d-md-none d-none' />
-                          {t("para22")}
-                        </p>
-                      </div>
-                      <div className='line-mask d-lg-block d-md-none d-none position-absolute bg-black z-1' style={{ right: '0', width: '100%', bottom: '-10px', opacity: '0.5' }}></div>
                     </div>
                   </div>
                 </div>
-              </div>
 
-              <div className={`d-flex flex-lg-row flex-md-column flex-column container mx-auto gap-lg-3 gap-md-3 gap-3 pb-2 col-12`}>
-                <div
-                  className={`${style.about_card2} ms-xxl-5 ms-xl-2`}
-                >
-                  <h2 className="fw-bold">01</h2>
-                  <p className=''>
-                    {t("para23")}
-                  </p>
+                <div className={`d-flex flex-lg-row flex-md-column flex-column container mx-auto gap-lg-3 gap-md-3 gap-3 pb-2 col-12`}>
+                  {aboutUs && aboutUs?.files_data && aboutUs?.files_data.description && aboutUs?.files_data?.description?.length > 0 ? (
+                    aboutUs.files_data.description.map((para: any, index: number) => (
+                      <div key={index} className={`${style.about_card2}`}>
+                        <h2 className="fw-bold">0{index + 1}</h2> {/* Dynamic numbering */}
+                        <p>{para}</p> 
+                      </div>
+                    ))
+                  ) : (
+                    <Error /> 
+                  )}
                 </div>
 
-                <div className={`${style.about_card2}`}>
-                  <h2 className="fw-bold">02</h2>
-                  <p>
-                    {t("para24")}
-                  </p>
-                </div>
 
-                <div className={`${style.about_card2}`}>
-                  <h2 className="fw-bold">03</h2>
-                  <p>
-                    {t("para25")}
-                  </p>
-                </div>
+              </section>
 
-                <div className={`${style.about_card2}`}>
-                  <h2 className="fw-bold">04</h2>
-                  <p>
-                    {t("para26")}
-                  </p>
-                </div>
-              </div>
-
-
-            </section>
-
-            <LetsTalk />
-          </main>
-          <FooterOne />
+              <LetsTalk />
+            </main>
+            <FooterOne />
+          </div>
         </div>
-      </div>
-    </Wrapper>
-  );
+      </Wrapper>
+    );
+  }
 };
 
 export default About;

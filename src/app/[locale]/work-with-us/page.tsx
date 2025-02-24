@@ -15,6 +15,7 @@ import { CartProvider, useCart } from '@/context/cart-context'; // Import the us
 import { useSnackbar } from 'notistack'; // Import useSnackbar hook
 import Loader from "@/components/common/Loader";
 import { useLocale, useTranslations } from 'next-intl';
+import Error from "@/components/common/Error";
 
 const WorkWithUs: React.FC = () => {
   return (
@@ -99,35 +100,51 @@ const Career = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { enqueueSnackbar } = useSnackbar();
   const locale = useLocale();
+  const [workWithUs, setWorkWithUs] = useState<any>([]);
+
+  const fetchJobs = async () => {
+    try {
+      const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}careers?locale=${locale}&populate=*`, {
+        headers: {
+          Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
+        },
+      });
 
 
+      // Accessing the jobs array from the response structure
+      const jobsArray = response.data.data;
+
+      // Ensure that the jobsArray is an array before setting state
+      if (Array.isArray(jobsArray)) {
+        setCareerOpenings(jobsArray);
+      } else {
+        console.error("Fetched data is not an array:", jobsArray);
+      }
+    } catch (error) {
+      console.error("Error fetching job data:", error);
+    }
+  };
+  const getWorkWithUsAssets = async () => {
+    try {
+      const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}work-with-us?locale=${locale}&populate=*`);
+      setWorkWithUs(response.data.data);
+    } catch (error) {
+      console.error("Error fetching Work with us data:", error);
+      setWorkWithUs([]); 
+    }
+};
   useEffect(() => {
-    const fetchJobs = async () => {
-      setOpeningsLoader(true);
+    const fetchPositions = async () => {
       try {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}careers?locale=${locale}&populate=*`, {
-          headers: {
-            Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
-          },
-        });
-
-
-        // Accessing the jobs array from the response structure
-        const jobsArray = response.data.data;
-
-        // Ensure that the jobsArray is an array before setting state
-        if (Array.isArray(jobsArray)) {
-          setCareerOpenings(jobsArray);
-        } else {
-          console.error("Fetched data is not an array:", jobsArray);
-        }
+        setOpeningsLoader(true);
+        await Promise.all([fetchJobs(), getWorkWithUsAssets()]);
         setOpeningsLoader(false);
       } catch (error) {
-        console.error("Error fetching job data:", error);
-        setOpeningsLoader(false);
+        console.error("Error fetching Work with us:", error);
       }
     };
-    fetchJobs();
+    fetchPositions();
+
   }, []);
 
   useEffect(() => {
@@ -279,7 +296,25 @@ const Career = () => {
       setIsSubmitting(false);
     }
   };
-
+  if (openingsLoader) {
+    return (
+      <div
+        style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100vh',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          zIndex: 9999
+        }}
+      >
+        <Loader size={300} />
+      </div>
+    );
+  }
   return (
     <Wrapper>
       <HeaderOne />
@@ -309,19 +344,21 @@ const Career = () => {
                 <div className="container-fluid">
                   <div className="row">
                     <div className="col-12">
-                      <video
-                        autoPlay
-                        loop
-                        muted
-                        playsInline
-                        className={style["contact-video"]}
-                      >
-                        <source
-                          src="/assets/videos/career.mp4"
-                          type="video/mp4"
-                        />
-                        {t("videoError")}
-                      </video>
+                      {workWithUs && workWithUs?.work_with_us_banner && workWithUs?.work_with_us_banner.length > 0 ? (
+                          <video
+                            autoPlay
+                            loop
+                            muted
+                            playsInline
+                            className={style["contact-video"]}
+                            >
+                            <source src={workWithUs?.work_with_us_banner[0]?.url} type={workWithUs?.work_with_us_banner[0]?.mime} />
+                            {t("videoError")}
+                          </video>
+                      ) :
+                        (
+                          <Error></Error>
+                        )}
                     </div>
 
                     <div className="col-md-12 text-center">

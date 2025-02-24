@@ -2,7 +2,7 @@ import React from "react";
 import Image from "next/image";
 import styles from "./style.module.css";
 import Link from "next/link";
-import Logo_white from "@/assets/img/Logo_white.png";
+// import Logo_white from "../../../public/assets/img/Logo_white.png";
 import { useTranslations } from 'next-intl';
 
 const HomeExperience: React.FC = () => {
@@ -43,7 +43,7 @@ const HomeExperience: React.FC = () => {
               <h3 className="text-3xl font-bold">{t('heading')}</h3>
             </div>
             <div>
-              <Image src={Logo_white} alt="Company Logo" />
+              <Image src={'/assets/img/Logo_white.png'} alt="Company Logo" width={150} height={150} />
             </div>
           </div>
 

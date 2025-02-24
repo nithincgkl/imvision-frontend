@@ -1,0 +1,46 @@
+version: '3'
+
+services:
+  nextjs:
+    # Use the official Node.js 18 Alpine image as our base
+    image: node:18-alpine
+
+    # Set the working directory inside the container
+    working_dir: /app
+
+    # Mount volumes for live code reloading and dependency management
+    volumes:
+      # Mount the current directory to /app in the container
+      # This allows changes in your local files to be reflected in the container
+      - .:/app
+      # Create a named volume for node_modules to prevent it from being overwritten by the host
+      # This ensures that container-specific modules are preserved
+      - /app/node_modules
+
+    # Map port 3000 on the host to port 3000 in the container
+    # This allows you to access the Next.js app at localhost:3000 on your machine
+    ports:
+      - '3000:3000'
+
+    # Set environment variables
+    environment:
+      # Set Node environment to development
+      - NODE_ENV=development
+      # Use environment variables from .env file or your shell
+      - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}
+      - NEXT_PUBLIC_TOKEN=${NEXT_PUBLIC_TOKEN}
+      # Enable file watching for hot reloading in Docker
+      - CHOKIDAR_USEPOLLING=true
+      - WATCHPACK_POLLING=true
+
+    # Command to run when the container starts
+    # This installs dependencies and starts the development server
+    command: >
+      sh -c "npm install &&
+             npm run dev"
+
+    # Allocate a pseudo-TTY, necessary for seeing colored output
+    tty: true
+
+    # Keep STDIN open even if not attached, allowing you to see logs
+    stdin_open: true

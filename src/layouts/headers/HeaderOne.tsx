@@ -5,8 +5,8 @@ import MobileMenu from "./MobileMenu";
 import UseSticky from "@/hooks/UseSticky";
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import logo from "@/assets/img/logo.svg";
-import Logo_white from "@/assets/img/Logo_white.png";
+// import logo from "@/assets/img/logo.svg";
+// import Logo_white from "..//assets/img/Logo_white.png";
 import { useCart } from '@/context/cart-context'; // Import the useCart hook
 
 const HeaderOne: React.FC = () => {
@@ -59,7 +59,7 @@ const HeaderOne: React.FC = () => {
             <div className="cs_main_header_in">
               <div className="cs_main_header_left">
                 <Link className="cs_site_branding logo-white" href="/">
-                  <Image src={Logo_white} alt="Logo" />
+                  <Image src={'/assets/img/Logo_white.png'} alt="Logo" width={150} height={150} />
                 </Link>
               </div>
               <div className="cs_main_header_right">

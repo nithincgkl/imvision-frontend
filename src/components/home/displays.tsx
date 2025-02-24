@@ -2,9 +2,20 @@ import React from 'react';
 import Image from 'next/image';
 import styles from "./style.module.css";
 import { useTranslations } from 'next-intl';
+import Error from '../common/Error';
+interface Props {
+  homeData: any; // Replace 'any' with proper typing when possible
+}
 
-const Displays: React.FC = () => {
+const Displays: React.FC<Props> = ({ homeData }) => {
   const t = useTranslations('home.displays');
+  if (!homeData || !homeData.data || (!homeData.data.next_gen_1?.length || !homeData.data.next_gen_2?.length )) {
+    return <Error></Error>
+  }
+  const assetOne = homeData.data.next_gen_1[0];
+  const assetTwo = homeData.data.next_gen_2[0];
+
+
   return (
     <>
       <section className={styles['home-displays']}>
@@ -19,7 +30,7 @@ const Displays: React.FC = () => {
           <div className="row">
             <div className="col-md-6">
               <Image
-                src="/assets/images/home-displays.png"
+                src={assetOne.url}
                 alt="Displays"
                 width={600}
                 height={400}
@@ -44,7 +55,7 @@ const Displays: React.FC = () => {
                 </p>
 
                 <Image
-                  src="/assets/images/home-displays-2.png"
+                  src={assetTwo.url}
                   alt="Displays"
                   width={600}
                   height={400}

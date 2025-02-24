@@ -258,3 +258,60 @@
   color: #666;
   /* Adjust color as needed */
 }
+.contact_section_div {
+  background-color: black;
+  color: white;
+  padding: 80px 20px;
+  width: 100%;
+}
+
+.contact_section_subdiv {
+  max-width: 90%;
+  margin: 0 auto;
+}
+
+.contact_heading {
+  font-size: 3.5rem;
+  /* font-weight: bold; */
+  margin-bottom: 1rem;
+}
+
+.contact_paragraph {
+  font-size: 1rem;
+  max-width: 500px; /* Control paragraph width */
+}
+
+.contact_image {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Media queries for mobile responsiveness */
+@media (max-width: 768px) {
+  .contact_heading {
+    font-size: 2.5rem;
+  }
+  
+  .contact_paragraph {
+    font-size: 1rem;
+    margin: 0 auto; /* Center paragraph on mobile */
+    padding: 0 15px;
+  }
+  
+  .contact_image {
+    width: 100%;
+    max-width: 300px;
+    margin-top: 2rem; /* Add space between text and image on mobile */
+  }
+}
+
+/* For medium and larger screens */
+@media (min-width: 769px) {
+  .contact_paragraph {
+    margin: 0; /* Remove auto margin on larger screens */
+  }
+  
+  .contact_section_div {
+    padding: 80px 40px; /* More padding on larger screens */
+  }
+}
