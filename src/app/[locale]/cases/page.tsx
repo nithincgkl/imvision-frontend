@@ -80,7 +80,7 @@ const CasePage = () => {
             <section className={`${styles["home-wow"]} ${styles["bg-light-black-2"]}`}>
               <div className="container-fluid">
                 {pageData ? (
-                  <div className="col-12 text-center">
+                  <div className="col-12 text-center py-5">
                     <h1 className={styles["contact_heading"]}>{pageData.page_heading}</h1>
                     <p className={styles["contact_paragraph"]}>{pageData.page_description}</p>
                   </div>
@@ -121,15 +121,15 @@ const CasePage = () => {
                   })}
                 </div>
 
-                {pageData?.page_footer_description && (
-                  <div className="col-12 text-center mt-4">
+                {/* {pageData?.page_footer_description && (
+                  <div className="col-12 text-center py-5">
                     <p className={styles["contact_paragraph"]}>{pageData.page_footer_description}</p>
                   </div>
-                )}
+                )} */}
               </div>
               <div className="col-md-12 text-center">
                   <div className={styles['lets-talk']}>
-                    <div>
+                  <div className={styles['lets-talk-container']}>
                       <img
                         src="/assets/images/dot-bg.png"
                         className="w-100"
