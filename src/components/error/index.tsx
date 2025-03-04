@@ -1,17 +1,71 @@
 
 'use client';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import HeaderOne from '@/layouts/headers/HeaderOne';
 import FooterOne from '@/layouts/footers/FooterOne';
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
+import axios from 'axios';
+import Loader from '../common/Loader';
 
 const Error = () => {
+  const [loading, setLoading] = useState(true);
+  const [footer, setFooter] = useState<any>([])
+  const [navigation, setNavigation] = useState<any>([])
+  const locale = useLocale();
+  const fetchNavigation = async () => {
+    try {
+      const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}navigation?locale=${locale}&populate=*`);
+      setNavigation(response.data);
+    } catch (error) {
+      console.error("Error fetching navigation data:", error);
+      setNavigation([]);
+    }
+  };
+  const fetchFooter = async () => {
+    try {
+      const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}footer?locale=${locale}&populate=*`);
+      setFooter(response.data);
+    } catch (error) {
+      console.error("Error fetching footer data:", error);
+      setFooter([]);
+    }
+  };
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      await Promise.all([fetchNavigation(),fetchFooter()]);
+      setLoading(false);
+    };
+    fetchData();
+  }, []);
+
   const t = useTranslations('errorPage');
+  if (loading) {
+    return (
+      <div
+        style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100vh',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          zIndex: 9999
+        }}
+      >
+        <Loader size={150} />
+      </div>
+    );
+  }
+  else {
+    
   return (
     <>
-      <HeaderOne />
-      <div id="scrollsmoother-container">
+        <HeaderOne data={navigation.data} />
+        <div id="scrollsmoother-container">
         <div className="cs_height_219 cs_height_lg_120"></div>
         <section>
           <div className="container">
@@ -47,9 +101,10 @@ const Error = () => {
         <div className="cs_height_150 cs_height_lg_60"></div>
 
       </div>
-      <FooterOne />
-    </>
+      <FooterOne data={footer.data} />
+      </>
   );
+}
 };
 
 export default Error;
