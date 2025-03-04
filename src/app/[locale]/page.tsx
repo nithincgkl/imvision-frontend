@@ -31,8 +31,11 @@ interface EventCategory {
 }
 const Index: React.FC = () => {
   const locale = useLocale();
-  const [homeData, setHomeData] = useState([])
+  const [homeData, setHomeData] = useState<any>([])
   const [categories, setCategories] = useState<EventCategory[]>([]);
+  const [footer, setFooter] = useState<any>([])
+  const [letsTalk, setLetsTalk] = useState<any>([])
+  const [navigation,setNavigation] = useState<any>([])
   const [loading, setLoading] = useState(true); // Initially true to show loader
 
   const getHomeAssets = async () => {
@@ -41,7 +44,7 @@ const Index: React.FC = () => {
       setHomeData(response.data);
     } catch (error) {
       console.error("Error fetching home data:", error);
-      setHomeData([]); // Ensure homeData is an empty array if API fails
+      setHomeData([]);
     }
   };
 
@@ -73,12 +76,39 @@ const Index: React.FC = () => {
       setCategories([]); // Ensure categories is empty if API fails
     }
   };
+  const fetchLetsTalk = async () => {
+    try {
+      const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}let-us-talk?locale=${locale}&populate=*`);
+      setLetsTalk(response.data);
+    } catch (error) {
+      console.error("Error fetching Let's Talk data:", error);
+      setLetsTalk([]);
+    }
+  };
+  const fetchNavigation = async () => {
+    try {
+      const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}navigation?locale=${locale}&populate=*`);
+      setNavigation(response.data);
+    } catch (error) {
+      console.error("Error fetching navigation data:", error);
+      setNavigation([]);
+    }
+  };
+  const fetchFooter = async () => {
+    try {
+      const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}footer?locale=${locale}&populate=*`);
+      setFooter(response.data);
+    } catch (error) {
+      console.error("Error fetching footer data:", error);
+      setFooter([]);
+    }
+  };
 
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true); // Start loader before fetching
 
-      await Promise.all([getHomeAssets(), fetchEventCategories()]);
+      await Promise.all([getHomeAssets(), fetchEventCategories(),fetchLetsTalk(),fetchNavigation(),fetchFooter()]);
 
       setLoading(false); // Stop loader once all APIs complete
     };
@@ -102,26 +132,26 @@ const Index: React.FC = () => {
           zIndex: 9999
         }}
       >
-        <Loader size={300} />
+        <Loader size={150} />
       </div>
     );
   }
   else {
     return (
       <Wrapper>
-        <HeaderOne />
+        <HeaderOne data={navigation.data} />
         <div id="smooth-wrapper">
           <div id="smooth-content" className="smooth-content">
             <main>
-              <BannerVideo homeData={homeData} />
-              <WhatWeDoSection data={homeData} />
+              <BannerVideo homeData={homeData.data.content} video={homeData.data.banner_home}  />
+              <WhatWeDoSection data={homeData.data.content} assets={homeData.data.what_we_do_assets} />
               {/* <Displays homeData={homeData}/> */}
               {/* <HomeCarousel /> */}
-              <WowMoments categories={categories}/>
-              <HomeExperience />
+              <WowMoments categories={categories} data={homeData.data.content} />
+              <HomeExperience data={homeData.data.content} assets={homeData.data.experience_assets} />
               {/* <ScreenSizes /> */}
-              <LetsTalk />
-              <FooterOne />
+              <LetsTalk data={letsTalk.data} />
+              <FooterOne data={footer.data} />
 
             </main>
           </div>

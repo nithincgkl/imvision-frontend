@@ -98,6 +98,7 @@ const Page: React.FC = () => {
           const token = registerResponse.data.jwt;
           localStorage.setItem("token", token);
           localStorage.setItem('user', JSON.stringify(registerResponse.data.user));
+          document.cookie = `auth-token=${token}; path=/; max-age=2592000; SameSite=Strict`;
 
           // Get user address data after registration
           try {
@@ -117,20 +118,20 @@ const Page: React.FC = () => {
           }
 
           // Update profile with phone number
-          const updateResponse = await axios.put(
-            `${process.env.NEXT_PUBLIC_API_URL}profile`,
-            {
-              phone: formData.phone,
-            },
-            {
-              headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`,
-              },
-            }
-          );
+          // const updateResponse = await axios.put(
+          //   `${process.env.NEXT_PUBLIC_API_URL}profile`,
+          //   {
+          //     phone: formData.phone,
+          //   },
+          //   {
+          //     headers: {
+          //       "Content-Type": "application/json",
+          //       Authorization: `Bearer ${token}`,
+          //     },
+          //   }
+          // );
 
-          handleResponse(updateResponse, `${t("error")}`);
+          handleResponse(registerResponse, `${t("error")}`);
         } else {
           enqueueSnackbar(registerResponse.data.message || `${t("error2")}`, { variant: 'error' });
         }

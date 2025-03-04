@@ -7,48 +7,18 @@ import axios from 'axios';
 import Error from '../common/Error';
 import Loader from '../common/Loader';
 
-
-const LetsTalk: React.FC = () => {
+interface Props {
+  data:any
+}
+const LetsTalk: React.FC<Props> = ({data}) => {
   const t = useTranslations('home.letsTalk');
-  const locale = useLocale();
-  const [data, setData] = useState<any>(null);
-  const [loading,setLoading] = useState<Boolean>(true)
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setLoading(true);
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}let-us-talk?locale=${locale}&populate=*`);
-        setData(response.data);
-      } catch (error) {
-        console.error("Error fetching Let's Talk data:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, []); // Add dependencies that the effect uses
-
-  if (loading) {
-    <div className="text-center my-4"
-      style={{
-        width: '100%',
-        height: '40vh',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        zIndex: 9999
-      }}
-    >
-      <Loader size={300} />
-    </div>
-  }
-  else if (!data || !data.data || !data.data.let_us_talk_banner?.length) {
+  if (!data || data.let_us_talk_banner === 0 || data.content === null) {
+    <p>{JSON.stringify(data)}</p>
     return <Error />;
   }
   else {
-    const letUsTalk = data.data.let_us_talk_banner[0];
+    const letUsTalk = data.let_us_talk_banner[0];
+    const content = data.content;
 
     return (
       <section className={styles['home-experience-container']}>
@@ -78,10 +48,10 @@ const LetsTalk: React.FC = () => {
                     alt=""
                   />
                   <div className={styles['lets-talk-text']}>
-                    <h2>{letUsTalk.heading || t('heading')}</h2>
-                    <h3>{letUsTalk.subheading || t('heading2')}</h3>
+                    <h2>{content.heading1}</h2>
+                    <h3>{content.heading2}</h3>
                     <Link href="/contact">
-                      <button className={styles['center-btn']}>{t('buttonText')}</button>
+                      <button className={styles['center-btn']}>{content.buttonText}</button>
                     </Link>
                   </div>
                 </div>

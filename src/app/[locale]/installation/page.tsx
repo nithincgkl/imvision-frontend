@@ -12,6 +12,7 @@ import { useTranslations } from 'next-intl';
 import { useLocale } from 'next-intl';
 import axios from 'axios';
 import Loader from '@/components/common/Loader';
+import Error from '@/components/common/Error';
 
 const Installation: React.FC = () => {
     return (
@@ -25,7 +26,10 @@ const Installation: React.FC = () => {
 
 const Page: React.FC = () => {
     const t = useTranslations('installation');
-    const [installation, setInstallation] = useState([]);
+    const [installation, setInstallation] = useState<any>([]);
+    const [footer, setFooter] = useState<any>([])
+    const [letsTalk, setLetsTalk] = useState<any>([])
+    const [navigation, setNavigation] = useState<any>([])
     const locale = useLocale();
 
     const [loading, setLoading] = useState(true);
@@ -38,10 +42,37 @@ const Page: React.FC = () => {
             setInstallation([]);
         }
     };
+    const fetchLetsTalk = async () => {
+        try {
+          const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}let-us-talk?locale=${locale}&populate=*`);
+          setLetsTalk(response.data);
+        } catch (error) {
+          console.error("Error fetching Let's Talk data:", error);
+          setLetsTalk([]);
+        }
+      };
+      const fetchNavigation = async () => {
+        try {
+          const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}navigation?locale=${locale}&populate=*`);
+          setNavigation(response.data);
+        } catch (error) {
+          console.error("Error fetching navigation data:", error);
+          setNavigation([]);
+        }
+      };
+      const fetchFooter = async () => {
+        try {
+          const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}footer?locale=${locale}&populate=*`);
+          setFooter(response.data);
+        } catch (error) {
+          console.error("Error fetching footer data:", error);
+          setFooter([]);
+        }
+      };
     useEffect(() => {
         const fetchData = async () => {
             setLoading(true); // Start loader before fetching
-            await Promise.all([getInstallationAssets()]);
+            await Promise.all([getInstallationAssets(),fetchNavigation(),fetchLetsTalk(),fetchFooter()]);
             setLoading(false); // Stop loader once all APIs complete
         };
         fetchData();
@@ -61,14 +92,24 @@ const Page: React.FC = () => {
                     zIndex: 9999
                 }}
             >
-                <Loader size={300} />
+                <Loader size={150} />
             </div>
         );
     }
+    else if (!installation || installation.data.content === null || installation.data.installation_banner.length === 0) {
+        return (
+            <div>
+              <HeaderOne data={navigation.data} />
+              <Error></Error>
+              <FooterOne data={footer.data} />
+            </div>
+          )
+    }
     else {
+        const content = installation.data.content
         return (
             <Wrapper>
-                <HeaderOne />
+                <HeaderOne data={navigation.data}/>
                 <div id="smooth-wrapper">
                     <div id="smooth-content" className='smooth-content'>
                         <main>
@@ -77,37 +118,17 @@ const Page: React.FC = () => {
                             <section className={styles["instructions"]}>
                                 <div className="container-fluid">
                                     <div className="row">
-                                        <div className="col-md-12"><h2>{t("heading2")}</h2></div>
+                                        <div className="col-md-12"><h2>{content.instructionHeading}</h2></div>
                                         <div className="col-md-12">
 
                                             <div className={styles["box-container"]}>
 
-                                                <div className={styles["box"]}>
-                                                    <h6>1</h6>
-                                                    <p>{t("para1")}
-                                                        <span>–{t("para2")}</span></p>
-                                                </div>
-                                                <div className={styles["box"]}>
-                                                    <h6>2</h6>
-                                                    <p>{t("para3")} <span>RAL 6005</span>{t("para4")}</p>
-                                                </div>
-                                                <div className={styles["box"]}>
-                                                    <h6>3</h6>
-                                                    <p>{t("para5")} <span>–{t("para6")}</span></p>
-                                                </div>
-                                                <div className={styles["box"]}>
-                                                    <h6>4</h6>
-                                                    <p><span>{t("para7")}</span>{t("para8")}</p>
-                                                </div>
-                                                <div className={styles["box"]}>
-                                                    <h6>5</h6>
-                                                    <p><span>{t("para9")}</span> {t("para10")}</p>
-                                                </div>
-                                                <div className={styles["box"]}>
-                                                    <h6>6</h6>
-                                                    <p><span>{t("para11")}</span> {t("para12")}</p>
-                                                </div>
-
+                                            {content.instructions.map((item:any) => (
+                                                    <div key={item.index} className={styles["box"]}>
+                                                        <h6>{item.index}</h6>
+                                                        <p dangerouslySetInnerHTML={{ __html: item.description }}></p>
+                                                    </div>
+                                                ))}
                                             </div>
 
                                         </div>
@@ -115,11 +136,11 @@ const Page: React.FC = () => {
                                 </div>
                             </section>
 
-                            <InstallationForm />
-                            <LetsTalk />
+                            <InstallationForm data={installation.data.content} />
+                            <LetsTalk data={letsTalk.data} />
 
 
-                            <FooterOne />
+                            <FooterOne data={footer.data}/>
                         </main>
                     </div>
                 </div>

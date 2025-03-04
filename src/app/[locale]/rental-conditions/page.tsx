@@ -28,6 +28,9 @@ const Page = () => {
   const [rentalConditions, setRentalConditions] = useState<any>([]);
   const locale = useLocale();
   const [loading, setLoading] = useState(true);
+  const [footer, setFooter] = useState<any>([])
+  const [letsTalk, setLetsTalk] = useState<any>([])
+  const [navigation, setNavigation] = useState<any>([])
   const t = useTranslations('rentalConditions');
   const getInstallationAssets = async () => {
     try {
@@ -38,10 +41,37 @@ const Page = () => {
       setRentalConditions([]); 
     }
   };
+  const fetchLetsTalk = async () => {
+    try {
+      const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}let-us-talk?locale=${locale}&populate=*`);
+      setLetsTalk(response.data);
+    } catch (error) {
+      console.error("Error fetching Let's Talk data:", error);
+      setLetsTalk([]);
+    }
+  };
+  const fetchNavigation = async () => {
+    try {
+      const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}navigation?locale=${locale}&populate=*`);
+      setNavigation(response.data);
+    } catch (error) {
+      console.error("Error fetching navigation data:", error);
+      setNavigation([]);
+    }
+  };
+  const fetchFooter = async () => {
+    try {
+      const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}footer?locale=${locale}&populate=*`);
+      setFooter(response.data);
+    } catch (error) {
+      console.error("Error fetching footer data:", error);
+      setFooter([]);
+    }
+  };
         useEffect(() => {
           const fetchData = async () => {
             setLoading(true); // Start loader before fetching
-            await Promise.all([getInstallationAssets()]);
+            await Promise.all([getInstallationAssets(),fetchNavigation(),fetchLetsTalk(),fetchFooter()]);
             setLoading(false); // Stop loader once all APIs complete
           };
           fetchData();
@@ -62,14 +92,23 @@ const Page = () => {
           zIndex: 9999
         }}
       >
-        <Loader size={300} />
+        <Loader size={150} />
       </div>
     );
+  }
+  else if (!rentalConditions || rentalConditions.content === null || rentalConditions?.conditions?.rental_conditions?.length === 0) {
+    return (
+      <div>
+        <HeaderOne data={navigation.data} />
+        <Error></Error>
+        <FooterOne data={footer.data} />
+      </div>
+    )
   }
   else {
     return (
       <Wrapper>
-        <HeaderOne />
+        <HeaderOne data={navigation.data}/>
         <div id="smooth-wrapper">
           <div id="smooth-content">
             <main>
@@ -78,10 +117,10 @@ const Page = () => {
                   <div className="container-fluid">
                     <div className="row">
                       <div className="col-md-8">
-                        <h1 className={style.pageTitle}>{t("heading")}</h1>
+                        <h1 className={style.pageTitle}>{rentalConditions?.content?.heading}</h1>
                       </div>
                       <div className="col-md-4">
-                        <p>{t("desc")}</p>
+                        <p>{rentalConditions?.content?.desc}</p>
                       </div>
                     </div>
                   </div>
@@ -92,7 +131,7 @@ const Page = () => {
                     <div className="row">
                       <div className="col-md-12">
                         <div className={style["rental_conditions_container"]}>
-                          <h4>{t("heading2")}</h4>
+                          <h4>{rentalConditions?.content?.heading2}</h4>
                           <ol>
                             {rentalConditions?.conditions?.rental_conditions?.length > 0 ? (
                               rentalConditions.conditions.rental_conditions.map((data: string, index: number) => (
@@ -110,7 +149,7 @@ const Page = () => {
                               download="lease-agreement.pdf"
                               className={style["download-link"]}
                             >
-                              <h4>{t("download")}<br className='d-md-none d-block' /> {t("lease")}</h4>
+                              <h4 dangerouslySetInnerHTML={{__html: rentalConditions?.content?.download}}></h4>
                               <div className={style["download_btn"]}>
                                 <span>PDF</span>
                                 <span><FiDownload /></span>
@@ -125,9 +164,9 @@ const Page = () => {
 
               </section>
 
-              <LetsTalk />
+              <LetsTalk data={letsTalk.data}/>
             </main>
-            <FooterOne />
+            <FooterOne data={footer.data}/>
           </div>
         </div>
       </Wrapper>

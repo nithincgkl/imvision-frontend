@@ -8,12 +8,17 @@ import Image from "next/image";
 // import logo from "@/assets/img/logo.svg";
 // import Logo_white from "..//assets/img/Logo_white.png";
 import { useCart } from '@/context/cart-context'; // Import the useCart hook
+import Error from '../../components/common/Error';
 
-const HeaderOne: React.FC = () => {
+interface Props {
+  data:any
+}
+
+const HeaderOne: React.FC<Props> = ({data}) => {
   const { sticky } = UseSticky();
   const [active, setActive] = useState(false);
   const [navTitle, setNavTitle] = useState("");
-  const { cartItems } = useCart(); // Access cart items from context
+  // const { cartItems } = useCart(); // Access cart items from context
   const [lastScrollTop, setLastScrollTop] = useState(0);
 
   const handleActive = () => setActive(!active);
@@ -21,7 +26,7 @@ const HeaderOne: React.FC = () => {
     setNavTitle(navTitle === menu ? "" : menu);
   };
 
-  const cartItemCount = cartItems.reduce((total, item) => total + item.count, 0); // Calculate the total count of items in the cart
+  // const cartItemCount = cartItems.reduce((total, item) => total + item.count, 0); // Calculate the total count of items in the cart
 
   useEffect(() => {
     const handleScroll = () => {
@@ -50,35 +55,41 @@ const HeaderOne: React.FC = () => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, [lastScrollTop]);
-
-  return (
-    <>
-      <header className={`cs_site_header cs_style1 cs_sticky_header cs_site_header_full_width ${sticky ? 'cs_gescout_sticky' : ''}`}>
-        <div className="cs_main_header">
-          <div className="container">
-            <div className="cs_main_header_in">
-              <div className="cs_main_header_left">
-                <Link className="cs_site_branding logo-white" href="/">
-                  <Image src={'/assets/img/Logo_white.png'} alt="Logo" width={150} height={150} />
-                </Link>
-              </div>
-              <div className="cs_main_header_right">
-                <div className="cs_nav cs_medium">
-                  <MobileMenu active={active} navTitle={navTitle} openMobileMenu={openMobileMenu} cartItemCount={cartItemCount} />
-                  <span
-                    className={`cs_munu_toggle ${active ? "cs_toggle_active" : ""}`}
-                    onClick={handleActive}
-                  >
-                    <span></span>
-                  </span>
+  if (!data || data.logo === 0 || data.content === null) {
+    return <Error />;
+  }
+  else {
+    const logo = data.logo;
+    const content = data.content
+    return (
+      <>
+        <header className={`cs_site_header cs_style1 cs_sticky_header cs_site_header_full_width ${sticky ? 'cs_gescout_sticky' : ''}`}>
+          <div className="cs_main_header">
+            <div className="container">
+              <div className="cs_main_header_in">
+                <div className="cs_main_header_left">
+                  <Link className="cs_site_branding logo-white" href="/">
+                    <Image src={logo.url} alt="Logo" width={150} height={150} />
+                  </Link>
+                </div>
+                <div className="cs_main_header_right">
+                  <div className="cs_nav cs_medium">
+                    <MobileMenu active={active} navTitle={navTitle} openMobileMenu={openMobileMenu} cartItemCount={0} navItems={content} />
+                    <span
+                      className={`cs_munu_toggle ${active ? "cs_toggle_active" : ""}`}
+                      onClick={handleActive}
+                    >
+                      <span></span>
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      </header>
-    </>
-  );
+        </header>
+      </>
+    );
+  }
 };
 
 export default HeaderOne;

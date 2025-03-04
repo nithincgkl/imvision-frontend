@@ -17,15 +17,16 @@ interface EventCategory {
 // Define props interface for WowMoments
 interface WowMomentsProps {
   categories: EventCategory[]; // categories should be an array of EventCategory
+  data:any
 }
 
-const WowMoments: React.FC<WowMomentsProps> = ({ categories }) => {
+const WowMoments: React.FC<WowMomentsProps> = ({ categories,data }) => {
   const t = useTranslations('home.wowMoments');
 
-  if (!categories || categories.length === 0) {
+  if (!data || !categories || categories.length === 0) {
     return <Error></Error>
   }
-
+  const content = data?.wowMoments
   return (
     <>
       <section className={`${styles['home-wow']} ${styles['bg-light-black-2']}`}>
@@ -33,12 +34,14 @@ const WowMoments: React.FC<WowMomentsProps> = ({ categories }) => {
           <div className="row">
             <div className="col-md-12">
               <div className={styles.headerTexts}>
-                <p className={styles.smallText}>{t("smallHeading")}</p>
-                <p className={styles.largeText}>{t("heading")}</p>
+                <p className={styles.smallText}>{content.heading1}</p>
+                <p className={styles.largeText}>{content.heading2}</p>
               </div>
               <p className={styles['home-wow-p']}>
-                <span>{t("description1")}</span><br />
-                {t("description2")} <br /> {t("description3")}
+                <span>{content.description1}</span>
+              </p>
+              <p className={styles['home-wow-p2']} >
+                {content.description2}
               </p>
             </div>
           </div>

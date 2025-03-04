@@ -84,6 +84,7 @@ const Page: React.FC = () => {
         // Save token and user info to localStorage
         localStorage.setItem('token', data.jwt);
         localStorage.setItem('user', JSON.stringify(data.user));
+        document.cookie = `auth-token=${data.jwt}; path=/; max-age=2592000; SameSite=Strict`;
         enqueueSnackbar(`${t("success")}`, { variant: 'success' });
         window.location.href = '/';
       } catch (error) {
@@ -127,9 +128,9 @@ const Page: React.FC = () => {
                   </div>
                   <div className={`col-md-6 ${style.form_container_half}`}>
                     <form onSubmit={handleSubmit} className="w-full max-w-md space-y-6 px-8">
-                      <div className="col-md-12 mb-3">
+                      {/* <div className="col-md-12 mb-3">
                         <Link href="/"><IoIosArrowRoundBack className={style["form_back_icon"]} />{t("home")}</Link>
-                      </div>
+                      </div> */}
                       <div className="col-md-12 mb-3">
                         <h2 className="mb-0">{t("hello")},<br />{t("heading1")}</h2>
                         <p>{t("heading2")}</p>

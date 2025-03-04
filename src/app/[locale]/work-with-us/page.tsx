@@ -68,16 +68,16 @@ const Career = () => {
       <div>
         <h4>{job.title}</h4>
         <p dangerouslySetInnerHTML={{ __html: job.description || `${t("noDesc")}` }} />            {/* <p><span>{`Posted on: ${new Date(job.publishedAt).toLocaleDateString()}`}</span></p> */}
-        <p><IoLocationOutline /> {t("location")} {job.location}</p>
-        <p><PiSuitcaseSimpleLight /> {t("expertIn")}  {job.expert_in}</p>
+        <p><IoLocationOutline /> {workWithUs.content.location} {job.location}</p>
+        <p><PiSuitcaseSimpleLight /> {workWithUs.content.expertIn}  {job.expert_in}</p>
         <div className={style["career_box_btn"]}>
           <span>
             <a href="mailto:info@imvision.se" className="d-inline-flex align-items-center">
-              {t("mail")}  <LuMoveUpRight />
+              {workWithUs.content.mail}  <LuMoveUpRight />
             </a>
           </span>
           <span>
-            <button className={style["apply_btn"]} onClick={() => onApply(job)}>{t("apply")} </button>
+            <button className={style["apply_btn"]} onClick={() => onApply(job)}>{workWithUs.content.apply} </button>
           </span>
         </div>
       </div>
@@ -88,6 +88,9 @@ const Career = () => {
   const [displayedJobs, setDisplayedJobs] = useState(3);
   const [selectedJob, setSelectedJob] = useState<CareerJob | null>(null);
   const [openingsLoader, setOpeningsLoader] = useState<Boolean>(false);
+  const [footer, setFooter] = useState<any>([])
+  const [letsTalk, setLetsTalk] = useState<any>([])
+  const [navigation, setNavigation] = useState<any>([])
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -132,12 +135,40 @@ const Career = () => {
       console.error("Error fetching Work with us data:", error);
       setWorkWithUs([]); 
     }
-};
+  };
+  const fetchLetsTalk = async () => {
+    try {
+      const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}let-us-talk?locale=${locale}&populate=*`);
+      setLetsTalk(response.data);
+    } catch (error) {
+      console.error("Error fetching Let's Talk data:", error);
+      setLetsTalk([]);
+    }
+  };
+  const fetchNavigation = async () => {
+    try {
+      const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}navigation?locale=${locale}&populate=*`);
+      setNavigation(response.data);
+    } catch (error) {
+      console.error("Error fetching navigation data:", error);
+      setNavigation([]);
+    }
+  };
+  const fetchFooter = async () => {
+    try {
+      const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}footer?locale=${locale}&populate=*`);
+      setFooter(response.data);
+    } catch (error) {
+      console.error("Error fetching footer data:", error);
+      setFooter([]);
+    }
+  };
+
   useEffect(() => {
     const fetchPositions = async () => {
       try {
         setOpeningsLoader(true);
-        await Promise.all([fetchJobs(), getWorkWithUsAssets()]);
+        await Promise.all([fetchJobs(), getWorkWithUsAssets(),fetchNavigation(),fetchLetsTalk(),fetchFooter()]);
         setOpeningsLoader(false);
       } catch (error) {
         console.error("Error fetching Work with us:", error);
@@ -272,7 +303,7 @@ const Career = () => {
           method: 'POST',
           body: emailDataToSend, // Correct format
         });
-        enqueueSnackbar('Thank you for applying! Your application has been successfully submitted', { variant: 'success' });
+        enqueueSnackbar(workWithUs?.content?.success, { variant: 'success' });
         handleCloseModal();
         setFormData({ name: "",
           email: "",
@@ -283,12 +314,14 @@ const Career = () => {
         })
       } catch (error) {
         console.error(error);
+        enqueueSnackbar(workWithUs?.content?.error, { variant: 'error' });
         setIsSubmitting(false);
       }
       finally {
         setIsSubmitting(true);
       }
     } catch (error) {
+      enqueueSnackbar(workWithUs?.content?.error, { variant: 'error' });
       console.error(error);
       setIsSubmitting(false);
     }
@@ -311,13 +344,22 @@ const Career = () => {
           zIndex: 9999
         }}
       >
-        <Loader size={300} />
+        <Loader size={150} />
       </div>
     );
   }
+  else if (!workWithUs || workWithUs.content === null ) {
+    return (
+      <div>
+        <HeaderOne data={navigation.data} />
+        <Error></Error>
+        <FooterOne data={footer.data} />
+      </div>
+    )
+  }
   return (
     <Wrapper>
-      <HeaderOne />
+      <HeaderOne data={navigation.data}/>
       <div id="smooth-wrapper">
         <div id="smooth-content">
           <main>
@@ -326,14 +368,11 @@ const Career = () => {
                 <div className="container-fluid">
                   <div className="row">
                     <div className="col-md-6">
-                      <h1 className={style.pageTitle}>
-                        {t("heading")}  <br />
-                        {t("heading2")}
+                      <h1 className={style.pageTitle} dangerouslySetInnerHTML={{__html: workWithUs?.content?.heading}}>
                       </h1>
                     </div>
                     <div className={`col-md-6 ${style.secondary_text_container}`}>
-                      <p className={style.secondary_header_text}>
-                        {t("para1")} <br />{t("para2")}
+                      <p className={style.secondary_header_text} dangerouslySetInnerHTML={{__html: workWithUs?.content?.description}}>
                       </p>
                     </div>
                   </div>
@@ -363,7 +402,7 @@ const Career = () => {
 
                     <div className="col-md-12 text-center">
                       <button className={style["talk-btn"]} onClick={() => window.location.href = '/contact'}>
-                        {t("talk")}
+                        {workWithUs?.content?.talk}
                       </button>
                     </div>
                   </div>
@@ -374,7 +413,7 @@ const Career = () => {
                 <div className="container-fluid">
                   <div className="row">
                     <div className="col-12">
-                      <h3>{t("currentOpenings")} </h3>
+                      <h3>{workWithUs?.content?.currentOpenings} </h3>
                     </div>
                     <div className="col-12">
                       {openingsLoader ? (
@@ -397,7 +436,7 @@ const Career = () => {
                           className={style["load_more"]}
                           onClick={handleLoadMore}
                         >
-                          {t("loadMore")}
+                          {workWithUs.content.loadMore}
                         </button>
                       </div>
                     )}
@@ -410,7 +449,7 @@ const Career = () => {
               {selectedJob && (
                 <div className={style.modal}>
                   <div ref={modalRef} className={style.modal_content}>
-                    <h4>{t("form.heading")} </h4>
+                    <h4>{workWithUs.content.form.heading} </h4>
                     <button
                       type="button"
                       onClick={handleCloseModal}
@@ -425,7 +464,7 @@ const Career = () => {
                             type="text"
                             name="name"
                             className={`form-control ${style.inputField}`}
-                            placeholder={t("form.name")}
+                            placeholder={workWithUs.content.form.name}
                             value={formData.name}
                             onChange={handleInputChange}
                           />
@@ -435,7 +474,7 @@ const Career = () => {
                             type="email"
                             name="email"
                             className={`form-control ${style.inputField}`}
-                            placeholder={t("form.email")}
+                            placeholder={workWithUs.content.form.email}
                             value={formData.email}
                             onChange={handleInputChange}
                           />
@@ -447,7 +486,7 @@ const Career = () => {
                             type="text"
                             name="phone"
                             className={`form-control ${style.inputField}`}
-                            placeholder={t("form.phone")}
+                            placeholder={workWithUs.content.form.phone}
                             value={formData.phone}
                             onChange={handleInputChange}
                           />
@@ -470,7 +509,7 @@ const Career = () => {
                             type="file"
                             name="resume"
                             className={`form-control ${style.inputField}`}
-                            placeholder={t("form.upload")}
+                            placeholder={workWithUs.content.form.upload}
                             onChange={handleFileChange}
                           />
                         </div>
@@ -479,7 +518,7 @@ const Career = () => {
                             type="text"
                             name="message"
                             className={`form-control ${style.inputField}`}
-                            placeholder={t("form.message")}
+                            placeholder={workWithUs.content.form.message}
                             value={formData.message}
                             onChange={handleInputChange}
                           />
@@ -497,14 +536,14 @@ const Career = () => {
                               cursor: isSubmitting ? "not-allowed" : "pointer",
                             }}
                           >
-                            {isSubmitting ? t("form.submitting") : t("form.submit")}
+                            {isSubmitting ? workWithUs.content.form.submitting : workWithUs.content.form.submit}
                           </button>
                           <button
                             type="button"
                             onClick={handleCloseModal}
                             className={style.cancel_btn}
                           >
-                            {t("form.cancel")}
+                            {workWithUs.content.form.cancel}
                           </button>
                         </div>
                       </div>
@@ -513,9 +552,9 @@ const Career = () => {
                 </div>
               )}
             </div>
-            <LetsTalk />
+            <LetsTalk data={letsTalk.data}/>
           </main>
-          <FooterOne />
+          <FooterOne data={footer.data}/>
         </div>
       </div>
     </Wrapper>

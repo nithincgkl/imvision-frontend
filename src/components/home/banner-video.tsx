@@ -5,16 +5,18 @@ import { useTranslations } from "next-intl";
 import Error from "../common/Error";
 interface BannerVideoProps {
   homeData: any; // Replace 'any' with proper typing when possible
+  video: any;
 }
 
-const BannerVideo: React.FC<BannerVideoProps> = ({ homeData }) => {
+const BannerVideo: React.FC<BannerVideoProps> = ({ homeData,video }) => {
   const t = useTranslations("home.bannerVideo");
 
-  if (!homeData || !homeData.data || !homeData.data.banner_home?.length) {
-    return <Error></Error>
+  if (!homeData || !video || video.length === 0) {
+    return <Error />;
   }
   else {
-    const bannerVideo = homeData.data.banner_home[0]; // Get the first banner video
+    const content = homeData.banner;
+    const bannerVideo = video[0]; // Get the first banner video
 
     return (
       <section className={styles["nav-banner-container"]}>
@@ -33,11 +35,11 @@ const BannerVideo: React.FC<BannerVideoProps> = ({ homeData }) => {
               </video>
             </div>
             <div className={styles["banner-content"]}>
-              <h1>{t("subHeading1")}</h1>
-              <h2>{t("subHeading2")}</h2>
+              <h1>{content.heading1}</h1>
+              <h2>{content.heading2}</h2>
             </div>
             <Link href="/contact">
-              <button className={styles["talk-btn"]}>{t("buttonText")}</button>
+              <button className={styles["talk-btn"]}>{content.buttonText}</button>
             </Link>
           </div>
         </div>

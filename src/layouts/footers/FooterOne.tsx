@@ -4,33 +4,44 @@ import Link from 'next/link';
 import axios from 'axios';
 import { useSnackbar } from 'notistack';
 import { useTranslations } from 'next-intl';
+import Error from '../../components/common/Error';
+// import { useRouter } from "next/navigation"; // ✅ Correct import for Next.js App Router
 
 interface NavItem {
   label: string;
   href: string;
 }
+interface Props {
+  data:any
+}
 
-const FooterOne: React.FC = () => {
+const FooterOne: React.FC<Props> = ({data}) => {
   const t = useTranslations('home.footer');
   const { enqueueSnackbar } = useSnackbar();
+  // const router = useRouter();
 
+  if (!data || data.icon.length === 0 || data.content === null) {
+    return <Error />;
+  }
+  const content = data.content;
+  const icon = data.icon;
   const NAV_ITEMS: NavItem[] = [
     // { label: t('navItems.rentProducts'), href: '/rent-products' },
     // { label: t('navItems.sale'), href: '/sale' },
-    { label: t('navItems.about'), href: '/about' },
-    { label: t('navItems.contact'), href: '/contact' },
-    { label: t('navItems.errorReporting'), href: '/error-reporting' },
-    { label: t('navItems.workWithUs'), href: '/work-with-us' },
-    { label: t('navItems.rentalConditions'), href: '/rental-conditions' },
-    { label: t('navItems.profile'), href: '/profile' },
-    { label: t('navItems.signIn'), href: '/login' },
-    { label: t('navItems.logout'), href: '/login' }
+    { label: content.navItems.about, href: '/about' },
+    { label: content.navItems.contact, href: '/contact' },
+    { label: content.navItems.errorReporting, href: '/error-reporting' },
+    { label: content.navItems.workWithUs, href: '/work-with-us' },
+    { label: content.navItems.rentalConditions, href: '/rental-conditions' },
+    { label: content.navItems.profile, href: '/profile' },
+    { label: content.navItems.signIn, href: '/login' },
+    { label: content.navItems.logout, href: '/login' }
   ];
 
   const LEGAL_LINKS: NavItem[] = [
-    { label: t('legalLinks.privacyPolicy'), href: '/privacy' },
-    { label: t('legalLinks.termsAndConditions'), href: '/terms' },
-    { label: t('legalLinks.cookiePolicy'), href: '/cookies' },
+    { label: content.legalLinks.privacyPolicy, href: '/privacy' },
+    { label: content.legalLinks.termsAndConditions, href: '/terms' },
+    { label: content.legalLinks.cookiePolicy, href: '/cookies' },
   ];
 
   const [formData, setFormData] = useState({
@@ -77,25 +88,25 @@ const FooterOne: React.FC = () => {
     };
 
     if (!formData.name.trim()) {
-      newErrors.name = t('validation.nameRequired');
+      newErrors.name = content.validation.nameRequired;
       valid = false;
     }
 
     if (!formData.email.trim()) {
-      newErrors.email = t('validation.emailRequired');
+      newErrors.email = content.validation.emailRequired;
       valid = false;
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = t('validation.emailInvalid');
+      newErrors.email = content.validation.emailInvalid;
       valid = false;
     }
 
     if (!formData.helpTopic.trim()) {
-      newErrors.helpTopic = t('validation.topicRequired');
+      newErrors.helpTopic = content.validation.topicRequired;
       valid = false;
     }
 
     if (!formData.companyName.trim()) {
-      newErrors.companyName = t('validation.companyRequired');
+      newErrors.companyName = content.validation.companyRequired;
       valid = false;
     }
 
@@ -145,15 +156,15 @@ const FooterOne: React.FC = () => {
       });
 
       if (emailResponse.ok) {
-        enqueueSnackbar(t('notifications.success'), { variant: 'success' });
+        enqueueSnackbar(content.notifications.success, { variant: 'success' });
       } else {
-        enqueueSnackbar(t('notifications.emailError'), { variant: 'error' });
+        enqueueSnackbar(content.notifications.error, { variant: 'error' });
       }
 
         // Reset form data after successful submission
         setFormData({ name: '', email: '', helpTopic: '', companyName: '' });
       } catch (error) {
-        enqueueSnackbar(t('notifications.error'), { variant: 'error' });
+        enqueueSnackbar(content.notifications.error, { variant: 'error' });
         console.error('Error submitting form:', error);
       } finally {
         setIsSubmitting(false);
@@ -166,9 +177,17 @@ const FooterOne: React.FC = () => {
     localStorage.removeItem('user');
     localStorage.removeItem('userData');
     localStorage.removeItem('cartItems');
+    
+    // Remove the auth cookie
+    document.cookie = "auth-token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT; SameSite=Strict";
+    
     setIsLoggedIn(false);
-    enqueueSnackbar(t('notifications.logout'), { variant: 'info' });
-    window.location.href = '/login';
+    enqueueSnackbar(content.notifications.logout, { variant: 'info' });
+    
+    // Redirect to login page after 2 seconds
+    setTimeout(() => {
+      window.location.href = '/login';
+    }, 2000);
   };
 
   return (
@@ -180,7 +199,7 @@ const FooterOne: React.FC = () => {
           </div>
 
           <div className="col-md-8 mb-4">
-            <h2>{t('getInTouch')}</h2>
+            <h2>{content.heading}</h2>
             <form onSubmit={handleSubmit} className="mb-4">
               <div className="row">
                 <div className="col-md-6 mb-3">
@@ -189,7 +208,7 @@ const FooterOne: React.FC = () => {
                       type="text"
                       id="name"
                       className={`form-control ${style.inputField}`}
-                      placeholder={t('formPlaceholders.name')}
+                      placeholder={content.formPlaceholders.name}
                       value={formData.name}
                       onChange={handleChange}
                     />
@@ -203,7 +222,7 @@ const FooterOne: React.FC = () => {
                       type="email"
                       id="email"
                       className={`form-control ${style.inputField}`}
-                      placeholder={t('formPlaceholders.email')}
+                      placeholder={content.formPlaceholders.email}
                       value={formData.email}
                       onChange={handleChange}
                     />
@@ -220,12 +239,12 @@ const FooterOne: React.FC = () => {
                       onChange={handleChange}
                     >
                       <option value="" className={style.firstFieldColor}>
-                        {t('formPlaceholders.helpTopic')}
+                        {content.formPlaceholders.helpTopic}
                       </option>
-                      <option value="Sale">{t('helpTopics.sale')}</option>
-                      <option value="Rent">{t('helpTopics.rent')}</option>
-                      <option value="Career">{t('helpTopics.career')}</option>
-                      <option value="Other">{t('helpTopics.other')}</option>
+                      <option value="Sale">{content.helpTopics.sale}</option>
+                      <option value="Rent">{content.helpTopics.rent}</option>
+                      <option value="Career">{content.helpTopics.career}</option>
+                      <option value="Other">{content.helpTopics.other}</option>
                     </select>
                     {errors.helpTopic && <small className={style.errorText}>{errors.helpTopic}</small>}
                   </div>
@@ -237,7 +256,7 @@ const FooterOne: React.FC = () => {
                       type="text"
                       id="companyName"
                       className={`form-control ${style.inputField}`}
-                      placeholder={t('formPlaceholders.companyName')}
+                      placeholder={content.formPlaceholders.companyName}
                       value={formData.companyName}
                       onChange={handleChange}
                     />
@@ -255,7 +274,7 @@ const FooterOne: React.FC = () => {
                   cursor: isSubmitting ? "not-allowed" : "pointer",
                 }}
               >
-                {isSubmitting ? t("submitButton.sending") : t("submitButton.default")}
+                {isSubmitting ? content.submitButton.sending : content.submitButton.default}
               </button>
             </form>
           </div>
@@ -264,12 +283,12 @@ const FooterOne: React.FC = () => {
             <nav className="text-center">
               <ul className="list-inline mb-0">
                 {NAV_ITEMS.map((item: NavItem) => {
-                  if (item.label === t('navItems.profile') && !isLoggedIn) return null;
-                  if (item.label === t('navItems.signIn') && isLoggedIn) return null;
-                  if (item.label === t('navItems.logout') && !isLoggedIn) return null;
+                  if (item.label === content.navItems.profile && !isLoggedIn) return null;
+                  if (item.label === content.navItems.signIn && isLoggedIn) return null;
+                  if (item.label === content.navItems.logout && !isLoggedIn) return null;
                   return (
                     <li key={item.label} className="list-inline-item mx-3">
-                      {item.label === t('navItems.logout') ? (
+                      {item.label === content.navItems.logout ? (
                         <Link href="#" className={style.navLink} onClick={handleLogout}>
                           {item.label}
                         </Link>
@@ -298,10 +317,10 @@ const FooterOne: React.FC = () => {
               </ul>
               <div className={style.disclaimer}>
                 <p className='my-4 col-xxl-8 col-xl-9 col-md-8 col-11 mx-auto'>
-                  <span className='fw-bold mb-1'>{t('disclaimer.title')}</span><br />
-                  {t('disclaimer.text')}{' '}
-                  <a href="mailto:info@imvision.se" className='fw-bold'>
-                  info@imvision.se
+                  <span className='fw-bold mb-1'>{content.disclaimer.title}</span><br />
+                  {content.disclaimer.text}{' '}
+                  <a href={`mailto:${content.disclaimer.email}`} className='fw-bold'>
+                  {content.disclaimer.email}
                   </a>
                 </p>
               </div>

@@ -109,7 +109,11 @@ margin-top: -5px;
   }
 
   .form_align{
-    padding-left: 300px;
+    /* padding-left: 300px; */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
   }
 
   .orders_form_main {

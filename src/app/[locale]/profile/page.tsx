@@ -13,7 +13,9 @@ import { CiCircleCheck } from "react-icons/ci";
 import axios from 'axios';
 import { CartProvider, useCart } from '@/context/cart-context'; // Import the useCart hook
 import { useSnackbar } from "notistack";
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
+import Loader from '@/components/common/Loader';
+import Error from '@/components/common/Error';
 
 const Profile: React.FC = () => {
   return (
@@ -75,7 +77,10 @@ const Page: React.FC = () => {
   const [activeForm, setActiveForm] = useState<string>('personal');
   const [windowWidth, setWindowWidth] = useState<number>(typeof window !== 'undefined' ? window.innerWidth : 0);
   const { enqueueSnackbar } = useSnackbar();
-
+  const locale = useLocale();
+  const [footer, setFooter] = useState<any>([])
+  const [letsTalk, setLetsTalk] = useState<any>([])
+  const [navigation, setNavigation] = useState<any>([])
   useEffect(() => {
     const handleResize = () => {
       setWindowWidth(window.innerWidth);
@@ -120,6 +125,7 @@ const Page: React.FC = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [profile,setProfile] =  useState<any>([])
 
   const [orders, setOrders] = useState<Order[]>([]); // State to hold orders
   const [loadingOrders, setLoadingOrders] = useState<boolean>(false); // Loading state for orders
@@ -146,24 +152,63 @@ const Page: React.FC = () => {
       });
     }
   }, []);
-  useEffect(() => {
-    const fetchCountries = async () => {
-      try {
-        const response = await axios.get('https://restcountries.com/v3.1/all');
-        const countryNames = response.data.map((country: any) => ({
-          name: country.name.common,
-          code: country.cca2
-        }));
-        setCountries(countryNames);
-      } catch (error) {
-        console.error('Error fetching country data:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchCountries();
-  }, []);
+  const fetchLetsTalk = async () => {
+    try {
+      const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}let-us-talk?locale=${locale}&populate=*`);
+      setLetsTalk(response.data);
+    } catch (error) {
+      console.error("Error fetching Let's Talk data:", error);
+      setLetsTalk([]);
+    }
+  };
+  const fetchNavigation = async () => {
+    try {
+      const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}navigation?locale=${locale}&populate=*`);
+      setNavigation(response.data);
+    } catch (error) {
+      console.error("Error fetching navigation data:", error);
+      setNavigation([]);
+    }
+  };
+  const fetchFooter = async () => {
+    try {
+      const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}footer?locale=${locale}&populate=*`);
+      setFooter(response.data);
+    } catch (error) {
+      console.error("Error fetching footer data:", error);
+      setFooter([]);
+    }
+  };
+  const fetchProfile = async () => {
+    try {
+      const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}profile?locale=${locale}&populate=*`);
+      setProfile(response.data);
+    } catch (error) {
+      console.error("Error fetching profile data:", error);
+      setProfile([]);
+    }
+  };
+  const fetchCountries = async () => {
+    try {
+      const response = await axios.get('https://restcountries.com/v3.1/all');
+      const countryNames = response.data.map((country: any) => ({
+        name: country.name.common,
+        code: country.cca2
+      }));
+      setCountries(countryNames);
+    } catch (error) {
+      console.error('Error fetching country data:', error);
+    } finally {
+    }
+  };
+        useEffect(() => {
+          const fetchData = async () => {
+            setLoading(true); // Start loader before fetching
+            await Promise.all([fetchCountries(),fetchNavigation(),fetchLetsTalk(),fetchFooter(),fetchProfile()]);
+            setLoading(false); // Stop loader once all APIs complete
+          };
+          fetchData();
+        }, []);
 
   const fetchOrders = async () => {
     const token = localStorage.getItem('token');
@@ -193,45 +238,45 @@ const Page: React.FC = () => {
       setLoadingOrders(false);
     }
   };
-
+  const validation = profile?.data?.content?.update?.validation
   const validateForm = () => {
     const newErrors: any = {};
     let isValid = true;
 
     // Personal info validation
     if (!formData.name) {
-      newErrors.name = `${t("update.validation.nameRequired")}`;
+      newErrors.name = `${validation?.nameRequired}`;
       isValid = false;
     }
     if (!formData.email) {
-      newErrors.email = `${t("update.validation.emailRequired")}`;
+      newErrors.email = `${validation?.emailRequired}`;
       isValid = false;
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = `${t("update.validation.emailInvalid")}`;
+      newErrors.email = `${validation?.emailInvalid}`;
       isValid = false;
     }
     if (!formData.phone) {
-      newErrors.phone = `${t("update.validation.phoneRequired")}`;
+      newErrors.phone = `${validation?.phoneRequired}`;
       isValid = false;
     }
     if (!formData.streetName) {
-      newErrors.streetName = `${t("update.validation.streetRequired")}`;
+      newErrors.streetName = `${validation?.streetRequired}`;
       isValid = false;
     }
     if (!formData.houseNumber) {
-      newErrors.houseNumber = `${t("update.validation.houseRequired")}`;
+      newErrors.houseNumber = `${validation?.houseRequired}`;
       isValid = false;
     }
     if (!formData.postalCode) {
-      newErrors.postalCode = `${t("update.validation.postalRequired")}`;
+      newErrors.postalCode = `${validation?.postalRequired}`;
       isValid = false;
     }
     if (!formData.city) {
-      newErrors.city = `${t("update.validation.cityRequired")}`;
+      newErrors.city = `${validation?.cityRequired}`;
       isValid = false;
     }
     if (!formData.country) {
-      newErrors.country = `${t("update.validation.countryRequired")}`;
+      newErrors.country = `${validation?.countryRequired}`;
       isValid = false;
     }
 
@@ -290,7 +335,7 @@ const Page: React.FC = () => {
               },
             }
           );
-          enqueueSnackbar(`${t("success")}`, { variant: 'success' });
+          enqueueSnackbar(`${profile?.data?.content?.success}`, { variant: 'success' });
 
           // Update localStorage with new user data
           if (response) {
@@ -330,7 +375,7 @@ const Page: React.FC = () => {
     if (formData.newPassword !== formData.confirmPassword) {
       setErrors((prevErrors) => ({
         ...prevErrors,
-        confirmPassword: `${t("error")}`,
+        confirmPassword: `${profile?.data?.content?.error}`,
       }));
       return;
     }
@@ -354,7 +399,7 @@ const Page: React.FC = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-      enqueueSnackbar(`${t("success2")}`, { variant: 'success' });
+      enqueueSnackbar(`${profile?.data?.content?.success2}`, { variant: 'success' });
       setFormData({ ...formData, currentPassword: '', newPassword: '', confirmPassword: '' })
       setErrors({ ...errors, currentPassword: '', newPassword: '', confirmPassword: '' })
     } catch (error) {
@@ -363,7 +408,7 @@ const Page: React.FC = () => {
         console.error('Error resetting password:', error.response?.data || error.message);
         setErrors((prevErrors) => ({
           ...prevErrors,
-          newPassword: `${t("error2")}`,
+          newPassword: `${profile?.data?.content?.error2}`,
         }));
       } else {
         console.error('Unexpected error:', error);
@@ -392,194 +437,227 @@ const Page: React.FC = () => {
       setShowConfirmPassword(!showConfirmPassword);
     }
   };
+  if (loading) {
+    return (
+      <div
+        style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100vh',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          zIndex: 9999
+        }}
+      >
+        <Loader size={300} />
+      </div>
+    );
+  }
+  else if (!profile || profile.data === null || profile.data.content === null) {
+    return (
+      <div>
+        <HeaderOne data={navigation.data} />
+        <Error></Error>
+        <FooterOne data={footer.data} />
+      </div>
+    )
+  }
+  else {
+    const placeholder = profile?.data?.content?.update?.placeholder
+    const validation = profile?.data?.content?.update?.validation
+    const password = profile?.data?.content?.password
 
-  return (
-    <Wrapper>
-      <HeaderOne />
-      <div id="smooth-wrapper">
-        <div id="smooth-content">
-          <main>
-            <section className={style["profile_section"]}>
-              <h2 className='my-5 pt-2 d-flex justify-content-center col-12'>{t("heading")}</h2>
 
-              <div className="container d-flex justify-content-center">
-                <div className={`${style.profile_nav} d-flex flex-row gap-3`}>
-                  <button onClick={handlePersonalClick} className={activeForm === 'personal' ? style.focused : ''}>
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" height={25} width={25} viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="size-6 my-2">
-                      <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                    </svg>
-                    &nbsp;{t("personal")}
-                  </button>
-                  <button onClick={handleOrdersClick} className={activeForm === 'orders' ? style.focused : ''}>
+    return (
+      <Wrapper>
+        <HeaderOne data={navigation.data} />
+        <div id="smooth-wrapper">
+          <div id="smooth-content">
+            <main>
+              <section className={style["profile_section"]}>
+                <h2 className='my-5 pt-2 d-flex justify-content-center col-12'>{profile?.data?.content?.heading}</h2>
+
+                <div className="container d-flex justify-content-center">
+                  <div className={`${style.profile_nav} d-flex flex-row gap-3`}>
+                    <button onClick={handlePersonalClick} className={activeForm === 'personal' ? style.focused : ''}>
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" height={25} width={25} viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="size-6 my-2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                      </svg>
+                      &nbsp; {profile?.data?.content?.personal}
+                    </button>
+                    {/* <button onClick={handleOrdersClick} className={activeForm === 'orders' ? style.focused : ''}>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" height={25} width={25} viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="size-6">
                       <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.356-1.993 1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 0 1-1.12-1.243l1.264-12A1.125 1.125 0 0 1 5.513 7.5h12.974c.576 0 1.059.435 1.119 1.007ZM8.625 10.5a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm7.5 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
                     </svg>
                     &nbsp;{t("order")}
-                  </button>
-                  <button onClick={handleAccountClick} className={activeForm === 'account' ? style.focused : ''}>
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" height={25} width={25} viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="size-6">
-                      <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z" />
-                    </svg>
-                    &nbsp;{t("account")}
-                  </button>
-                </div>
-              </div>
-              {activeForm === 'personal' && (
-                <form onSubmit={handleSubmit} className={`${style.personal_form} justify-content-center container-sm my-5`}>
-                  <div className="row">
-                    <div className="col-md-6 mb-3">
-                      <label>{t("update.placeholder.name")} <span className='text-danger'>*</span></label>
-                      <input
-                        type="text"
-                        name="name"
-                        className={`form-control ${style.inputField}`}
-                        placeholder={t("update.placeholder.name")}
-                        value={formData.name}
-                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      />
-                      {errors.name && <div className="text-danger">{errors.name}</div>}
-                    </div>
-                    <div className="col-md-6 mb-3">
-                      <label>{t("update.placeholder.email")} <span className='text-danger'>*</span></label>
-                      <input
-                        type="email"
-                        name="email"
-                        className={`form-control ${style.inputField}`}
-                        placeholder={t("update.placeholder.email")}
-                        value={formData.email}
-                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      />
-                      {errors.email && <div className="text-danger">{errors.email}</div>}
-                    </div>
-                  </div>
-
-                  <div className="row">
-                    <div className="col-md-6 mb-3">
-                      <label>{t("update.placeholder.phone")} <span className='text-danger'>*</span></label>
-                      <input
-                        type="text"
-                        name="phone"
-                        className={`form-control ${style.inputField}`}
-                        placeholder={t("update.placeholder.phone")}
-                        value={formData.phone}
-                        onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                      />
-                      {errors.phone && <div className="text-danger">{errors.phone}</div>}
-                    </div>
-                    <div className="col-md-6 mb-3">
-                      <label>{t("update.placeholder.street")} <span className='text-danger'>*</span></label>
-                      <input
-                        type="text"
-                        name="streetName"
-                        className={`form-control ${style.inputField}`}
-                        placeholder={t("update.placeholder.street")}
-                        value={formData.streetName}
-                        onChange={(e) => setFormData({ ...formData, streetName: e.target.value })}
-                      />
-                      {errors.streetName && <div className="text-danger">{errors.streetName}</div>}
-                    </div>
-                  </div>
-
-                  <div className="row">
-                    <div className="col-md-6 mb-3">
-                      <label>{t("update.placeholder.house")}<span className='text-danger'>*</span></label>
-                      <input
-                        type="text"
-                        name="houseNumber"
-                        className={`form-control ${style.inputField}`}
-                        placeholder={t("update.placeholder.house")}
-                        value={formData.houseNumber}
-                        onChange={(e) => setFormData({ ...formData, houseNumber: e.target.value })}
-                      />
-                      {errors.houseNumber && <div className="text-danger">{errors.houseNumber}</div>}
-                    </div>
-                    <div className="col-md-6 mb-3">
-                      <label>{t("update.placeholder.postalCode")} <span className='text-danger'>*</span></label>
-                      <input
-                        type="text"
-                        name="postalCode"
-                        className={`form-control ${style.inputField}`}
-                        placeholder={t("update.placeholder.postalCode")}
-                        value={formData.postalCode}
-                        onChange={(e) => setFormData({ ...formData, postalCode: e.target.value })}
-                      />
-                      {errors.postalCode && <div className="text-danger">{errors.postalCode}</div>}
-                    </div>
-                  </div>
-
-                  <div className="row">
-                    <div className="col-md-6 mb-3">
-                      <label>{t("update.placeholder.city")} <span className='text-danger'>*</span></label>
-                      <input
-                        type="text"
-                        name="city"
-                        className={`form-control ${style.inputField}`}
-                        placeholder={t("update.placeholder.city")}
-                        value={formData.city}
-                        onChange={(e) => setFormData({ ...formData, city: e.target.value })}
-                      />
-                      {errors.city && <div className="text-danger">{errors.city}</div>}
-                    </div>
-
-                    <div className="col-md-6 mb-3">
-                      <label>{t("update.placeholder.country")} <span className='text-danger'>*</span></label>
-                      <div className="position-relative">
-                        {loading ? (
-                          <p>{t("update.validation.countryLoading")}</p>
-                        ) : (
-                          <select
-                            name="country"
-                            className={`form-control ${style.inputField}`}
-                            value={formData.country}
-                            onChange={(e) => setFormData({ ...formData, country: e.target.value })}
-                          >
-                            <option value="">{t("update.validation.selectCountry")}</option>
-                            {countries.map((country, index) => (
-                              <option key={index} value={country.code}>
-                                {country.name}
-                              </option>
-                            ))}
-                          </select>
-                        )}
-                        <IoChevronDown className={style.selectIcon} />
-                      </div>
-                      {errors.country && <div className="text-danger">{errors.country}</div>}
-                    </div>
-                  </div>
-
-                  <div className="col-md-12 mb-3 d-flex justify-content-center my-3">
-                    <button
-                      type="submit"
-                      className={style.talk_btn}
-                      disabled={isUpdating}
-                      style={{
-                        opacity: isUpdating ? 0.6 : 1,
-                        cursor: isUpdating ? "not-allowed" : "pointer",
-                      }}
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        height={25}
-                        width={25}
-                        viewBox="0 0 24 24"
-                        strokeWidth="1.5"
-                        stroke="currentColor"
-                        className="size-7 me-2"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
-                        />
+                  </button> */}
+                    <button onClick={handleAccountClick} className={activeForm === 'account' ? style.focused : ''}>
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" height={25} width={25} viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z" />
                       </svg>
-                      {isUpdating ? t("orders.updating") : t("orders.update")}
+                      &nbsp;{profile?.data?.content?.account}
                     </button>
                   </div>
-                </form>
-              )}
+                </div>
+                {activeForm === 'personal' && (
+                  <form onSubmit={handleSubmit} className={`${style.personal_form} justify-content-center container-sm my-5`}>
+                    <div className="row">
+                      <div className="col-md-6 mb-3">
+                        <label>{placeholder?.name} <span className='text-danger'>*</span></label>
+                        <input
+                          type="text"
+                          name="name"
+                          className={`form-control ${style.inputField}`}
+                          placeholder={placeholder?.name}
+                          value={formData.name}
+                          onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                        />
+                        {errors.name && <div className="text-danger">{errors.name}</div>}
+                      </div>
+                      <div className="col-md-6 mb-3">
+                        <label>{placeholder?.email} <span className='text-danger'>*</span></label>
+                        <input
+                          type="email"
+                          name="email"
+                          className={`form-control ${style.inputField}`}
+                          placeholder={placeholder?.email}
+                          value={formData.email}
+                          onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                        />
+                        {errors.email && <div className="text-danger">{errors.email}</div>}
+                      </div>
+                    </div>
 
-              {activeForm === 'orders' && (
+                    <div className="row">
+                      <div className="col-md-6 mb-3">
+                        <label>{placeholder?.phone} <span className='text-danger'>*</span></label>
+                        <input
+                          type="text"
+                          name="phone"
+                          className={`form-control ${style.inputField}`}
+                          placeholder={placeholder?.phone}
+                          value={formData.phone}
+                          onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                        />
+                        {errors.phone && <div className="text-danger">{errors.phone}</div>}
+                      </div>
+                      <div className="col-md-6 mb-3">
+                        <label>{placeholder?.street} <span className='text-danger'>*</span></label>
+                        <input
+                          type="text"
+                          name="streetName"
+                          className={`form-control ${style.inputField}`}
+                          placeholder={placeholder?.street}
+                          value={formData.streetName}
+                          onChange={(e) => setFormData({ ...formData, streetName: e.target.value })}
+                        />
+                        {errors.streetName && <div className="text-danger">{errors.streetName}</div>}
+                      </div>
+                    </div>
+
+                    <div className="row">
+                      <div className="col-md-6 mb-3">
+                        <label>{placeholder?.house}<span className='text-danger'>*</span></label>
+                        <input
+                          type="text"
+                          name="houseNumber"
+                          className={`form-control ${style.inputField}`}
+                          placeholder={placeholder?.house}
+                          value={formData.houseNumber}
+                          onChange={(e) => setFormData({ ...formData, houseNumber: e.target.value })}
+                        />
+                        {errors.houseNumber && <div className="text-danger">{errors.houseNumber}</div>}
+                      </div>
+                      <div className="col-md-6 mb-3">
+                        <label>{placeholder?.postalCode} <span className='text-danger'>*</span></label>
+                        <input
+                          type="text"
+                          name="postalCode"
+                          className={`form-control ${style.inputField}`}
+                          placeholder={placeholder?.postalCode}
+                          value={formData.postalCode}
+                          onChange={(e) => setFormData({ ...formData, postalCode: e.target.value })}
+                        />
+                        {errors.postalCode && <div className="text-danger">{errors.postalCode}</div>}
+                      </div>
+                    </div>
+
+                    <div className="row">
+                      <div className="col-md-6 mb-3">
+                        <label>{placeholder?.city} <span className='text-danger'>*</span></label>
+                        <input
+                          type="text"
+                          name="city"
+                          className={`form-control ${style.inputField}`}
+                          placeholder={placeholder?.city}
+                          value={formData.city}
+                          onChange={(e) => setFormData({ ...formData, city: e.target.value })}
+                        />
+                        {errors.city && <div className="text-danger">{errors.city}</div>}
+                      </div>
+
+                      <div className="col-md-6 mb-3">
+                        <label>{placeholder?.country} <span className='text-danger'>*</span></label>
+                        <div className="position-relative">
+                          {loading ? (
+                            <p>{validation?.countryLoading}</p>
+                          ) : (
+                            <select
+                              name="country"
+                              className={`form-control ${style.inputField}`}
+                              value={formData.country}
+                              onChange={(e) => setFormData({ ...formData, country: e.target.value })}
+                            >
+                              <option value="">{validation?.selectCountry}</option>
+                              {countries.map((country, index) => (
+                                <option key={index} value={country.code}>
+                                  {country.name}
+                                </option>
+                              ))}
+                            </select>
+                          )}
+                          <IoChevronDown className={style.selectIcon} />
+                        </div>
+                        {errors.country && <div className="text-danger">{errors.country}</div>}
+                      </div>
+                    </div>
+
+                    <div className="col-md-12 mb-3 d-flex justify-content-center my-3">
+                      <button
+                        type="submit"
+                        className={style.talk_btn}
+                        disabled={isUpdating}
+                        style={{
+                          opacity: isUpdating ? 0.6 : 1,
+                          cursor: isUpdating ? "not-allowed" : "pointer",
+                        }}
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          height={25}
+                          width={25}
+                          viewBox="0 0 24 24"
+                          strokeWidth="1.5"
+                          stroke="currentColor"
+                          className="size-7 me-2"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                          />
+                        </svg>
+                        {isUpdating ? validation?.updating : validation?.update}
+                      </button>
+                    </div>
+                  </form>
+                )}
+
+                {/* {activeForm === 'orders' && (
                 <div className='d-flex flex-column gap-3 container'>
                   <div className={`${style.orders_form_main} gap-5`}>
                     {loadingOrders ? (
@@ -689,99 +767,100 @@ const Page: React.FC = () => {
                     )}
                   </div>
                 </div>
-              )}
+              )} */}
 
 
 
-              {activeForm === 'account' && (
-                <form onSubmit={handleAccountSubmit} className={`${style.accounts_form} justify-content-center container-sm my-5`}>
+                {activeForm === 'account' && (
+                  <form onSubmit={handleAccountSubmit} className={`${style.accounts_form} justify-content-center container-sm my-5`}>
 
-                  <div className={`${style.form_align}`}>
-                    <h4>{t("password.change")}</h4>
-                    {/* Current Password */}
-                    <div className="col-xl-6 col-lg-8 mb-3">
-                      <div className={style.formControl}>
-                        <input
-                          type={showCurrentPassword ? 'text' : 'password'}
-                          className={`form-control ${style.inputField}`}
-                          placeholder={t("password.currentPassword")}
-                          value={formData.currentPassword}
-                          onChange={(e) => setFormData({ ...formData, currentPassword: e.target.value })}
-                        />
+                    <div className={`${style.form_align}`}>
+                      <h4>{password.change}</h4>
+                      {/* Current Password */}
+                      <div className="col-xl-6 col-lg-8 mb-3">
+                        <div className={style.formControl}>
+                          <input
+                            type={showCurrentPassword ? 'text' : 'password'}
+                            className={`form-control ${style.inputField}`}
+                            placeholder={password.currentPassword}
+                            value={formData.currentPassword}
+                            onChange={(e) => setFormData({ ...formData, currentPassword: e.target.value })}
+                          />
+                          <button
+                            className={`absolute inset-y-0 right-0 pr-3 flex items-center ${style.eye_button}`}
+                            type="button"
+                            onClick={() => togglePasswordVisibility('current')}
+                          >
+                            {showCurrentPassword ? <FaEye /> : <FaEye />}
+                          </button>
+                        </div>
+                        {errors.currentPassword && <div className="text-danger">{errors.currentPassword}</div>}
+                      </div>
+                      {/* New Password */}
+                      <div className="col-xl-6 col-lg-8 mb-3">
+                        <div className={style.formControl}>
+                          <input
+                            type={showNewPassword ? 'text' : 'password'}
+                            className={`form-control ${style.inputField}`}
+                            placeholder={password.newPassword}
+                            value={formData.newPassword}
+                            onChange={(e) => setFormData({ ...formData, newPassword: e.target.value })}
+                          />
+                          <button
+                            className={`absolute inset-y-0 right-0 pr-3 flex items-center ${style.eye_button}`}
+                            type="button"
+                            onClick={() => togglePasswordVisibility('new')}
+                          >
+                            {showNewPassword ? <FaEye /> : <FaEye />}
+                          </button>
+                        </div>
+                        {errors.newPassword && <div className="text-danger">{errors.newPassword}</div>}
+                      </div>
+                      {/* Confirm Password */}
+                      <div className="col-xl-6 col-lg-8 mb-3">
+                        <div className={style.formControl}>
+                          <input
+                            type={showConfirmPassword ? 'text' : 'password'}
+                            className={`form-control ${style.inputField}`}
+                            placeholder={password.confirmPassword}
+                            value={formData.confirmPassword}
+                            onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
+                          />
+                          <button
+                            className={`absolute inset-y-0 right-0 pr-3 flex items-center ${style.eye_button}`}
+                            type="button"
+                            onClick={() => togglePasswordVisibility('confirm')}
+                          >
+                            {showConfirmPassword ? <FaEye /> : <FaEye />}
+                          </button>
+                        </div>
+                        {errors.confirmPassword && <div className="text-danger">{errors.confirmPassword}</div>}
+                      </div>
+                      <div className="col-xl-6 col-lg-8 my-3">
                         <button
-                          className={`absolute inset-y-0 right-0 pr-3 flex items-center ${style.eye_button}`}
-                          type="button"
-                          onClick={() => togglePasswordVisibility('current')}
+                          type="submit"
+                          className={style.submit_btn}
+                          disabled={isSubmitting}
+                          style={{
+                            opacity: isSubmitting ? 0.6 : 1,
+                            cursor: isSubmitting ? "not-allowed" : "pointer",
+                          }}
                         >
-                          {showCurrentPassword ? <FaEye /> : <FaEye />}
+                          {isSubmitting ? password.submitting : password.submit}
                         </button>
                       </div>
-                      {errors.currentPassword && <div className="text-danger">{errors.currentPassword}</div>}
                     </div>
-                    {/* New Password */}
-                    <div className="col-xl-6 col-lg-8 mb-3">
-                      <div className={style.formControl}>
-                        <input
-                          type={showNewPassword ? 'text' : 'password'}
-                          className={`form-control ${style.inputField}`}
-                          placeholder={t("password.newPassword")}
-                          value={formData.newPassword}
-                          onChange={(e) => setFormData({ ...formData, newPassword: e.target.value })}
-                        />
-                        <button
-                          className={`absolute inset-y-0 right-0 pr-3 flex items-center ${style.eye_button}`}
-                          type="button"
-                          onClick={() => togglePasswordVisibility('new')}
-                        >
-                          {showNewPassword ? <FaEye /> : <FaEye />}
-                        </button>
-                      </div>
-                      {errors.newPassword && <div className="text-danger">{errors.newPassword}</div>}
-                    </div>
-                    {/* Confirm Password */}
-                    <div className="col-xl-6 col-lg-8 mb-3">
-                      <div className={style.formControl}>
-                        <input
-                          type={showConfirmPassword ? 'text' : 'password'}
-                          className={`form-control ${style.inputField}`}
-                          placeholder={t("password.confirmPassword")}
-                          value={formData.confirmPassword}
-                          onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
-                        />
-                        <button
-                          className={`absolute inset-y-0 right-0 pr-3 flex items-center ${style.eye_button}`}
-                          type="button"
-                          onClick={() => togglePasswordVisibility('confirm')}
-                        >
-                          {showConfirmPassword ? <FaEye /> : <FaEye />}
-                        </button>
-                      </div>
-                      {errors.confirmPassword && <div className="text-danger">{errors.confirmPassword}</div>}
-                    </div>
-                    <div className="col-xl-6 col-lg-8 my-3">
-                      <button
-                        type="submit"
-                        className={style.submit_btn}
-                        disabled={isSubmitting}
-                        style={{
-                          opacity: isSubmitting ? 0.6 : 1,
-                          cursor: isSubmitting ? "not-allowed" : "pointer",
-                        }}
-                      >
-                        {isSubmitting ? t("password.submitting") : t("password.submit")}
-                      </button>
-                    </div>
-                  </div>
-                </form>
-              )}
-            </section>
-            <LetsTalk />
-          </main>
-          <FooterOne />
+                  </form>
+                )}
+              </section>
+              <LetsTalk data={letsTalk.data} />
+            </main>
+            <FooterOne data={footer.data} />
+          </div>
         </div>
-      </div>
-    </Wrapper>
-  );
+      </Wrapper>
+    );
+  }
 }
 
 export default Profile;

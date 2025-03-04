@@ -911,7 +911,14 @@
   color: #9A9A9A;
   margin-top: 10px;
   padding: 0px 15px;
+}
+.home-wow-p2 {
+  font-size: 30px;
+  line-height: 42px;
+  color: #9A9A9A;
+  padding: 0px 15px;
   padding-bottom: 6rem;
+  max-width: 40rem;
 }
 
 .home-wow-p span {

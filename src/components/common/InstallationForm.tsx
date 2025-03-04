@@ -4,8 +4,12 @@ import axios from 'axios';
 import style from "./style.module.css";
 import { IoChevronDown } from "react-icons/io5";
 import { useTranslations } from 'next-intl';
-
-const InstallationForm: React.FC = () => {
+import Error from "./Error";
+interface Props {
+    data: any; // Replace 'any' with proper typing when possible
+  }
+  
+const InstallationForm: React.FC<Props> = ({data}) => {
     const t = useTranslations('installation.form');
     const [Name, setName] = useState('');
     const [email, setEmail] = useState('');
@@ -24,6 +28,10 @@ const InstallationForm: React.FC = () => {
     const [isLoading, setIsLoading] = useState(false);
     const { enqueueSnackbar } = useSnackbar();
 
+    if (!data || data === null) {
+        return <Error></Error>
+
+    }
     const validateForm = () => {
         const newErrors: {
             Name?: string;
@@ -33,37 +41,37 @@ const InstallationForm: React.FC = () => {
             service?: string;
             industryType?: string;
         } = {};
-
+        const validation = data.form.validation;
         // Name validation
         if (!Name) {
-            newErrors.Name = `${t("validation.nameRequired")}`;
+            newErrors.Name = `${validation.nameRequired}`;
         }
 
         // Email validation
         if (!email) {
-            newErrors.email = `${t("validation.emailRequired")}`;
+            newErrors.email = `${validation.emailRequired}`;
         } else if (!/\S+@\S+\.\S+/.test(email)) {
-            newErrors.email = `${t("validation.emailInvalid")}`;
+            newErrors.email = `${validation.emailInvalid}`;
         }
 
         // Phone validation
         if (!Phone) {
-            newErrors.Phone = `${t("validation.phoneRequired")}`;
+            newErrors.Phone = `${validation.phoneRequired}`;
         }
 
         // Comment validation
         if (!comment) {
-            newErrors.comment = `${t("validation.commentRequired")}`;
+            newErrors.comment = `${validation.commentRequired}`;
         }
 
         // Service validation
         if (!service) {
-            newErrors.service = `${t("validation.serviceRequired")}`;
+            newErrors.service = `${validation.serviceRequired}`;
         }
 
         // Industry Type validation
         if (!industryType) {
-            newErrors.industryType = `${t("validation.industryRequired")}`;
+            newErrors.industryType = `${validation.industryRequired}`;
         }
 
         setErrors(newErrors);
@@ -115,7 +123,7 @@ const InstallationForm: React.FC = () => {
                 },
                 body: JSON.stringify(emailData),
               });
-            enqueueSnackbar(`${t("successToast")}`, { variant: 'success' });
+            enqueueSnackbar(`${data.form.successToast}`, { variant: 'success' });
 
             // Reset form fields
             setName('');
@@ -130,10 +138,10 @@ const InstallationForm: React.FC = () => {
             if (axios.isAxiosError(error)) {
                 const errorMessage =
                     error.response?.data?.message ||
-                    `${t("errorToast")}`;
+                    `${data.form.errorToast}`;
                 enqueueSnackbar(errorMessage, { variant: 'error' });
             } else {
-                enqueueSnackbar(`${t("errorToast2")}`, {
+                enqueueSnackbar(`${data.form.errorToast2}`, {
                     variant: 'error',
                 });
             }
@@ -142,7 +150,7 @@ const InstallationForm: React.FC = () => {
         }
     };
 
-
+    const placeHolders = data.form.placeHolders
     return (
         <>
             <div className={style["contact_form_container"]}>
@@ -153,7 +161,7 @@ const InstallationForm: React.FC = () => {
                                 <form onSubmit={handleSubmit} className="w-full max-w-md space-y-6 px-8">
                                     <div className="row">
                                         <div className="col-md-12 mb-3">
-                                            <h2 className='text-center'>{t("heading")}</h2>
+                                            <h2 className='text-center'>{data.form.heading}</h2>
                                         </div>
                                     </div>
 
@@ -164,7 +172,7 @@ const InstallationForm: React.FC = () => {
                                                     type="text"
                                                     id="Name"
                                                     className={`form-control ${style.inputField} ${errors.Name ? style.errorInput : ''}`}
-                                                    placeholder={t("placeHolders.name")}
+                                                    placeholder={placeHolders.name}
                                                     value={Name}
                                                     onChange={(e) => setName(e.target.value)}
                                                     aria-invalid={errors.Name ? "true" : "false"}
@@ -187,7 +195,7 @@ const InstallationForm: React.FC = () => {
                                                     type="text" // Changed from "email" to "text"
                                                     id="Email"
                                                     className={`form-control ${style.inputField} ${errors.email ? style.errorInput : ''}`}
-                                                    placeholder={t("placeHolders.email")}
+                                                    placeholder={placeHolders.email}
                                                     value={email}
                                                     onChange={(e) => setEmail(e.target.value)}
                                                     aria-invalid={errors.email ? "true" : "false"}
@@ -210,7 +218,7 @@ const InstallationForm: React.FC = () => {
                                                     type="text" // Still using "text" for complete control
                                                     id="Phone"
                                                     className={`form-control ${style.inputField} ${errors.Phone ? style.errorInput : ''}`}
-                                                    placeholder={t("placeHolders.phone")}
+                                                    placeholder={placeHolders.phone}
                                                     value={Phone}
                                                     onChange={(e) => setPhone(e.target.value.replace(/[^0-9]/g, ''))} // Only allow numbers
                                                     onKeyPress={(e) => {
@@ -239,11 +247,11 @@ const InstallationForm: React.FC = () => {
                                                         aria-invalid={errors.service ? "true" : "false"}
                                                         aria-describedby="service-error"
                                                     >
-                                                        <option value="">{t("placeHolders.service.default")}</option>
-                                                        <option value="Sale">{t("placeHolders.service.sale")}</option>
-                                                        <option value="Rent">{t("placeHolders.service.rent")}</option>
-                                                        <option value="Career">{t("placeHolders.service.career")}</option>
-                                                        <option value="Other">{t("placeHolders.service.other")}</option>
+                                                        <option value="">{placeHolders.service.default}</option>
+                                                        <option value="Sale">{placeHolders.service.sale}</option>
+                                                        <option value="Rent">{placeHolders.service.rent}</option>
+                                                        <option value="Career">{placeHolders.service.career}</option>
+                                                        <option value="Other">{placeHolders.service.other}</option>
                                                     </select>
                                                     <IoChevronDown className={style.selectIcon} />
                                                 </div>
@@ -270,11 +278,11 @@ const InstallationForm: React.FC = () => {
                                                         aria-invalid={errors.industryType ? "true" : "false"}
                                                         aria-describedby="industry-error"
                                                     >
-                                                        <option value="">{t("placeHolders.industry.default")}</option>
-                                                        <option value="Automotive">{t("placeHolders.industry.automotive")}</option>
-                                                        <option value="Retail">{t("placeHolders.industry.retail")}</option>
-                                                        <option value="Government">{t("placeHolders.industry.government")}</option>
-                                                        <option value="Cooperate">{t("placeHolders.industry.corporate")}</option>
+                                                        <option value="">{placeHolders.industry.default}</option>
+                                                        <option value="Automotive">{placeHolders.industry.automotive}</option>
+                                                        <option value="Retail">{placeHolders.industry.retail}</option>
+                                                        <option value="Government">{placeHolders.industry.government}</option>
+                                                        <option value="Cooperate">{placeHolders.industry.corporate}</option>
                                                     </select>
                                                     <IoChevronDown className={style.selectIcon} />
                                                 </div>
@@ -295,7 +303,7 @@ const InstallationForm: React.FC = () => {
                                                     type="text"
                                                     id="comment"
                                                     className={`form-control ${style.inputField} ${errors.comment ? style.errorInput : ''}`}
-                                                    placeholder="Comment*"
+                                                    placeholder={placeHolders.comment}
                                                     value={comment}
                                                     onChange={(e) => setComment(e.target.value)}
                                                     aria-invalid={errors.comment ? "true" : "false"}
@@ -323,7 +331,7 @@ const InstallationForm: React.FC = () => {
                                                 cursor: isLoading ? "not-allowed" : "pointer",
                                             }}
                                         >
-                                            {isLoading ? t("sending") : t("send")}
+                                            {isLoading ? data.form.sending : data.form.send}
                                         </button>
                                     </div>
                                 </form>

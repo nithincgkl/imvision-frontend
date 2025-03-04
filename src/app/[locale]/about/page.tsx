@@ -26,6 +26,9 @@ const AboutPage = () => {
   const locale = useLocale();
   const [aboutUs, setAboutUs] = useState<any>([]);
   const [loading, setLoading] = useState(true);
+  const [footer, setFooter] = useState<any>([])
+  const [letsTalk, setLetsTalk] = useState<any>([])
+  const [navigation,setNavigation] = useState<any>([])
   const getAboutUsAssets = async () => {
     try {
       const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}about?locale=${locale}&populate=*`);
@@ -35,12 +38,39 @@ const AboutPage = () => {
       setAboutUs([]);
     }
   };
+  const fetchLetsTalk = async () => {
+    try {
+      const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}let-us-talk?locale=${locale}&populate=*`);
+      setLetsTalk(response.data);
+    } catch (error) {
+      console.error("Error fetching Let's Talk data:", error);
+      setLetsTalk([]);
+    }
+  };
+  const fetchNavigation = async () => {
+    try {
+      const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}navigation?locale=${locale}&populate=*`);
+      setNavigation(response.data);
+    } catch (error) {
+      console.error("Error fetching navigation data:", error);
+      setNavigation([]);
+    }
+  };
+  const fetchFooter = async () => {
+    try {
+      const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}footer?locale=${locale}&populate=*`);
+      setFooter(response.data);
+    } catch (error) {
+      console.error("Error fetching footer data:", error);
+      setFooter([]);
+    }
+  };
 
   useEffect(() => {
     let isMounted = true;
     const fetchData = async () => {
       setLoading(true);
-      await getAboutUsAssets();
+      await Promise.all([getAboutUsAssets(),fetchLetsTalk(),fetchNavigation(),fetchFooter()]);
       if (isMounted) setLoading(false);
     };
 
@@ -100,14 +130,23 @@ const AboutPage = () => {
           zIndex: 9999
         }}
       >
-        <Loader size={300} />
+        <Loader size={150} />
       </div>
     );
+  }
+  else if (!aboutUs  || aboutUs.content === null || aboutUs.about_banner.length === 0) {
+    return (
+      <div>
+        <HeaderOne data={navigation.data} />
+        <Error></Error>
+        <FooterOne data={footer.data} />
+      </div>
+    )
   }
   else {
     return (
       <Wrapper>
-        <HeaderOne />
+        <HeaderOne data={navigation.data}/>
         <div id="smooth-wrapper">
           <div id="smooth-content">
             <main>
@@ -119,14 +158,12 @@ const AboutPage = () => {
                   <div className="container-fluid my-5" >
                     <div className="row">
                       <div className="col-md-8">
-                        <h1 className={style.pageTitle}>
-                          {t("heading1")}
-                          <br /> {t("heading2")}
+                        <h1 className={style.pageTitle} dangerouslySetInnerHTML={{__html: aboutUs.content.heading}}>
                         </h1>
                       </div>
                       <div className="col-md-4">
                         <p className={style["header-secondary-text"]}>
-                          {t("para1")}
+                          {aboutUs.content.description}
                         </p>
                       </div>
                     </div>
@@ -160,19 +197,11 @@ const AboutPage = () => {
                 <div className="my-5">
                   <div className="d-flex flex-row gap-md-5 gap-4 bg-black justify-content-center col-12">
                     <div className={style.about_years}>
-                      <h1>
-                        10<span>+</span>
-                        <br />
-                        <p className=''>{t("years")}</p>
+                      <h1 dangerouslySetInnerHTML={{ __html: aboutUs.content.descriptionTwoHeading }}>
                       </h1>
                     </div>
                     <div>
-                      <h4 className={`${style.about_years_para} my-md-4 my-3 pt-md-3 pt-0`}>
-                        {t("para2")}
-                        <br className='d-md-block d-none' />
-                        {t("para3")}
-                        <br className='d-md-block d-none' />
-                        {t("para4")}
+                      <h4 className={`${style.about_years_para} my-md-4 my-3 pt-md-3 pt-0`} dangerouslySetInnerHTML={{ __html: aboutUs.content.descriptionTwo }}>
                       </h4>
                     </div>
                   </div>
@@ -184,49 +213,36 @@ const AboutPage = () => {
                     className={`${style.about_card1} text-black ms-xxl-5 ms-xl-2`}
                     style={{ background: '#9FDEBE', paddingRight: '55px', paddingLeft: '35px' }}
                   >
-                    <h2 className="fw-bold text-black">2400 m²</h2>
-                    <p>
-                      {t("para5")}
-                      <br className='d-lg-block d-md-none d-none' />
-                      {t("para6")}
-                      <br className='d-lg-block d-md-none d-none' />
-                      {t("para7")}
+                    <h2 className="fw-bold text-black">{aboutUs.content.cardOneHeading}</h2>
+                    <p dangerouslySetInnerHTML={{ __html: aboutUs.content.cardOneContent }}>
                     </p>
                   </div>
 
                   <div className={`${style.about_card1}`}>
-                    <h2 className="fw-bold">8St</h2>
-                    <p>
-                      {t("para8")}
-                      <br className='d-lg-block d-md-none d-none' />
-                      {t("para9")}
-                      <br className='d-lg-block d-md-none d-none' />
-                      {t("para10")}
+                    <h2 className="fw-bold">{aboutUs.content.cardTwoHeading}</h2>
+                    <p dangerouslySetInnerHTML={{ __html: aboutUs.content.cardTwoContent }}>
                     </p>
                   </div>
 
                   <div className={`${style.about_card1}`}>
-                    <h2 className="fw-bold">220m²</h2>
-                    <p>
-                      {t("para11")}
-                      <br className='d-lg-block d-md-none d-none' />
-                      {t("para12")}
+                    <h2 className="fw-bold">{aboutUs.content.cardThreeHeading}</h2>
+                    <p dangerouslySetInnerHTML={{ __html: aboutUs.content.cardThreeContent }}>
                     </p>
                   </div>
                 </div>
 
                 <div className={`${style.whoVR} container pb-5`}>
                   <div>
-                    <h3 className="">{t("heading3")}</h3><br />
+                    <h3 className="">{aboutUs.content.who_we_are_heading}</h3><br />
                     <div className="">
                       <div className={`line position-relative text-white`}>
-                        {aboutUs && aboutUs?.who_we_are && aboutUs?.who_we_are?.description && aboutUs.who_we_are.description.length > 0 ? (
-                          aboutUs.who_we_are.description.map((para: any, index: number) => (
+                        {aboutUs && aboutUs?.content && aboutUs?.content?.who_we_are && aboutUs.content.who_we_are.length > 0 ? (
+                          aboutUs.content.who_we_are.map((para: any, index: number) => (
                             <div key={index} className={`${style.whoVR_para} pt-3 d-flex flex-row`}>
                               <div className='d-flex flex-column gap-2'>
                                 <div className={`${style.para_ball}`}></div>
                                 {/* Show the para_line only if it's NOT the last item */}
-                                {index !== aboutUs.who_we_are.description.length - 1 && (
+                                {index !== aboutUs.content.who_we_are.length - 1 && (
                                   <div className={`${style.para_line}`}></div>
                                 )}
                               </div>
@@ -240,15 +256,15 @@ const AboutPage = () => {
                           <Error></Error>
                         )}
 
-                        <div className='line-mask d-lg-block d-md-none d-none position-absolute bg-black z-1' style={{ right: '0', width: '100%', bottom: '-10px', opacity: '0.5' }}></div>
+                        {/* <div className='line-mask d-lg-block d-md-none d-none position-absolute bg-black z-1' style={{ right: '0', width: '100%', bottom: '-10px', opacity: '0.5' }}></div> */}
                       </div>
                     </div>
                   </div>
                 </div>
 
                 <div className={`d-flex flex-lg-row flex-md-column flex-column container mx-auto gap-lg-3 gap-md-3 gap-3 pb-2 col-12`}>
-                  {aboutUs && aboutUs?.files_data && aboutUs?.files_data.description && aboutUs?.files_data?.description?.length > 0 ? (
-                    aboutUs.files_data.description.map((para: any, index: number) => (
+                  {aboutUs && aboutUs?.content && aboutUs?.content.files_data && aboutUs?.content?.files_data?.length > 0 ? (
+                    aboutUs.content.files_data.map((para: any, index: number) => (
                       <div key={index} className={`${style.about_card2}`}>
                         <h2 className="fw-bold">0{index + 1}</h2> {/* Dynamic numbering */}
                         <p>{para}</p> 
@@ -262,9 +278,9 @@ const AboutPage = () => {
 
               </section>
 
-              <LetsTalk />
+              <LetsTalk data={letsTalk.data}/>
             </main>
-            <FooterOne />
+            <FooterOne data={footer.data}/>
           </div>
         </div>
       </Wrapper>

@@ -3,17 +3,19 @@ import styles from "./style.module.css";
 import Link from "next/link";
 import { useTranslations } from 'next-intl';
 import Error from "./Error";
+import Installation from "@/app/[locale]/installation/page";
 interface Props {
   installationData: any; // Replace 'any' with proper typing when possible
 }
 
 const InstallationBanner: React.FC<Props> = ({installationData}:any) => {
   const t = useTranslations('installation');
-  if (!installationData || !installationData.data || !installationData.data.installation_banner?.length) {
+  if (!installationData || !installationData.data || !installationData.data.installation_banner?.length || installationData.data.content === null) {
     return <Error></Error>
   }
   else {
     const bannerVideo = installationData.data.installation_banner[0];
+    const content = installationData.data.content;
     return (
       <>
         <section className={styles["nav-banner-container"]}>
@@ -34,11 +36,11 @@ const InstallationBanner: React.FC<Props> = ({installationData}:any) => {
                   </video>
                 </div>
                 <div className={styles["banner-content"]}>
-                  <h1 className={styles["installation_title"]}>{t("heading")}</h1>
+                  <h1 className={styles["installation_title"]}>{content.installationHeading}</h1>
                   {/* <h2>Your display partner</h2> */}
                 </div>
                 <Link href="/contact">
-                  <button className={styles["talk-btn"]}>{t("button")}</button>
+                  <button className={styles["talk-btn"]}>{content.buttonText}</button>
                 </Link>
               </div>
             </div>

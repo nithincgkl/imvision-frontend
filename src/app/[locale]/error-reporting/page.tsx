@@ -1,5 +1,5 @@
 'use client';
-import React, { useState, ChangeEvent, FormEvent, useRef, Suspense } from 'react';
+import React, { useState, ChangeEvent, FormEvent, useRef, Suspense, useEffect } from 'react';
 import Image from 'next/image';
 import Wrapper from '@/layouts/wrapper';
 import FooterOne from '@/layouts/footers/FooterOne';
@@ -9,6 +9,9 @@ import LetsTalk from '@/components/home/lets-talk';
 import axios from 'axios';
 import { CartProvider, useCart } from '@/context/cart-context'; // Import the useCart hook
 import { useTranslations } from 'next-intl';
+import Loader from '@/components/common/Loader';
+import { useLocale } from 'next-intl';
+import ErrorComponent from '@/components/common/Error';
 
 const ErrorReporting: React.FC = () => {
   return (
@@ -66,6 +69,13 @@ const ErrorReportings: React.FC = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [mainLoader, setMainLoader] = useState(true);
+  const [footer, setFooter] = useState<any>([])
+  const [navigation, setNavigation] = useState<any>([])
+  const [letsTalk, setLetsTalk] = useState<any>([])
+  const [errorReporting,setErrorReporting] = useState<any>([])
+  const locale = useLocale();
+  
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value, type } = e.target;
@@ -133,50 +143,49 @@ const ErrorReportings: React.FC = () => {
       }));
     }
   };
-
   const validateForm = (): boolean => {
     const newErrors: FormErrors = {};
 
     if (!formData.name.trim()) {
-      newErrors.name = `${t("form.validation.nameRequired")}`;
+      newErrors.name = `${errorReporting.data.content.form.validation.nameRequired}`;
     } else if (!/^[a-zA-Z\s]+$/.test(formData.name)) {
-      newErrors.name = `${t("form.validation.invalidName")}`;
+      newErrors.name = `${errorReporting.data.content.form.validation.invalidName}`;
     }
 
     if (!formData.address.trim()) {
-      newErrors.address = `${t("form.validation.addressRequired")}`;
+      newErrors.address = `${errorReporting.data.content.form.validation.addressRequired}`;
     }
 
     if (!formData.email.trim()) {
-      newErrors.email = `${t("form.validation.emailRequired")}`;
+      newErrors.email = `${errorReporting.data.content.form.validation.emailRequired}`;
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = `${t("form.validation.emailInvalid")}`;
+      newErrors.email = `${errorReporting.data.content.form.validation.emailInvalid}`;
     }
 
     if (!formData.phone.trim()) {
-      newErrors.phone = `${t("form.validation.phoneRequired")}`;
+      newErrors.phone = `${errorReporting.data.content.form.validation.phoneRequired}`;
     }
 
     if (!formData.company.trim()) {
-      newErrors.company = `${t("form.validation.companyRequired")}`;
+      newErrors.company = `${errorReporting.data.content.form.validation.companyRequired}`;
     }
 
     if (!formData.message.trim()) {
-      newErrors.message = `${t("form.validation.messageRequired")}`;
+      newErrors.message = `${errorReporting.data.content.form.validation.messageRequired}`;
     }
 
     if (!formData.file) {
-      newErrors.file = `${t("form.validation.file")}`;
+      newErrors.file = `${errorReporting.data.content.form.validation.file}`;
     }
 
     if (!formData.serviceAgreement) {
-      newErrors.serviceAgreement = `${t("form.validation.serviceAgreement")}`;
+      newErrors.serviceAgreement = `${errorReporting.data.content.form.validation.serviceAgreement}`;
     } else if (!['Yes', 'No', "Don't know"].includes(formData.serviceAgreement)) {
-      newErrors.serviceAgreement = `${t("form.validation.invalidServiceAgreement")}`;
+      newErrors.serviceAgreement = `${errorReporting.data.content.form.validation.invalidServiceAgreement}`;
     }
 
     if (!formData.gdprConsent) {
-      newErrors.gdprConsent = `${t("form.validation.gdprConsent")}`;
+      newErrors.gdprConsent = `${errorReporting.data.content.form.validation.gdprConsent}`;
     }
 
     setErrors(newErrors);
@@ -307,242 +316,322 @@ const ErrorReportings: React.FC = () => {
       setIsSubmitting(false);
     }
   };
-  return (
-    <Wrapper>
-      <HeaderOne />
-      <div id="smooth-wrapper">
-        <div id="smooth-content">
-          <main>
-            <section className={style.contact_section}>
-              <div className={style.contact_banner}>
-                <div className="container-fluid">
-                  <div className="row">
-                    <div className="col-md-8">
-                      <h1 className={style.pageTitle}>{t("heading")}</h1>
-                    </div>
-                    <div className="col-md-4">
-                      <p>{t("para1")}</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
+  const fetchNavigation = async () => {
+    try {
+      const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}navigation?locale=${locale}&populate=*`);
+      setNavigation(response.data);
+    } catch (error) {
+      console.error("Error fetching navigation data:", error);
+      setNavigation([]);
+    }
+  };
+  const fetchFooter = async () => {
+    try {
+      const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}footer?locale=${locale}&populate=*`);
+      setFooter(response.data);
+    } catch (error) {
+      console.error("Error fetching footer data:", error);
+      setFooter([]);
+    }
+  };
+  const fetchLetsTalk = async () => {
+    try {
+      const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}let-us-talk?locale=${locale}&populate=*`);
+      setLetsTalk(response.data);
+    } catch (error) {
+      console.error("Error fetching Let's Talk data:", error);
+      setLetsTalk([]);
+    }
+  };
+  const fetchErrorReporting = async () => {
+    try {
+      const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}error-reporting?locale=${locale}&populate=*`);
+      setErrorReporting(response.data);
+    } catch (error) {
+      console.error("Error fetching Error Reporting data:", error);
+      setErrorReporting([]);
+    }
+  };
+  useEffect(() => {
+    const fetchPositions = async () => {
+      try {
+        setMainLoader(true);
+        await Promise.all([fetchNavigation(), fetchFooter(),fetchLetsTalk(),fetchErrorReporting()]);
+        setMainLoader(false);
+      } catch (error) {
+        console.error("Error fetching positions:", error);
+      }
+    };
 
-              <div className={style["error_reporting"]}>
-                <div className="container-fluid">
-                  <div className="row">
-                    <div className="col-md-12">
-                      <div className={style["error_reporting_container"]}>
-                        <form onSubmit={handleSubmit} noValidate>
-                          <div className="row">
-                            <div className="col-md-5">
-                              <input
-                                type="text"
-                                name="name"
-                                value={formData.name}
-                                onChange={handleChange}
-                                className={`form-control ${style.inputField} ${errors.name ? 'is-invalid' : ''}`}
-                                placeholder={t("form.placeHolders.name")}
-                              />
-                              {errors.name && <div className={`text-danger ${style.input_error}`}>{errors.name}</div>}
-                            </div>
-                            <div className="col -md-7">
-                              <input
-                                type="text"
-                                name="address"
-                                value={formData.address}
-                                onChange={handleChange}
-                                className={`form-control ${style.inputField} ${errors.address ? 'is-invalid' : ''}`}
-                                placeholder={t("form.placeHolders.address")}
-                              />
-                              {errors.address && <div className={`text-danger ${style.input_error}`}>{errors.address}</div>}
-                            </div>
-                          </div>
-
-                          <div className="row">
-                            <div className="col-md-5">
-                              <input
-                                type="email"
-                                name="email"
-                                value={formData.email}
-                                onChange={handleChange}
-                                className={`form-control ${style.inputField} ${errors.email ? 'is-invalid' : ''}`}
-                                placeholder={t("form.placeHolders.email")}
-                              />
-                              {errors.email && <div className={`text-danger ${style.input_error}`}>{errors.email}</div>}
-
-                              <input
-                                type="text"
-                                name="phone"
-                                value={formData.phone}
-                                onChange={handleChange}
-                                className={`form-control ${style.inputField} ${errors.phone ? 'is-invalid' : ''}`}
-                                placeholder={t("form.placeHolders.phone")}
-                                pattern="\d*"
-                              />
-                              {errors.phone && <div className={`text-danger ${style.input_error}`}>{errors.phone}</div>}
-
-                              <input
-                                type="text"
-                                name="company"
-                                value={formData.company}
-                                onChange={handleChange}
-                                className={`form-control ${style.inputField} ${errors.company ? 'is-invalid' : ''}`}
-                                placeholder={t("form.placeHolders.company")}
-                              />
-                              {errors.company && <div className={`text-danger ${style.input_error}`}>{errors.company}</div>}
-                            </div>
-                            <div className="col-md-7">
-                              <textarea
-                                name="message"
-                                value={formData.message}
-                                onChange={handleChange}
-                                className={`form-control ${style.textareaField} ${errors.message ? 'is-invalid' : ''}`}
-                                placeholder={t("form.placeHolders.description")}
-                              />
-                              {errors.message && <div className={`text-danger ${style.textarea_error}`}>{errors.message}</div>}
-                            </div>
-                          </div>
-
-                          <div className="row">
-                            <div className="col-md-5">
-                              <div className={style["dot_box"]}>
-                                <p>{t("form.placeHolders.docHeading")}</p>
-                                <input
-                                  type="file"
-                                  name="file"
-                                  onChange={handleChange}
-                                  ref={fileInputRef}
-                                  className={`form-control ${style.inputField} ${errors.file ? 'is-invalid' : ''}`}
-                                  placeholder={t("form.placeHolders.upload")}
-                                />
-                                {errors.file && <div className={`text-danger ${style.input_error}`}>{errors.file}</div>}
-                                <p><span>{t("form.placeHolders.docDesc")}</span></p>
-                              </div>
-                            </div>
-
-                            <div className="col-md-7">
-                              <div className={style["dot_box"]}>
-                                <p>{t("form.placeHolders.serviceHeading")}</p>
-
-                                <fieldset>
-                                  <div className={style.fieldset_radio}>
-                                    <input
-                                      type="radio"
-                                      className="radio"
-                                      name="serviceAgreement"
-                                      value="Yes"
-                                      id="Yes"
-                                      onChange={handleRadioChange}
-                                      checked={formData.serviceAgreement === 'Yes'}
-                                    />
-                                    <label htmlFor="Yes">{t("form.placeHolders.yes")}</label>
-
-                                    <input
-                                      type="radio"
-                                      className={`radio ${style.radio_input}`}
-                                      name="serviceAgreement"
-                                      value="No"
-                                      id="No"
-                                      onChange={handleRadioChange}
-                                      checked={formData.serviceAgreement === 'No'}
-                                    />
-                                    <label htmlFor="No">{t("form.placeHolders.no")}</label>
-
-                                    <input
-                                      type="radio"
-                                      className={`radio ${style.radio_input_two}`}
-                                      name="serviceAgreement"
-                                      value="Don't know"
-                                      id="Don't know"
-                                      onChange={handleRadioChange}
-                                      checked={formData.serviceAgreement === "Don't know"}
-                                    />
-                                    <label htmlFor="Don't know">{t("form.placeHolders.dontKnow")}</label>
-                                  </div>
-                                </fieldset>
-                                {errors.serviceAgreement && <div className={`text-danger ${style.input_error}`}>{errors.serviceAgreement}</div>}
-
-                                <p><span>{t("form.placeHolders.agreementDesc")}</span></p>
-                              </div>
-                            </div>
-                          </div>
-
-                          < div className={style["error_form_footer"]}>
-                            <div className={style["error_form_footer_inner"]}>
-                              <input
-                                type="checkbox"
-                                id="GDPR"
-                                name="gdprConsent"
-                                checked={formData.gdprConsent}
-                                onChange={handleChange}
-                                className={style["custom_checkbox"]}
-                              />
-                              <label htmlFor="GDPR">{t("form.placeHolders.consent")}</label>
-                              <p>
-                                <span>
-                                  {t("form.placeHolders.consentDesc")}<br /> {t("form.placeHolders.consentDesc2")}
-                                </span>
-                              </p>
-                              {errors.gdprConsent && <div className={`text-danger ${style.input_error}`}>{errors.gdprConsent}</div>}
-                              {submitError && <div className={`text-danger ${style.submit_error}`}>{submitError}</div>}
-                              <button
-                                type="submit"
-                                disabled={isSubmitting}
-                                style={{
-                                  opacity: isSubmitting ? 0.6 : 1,
-                                  cursor: isSubmitting ? "not-allowed" : "pointer",
-                                }}
-                              >
-                                {isSubmitting ? t("form.placeHolders.sending") : t("form.placeHolders.send")}
-                              </button>
-
-                            </div>
-                          </div>
-                        </form>
+    fetchPositions();
+  }, []);
+  if (mainLoader) {
+    return (
+      <div
+        style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100vh',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          zIndex: 9999
+        }}
+      >
+        <Loader size={150} />
+      </div>
+    );
+  }
+  else if (!errorReporting || errorReporting.data.content === null) {
+    return (
+        <div>
+          <HeaderOne data={navigation.data} />
+          <ErrorComponent></ErrorComponent>
+          <FooterOne data={footer.data} />
+        </div>
+      )
+}
+  else {
+    const content = errorReporting.data.content
+    return (
+      <Wrapper>
+        <HeaderOne data={navigation.data} />
+        <div id="smooth-wrapper">
+          <div id="smooth-content">
+            <main>
+              <section className={style.contact_section}>
+                <div className={style.contact_banner}>
+                  <div className="container-fluid">
+                    <div className="row">
+                      <div className="col-md-8">
+                        <h1 className={style.pageTitle}>{content.heading}</h1>
+                      </div>
+                      <div className="col-md-4">
+                        <p>{content.para1}</p>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            </section>
 
-            <LetsTalk />
-          </main>
-          <FooterOne />
-        </div>
-      </div>
-      {isSuccess && (
-        <div className={style.modal}>
-          <div className={style.modal_content}>
-            <button
-              type="button"
-              className={style.close_btn}
-              onClick={() => setIsSuccess(false)}
-            >
-              <Image
-                src="/assets/images/close.svg"
-                alt="close"
-                width={17}
-                height={17}
-                priority
-              />
-            </button>
-            <div className="thanks-icon">
-              <Image
-                src="/assets/gif/success.gif"
-                alt="Displays"
-                width={120}
-                height={120}
-                priority
-              />
-            </div>
-            <h1 className={style["header-text"]}>{t("thanks")}</h1>
-            <p className={style["sub-text"]}>{t("subtext")}</p>
+                <div className={style["error_reporting"]}>
+                  <div className="container-fluid">
+                    <div className="row">
+                      <div className="col-md-12">
+                        <div className={style["error_reporting_container"]}>
+                          <form onSubmit={handleSubmit} noValidate>
+                            <div className="row">
+                              <div className="col-md-5">
+                                <input
+                                  type="text"
+                                  name="name"
+                                  value={formData.name}
+                                  onChange={handleChange}
+                                  className={`form-control ${style.inputField} ${errors.name ? 'is-invalid' : ''}`}
+                                  placeholder={content.form.placeHolders?.name}
+                                />
+                                {errors.name && <div className={`text-danger ${style.input_error}`}>{errors.name}</div>}
+                              </div>
+                              <div className="col -md-7">
+                                <input
+                                  type="text"
+                                  name="address"
+                                  value={formData.address}
+                                  onChange={handleChange}
+                                  className={`form-control ${style.inputField} ${errors.address ? 'is-invalid' : ''}`}
+                                  placeholder={content.form.placeHolders?.address}
+                                />
+                                {errors.address && <div className={`text-danger ${style.input_error}`}>{errors.address}</div>}
+                              </div>
+                            </div>
+
+                            <div className="row">
+                              <div className="col-md-5">
+                                <input
+                                  type="email"
+                                  name="email"
+                                  value={formData.email}
+                                  onChange={handleChange}
+                                  className={`form-control ${style.inputField} ${errors.email ? 'is-invalid' : ''}`}
+                                  placeholder={content.form.placeHolders?.email}
+                                />
+                                {errors.email && <div className={`text-danger ${style.input_error}`}>{errors.email}</div>}
+
+                                <input
+                                  type="text"
+                                  name="phone"
+                                  value={formData.phone}
+                                  onChange={handleChange}
+                                  className={`form-control ${style.inputField} ${errors.phone ? 'is-invalid' : ''}`}
+                                  placeholder={content.form.placeHolders?.phone}
+                                  pattern="\d*"
+                                />
+                                {errors.phone && <div className={`text-danger ${style.input_error}`}>{errors.phone}</div>}
+
+                                <input
+                                  type="text"
+                                  name="company"
+                                  value={formData.company}
+                                  onChange={handleChange}
+                                  className={`form-control ${style.inputField} ${errors.company ? 'is-invalid' : ''}`}
+                                  placeholder={content.form.placeHolders?.company}
+                                />
+                                {errors.company && <div className={`text-danger ${style.input_error}`}>{errors.company}</div>}
+                              </div>
+                              <div className="col-md-7">
+                                <textarea
+                                  name="message"
+                                  value={formData.message}
+                                  onChange={handleChange}
+                                  className={`form-control ${style.textareaField} ${errors.message ? 'is-invalid' : ''}`}
+                                  placeholder={content.form.placeHolders?.description}
+                                />
+                                {errors.message && <div className={`text-danger ${style.textarea_error}`}>{errors.message}</div>}
+                              </div>
+                            </div>
+
+                            <div className="row">
+                              <div className="col-md-5">
+                                <div className={style["dot_box"]}>
+                                  <p>{content.form.placeHolders?.docHeading}</p>
+                                  <input
+                                    type="file"
+                                    name="file"
+                                    onChange={handleChange}
+                                    ref={fileInputRef}
+                                    className={`form-control ${style.inputField} ${errors.file ? 'is-invalid' : ''}`}
+                                    placeholder={content.form.placeHolders?.upload}
+                                  />
+                                  {errors.file && <div className={`text-danger ${style.input_error}`}>{errors.file}</div>}
+                                  <p><span>{content.form.placeHolders?.docDesc}</span></p>
+                                </div>
+                              </div>
+
+                              <div className="col-md-7">
+                                <div className={style["dot_box"]}>
+                                  <p>{content.form.placeHolders?.serviceHeading}</p>
+
+                                  <fieldset>
+                                    <div className={style.fieldset_radio}>
+                                      <input
+                                        type="radio"
+                                        className="radio"
+                                        name="serviceAgreement"
+                                        value="Yes"
+                                        id="Yes"
+                                        onChange={handleRadioChange}
+                                        checked={formData.serviceAgreement === 'Yes'}
+                                      />
+                                      <label htmlFor="Yes">{content.form.placeHolders?.yes}</label>
+
+                                      <input
+                                        type="radio"
+                                        className={`radio ${style.radio_input}`}
+                                        name="serviceAgreement"
+                                        value="No"
+                                        id="No"
+                                        onChange={handleRadioChange}
+                                        checked={formData.serviceAgreement === 'No'}
+                                      />
+                                      <label htmlFor="No">{content.form.placeHolders?.no}</label>
+
+                                      <input
+                                        type="radio"
+                                        className={`radio ${style.radio_input_two}`}
+                                        name="serviceAgreement"
+                                        value="Don't know"
+                                        id="Don't know"
+                                        onChange={handleRadioChange}
+                                        checked={formData.serviceAgreement === "Don't know"}
+                                      />
+                                      <label htmlFor="Don't know">{content.form.placeHolders?.dontKnow}</label>
+                                    </div>
+                                  </fieldset>
+                                  {errors.serviceAgreement && <div className={`text-danger ${style.input_error}`}>{errors.serviceAgreement}</div>}
+
+                                  <p><span>{content.form.placeHolders?.agreementDesc}</span></p>
+                                </div>
+                              </div>
+                            </div>
+
+                            < div className={style["error_form_footer"]}>
+                              <div className={style["error_form_footer_inner"]}>
+                                <input
+                                  type="checkbox"
+                                  id="GDPR"
+                                  name="gdprConsent"
+                                  checked={formData.gdprConsent}
+                                  onChange={handleChange}
+                                  className={style["custom_checkbox"]}
+                                />
+                                <label htmlFor="GDPR">{content.form.placeHolders?.consent}</label>
+                                <p>
+                                  <span>
+                                    {content.form.placeHolders?.consentDesc}
+                                  </span>
+                                </p>
+                                {errors.gdprConsent && <div className={`text-danger ${style.input_error}`}>{errors.gdprConsent}</div>}
+                                {submitError && <div className={`text-danger ${style.submit_error}`}>{submitError}</div>}
+                                <button
+                                  type="submit"
+                                  disabled={isSubmitting}
+                                  style={{
+                                    opacity: isSubmitting ? 0.6 : 1,
+                                    cursor: isSubmitting ? "not-allowed" : "pointer",
+                                  }}
+                                >
+                                  {isSubmitting ? content.form.placeHolders?.sending : content.form.placeHolders?.send}
+                                </button>
+
+                              </div>
+                            </div>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </section>
+
+              <LetsTalk data={letsTalk.data}/>
+            </main>
+            <FooterOne data={footer.data} />
           </div>
         </div>
-      )}
-    </Wrapper>
-  );
+        {isSuccess && (
+          <div className={style.modal}>
+            <div className={style.modal_content}>
+              <button
+                type="button"
+                className={style.close_btn}
+                onClick={() => setIsSuccess(false)}
+              >
+                <Image
+                  src="/assets/images/close.svg"
+                  alt="close"
+                  width={17}
+                  height={17}
+                  priority
+                />
+              </button>
+              <div className="thanks-icon">
+                <Image
+                  src="/assets/gif/success.gif"
+                  alt="Displays"
+                  width={120}
+                  height={120}
+                  priority
+                />
+              </div>
+              <h1 className={style["header-text"]}>{content.thanks}</h1>
+              <p className={style["sub-text"]}>{content.subtext}</p>
+            </div>
+          </div>
+        )}
+      </Wrapper>
+    );
+  }
 };
 
 export default ErrorReporting;
