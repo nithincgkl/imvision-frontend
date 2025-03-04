@@ -133,8 +133,8 @@ const Page = () => {
                         <div className={style["rental_conditions_container"]}>
                           <h4>{rentalConditions?.content?.heading2}</h4>
                           <ol>
-                            {rentalConditions?.conditions?.rental_conditions?.length > 0 ? (
-                              rentalConditions.conditions.rental_conditions.map((data: string, index: number) => (
+                            {rentalConditions?.content?.rental_conditions?.length > 0 ? (
+                              rentalConditions.content.rental_conditions.map((data: string, index: number) => (
                                 <li key={index}>{data}</li> // Corrected function syntax & added key
                               ))
                             ) : (
