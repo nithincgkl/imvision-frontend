@@ -1,3 +1,12 @@
+import React from 'react'
+
+const EventDetails = () => {
+  return (
+    <div>EventDetails</div>
+  )
+}
+
+export default EventDetails
 // 'use client';
 
 // import React, { Suspense } from "react";

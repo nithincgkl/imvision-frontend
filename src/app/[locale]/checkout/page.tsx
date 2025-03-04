@@ -1,5 +1,14 @@
+
 // 'use client';
-// import React, { useState, useEffect, Suspense } from 'react';
+import React from 'react'
+
+const CheckoutPage = () => {
+  return (
+    <div>CheckoutPage</div>
+  )
+}
+
+export default CheckoutPage// import React, { useState, useEffect, Suspense } from 'react';
 // import Wrapper from '@/layouts/wrapper';
 // import FooterOne from '@/layouts/footers/FooterOne';
 // import HeaderOne from '@/layouts/headers/HeaderOne';

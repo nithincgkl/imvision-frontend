@@ -1,3 +1,12 @@
+import React from 'react'
+
+const RentProducts = () => {
+  return (
+    <div>RentProducts</div>
+  )
+}
+
+export default RentProducts
 // 'use client';
 // import React, { Suspense, useEffect, useState } from 'react';
 // import axios from 'axios';

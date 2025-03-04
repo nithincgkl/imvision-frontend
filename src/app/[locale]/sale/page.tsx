@@ -1,3 +1,12 @@
+import React from 'react'
+
+const Sale = () => {
+  return (
+    <div>Sale</div>
+  )
+}
+
+export default Sale
 // 'use client';
 // import React, { Suspense, useEffect, useState } from 'react';
 // import axios from 'axios';

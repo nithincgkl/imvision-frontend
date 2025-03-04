@@ -1,3 +1,12 @@
+import React from 'react'
+
+const Order = () => {
+  return (
+    <div>Order</div>
+  )
+}
+
+export default Order
 // 'use client';
 
 // import React, { Suspense, useEffect, useState } from 'react';

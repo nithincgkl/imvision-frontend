@@ -1,3 +1,12 @@
+import React from 'react'
+
+const CartPage = () => {
+  return (
+    <div>CartPage</div>
+  )
+}
+
+export default CartPage
 // 'use client';
 // import React, { Suspense, useEffect, useState } from 'react';
 // import DatePicker from 'react-datepicker';

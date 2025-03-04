@@ -1,3 +1,13 @@
+import React from 'react'
+
+const Products = () => {
+  return (
+    <div>Products</div>
+  )
+}
+
+export default Products
+
 // 'use client';
 
 // import React, { useState, useEffect, Suspense } from 'react';

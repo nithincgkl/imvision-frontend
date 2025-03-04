@@ -1,3 +1,12 @@
+import React from 'react'
+
+const Events = () => {
+  return (
+    <div>Events</div>
+  )
+}
+
+export default Events
 // 'use client';
 
 // import React, { Suspense, useEffect, useState } from "react";
